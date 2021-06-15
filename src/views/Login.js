@@ -17,7 +17,7 @@ function Login(props) {
 
     return (
         
-        <div className={style.zzz}>
+        <div className={style.loginbackGround}>
             
           <form className={style.loginForm}>
             <h2>의료정보시스템</h2>

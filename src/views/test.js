@@ -1,4 +1,5 @@
 import style from "views/test1.module.css";
+import Button from "./common/Button";
 function Login(props) {
     return (
         <body>
@@ -10,9 +11,9 @@ function Login(props) {
         <div className={style.passForm}>
           <input type="password" className={style.pw} placeholder="PW"/>
         </div>
-        <button type="button" className={style.btn}>
+        <Button>
           LOG IN
-        </button>
+        </Button>
       </form>
     </body>
     );
