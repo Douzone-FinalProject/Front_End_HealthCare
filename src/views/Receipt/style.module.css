@@ -1,0 +1,26 @@
+.menu{
+  background-color: #e7f5ff;
+  padding: 7px;
+
+}
+
+.left-component{
+  width: 60%;
+  margin-left: 20px;
+
+
+}
+
+.left-component-top{
+  margin-bottom: 10px;
+}
+
+.left-component-bottom{
+
+}
+.right-component{
+  width: 40%;
+  margin-left: 20px;
+  margin-right: 20px;
+
+}
