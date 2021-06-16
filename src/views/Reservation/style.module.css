@@ -1,0 +1,13 @@
+/* Left Component */
+.left-component{
+  width: 30%;
+  margin: 2em;
+
+
+}
+
+/* Right Component */
+.right-component{
+  width: 70%;
+  margin: 2em;
+}

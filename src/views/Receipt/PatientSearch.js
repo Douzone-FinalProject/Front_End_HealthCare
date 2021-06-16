@@ -5,7 +5,7 @@ import style from './style.module.css';
 const cx = classNames.bind(style);
 
 
-const PatientSearch = () => {
+const PatientSearch = (props) => {
   return (
     <>
       {/* 1. 검색할 내용 입력하는 div */}

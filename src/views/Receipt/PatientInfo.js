@@ -4,7 +4,7 @@ import style from './style.module.css';
 
 const cx = classNames.bind(style);
 
-const PatientInfo = () => {
+const PatientInfo = (props) => {
   return (
     <div className={cx("patient-detail")}>
       <div className={cx("patient-detail-top")}>
@@ -75,12 +75,13 @@ const PatientInfo = () => {
               <div className={cx("form-record")}>
                 <div>최초진료: 2021-06-01</div>
                 <div>최근진료: 2021-06-03</div>
+                <div>다음예약: 2021-06-10 09:00</div>
               </div>
 
              {/* 버튼 */}
              <div className={cx("form-btn")}>
-                <button type="button" class="btn btn-primary mr-3 ">환자 삭제</button>
-                <button type="submit" class="btn btn-primary">수정/저장</button>
+                <button type="button" class="btn btn-primary mr-3 ">영구 삭제</button>
+                <button type="submit" class="btn btn-primary">저장</button>
             </div>
           </form>
         </div>

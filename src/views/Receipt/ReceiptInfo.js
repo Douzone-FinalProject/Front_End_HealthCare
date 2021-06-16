@@ -4,7 +4,7 @@ import style from './style.module.css';
 
 const cx = classNames.bind(style);
 
-const ReceiptInfo = () => {
+const ReceiptInfo = (props) => {
   return (
     <>
       <div className={cx("search", "d-flex")}>
