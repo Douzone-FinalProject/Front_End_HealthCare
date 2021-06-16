@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
-import { css } from 'styled-components';
 
 const cx = classNames.bind(style);
 
@@ -19,6 +18,7 @@ const PatientSearch = () => {
         <input className={cx("search-input")} placeholder='M/F'></input>
         
         <div className={cx("search-btn")}>
+          <button className={cx("search-btn-1")}>모든 환자</button>  
           <button className={cx("search-btn-1")}>찾기</button>  
           <button className={cx("search-btn-2")}>접수</button>  
         </div>
