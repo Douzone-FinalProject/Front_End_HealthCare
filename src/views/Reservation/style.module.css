@@ -3,11 +3,44 @@
   width: 30%;
   margin: 2em;
 
-
+}
+.left-component-top{
+  background-color:blueviolet;
+}
+.left-component-bottom{
+  background-color: lightcoral;
 }
 
 /* Right Component */
 .right-component{
   width: 70%;
   margin: 2em;
+}
+
+/* ------- 예약 현황 조회  -------  */
+.reserve-result{
+  background-color:#f8f9fa;
+  padding: 1em;
+  border: solid 0.7px;
+}
+
+.table-header{
+  background-color: #B3BCE3;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+}
+
+.table-body{
+  text-align: center;
+  font-size: 16px;
+}
+
+.time{
+  background-color: #dee2e6;
+
+}
+
+.today{
+  color: red;
 }
