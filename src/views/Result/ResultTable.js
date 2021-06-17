@@ -1,0 +1,137 @@
+import style from "./result.module.css"
+import classnames from "classnames/bind";
+
+const cx = classnames.bind(style);
+
+function ResultTable(props) {
+    return (
+        <table className={cx("result-toptable", "table table-bordered")}>
+            <thead className={cx("result-toptablecol")}>
+                <tr>
+                    <th></th>
+                    <th>검사분야</th>
+                    <th>검사항목명</th>
+                    <th>결과</th>
+                    <th>이전결과</th>
+                    <th>이전결과일</th>
+                    <th>참고치</th>
+                    <th>단위</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>H1</td>
+                    <td>CBC ROU & ESR</td>
+                    <td>1.0</td>
+                    <td></td>
+                    <td></td>
+                    <td>4.0~10.0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>H1</td>
+                    <td>WBC</td>
+                    <td>55</td>
+                    <td></td>
+                    <td></td>
+                    <td>4.0~10.0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>H1</td>
+                    <td>RBC</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>4.0~10.0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>H1</td>
+                    <td>HB</td>
+                    <td>52</td>
+                    <td></td>
+                    <td></td>
+                    <td>4.0~10.0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>H1</td>
+                    <td>Hct</td>
+                    <td>90</td>
+                    <td></td>
+                    <td></td>
+                    <td>4.0~10.0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>H1</td>
+                    <td>MCV</td>
+                    <td>33</td>
+                    <td></td>
+                    <td></td>
+                    <td>4.0~10.0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>H1</td>
+                    <td>WBC</td>
+                    <td>55</td>
+                    <td></td>
+                    <td></td>
+                    <td>4.0~10.0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>H1</td>
+                    <td>RBC</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>4.0~10.0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>H1</td>
+                    <td>HB</td>
+                    <td>52</td>
+                    <td></td>
+                    <td></td>
+                    <td>4.0~10.0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>H1</td>
+                    <td>Hct</td>
+                    <td>90</td>
+                    <td></td>
+                    <td></td>
+                    <td>4.0~10.0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>H1</td>
+                    <td>MCV</td>
+                    <td>33</td>
+                    <td></td>
+                    <td></td>
+                    <td>4.0~10.0</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    );
+}
+
+export default ResultTable;
