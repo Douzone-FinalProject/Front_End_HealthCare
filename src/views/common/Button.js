@@ -1,31 +1,31 @@
-import styled, { css } from "styled-components";
+import styled, {css} from "styled-components";
 
 const Button = styled.button`
-  background-color: white;
+  background-color: #B3BCE3;
   color: black;
   border-radius: 4px;
-  padding: 0.5rem;
-  display: flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   font-size: 1rem;
   font-weight: 600;
+  width: 15%;
+  height: 40px;
 
   &:hover {
-    background-color: rgba(255,255,255,0.9);
+    background-color: white;
   }
-
-  ${props => props.inverted &&
+  ${props => props.deleteButton &&
     css`
-      background-color: transparent;
-      border: 2px solid white;
-      color: white;
+      background-color: #fa5252;
+      color: black;
       &:hover {
         background: white;
-        color: black;
       }
     `
+  }
+  &+button {    
+    margin-left: 0.5rem;
   }
 `;
 
