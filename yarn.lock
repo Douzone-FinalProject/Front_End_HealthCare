@@ -3673,7 +3673,11 @@ class-utils@^0.3.5:
     static-extend "^0.1.1"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 classnames@2.x, classnames@^2.2.1, classnames@^2.2.3, classnames@^2.2.5, classnames@^2.2.6, classnames@^2.3.1:
+=======
+classnames@^2.3.1:
+>>>>>>> 96df794cb11f9e3fb2969249090f96ac473f16ac
 =======
 classnames@*, classnames@^2.2.6:
 >>>>>>> 373a088c5a810a63df239c7411c4ffc7a75ac66f
