@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const ResultNameBox = styled.div`
-    background-color: #d0ebff;
+    background-color: #B3BCE3;
     width: 8vw;
     height: 25px;
     text-align: center;
