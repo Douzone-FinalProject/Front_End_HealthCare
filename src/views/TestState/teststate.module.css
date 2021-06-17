@@ -1,0 +1,26 @@
+.teststate-frame {
+  margin: 8px 4px;
+}
+
+.card {
+  height: calc(100vh - 16px);
+}
+
+.chart {
+  width: 0;
+  height: 25vh;
+  text-align: center;
+}
+
+.teststate-table {
+  margin-top: 2rem;
+}
+
+.teststate-lab {
+  margin-top: 4rem;
+}
+
+.teststate-patient {
+  font-size: 1.5rem;
+}
+

@@ -43,6 +43,7 @@ table {
   font-weight: 200;
   src: url("../src/fonts/NotoSansKR-Regular.otf");
 }
+
 * {
   font-family: "NotoSansKR";
 }
