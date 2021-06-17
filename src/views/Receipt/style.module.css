@@ -1,0 +1,207 @@
+.title{
+  margin-left: 1.2em;
+  margin-top: 0.7em;
+  font-weight:bold;
+  border-bottom: solid;
+  /* background-color: yellow; */
+  width: 11em;
+  text-align: center;
+  padding: 4px 2px;
+  font-size: 27px;
+}
+
+.menu{
+  /* padding: 7px; */
+  margin: 2em;
+  width: 60%;
+  /* background-color: yellow; */
+}
+
+.menu-btn-1{
+  margin-right: 1em;
+  width: 10em;
+  border-radius: 12px;
+  background-color:#4dabf7;
+  /* border: none; */
+  color: black;
+  padding: 6px;
+  text-align: center; 
+  text-decoration: none; 
+  display: inline-block;
+  font-size: 15px;
+}
+
+.menu-btn-2{
+  margin-right: 1em;
+  width: 10em;
+  border-radius: 12px;
+  background-color:#15aabf;
+  /* border: none; */
+  color: black;
+  padding: 6px;
+  text-align: center; 
+  text-decoration: none; 
+  display: inline-block;
+  font-size: 15px;
+}
+
+/* Left Component */
+.left-component{
+  width: 70%;
+  margin-left: 2em;
+  margin-bottom: 2em;
+
+}
+
+/* 1. 환자 검색 컴포넌트 */
+.left-component-top{
+  margin-bottom: 2em;
+  background-color: red;
+}
+.search{
+  background-color:#dee2e6;
+  padding: 1em;
+  border: solid 0.7px;
+  border-bottom: none;
+}
+.search-box{
+  border: solid 0.7px;
+  padding: 0.2em;
+  padding-top: 0.4em;
+  font-size: 15px;
+  margin-right: 0.3em;
+  
+}
+.search-input{
+  border: solid 0.7px;
+  margin-right: 1em;
+  padding-left: 0.5em;
+}
+.search-btn{
+  width: 30%;
+  /* background-color: violet; */
+  text-align: right;
+  margin-left: 4em;
+}
+
+/* 찾기 버튼  */
+.search-btn-1{
+  margin-right: 1em;
+  width: 6em;
+  border-radius: 8px;
+  background-color:#B3BCE3;
+  /* border: none; */
+  color: black;
+  padding: 6px;
+  text-align: center; 
+  text-decoration: none; 
+  display: inline-block;
+  font-size: 15px;  
+  margin-right: 1em;
+}
+
+/* 접수 버튼 */
+.search-btn-2{
+  margin-right: 1em;
+  width: 6em;
+  border-radius: 8px;
+  background-color:#ffa8a8;
+  color: black;
+  padding: 6px;
+  text-align: center; 
+  text-decoration: none; 
+  display: inline-block;
+  font-size: 15px;  
+  margin-right: 1em;
+}
+
+.search-result{
+  background-color:#f8f9fa;
+  padding: 1em;
+  border: solid 0.7px;
+}
+
+/* 공통 */
+.pager{
+  text-align: center;
+}
+.table-header{
+  background-color: #B3BCE3;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+}
+.table-body{
+  text-align: center;
+  font-size: 16px;
+
+}
+.table-body:hover{
+  background-color: #ffa8a8;
+}
+
+/* 2. 진료자 리스트 컴포넌트 */
+.left-component-bottom{
+}
+
+.patientlist{
+  /* margin-left: 1.2em; */
+  /* margin-top: 0.7em; */
+  font-weight:bold;
+  border-bottom: solid;
+  /* background-color: yellow; */
+  width: 6em;
+  /* text-align: center; */
+  padding: 4px 2px;
+  font-size: 24px;
+}
+
+
+/* Right Component */
+.right-component{
+  width: 30%;
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-bottom: 2em;
+}
+.patient-detail{
+  border: solid 0.7px;
+  background-color: #f8f9fa;
+}
+.patient-detail-top{
+  margin-top: 0.5em;
+  margin-left: 0.8em;
+  font-size: 27px; 
+  font-weight:bold;
+}
+
+.patient-detail-bottom{
+  /* background-color: yellow; */
+  border: solid 0.7px;
+  margin: 1.7em;
+  padding: 2em;
+}
+
+.form-span{
+  font-size: 20px;
+  padding: 0.2em;
+  /* background-color: red; */
+  margin-right: 1em;
+  width: 7em;
+}
+.form-input{
+  padding: 0.6em;
+  background-color: #dee2e6;
+  width: 20em;
+  border: solid 0.7px;
+}
+.form-record{
+  padding: 1em;
+
+}
+.form-btn{
+  margin-top: 1.3em;
+  width: 17em;
+  /* background-color: red; */
+  margin-left: 14em;
+}

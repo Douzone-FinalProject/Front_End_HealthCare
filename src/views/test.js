@@ -12,7 +12,7 @@ function Login(props) {
           <input type="password" className={style.pw} placeholder="PW"/>
         </div>
         <Button>
-          LOG IN
+          LOG INzzz
         </Button>
       </form>
     </body>
