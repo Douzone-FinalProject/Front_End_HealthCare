@@ -1,0 +1,107 @@
+.result-container {
+    background-color: white;
+    border: 1px solid black;
+    height: 95vh;
+    width: 22%;
+    margin: 10px;
+    margin-left: 50px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 22px;
+    justify-content: center;
+}
+
+.result-smallcontainer {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.result-whitebox {
+    background-color: white;
+    border: 1px solid black;
+    width: 10vw;
+    height: 25px;
+    text-align: center;
+}
+
+.result-inputbox {
+    background-color: white;
+    border: 1px solid black;
+    width: 10vw;
+    height: 30px;
+    text-align: center;
+}
+
+.result-lefttable {
+    height: 50vh;
+    overflow-y: auto;
+}
+
+.result-lefttable thead{
+    position: sticky;
+    top: -1px;
+    z-index: 1;
+}
+
+.result-table {
+    font-size: 5px;
+}
+
+.result-table tbody tr:hover {
+    background-color: #e7f5ff;
+}
+
+.result-secondcontainer {
+    background-color: white;
+    border: 1px solid black;
+    height: 95vh;
+    width: 70%;
+    margin: 10px;
+    margin-left: 50px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 22px;
+}
+
+.result-toptable {
+    font-size: 12px;
+    width: 95%;
+    height: 40%;
+}
+
+.result-toptablecol {
+    background-color: #d0ebff;
+}
+
+.result-height {
+    height: 65%;
+}
+
+.result-scroll {
+    height: 40vh;
+    overflow-y: auto;
+}
+
+.result-scroll thead{
+    position: sticky;
+    top: -1px;
+    z-index: 1;
+}
+
+.result-scroll tbody tr:hover {
+    background-color: #e7f5ff;
+}
+
+.result-imgbox {
+    display: flex;
+    border: 1px solid black;
+    width: 95%;
+    height: 25vh;
+    overflow-x: auto;
+}
+
+.result-buttonbox {
+    margin-top: 10px;
+    width: 95%;
+}
