@@ -1,69 +1,97 @@
 import {React,  useState} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
-import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
-import ko from 'date-fns/locale/ko'; 
-registerLocale('ko', ko);
+import { Calendar, Select, Radio, Col, Row, Typography } from 'antd';
 
 const cx = classNames.bind(style);
 
 const ReserveCalendar = (props) => {
-  const [startDate, setStartDate] = useState(new Date());
 
-  const ExampleCustomInput = ({ value, onClick }) => (
-     <button class="example-custom-input" 
-          onClick={onClick}> {value} 
-    </button> 
-  );
-
-  // 월/일 
-  const getFormattedDate = (date) => { 
-    const month = date.toLocaleDateString('ko-KR', { month: 'long', });
-     const day = date.toLocaleDateString('ko-KR', { day: 'numeric', }); 
-     return `${month.substr(0, month.length - 1)}/${day.substr(0, day.length - 1)}`; 
-  } 
-  // 요일 반환 
-  const getDayName = (date) => { 
-    return date.toLocaleDateString('ko-KR', { weekday: 'long', }).substr(0, 1); 
-  } 
-  // 날짜 비교시 년 월 일까지만 비교하게끔 
-  const createDate = (date) => { 
-    return new Date(new Date(date.getFullYear() , date.getMonth() , date.getDate() , 0 , 0 , 0)); 
+  function onPanelChange(value, mode) {
+    console.log(value, mode);
   }
-
-
+  
   return (
-    <> 
-      <div className={cx("left-component-bottom")}>
-        <div>
-          예약 가능 날짜 
-        </div>
-        <div>
-          <DatePicker 
-            locale="ko" // 달력 한글화 
-            selected={startDate} // 날짜 
-            state 
-            onChange={setStartDate} // 날짜 설정 콜백 함수 
-            customInput={<ExampleCustomInput />} 
-            minDate={new Date()} // 과거 날짜 disable 
-            popperModifiers={{ // 모바일 web 환경에서 화면을 벗어나지 않도록 하는 설정 
-              preventOverflow: { enabled: true, }, 
-            }} 
-            popperPlacement="auto" // 화면 중앙에 팝업이 뜨도록 
-            // 토요일, 일요일 색깔 바꾸기 위함 
-            dayClassName={date => 
-                getDayName(createDate(date)) === '토' ? "saturday" 
-                : 
-                getDayName(createDate(date)) === '일' ? "sunday" : undefined 
-              } 
-            />
-        </div>
-        <div>
-          예약 선택일 : ----일 
-        </div>
-      </div>
-    </>
-  );
+    <div className="site-calendar-customize-header-wrapper">
+    <Calendar
+      fullscreen={false}
+      headerRender={({ value, type, onChange, onTypeChange }) => {
+        const start = 0;
+        const end = 12;
+        const monthOptions = [];
+
+        const current = value.clone();
+        const localeData = value.localeData();
+        const months = [];
+        for (let i = 0; i < 12; i++) {
+          current.month(i);
+          months.push(localeData.monthsShort(current));
+        }
+
+        for (let index = start; index < end; index++) {
+          monthOptions.push(
+            <Select.Option className="month-item" key={`${index}`}>
+              {months[index]}
+            </Select.Option>,
+          );
+        }
+        const month = value.month();
+
+        const year = value.year();
+        const options = [];
+        for (let i = year - 10; i < year + 10; i += 1) {
+          options.push(
+            <Select.Option key={i} value={i} className="year-item">
+              {i}
+            </Select.Option>,
+          );
+        }
+        return (
+          <div style={{ padding: 8 }}>
+            <Typography.Title level={4}>예약 하기 </Typography.Title>
+            <Row gutter={8}>
+              <Col>
+                <Radio.Group size="small" onChange={e => onTypeChange(e.target.value)} value={type}>
+                  <Radio.Button value="month">Month</Radio.Button>
+                  <Radio.Button value="year">Year</Radio.Button>
+                </Radio.Group>
+              </Col>
+              <Col>
+                <Select
+                  size="small"
+                  dropdownMatchSelectWidth={false}
+                  className="my-year-select"
+                  onChange={newYear => {
+                    const now = value.clone().year(newYear);
+                    onChange(now);
+                  }}
+                  value={String(year)}
+                >
+                  {options}
+                </Select>
+              </Col>
+              <Col>
+                <Select
+                  size="small"
+                  dropdownMatchSelectWidth={false}
+                  value={String(month)}
+                  onChange={selectedMonth => {
+                    const newValue = value.clone();
+                    newValue.month(parseInt(selectedMonth, 10));
+                    onChange(newValue);
+                  }}
+                >
+                  {monthOptions}
+                </Select>
+              </Col>
+            </Row>
+          </div>
+        );
+      }}
+      onPanelChange={onPanelChange}
+    />
+  </div>
+  )
 };
 
 export default ReserveCalendar;

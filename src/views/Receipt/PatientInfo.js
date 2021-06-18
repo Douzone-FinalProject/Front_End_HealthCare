@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
+import  Button  from "../common/Button";
 
 const cx = classNames.bind(style);
 
@@ -80,8 +81,11 @@ const PatientInfo = (props) => {
 
              {/* 버튼 */}
              <div className={cx("form-btn")}>
-                <button type="button" class="btn btn-primary mr-3 ">영구 삭제</button>
-                <button type="submit" class="btn btn-primary">저장</button>
+                <Button type="button" className={cx("form-btn-1", "custom-btn")}
+                      onClick={function(e){e.preventDefault();}}>영구 삭제</Button>
+                <Button type="submit" className={cx("form-btn-1", "ml-3", "custom-btn")}
+                      onClick={function(e){e.preventDefault();}}>저장</Button>
+
             </div>
           </form>
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
+import  Button  from "../common/Button";
 
 const cx = classNames.bind(style);
 
@@ -18,9 +19,13 @@ const PatientSearch = (props) => {
         <input className={cx("search-input")} placeholder='M/F'></input>
         
         <div className={cx("search-btn")}>
-          <button className={cx("search-btn-1")}>모든 환자</button>  
-          <button className={cx("search-btn-1")}>찾기</button>  
-          <button className={cx("search-btn-2")}>접수</button>  
+          <Button type="submit" className={cx("form-btn-1", "ml-3", "custom-btn")}
+                      onClick={function(e){e.preventDefault();}}>모든 환자</Button>
+          <Button type="submit" className={cx("form-btn-1", "ml-3", "custom-btn")}
+                                onClick={function(e){e.preventDefault();}}>찾기</Button>
+          <Button type="submit" className={cx("form-btn-1", "ml-3", "custom-btn")}
+                      onClick={function(e){e.preventDefault();}}>접수</Button>
+
         </div>
       </div>
       {/* 1. 검색 결과가 나오는 div */}

@@ -1,10 +1,22 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
+import { DatePicker } from 'antd';
 
 const cx = classNames.bind(style);
 
 const ReserveSearch = (props) => {
+
+  function onChange(value, dateString) {
+    console.log('Selected Time: ', value);
+    console.log('Formatted Selected Time: ', dateString);
+  }
+
+  function onOk(value) {
+    console.log('onOk: ', value);
+  }
+
+  
   return (
     <>
       <div className={cx("left-component-top")}>
@@ -22,6 +34,9 @@ const ReserveSearch = (props) => {
           <div className={cx("form-btn")}>
             <button type="button" class="btn btn-primary mr-3 ">버튼</button>
           </div>
+
+          <DatePicker showTime onChange={onChange} onOk={onOk} />
+
         </form>
         
       </div>
