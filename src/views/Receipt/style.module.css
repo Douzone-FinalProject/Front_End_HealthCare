@@ -17,47 +17,19 @@
   /* background-color: yellow; */
 }
 
-.menu-btn-1{
-  margin-right: 1em;
-  width: 10em;
-  border-radius: 12px;
-  background-color:#4dabf7;
-  /* border: none; */
-  color: black;
-  padding: 6px;
-  text-align: center; 
-  text-decoration: none; 
-  display: inline-block;
-  font-size: 15px;
-}
-
-.menu-btn-2{
-  margin-right: 1em;
-  width: 10em;
-  border-radius: 12px;
-  background-color:#15aabf;
-  /* border: none; */
-  color: black;
-  padding: 6px;
-  text-align: center; 
-  text-decoration: none; 
-  display: inline-block;
-  font-size: 15px;
-}
 
 /* Left Component */
 .left-component{
-  width: 70%;
+  width: 80em;
   margin-left: 1.2em;
-  margin-bottom: 2em;
 
 }
 
 /* 1. 환자 검색 컴포넌트 */
 .left-component-top{
   margin-bottom: 1.2em;
-  background-color: red;
 }
+
 .search{
   background-color:#dee2e6;
   padding: 1em;
@@ -79,15 +51,16 @@
 }
 .search-btn{
   width: 30%;
-  /* background-color: violet; */
   text-align: right;
   margin-left: 4em;
 }
 
 .search-result{
+  /* background-color:red; */
   background-color:#f8f9fa;
   padding: 1em;
   border: solid 0.7px;
+  height: 25.3em;
 }
 
 /* 공통 */
@@ -103,6 +76,7 @@
 .table-body{
   text-align: center;
   font-size: 16px;
+  /* background-color: yellow;  */
 
 }
 .table-body:hover{
@@ -120,7 +94,6 @@
   border-bottom: solid;
   /* background-color: yellow; */
   width: 6em;
-  /* text-align: center; */
   padding: 4px 2px;
   font-size: 24px;
 }
@@ -128,14 +101,17 @@
 
 /* Right Component */
 .right-component{
-  width: 30%;
+  width: 38em;
   margin-left: 1.2em;
   margin-right: 1.2em;
-  /* margin-bottom: 2em; */
 }
+/* 3. 환자 상세 정보 컴포넌트  */
 .patient-detail{
   border: solid 0.7px;
-  background-color: #f8f9fa;
+  /* background-color: #f8f9fa; */
+  background-color: #dee2e6;;
+
+
 }
 .patient-detail-top{
   margin-top: 0.5em;
@@ -145,8 +121,8 @@
 }
 
 .patient-detail-bottom{
-  /* background-color: yellow; */
-  border: solid 0.7px;
+  background-color: #f8f9fa;
+  border: solid 0.5px;
   margin: 1.7em;
   padding: 2em;
 }
@@ -160,7 +136,7 @@
 }
 .form-input{
   padding: 0.6em;
-  background-color: #dee2e6;
+  background-color: #f7f7f8;
   width: 20em;
   border: solid 0.7px;
 }
