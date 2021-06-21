@@ -4,22 +4,19 @@ import style from './style.module.css';
 
 import {
   TextBox,
-  Checkbox,
-  Range,
   DateTime,
   Telephone,
-  DropDown,
-  Option,
-  OptionGroup,
-  Radio,
   Form,
 } from 'react-form-elements';
+import Button from 'views/common/Button';
 
 const cx = classNames.bind(style);
 
-const ReserveForm = (props) => {
+const ReserveUpdateForm = (props) => {
   // state 
-  const [values, setValues] = useState({})
+  const [values, setValues] = useState({}); // form data
+  const [mode, setMode] = useState('create'); // Create or Update/Delete
+
 
   // 데이터 양방향 바인딩 
   // const handleChange = (event) => {
@@ -32,7 +29,7 @@ const ReserveForm = (props) => {
   return (
     <div className={cx("right-component-top")}>
       <div className={cx("form-subject")}>
-        예약 접수
+        상세 예약
       </div>
       <div className={cx("reserve-form")}>
         <Form
@@ -45,8 +42,9 @@ const ReserveForm = (props) => {
         >
           <div>
             <div className="float-right">
-                <button onClick={e => {}}>방문 확인</button>
-                <span className="ml-2 ">신규</span>
+                {/* <Button type="button" className={cx("ml-3", "custom-btn")}
+                  >방문 확인</Button>
+                <span className="ml-2 ">기존/신규</span> */}
             </div>
             <div>
               <span className="">이름</span>
@@ -60,19 +58,16 @@ const ReserveForm = (props) => {
           <DateTime className="mb-2" label="" name="myDate" />
           <span className="">예약 시간</span>
           <DateTime className="mb-4" label="" type="time" name="myTime" />
-          <button onClick={e => {}}>예약 저장</button>
+          <Button type="submit" className={cx("custom-btn")}
+          >예약 저장</Button>
+          <Button type="submit" className={cx("custom-btn")}
+          >영구 삭제</Button>
+          <Button type="submit" className={cx("custom-btn")}
+          >SMS 전송</Button>
         </Form>
-        {/* <div data-testid="ref-out">
-          <ul>
-            <li>이름: {values.myTextBox}</li>
-            <li>휴대전화: {values.myTelephone}</li>
-            <li>Date: {values.myDate}</li>
-            <li>DateTime: {values.myTime}</li>
-          </ul>
-        </div> */}
       </div>
     </div>
   )
 };
 
-export default ReserveForm;
+export default ReserveUpdateForm;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import style from './style.module.css';
 import classNames from 'classnames/bind';
-import ReserveForm from './ReserveForm';
+import ReserveCreateForm from './ReserveCreateForm';
+import ReserveUpdateForm from './ReserveUpdateForm';
 import CalendarCustomize from './CalendarCustomize';
 import ReserveDetail from './ReserveDetail';
 import DayzTestComponent from './DaysTestComponent';
@@ -31,8 +32,10 @@ const Reservation = (props) => {
         {/* 우측 */}
         <div className={cx("right-component")}>
           <div>
-            {/* 3. 예약 Create */}
-            <ReserveForm/>
+            {/* 3. 예약 Create 컴포넌트 
+                       Update 컴포넌트가 모드에 따라서 다른 것이 나옴 */}
+            <ReserveCreateForm/>
+            <ReserveUpdateForm/>
             {/* 4. 예약 불가능 시간대 달력 커스터마이징 */}
             {/* <CalendarCustomize/> */}
           </div>

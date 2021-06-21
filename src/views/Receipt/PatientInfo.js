@@ -103,7 +103,7 @@ const PatientInfo = (props) => {
               onClick={cancelReceipt}>접수 취소</Button>
           :
           <Button type="submit" className={cx("form-btn-1", "ml-3", "custom-btn")}
-              onClick={handleReceipt}>접수</Button>
+              onClick={handleReceipt}>접수  </Button>
         }      
       </div>
       {/* form - 환자 정보 읽기, 수정 또는 삭제 기능 */}
