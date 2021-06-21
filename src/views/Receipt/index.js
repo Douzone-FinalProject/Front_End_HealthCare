@@ -8,7 +8,6 @@ import  Button  from "../common/Button";
 import CreatePatient from 'views/CreatePatient';
 import { deletePatient, getPatientList} from './db';
 
-
 const cx = classNames.bind(style);
 
 const Receipt = (props) => {
