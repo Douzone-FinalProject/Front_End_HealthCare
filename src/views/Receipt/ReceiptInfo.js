@@ -1,7 +1,6 @@
 import React, {useState, useMemo} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
-import  Button  from "../common/Button";
 import { AutoSizer, List } from 'react-virtualized';
 import ReceiptRow from './ReceiptRow';
 import { getReceiptList } from './db';
@@ -16,10 +15,15 @@ const ReceiptInfo = (props) => {
   const rowRenderer = ({index, key, style}) => {
     return (
       <div key={key} style={style}>
-        <ReceiptRow receipt={receipts[index]}></ReceiptRow>
+        <ReceiptRow receipt={receipts[index]} handleClick={props.handleClick}></ReceiptRow>
       </div>
     );
   };
+
+  const getLength = useMemo(() => { 
+    console.log('getLength() 실행 ');
+    return receipts.length;
+  }); 
 
   return (
     <div className={cx("left-component-bottom")}>
@@ -27,6 +31,8 @@ const ReceiptInfo = (props) => {
         <div className={cx("flex-grow-1")}>
           <h5 className={cx("patientlist")}>진료자 리스트</h5>
         </div>
+        <span className="ml-5 text-primary">결과 </span>
+        <span className="text-primary">{getLength}</span>
       </div>
       {/* 테이블 */}
       <div className={cx("search-result")}>

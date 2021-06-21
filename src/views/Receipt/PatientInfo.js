@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
 import  Button  from "../common/Button";
 import InputText from "./InputText";
 import DaumPost from 'views/CreatePatient/DaumPost';
 import { getPatient, updatePatient, deletePatient, deleteReceipt} from './db';
-import { useReducer } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createSetReceiptAction } from 'redux/receipt-reducer';
 
 const cx = classNames.bind(style);
@@ -17,27 +16,33 @@ const PatientInfo = (props) => {
   // state - 환자 1명의 상세 정보 
   const pid = props.patient_id;
   const patient = getPatient(pid);
-  console.log('patient : ', patient);
+  // console.log('patient : ', patient);
 
-  const [patient2, setPatient] = useState({...patient});  // 이게 실행이 왜 안되지 
-  console.log('patient2 : ', patient2);
+  // props로 안넘어올때랑 넘어올때 화면 구분하기 
+  // const [patient, setPatient] = useState(() => { return getPatient(pid)});  // re
   
+  // 접수 상태 읽기 
+  const receiptState = useSelector((state) => state.receiptReducer.receipt_state);
+  console.log('리덕스 receiptState: ', receiptState);
+
   // 접수 상태 관리  -------------------------
   const dispatch = useDispatch();
+
   function handleReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
+    console.log('handleReceipt ');
     setReceipt(true);
-    dispatch(createSetReceiptAction('대기'));
+    // dispatch(createSetReceiptAction(state));
     // DB insert 
   }
 
-  function cancelReceipt(e){ // 접수 -> 접수취소
+  function cancelReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
+    console.log('cancelReceipt ');
     setReceipt(false);
-    dispatch(createSetReceiptAction('완료'));
-
+    // dispatch(createSetReceiptAction(state));
     // DB delete 
-    //deleteReceipt(); // 접수 아이디 넘기기 
+    //deleteReceipt(); // 접수 아이디 넘기기
   }
 
   // 주소 찾기 모달 
@@ -46,10 +51,10 @@ const PatientInfo = (props) => {
 
   // 데이터 양방향 바인딩 
   const handleChange = (event) => {
-    setPatient({
-        ...patient,
-        [event.target.name]: event.target.value
-    });
+    // setPatient({
+    //     ...patient,
+    //     [event.target.name]: event.target.value
+    // });
   };
 
   // 주소 모달에 전달할 함수 
@@ -66,10 +71,10 @@ const PatientInfo = (props) => {
       }
       fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
     }
-    setPatient({
-        ...patient,
-        address: fullAddress
-    });
+    // setPatient({
+    //     ...patient,
+    //     address: fullAddress
+    // });
     closeAdModal();
   }
 
@@ -84,7 +89,7 @@ const PatientInfo = (props) => {
   const handleDelete = (e) => {
     e.preventDefault();
     // console.log("환자 정보 삭제: ", patient.patient_id);
-    deletePatient(patient.patient_id); // DB 접근 
+    props.handleDelete(patient.patient_id); // 부모에게 상태 변경 알리기 
   }; 
 
 
@@ -112,7 +117,7 @@ const PatientInfo = (props) => {
               <div className={cx("d-flex")}>
                 <span className={cx("form-span")}>성명</span>
                 <InputText type="text" onChange={handleChange} name="patient_name" 
-                     value={props.patient_id && patient2.patient_name} ></InputText>
+                     value={props.patient_id && patient.patient_name} ></InputText>
               </div>
               <div className={cx("d-flex")}>
                 <span className={cx("form-span")}>주민번호</span>

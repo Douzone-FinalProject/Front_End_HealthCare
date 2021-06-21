@@ -1,15 +1,11 @@
 import React, {useState} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
-import { Calendar, Badge, Alert } from 'antd';
-import moment from 'moment';
+
 
 const cx = classNames.bind(style);
 
 const ReserveResult = (props) => {
-
-
-
   return (
     <>
       <div className={cx("reserve-result")}>

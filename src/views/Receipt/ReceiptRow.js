@@ -4,13 +4,14 @@ import classNames from 'classnames/bind';
 
 const cx = classNames.bind(style);
 
-
 // 접수 리스트 테이블 한 행 
 const ReceiptRow = (props) => {
   console.log('ReceiptRow render: ', props.receipt.patient_id);
 
   return (
-      <tr className={cx("table-body")}>
+      <tr className={cx("table-body")}
+        onClick={() => props.handleClick(props.receipt.patient_id)}
+      >
         <td width={308}>{props.receipt.patient_id}</td>
         <td width={196}>{props.receipt.patient_name}</td>
         <td width={200}>{props.receipt.patient_sex}</td>

@@ -1,6 +1,6 @@
 // 1.상태 초기값 선언 
 const initialState = {
-  receipt_state: "미접수"
+  receipt_state: "대기"
 };
 
 // 2.액션 타입 선언 

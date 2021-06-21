@@ -3,7 +3,6 @@
   margin-top: 0.7em;
   font-weight:bold;
   border-bottom: solid;
-  /* background-color: yellow; */
   width: 11em;
   text-align: center;
   padding: 4px 2px;
@@ -11,18 +10,14 @@
 }
 
 .menu{
-  /* padding: 7px; */
   margin: 1.2em;
   width: 60%;
-  /* background-color: yellow; */
 }
-
 
 /* Left Component */
 .left-component{
   width: 80em;
   margin-left: 1.2em;
-
 }
 
 /* 1. 환자 검색 컴포넌트 */
@@ -56,7 +51,6 @@
 }
 
 .search-result{
-  /* background-color:red; */
   background-color:#f8f9fa;
   padding: 1em;
   border: solid 0.7px;
@@ -76,28 +70,19 @@
 .table-body{
   text-align: center;
   font-size: 16px;
-  /* background-color: yellow;  */
-
 }
 .table-body:hover{
   background-color: #e7f5ff;
 }
 
 /* 2. 진료자 리스트 컴포넌트 */
-.left-component-bottom{
-}
-
 .patientlist{
-  /* margin-left: 1.2em; */
-  /* margin-top: 0.7em; */
   font-weight:bold;
   border-bottom: solid;
-  /* background-color: yellow; */
   width: 6em;
   padding: 4px 2px;
   font-size: 24px;
 }
-
 
 /* Right Component */
 .right-component{
@@ -108,10 +93,7 @@
 /* 3. 환자 상세 정보 컴포넌트  */
 .patient-detail{
   border: solid 0.7px;
-  /* background-color: #f8f9fa; */
   background-color: #dee2e6;;
-
-
 }
 .patient-detail-top{
   margin-top: 0.5em;
@@ -119,7 +101,6 @@
   font-size: 27px; 
   font-weight:bold;
 }
-
 .patient-detail-bottom{
   background-color: #f8f9fa;
   border: solid 0.5px;
@@ -130,7 +111,6 @@
 .form-span{
   font-size: 20px;
   padding: 0.2em;
-  /* background-color: red; */
   margin-right: 1em;
   width: 7em;
 }
@@ -142,17 +122,13 @@
 }
 .form-record{
   padding: 1em;
-
 }
 .form-btn{
   margin-top: 1.3em;
-  /* width: 17em; */
-  /* background-color: red; */
   margin-left: 14em;
 }
 .form-btn-1{
   width: 7em;
-
 }
 
 Button.custom-btn{

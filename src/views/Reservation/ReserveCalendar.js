@@ -1,19 +1,17 @@
-import {React,  useState} from 'react';
-import classNames from 'classnames/bind';
-import style from './style.module.css';
-import { Calendar, Select, Radio, Col, Row, Typography } from 'antd';
+import React, {useState} from 'react';
+import { Calendar, Select, Row, Col, Radio, Typography } from 'antd';
+import moment from 'moment';
 
-const cx = classNames.bind(style);
 
-const ReserveCalendar = (props) => {
+const ReserveCalendar = () => {
 
   function onPanelChange(value, mode) {
     console.log(value, mode);
   }
   
   return (
-    <div className="site-calendar-customize-header-wrapper">
-    <Calendar
+    <>
+      <Calendar
       fullscreen={false}
       headerRender={({ value, type, onChange, onTypeChange }) => {
         const start = 0;
@@ -90,8 +88,9 @@ const ReserveCalendar = (props) => {
       }}
       onPanelChange={onPanelChange}
     />
-  </div>
-  )
+    </>
+  );
 };
 
 export default ReserveCalendar;
+
