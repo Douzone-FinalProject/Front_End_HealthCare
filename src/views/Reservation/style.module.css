@@ -1,68 +1,50 @@
+/* Index Component */
+.parent-component{
+  /* background-color: red; */
+  height: 100%;
+}
+
 /* Left Component */
-.left-component{
+.left-component{ 
+  /* 달력 큰 테이블 */
   width: 70%;
-  margin: 2em;
-
+  margin-top: 2em;
+  margin-left: 2em;
+  margin-bottom: 2em;
+  /* background-color: yellow; */
+  /* padding:2em; */
 }
-/* ------- 예약 현황 조회  -------  */
-.reserve-result{
-  background-color:#f8f9fa;
-  padding: 1em;
-  border: solid 0.7px;
-}
-
-.table-header{
-  background-color: #B3BCE3;
-  color: white;
-  text-align: center;
-  font-size: 16px;
-}
-
-.table-body{
-  text-align: center;
-  font-size: 16px;
-}
-
-.time{
-  background-color: #dee2e6;
-
-}
-
-.today{
-  color: red;
-}
-/* ------- AntD Calendar  -------  */
-.events {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.events .ant-badge-status {
-  width: 100%;
-  overflow: hidden;
-  font-size: 12px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.notes-month {
-  font-size: 28px;
-  text-align: center;
-}
-.notes-month section {
-  font-size: 28px;
-}
-
-
 
 /* Right Component */
 .right-component{
-  width: 70%;
+  width: 30%;
   margin: 2em;
-}
-.left-component-top{
-  background-color:blueviolet;
-}
-.left-component-bottom{
-  background-color: lightcoral;
+  /* background-color: blue; */
+  align-items: center;
 }
 
+.right-component-top{
+  margin: 3em;
+  /* background-color: green; */
+}
+
+.form-subject{
+  padding: 0.5em;
+  font-size: 1.8em;
+  font-weight:bold;
+  /* background-color: yellow; */
+
+}
+.reserve-form{
+  border: solid 2px;
+  padding: 2em;
+
+}
+
+.right-component-bottom{
+  margin: 2em;
+  border: solid 2px;
+  padding: 2em;
+
+  /* background-color: yellow; */
+}

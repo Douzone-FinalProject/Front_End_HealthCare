@@ -1,64 +1,77 @@
-import {React,  useState} from 'react';
+import {React, useState} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
-import { DatePicker } from 'antd';
-import  Button  from "../common/Button";
-// import ReserveCalendar from './ReserveCalendar';
-import InputText from 'views/Receipt/InputText';
+
+import {
+  TextBox,
+  Checkbox,
+  Range,
+  DateTime,
+  Telephone,
+  DropDown,
+  Option,
+  OptionGroup,
+  Radio,
+  Form,
+} from 'react-form-elements';
 
 const cx = classNames.bind(style);
 
 const ReserveForm = (props) => {
   // state 
-  const [reserveForm, setReserveForm] = useState({
-    name: '',
-    phone: '',
-    reserve_date: ''
-  });
+  const [values, setValues] = useState({})
 
   // 데이터 양방향 바인딩 
-  const handleChange = (event) => {
-    setReserveForm({
-        ...reserveForm,
-        [event.target.name]: event.target.value
-    });
-  };
-  
-
-  function onChange(value, dateString) {
-    console.log('Selected Time: ', value);
-    console.log('Formatted Selected Time: ', dateString);
-  }
-
-  function onOk(value) {
-    console.log('onOk: ', value);
-  }
+  // const handleChange = (event) => {
+  //   setValues({
+  //       ...reserveForm,
+  //       [event.target.name]: event.target.value
+  //   });
+  // };
 
   return (
-    <div className="site-calendar-customize-header-wrapper">
-      <form onSubmit={(e) => {
-          e.preventDefault();
-        }}>
+    <div className={cx("right-component-top")}>
+      <div className={cx("form-subject")}>
+        예약 접수
+      </div>
+      <div className={cx("reserve-form")}>
+        <Form
+          name="testForm"
+          onSubmit={data => {
+            // data[form element name]
+            setValues(data)
+            // do something with values
+          }}
+        >
+          <div>
+            <div className="float-right">
+                <button onClick={e => {}}>방문 확인</button>
+                <span className="ml-2 ">신규</span>
+            </div>
+            <div>
+              <span className="">이름</span>
+              <TextBox className="mb-2" label="" name="myTextBox" />
+              <span>휴대전화</span>
+              <Telephone className="mb-2" label="" name="myTelephone" />
+            </div>
+          </div>
 
-        <div className={cx("d-flex")}>
-          <span className={cx("form-span", "bg-primary")}>이름</span>
-          <InputText width="7em" type="text" onChange={handleChange} name="name" 
-           ></InputText>
-        </div>
-
-        <div className={cx("d-flex")}>
-          <span className={cx("form-span")}>휴대전화</span>
-          <InputText width="7em" type="text" onChange={handleChange} name="phone" 
-           ></InputText>
-        </div>
-
-        <DatePicker showTime onChange={onChange} onOk={onOk}/>
-      
-        {/* 예약 버튼 */}
-        <Button type="submit" className={cx("form-btn-1", "ml-3", "custom-btn")}>예약</Button>
-      </form>
-    
-  </div>
+          <span className="">예약 날짜</span>
+          <DateTime className="mb-2" label="" name="myDate" />
+          <span className="">예약 시간</span>
+          <DateTime className="mb-4" label="" type="time" name="myTime" />
+          <button onClick={e => {}}>예약 저장</button>
+        </Form>
+        {/* <div data-testid="ref-out">
+          <ul>
+            <li>이름: {values.myTextBox}</li>
+            <li>휴대전화: {values.myTelephone}</li>
+            <li>Date: {values.myDate}</li>
+            <li>DateTime: {values.myTime}</li>
+          </ul>
+        </div> */}
+      </div>
+    </div>
   )
 };
 
