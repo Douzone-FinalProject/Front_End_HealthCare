@@ -3,29 +3,18 @@ import classnames from "classnames/bind";
 import ResultTopTable from "./ResultTopTable";
 import ResultTable from "./ResultTable";
 import { useState, useEffect, useCallback } from 'react';
-import CreatePatient from "views/CreatePatient";
 import Button from "views/common/Button";
 import { getSpecimenData } from "./data";
 
 const cx = classnames.bind(style);
 
 function ResultContainer(props) {
-    //모달을 보여주기 위한 상태(기본값은 false, true면 모달이 보임)
-    const [modalIsOpen, setIsOpen] = useState(false);
     //우측 상단 테이블의 검체별로 보여줄 데이터 상태
     const [specimen, setSpecimen] = useState({});
     //결과 테이블에서 보여주거나 수정할 수 있는 결과 상태
     const [result, setResult] = useState({});
     //결과 테이블에서 결과 input을 사용하기 위한 flag 상태
     const [flag, setFlag] = useState({});
-
-    //modal을 열고 닫기
-    const openModal = useCallback(() => {
-        setIsOpen(true);
-    }, []);
-    const closeModal = useCallback(() => {
-        setIsOpen(false);
-    }, []);
 
     //결과 테이블에서 행을 클릭하면 발생
     //검체별로 데이터를 우측 상단 테이블에 보여줌
@@ -158,8 +147,7 @@ function ResultContainer(props) {
                 <div className="d-flex justify-content-center">
                     <div className={cx("result-buttonbox", "d-flex justify-content-end")}>
                         <Button className={cx("result-button")} onClick={handleSave}>저장</Button>
-                        <Button className={cx("result-button", "ml-2")} onClick={openModal}>뒤로</Button>
-                        <CreatePatient modalIsOpen={modalIsOpen} closeModal={closeModal}/>
+                        <Button className={cx("result-button", "ml-2")}>뒤로</Button>
                     </div>
                 </div>
             </div>
