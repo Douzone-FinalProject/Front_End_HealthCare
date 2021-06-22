@@ -5,7 +5,7 @@ import CreateOpinion from "./CreateOpinion";
 import OpinionListItem from "./OpinionListItem";
 import {useState} from "react";
 import { MDBTable, MDBTableBody } from 'mdbreact';
-import {Link, useHistory} from "react-router-dom";
+
 const cx = classnames.bind(style);
 
 function SymptomAndOpinion(props) {
@@ -43,7 +43,7 @@ function SymptomAndOpinion(props) {
         setIsOpen(false);
     }
 
-    const history = useHistory();
+    // const history = useHistory();
 
     return(
         <>
