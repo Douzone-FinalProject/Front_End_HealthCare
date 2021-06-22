@@ -4,6 +4,8 @@ import { Row, Col} from 'antd';
 import ChartAndList from "./ChartAndList";
 import TestStateDetail from "./TestStateDetail";
 import { TestStateContextProvider } from "./TestStateContext";
+import Header from "views/common/Header";
+import DialMenu from "views/common/DialMenu";
 
 
 const cx = classNames.bind(style);
@@ -102,6 +104,7 @@ function TestState(props) {
 
   return (
     <>
+      <Header />
       <TestStateContextProvider>
         <Row>
           <Col flex={2} className={cx("teststate-frame")}>
@@ -112,6 +115,7 @@ function TestState(props) {
           </Col>
         </Row>
       </TestStateContextProvider>
+      <DialMenu />
     </>
   );
 }

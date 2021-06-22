@@ -6,8 +6,8 @@ function Header(props) {
         <div>
             <nav className="navbar bg-dark navbar-dark justify-content-between">
                 <div className="d-flex align-items-center">
-                    <img src="http://localhost:3000/logo192.png" alt="" height="30"/>
-                    <h4 className="text-white font-weight-bold ml-2">더조은병원</h4>
+                    <img src="http://localhost:3000/douzonelogo.png" alt="" height="20"/>
+                    <h4 className="text-white font-weight-bold ml-3 mb-1">더조은병원</h4>
                 </div>
                 <div>
                     <div className="d-flex align-items-center">
