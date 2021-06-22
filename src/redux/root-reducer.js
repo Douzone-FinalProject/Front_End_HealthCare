@@ -1,8 +1,11 @@
-import { combineReducers } from "redux";
-import teststateReducer from "./teststate-reducer"
+import { combineReducers } from 'redux';
+import receiptReducer from 'redux/receipt-reducer'; 
+import authReducer from './auth-reducer';
 
-const rootReducer = combineReducers({ 
-  teststateReducer
+
+const rootReducer = combineReducers({
+  authReducer,
+  receiptReducer
 });
 
 export default rootReducer;

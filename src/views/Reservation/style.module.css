@@ -1,46 +1,58 @@
-/* Left Component */
-.left-component{
-  width: 30%;
-  margin: 2em;
+/* Index Component */
+.parent-component{
+  /* background-color: red; */
+  height: 100%;
+}
 
-}
-.left-component-top{
-  background-color:blueviolet;
-}
-.left-component-bottom{
-  background-color: lightcoral;
+/* Left Component */
+.left-component{ 
+  /* 달력 큰 테이블 */
+  width: 70%;
+  margin-top: 2em;
+  margin-left: 2em;
+  margin-bottom: 2em;
+  /* background-color: yellow; */
+  /* padding:2em; */
 }
 
 /* Right Component */
 .right-component{
-  width: 70%;
+  width: 30%;
   margin: 2em;
+  /* background-color: blue; */
+  align-items: center;
 }
 
-/* ------- 예약 현황 조회  -------  */
-.reserve-result{
-  background-color:#f8f9fa;
-  padding: 1em;
+.right-component-top{
+  margin: 3em;
   border: solid 0.7px;
+  background-color: #dee2e6;;
 }
 
-.table-header{
-  background-color: #B3BCE3;
-  color: white;
-  text-align: center;
-  font-size: 16px;
+.form-subject{
+  margin-top: 0.5em;
+  margin-left: 0.8em;
+  font-size: 27px; 
+  font-weight:bold;
 }
 
-.table-body{
-  text-align: center;
-  font-size: 16px;
+.reserve-form{
+  background-color: #f8f9fa;
+  border: solid 2px;
+  padding: 2em;
+  margin: 1em;
 }
 
-.time{
-  background-color: #dee2e6;
 
+.right-component-bottom{
+  margin: 2em;
+  border: solid 2px;
+  padding: 2em;
+
+  /* background-color: yellow; */
 }
 
-.today{
-  color: red;
+Button.custom-btn{
+  /* padding: 1em; */
+  width: 6em;
 }
