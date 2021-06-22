@@ -6,6 +6,8 @@ import ReserveUpdateForm from './ReserveUpdateForm';
 import CalendarCustomize from './CalendarCustomize';
 import ReserveDetail from './ReserveDetail';
 import DayzTestComponent from './DaysTestComponent';
+import Header from 'views/common/Header';
+import DialMenu from 'views/common/DialMenu';
 
 const cx = classNames.bind(style);
 
@@ -20,6 +22,7 @@ const Reservation = (props) => {
 
   return (
     <>
+      <Header />
       <div className={cx("d-flex flex-row", "parent-component")}>
         {/* 좌측  */}
         <div className={cx("left-component")}>
@@ -41,6 +44,7 @@ const Reservation = (props) => {
           </div>
         </div>
       </div>
+      <DialMenu />
     </>
   );
 };

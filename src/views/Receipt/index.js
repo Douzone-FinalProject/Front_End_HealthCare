@@ -6,16 +6,18 @@ import style from './style.module.css';
 import classNames from 'classnames/bind';
 import  Button  from "../common/Button";
 import CreatePatient from 'views/CreatePatient';
-import { deletePatient, getPatientList} from './db';
+import { deletePatient, getPatient, getPatientList} from './db';
+import Header from 'views/common/Header';
+import DialMenu from 'views/common/DialMenu';
 
 const cx = classNames.bind(style);
 
 const Receipt = (props) => {
   // state 
-  const [patient_id, setPatientId] = useState(0);
+  const [patient_id, setPatientId] = useState();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [patients, setPatients] = useState(getPatientList);
-
+  // const [patient, setPatient] = useState();
   // 신규 등록 모달 
   function openModal() { setIsOpen(true); }
   function closeModal() { setIsOpen(false); }
@@ -24,8 +26,8 @@ const Receipt = (props) => {
   const handleClick = (patient_id) => {
     console.log('[index] 클릭한 patient_id', patient_id);
     setPatientId(patient_id);
-
-    // const patient = getPatient(patient_id);
+    // const tempPatient = getPatient(patient_id);
+    // setPatient(tempPatient);
     // console.log('선택한 환자 잘 가져오는지 확인 : ' , patient);
   };
 
@@ -37,12 +39,17 @@ const Receipt = (props) => {
    // setPatients();
   };
 
+  const handleReserve = (event) => {
+    props.history.push('/reserve');
+  };
+
 
   return (
     <>
+      <Header />
       <div className={cx("menu")}>
         <Button className="ml-1" color="#4dabf7" onClick={openModal}>신규 등록</Button>
-        <Button className="ml-3" color="#15aabf">예약</Button>
+        <Button className="ml-3" color="#15aabf" onClick={handleReserve}>예약</Button>
         <CreatePatient modalIsOpen={modalIsOpen} closeModal={closeModal}/>
       </div>
       <div className="d-flex flex-row">
@@ -58,6 +65,7 @@ const Receipt = (props) => {
             <PatientInfo handleDelete={handleDelete} patient_id={patient_id}/>
         </div>
       </div>
+      <DialMenu />
     </>
   );
 };

@@ -2,7 +2,8 @@ import ResultSearchContainer from "./ResultSearchContainer";
 import ResultContainer from "./ResultContainer";
 import { useState, useCallback } from "react";
 import { getPatientData, getResultDataByReceipt, getResultDataBySpecimen } from "./data";
-import Header from "./Header";
+import Header from "views/common/Header";
+import DialMenu from "views/common/DialMenu";
 
 function Result(props) {
     //결과 테이블 데이터, 결과 테이블 인덱스, 환자 정보 데이터 상태
@@ -39,13 +40,14 @@ function Result(props) {
     }, [props.location.pathname]);
 
     return (
-        <div>
+        <>
             <Header />
             <div className="d-flex">
                 <ResultSearchContainer props={props} handleResult={handleResult} ReceiptIndex={ReceiptIndex} SpecimenIndex={SpecimenIndex} />
                 <ResultContainer result={result} patientData={patient}/>
             </div>
-        </div>
+            <DialMenu />
+        </>
     );
 }
 
