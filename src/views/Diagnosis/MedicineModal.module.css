@@ -1,0 +1,32 @@
+.medicine {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+}
+
+.modal-container {
+  position: absolute;
+  width: 55vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.medicine-input {
+  border: none;
+  border-bottom: 1px solid;
+}
+
+.medicine-input:focus {
+  outline:none;
+}
+
+
+
+Button.medicine-btn {
+  width: 3rem;
+  height: 2rem;
+}
