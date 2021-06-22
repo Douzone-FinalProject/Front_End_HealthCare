@@ -8,6 +8,7 @@ import classnames from "classnames/bind";
 import {useState, useCallback} from "react";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
+import { useEffect } from "react";
 
 const cx = classnames.bind(style);
 
@@ -123,19 +124,25 @@ function Diagnosis(props) {
 
     const [newReceipt_id, setNewReceipt_id] = useState(10000);
 
-    const testRequest =  (event) => {
-        if(selectedPatient.patient_id && opinions.diagnostic_test_state !=="검사 중"){
-            setOpinions(opinions.concat({
-                patient_id: selectedPatient.patient_id,
-                receipt_id: newReceipt_id,
-                receipt_opinion: "검사 완료 후 소견 작성 필요",
-                receipt_datetime: new Date().toLocaleDateString(),
-                diagnostic_test_state:"검사 중"
-
-            }));
-            setNewReceipt_id(newReceipt_id + 1);
+    const testRequest = (event) => {
+        let flag = true;
+        for(let op of opinions) {
+            if(op.diagnostic_test_state === '검사 중') {
+                flag = false;
+            }
         }
+        if(selectedPatient.patient_id && flag && selectSymptoms.length !== 0) {
+            console.log(opinions);
+                setOpinions(opinions.concat({
+                    patient_id: selectedPatient.patient_id,
+                    receipt_id: newReceipt_id,
+                    receipt_opinion: "검사 완료 후 소견 작성 필요",
+                    receipt_datetime: new Date().toLocaleDateString(),
+                    diagnostic_test_state:"검사 중"
+                }));
+                setNewReceipt_id(newReceipt_id + 1);
 
+        }
     }; 
      
 
