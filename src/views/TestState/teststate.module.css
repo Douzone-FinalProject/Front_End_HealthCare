@@ -6,6 +6,7 @@
   height: calc(100vh - 16px);
 }
 
+/* 차트부분 */
 .chart {
   width: 0;
   height: 25vh;
@@ -22,5 +23,10 @@
 
 .teststate-patient {
   font-size: 1.5rem;
+}
+
+/* 검사대기/진료대기  전체/대기/검사중/완료 부분 */
+.checked {
+  color: blue;
 }
 
