@@ -12,6 +12,14 @@
 .menu{
   margin: 1.2em;
   width: 60%;
+  margin-top: 2em;
+
+}
+
+.all-component{
+  /* height: 1080px; */
+  height: 90vh;
+
 }
 
 /* Left Component */
@@ -37,7 +45,6 @@
   padding-top: 0.4em;
   font-size: 15px;
   margin-right: 0.3em;
-  
 }
 .search-input{
   border: solid 0.7px;
@@ -54,8 +61,9 @@
   background-color:#f8f9fa;
   padding: 1em;
   border: solid 0.7px;
-  height: 25.3em;
+  height: 20em;
 }
+
 
 /* 공통 */
 .pager{
@@ -81,7 +89,7 @@
   border-bottom: solid;
   width: 6em;
   padding: 4px 2px;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 /* Right Component */
@@ -93,23 +101,26 @@
 /* 3. 환자 상세 정보 컴포넌트  */
 .patient-detail{
   border: solid 0.7px;
-  background-color: #dee2e6;;
+  background-color: #dee2e6;
+  height: 74vh;
 }
 .patient-detail-top{
-  margin-top: 0.5em;
-  margin-left: 0.8em;
-  font-size: 27px; 
+  margin-top: 0.8em;
+  margin-left: 1em;
+  font-size: 22px; 
   font-weight:bold;
 }
 .patient-detail-bottom{
   background-color: #f8f9fa;
   border: solid 0.5px;
-  margin: 1.7em;
-  padding: 2em;
+  margin: 1.6em;
+  padding: 1.3em;
+  height: 58vh;
+  font-size: 13px;
 }
 
 .form-span{
-  font-size: 20px;
+  font-size: 16px;
   padding: 0.2em;
   margin-right: 1em;
   width: 7em;
@@ -124,9 +135,12 @@
   padding: 1em;
 }
 .form-btn{
-  margin-top: 1.3em;
-  margin-left: 14em;
+  margin-top: 2.3em;
+  margin-left: 23em;
+  /* background-color: yellow; */
+
 }
+
 .form-btn-1{
   width: 7em;
 }

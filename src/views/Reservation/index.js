@@ -3,7 +3,6 @@ import style from './style.module.css';
 import classNames from 'classnames/bind';
 import ReserveCreateForm from './ReserveCreateForm';
 import ReserveUpdateForm from './ReserveUpdateForm';
-import CalendarCustomize from './CalendarCustomize';
 import ReserveDetail from './ReserveDetail';
 import DayzTestComponent from './DaysTestComponent';
 import Header from 'views/common/Header';

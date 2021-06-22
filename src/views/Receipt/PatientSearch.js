@@ -82,7 +82,7 @@ const PatientSearch = (props) => {
             <tbody>
               <AutoSizer disableHeight>
                 {({width, height}) => {
-                  return <List width={width} height={300} list={props.patients} rowCount={props.patients.length} rowHeight={50} rowRenderer={rowRenderer} overscanRowCount={7}></List>
+                  return <List width={width} height={230} list={props.patients} rowCount={props.patients.length} rowHeight={50} rowRenderer={rowRenderer} overscanRowCount={5}></List>
                 }}
               </AutoSizer>
             </tbody>
