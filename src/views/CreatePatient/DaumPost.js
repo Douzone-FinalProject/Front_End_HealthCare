@@ -1,6 +1,7 @@
 import Modal from "react-modal";
 import DaumPostCode from 'react-daum-postcode';
 
+//주소 찾기 modal 스타일 설정
 const postStyles = {
     content: {
         width: '500px',

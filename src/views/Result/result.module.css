@@ -1,8 +1,8 @@
 .result-container {
     background-color: white;
     border: 1px solid black;
-    height: 95vh;
-    width: 22%;
+    height: 90vh;
+    width: 25%;
     margin: 10px;
     margin-left: 50px;
     padding-top: 10px;
@@ -33,15 +33,9 @@
     text-align: center;
 }
 
-.result-lefttable {
-    height: 50vh;
-    overflow-y: auto;
-}
-
-.result-lefttable thead{
-    position: sticky;
-    top: -1px;
-    z-index: 1;
+Button.result-button {
+    width: 100px;
+    height: 30px;
 }
 
 .result-table {
@@ -55,17 +49,16 @@
 .result-secondcontainer {
     background-color: white;
     border: 1px solid black;
-    height: 95vh;
+    height: 90vh;
     width: 70%;
     margin: 10px;
-    margin-left: 50px;
+    margin-left: 10px;
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 22px;
 }
 
 .result-toptable {
-    font-size: 12px;
     width: 95%;
     height: 40%;
 }
@@ -74,23 +67,16 @@
     background-color: #B3BCE3;
 }
 
+.result-toptablecol thead > tr > th {
+    background-color: #B3BCE3;
+}
+
+.result-toptablecol tbody > tr:hover {
+    background-color: #e7f5ff;
+}
+
 .result-height {
     height: 65%;
-}
-
-.result-scroll {
-    height: 40vh;
-    overflow-y: auto;
-}
-
-.result-scroll thead{
-    position: sticky;
-    top: -1px;
-    z-index: 1;
-}
-
-.result-scroll tbody tr:hover {
-    background-color: #e7f5ff;
 }
 
 .result-imgbox {
@@ -104,4 +90,8 @@
 .result-buttonbox {
     margin-top: 10px;
     width: 95%;
+}
+
+.result-color {
+    background-color: #e7f5ff;
 }
