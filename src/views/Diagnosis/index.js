@@ -6,6 +6,8 @@ import MedicinePrescriptionList from "./MedicinePrescriptionList";
 import style from "./Diagnosis.module.css";
 import classnames from "classnames/bind";
 import {useState, useCallback} from "react";
+import Header from "views/common/Header";
+import DialMenu from "views/common/DialMenu";
 
 const cx = classnames.bind(style);
 
@@ -96,6 +98,7 @@ function Diagnosis(props) {
 
     return(
         <>
+        <Header />
         <div className="d-flex flex-column">
             <div>
                 <div className="d-flex flex-row ml-3 mr-2 mt-4 mb-2">
@@ -119,7 +122,8 @@ function Diagnosis(props) {
                     <OpinionAndSearch selectedPatient={selectedPatient.patient_id}/>
                 </div>
             </div>
-        </div>    
+        </div>
+        <DialMenu />
         </>
         
     );

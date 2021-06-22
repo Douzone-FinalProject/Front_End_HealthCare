@@ -6,7 +6,7 @@ const cx = classNames.bind(style);
 
 // 접수 리스트 테이블 한 행 
 const ReceiptRow = (props) => {
-  console.log('ReceiptRow render: ', props.receipt.patient_id);
+  // console.log('ReceiptRow render: ', props.receipt.patient_id);
 
   return (
       <tr className={cx("table-body")}
