@@ -1,15 +1,25 @@
 import style from "../Diagnosis.module.css";
 import classnames from "classnames/bind";
 import Button from "../../common/Button";
+import { useState } from "react";
+import MedicineModal from "./MedicineModal";
 
 const cx = classnames.bind(style);
 
 function MedicinePrescriptionList(props) {
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const handleModal = () => {
+        setIsModalVisible(!isModalVisible);
+    }
     return(
         <>
         <div className="mt-4">
             <h4 className="mb-1 ml-3">약품 처방 목록</h4>
-            <Button className={cx("diagnosis-medicine-button", "mb-2")}>검색</Button>
+            <Button className={cx("diagnosis-medicine-button", "mb-2")} onClick={handleModal}>검색</Button>
+            {
+                isModalVisible && (<MedicineModal handleModal={handleModal} />)
+            }
             <Button deleteButton={true} className="mb-2">삭제</Button>
             <table className={cx("table table-hover ml-3", "diagnosis-table")}>
                 <thead className={cx("diagnosis-table-header")}>
