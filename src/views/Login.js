@@ -5,7 +5,8 @@ function Login(props) {
     const [login, serLogin] = useState({
         id: "",
         pw: "",
-        hc:  "DZ_"
+        hc:  "",
+        role: ""
     })
 
     const handleChange = (event) => {
@@ -29,19 +30,16 @@ function Login(props) {
                   <input type="password" name="pw" value={login.pw}  className={style.pw} onChange={handleChange} placeholder="PW"/>
               </div>
               <div className={style.passForm}>
-              <h4 className="mb-5">병원코드</h4>
-                  <input type="text" name="hc" className={style.pw} value={login.hc} onChange={handleChange}/>
+                  <input type="text" name="hc" className={style.pw} value={login.hc} onChange={handleChange} placeholder="병원코드"/>
               </div>
               <div>
-                <select name="role">
-                    <option value="">권한을 선택해주세요.</option>
-                    <option value="doctor">의사</option>
-                    <option value="Nurse">간호사</option>
-                    <option value="inspector">검사자</option>
-                </select>
+                <input type="radio" name="role" value="doctor" onChange={handleChange} checked={login.role === "doctor"}/><label>의사</label>
+                <input className="ml-5" type="radio" name="role" value="nurse" onChange={handleChange} checked={login.role === "nurse"}/><label className="mr-5">간호사</label>
+                <input type="radio" name="role" value="inspector" onChange={handleChange} checked={login.role === "inspector"}/><label>검사자</label>
               </div>
-              <button type="button" className={style.btn}>
-              LOG IN
+              
+              <button onClick={() => props.history.push('/diagnosis')} type="button" className={style.btn}>
+                LOG IN 
               </button>
           </form>
         </div>

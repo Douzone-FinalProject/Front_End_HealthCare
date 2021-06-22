@@ -15,6 +15,10 @@
     "axios": "^0.21.1",
     "bootstrap": "4.6.0",
     "classnames": "^2.3.1",
+<<<<<<< HEAD
+=======
+    "mdbreact": "^5.0.2",
+>>>>>>> 9db0a808a62de23f06035b2f561e0060467a181f
     "react": "^17.0.2",
     "react-bootstrap": "1.5.2",
     "react-datepicker": "^4.1.1",
@@ -24,7 +28,11 @@
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+<<<<<<< HEAD
     "redux": "^4.1.0",
+=======
+    "react-virtualized": "^9.22.3",
+>>>>>>> 9db0a808a62de23f06035b2f561e0060467a181f
     "styled-components": "^5.3.0",
     "web-vitals": "^1.0.1"
   },
