@@ -39,7 +39,7 @@ function OpinionAndSearch(props) {
                 <Button init={initButton} className={cx("diagnosis-button","diagnosis-opinionAndSearch-buttonFocus")} onClick={changeToOpinion}>증상 및 소견</Button>
                 <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-buttonFocus")} onClick={() => changeToSearch(false)}>환자 검색</Button>
                 {page.change === "1"?
-                    <SymptomAndOpinion selectedPatient={props.selectedPatient}/>
+                    <SymptomAndOpinion fatientOpinion={props.fatientOpinion}/>
                     :
                     <SearchPatients/>
                 }

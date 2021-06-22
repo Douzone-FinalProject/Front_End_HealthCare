@@ -71,7 +71,7 @@ function Diagnosis(props) {
     const selectSymptom = (symptom_name) => { //선택
         if(selectSymptoms.find(symptom => symptom.symptom_name === symptom_name)){  //같은 증상이 이미 들어가 있으면 추가 못 함.
         }   
-        else{       //추가 함
+        else{//추가
           const symptomSelect = symptoms.filter(symptom => symptom.symptom_name === symptom_name);
           setSelectSymptoms(selectSymptoms.concat([
               ...symptomSelect
@@ -92,6 +92,49 @@ function Diagnosis(props) {
             ...symptomSelect
         ]);  
     };
+
+    /*검사 요청시 증상 및 소견에 해당 환자의 진료 추가되는 부분*/ 
+
+    function getOpinion(){
+        const opinions = [
+            {receipt_id:"2020", receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_datetime:"2021-06-13", patient_id:100552, diagnostic_test_state:"검사 완료"},
+            {receipt_id:"2022", receipt_opinion:"이중인격 의심. 심리 검사 후 재진 필요", receipt_datetime:"2021-06-10", patient_id:100552 , diagnostic_test_state:""},
+            {receipt_id:"2051", receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_datetime:"2021-06-11", patient_id:100412, diagnostic_test_state:"검사 완료"},
+            {receipt_id:"2072", receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_datetime:"2021-06-02", patient_id:100412, diagnostic_test_state:"검사 완료"},
+            {receipt_id:"2042", receipt_opinion:"어디에나 끼는 병 의심심각함", receipt_datetime:"2021-06-13", patient_id:100732, diagnostic_test_state:""},
+            {receipt_id:"2152", receipt_opinion:"형님병 의심", receipt_datetime:"2021-06-13", patient_id:100732, diagnostic_test_state:""},
+            {receipt_id:"3521", receipt_opinion:"중2병 의심. 심리 검사 후 재진 필요", receipt_datetime:"2021-06-07", patient_id:100212, diagnostic_test_state:""},
+            {receipt_id:"7212", receipt_opinion:"사진증 의심... 사진 찍을 때만 옷 입는...", receipt_datetime:"2021-06-01", patient_id:100212, diagnostic_test_state:"검사 완료"},
+            {receipt_id:"9921", receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_datetime:"2021-06-23", patient_id:100002, diagnostic_test_state:"검사 완료"},
+            {receipt_id:"9429", receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_datetime:"2021-06-18", patient_id:100002, diagnostic_test_state:"검사 완료"},
+            {receipt_id:"5255", receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_datetime:"2021-06-11", patient_id:100002, diagnostic_test_state:"검사 완료"},
+            {receipt_id:"9531", receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_datetime:"2021-06-18", patient_id:100002, diagnostic_test_state:"검사 완료"}
+           
+            
+            
+        ];
+        return opinions;
+    }
+
+    const [opinions, setOpinions] = useState(getOpinion);
+    const fatientOpinion = opinions.filter(opinion => opinion.patient_id === selectedPatient.patient_id);
+
+    const [newReceipt_id, setNewReceipt_id] = useState(10000);
+
+    const testRequest =  (event) => {
+        if(selectedPatient.patient_id && opinions.diagnostic_test_state !=="검사 중"){
+            setOpinions(opinions.concat({
+                patient_id: selectedPatient.patient_id,
+                receipt_id: newReceipt_id,
+                receipt_opinion: "검사 완료 후 소견 작성 필요",
+                receipt_datetime: new Date().toLocaleDateString(),
+                diagnostic_test_state:"검사 중"
+
+            }));
+            setNewReceipt_id(newReceipt_id + 1);
+        }
+
+    }; 
      
 
     return(
@@ -113,10 +156,10 @@ function Diagnosis(props) {
             </div>
             <div className="d-flex flex-row ">
                 <div className={cx("diagnosis-checkList-widthAndHeight","diagnosis-checkList-Height", "ml-3")}>
-                      <DiagnosticCheckList selectSymptoms={selectSymptoms} setSelectSymptoms={setSelectSymptoms} deletePrescript={deletePrescript} deleteAll={deleteAll}/>
+                      <DiagnosticCheckList selectSymptoms={selectSymptoms} setSelectSymptoms={setSelectSymptoms} deletePrescript={deletePrescript} deleteAll={deleteAll} testRequest={testRequest}/>
                 </div>
                 <div className={cx("diagnosis-component-background","diagnosis-opinionAndSearch-Height")}>
-                    <OpinionAndSearch selectedPatient={selectedPatient.patient_id}/>
+                    <OpinionAndSearch fatientOpinion={fatientOpinion}/>
                 </div>
             </div>
         </div>    
