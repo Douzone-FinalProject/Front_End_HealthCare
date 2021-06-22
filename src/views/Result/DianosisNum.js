@@ -1,51 +1,50 @@
 import style from "./result.module.css"
 import classnames from "classnames/bind";
+import { Table } from 'antd';
 
 const cx = classnames.bind(style);
 
 function DianosisNum(props) {
+    //antd 진단번호 테이블 컬럼 설정
+    const columns = [
+        {
+            title: '진단번호',
+            dataIndex: "receipt_id",
+        },
+        {
+            title: '환자번호',
+            dataIndex: "patient_id",
+        },
+        {
+            title: '성명',
+            dataIndex: "name",
+        },
+        {
+            title: '상태',
+            dataIndex: "receipt_state",
+            width: '15%'
+        },
+        {
+            title: '검사일자',
+            dataIndex: "receipt_datetime",
+            width: '25%'
+        }
+    ];
+
+    //진단번호 테이블에 행 별로 key 설정
+    for(let i = 0; i < props.receiptData.length; i++) {
+        props.receiptData[i].key = i + 1;
+    }
+    const searchData = props.receiptData;
+
     return (
-        <table className={cx("result-table", "table table-bordered")}>
-            <thead className={cx("result-toptablecol")}>
-                <tr>
-                    <th></th>
-                    <th>진단번호</th>
-                    <th>성명</th>
-                    <th>상태</th>
-                    <th>검사일자</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>10000001</td>
-                    <td>조민상</td>
-                    <td>완료</td>
-                    <td>210615</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>10000002</td>
-                    <td>강병주</td>
-                    <td>완료</td>
-                    <td>210615</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>10000003</td>
-                    <td>임도희</td>
-                    <td>완료</td>
-                    <td>210615</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>10000004</td>
-                    <td>이채정</td>
-                    <td>완료</td>
-                    <td>210615</td>
-                </tr>
-            </tbody>
-        </table>
+        <Table className={cx("result-toptablecol")}
+               columns={columns}
+               dataSource={searchData}
+               pagination={false}
+               scroll={{ y: '60vh' }}
+               onRow={props.handleResult}
+               rowClassName={(record, index) => (index === props.index ? cx("result-color") : '')} />
     );
 }
 

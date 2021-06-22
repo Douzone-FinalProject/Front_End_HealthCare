@@ -1,3 +1,8 @@
 .patient-rightcontainer {
     background-color: #e9ecef;
 }
+
+Button.patient-button {
+    width: 100px;
+    height: 30px;
+}
