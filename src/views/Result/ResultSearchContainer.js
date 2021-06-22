@@ -38,7 +38,6 @@ function ResultSearchContainer(props) {
         if(event.target.name === "dianonum") {
             setColorReceipt('white');
             setColorSpecimen('');
-            console.log(props.props);
             props.props.history.push("/result");
         } else if(event.target.name === "specinum") {
             setColorSpecimen('white');

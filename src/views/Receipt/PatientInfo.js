@@ -7,6 +7,7 @@ import DaumPost from 'views/CreatePatient/DaumPost';
 import { getPatient, updatePatient, deletePatient, deleteReceipt} from './db';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSetReceiptAction } from 'redux/receipt-reducer';
+import { useEffect } from 'react';
 
 const cx = classNames.bind(style);
 
@@ -15,12 +16,29 @@ const PatientInfo = (props) => {
   const [isReceipt, setReceipt] = useState(false);
   // state - 환자 1명의 상세 정보 
   const pid = props.patient_id;
-  const patient = getPatient(pid);
+  const patient2 = getPatient(pid);
   // console.log('patient : ', patient);
 
   // props로 안넘어올때랑 넘어올때 화면 구분하기 
-  // const [patient, setPatient] = useState(() => { return getPatient(pid)});  // re
+  const [patient, setPatient] = useState({
+    patient_name:'aaa',
+    patient_phone:'',
+    patient_ssn: '',patient_sex:'',           
+    patient_address: '', patient_detail_address:'',
+    patient_zipcode: '',
+    patient_blood_type: '', patient_guardian_name:'',
+    patient_guardian_phone:'', patient_guardian_relationship:'select2',
+    patient_height: '', patient_weight: '',
+    patient_max_bp:'', patient_min_bp: '',
+    patient_pulse: '', patient_register_date: ''
+  });  // re
   
+  useEffect(() => {
+    setPatient({
+      ...patient2
+    })
+  }, [patient2]);
+
   // 접수 상태 읽기 
   const receiptState = useSelector((state) => state.receiptReducer.receipt_state);
   console.log('리덕스 receiptState: ', receiptState);
@@ -51,10 +69,11 @@ const PatientInfo = (props) => {
 
   // 데이터 양방향 바인딩 
   const handleChange = (event) => {
-    // setPatient({
-    //     ...patient,
-    //     [event.target.name]: event.target.value
-    // });
+    setPatient({
+        ...patient,
+        [event.target.name]: event.target.value
+    });
+    console.log(patient);
   };
 
   // 주소 모달에 전달할 함수 
@@ -71,10 +90,10 @@ const PatientInfo = (props) => {
       }
       fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
     }
-    // setPatient({
-    //     ...patient,
-    //     address: fullAddress
-    // });
+    setPatient({
+        ...patient,
+        patient_address: fullAddress
+    });
     closeAdModal();
   }
 
@@ -92,11 +111,11 @@ const PatientInfo = (props) => {
     props.handleDelete(patient.patient_id); // 부모에게 상태 변경 알리기 
   }; 
 
-
+console.log(props);
   return (
     <div className={cx("patient-detail")}>
       <div className={cx("patient-detail-top")}>
-        <span><i>{props.patient_id && patient.patient_name}</i>&nbsp;&nbsp;님 차트</span>
+        <span><i>{patient.patient_name}</i>&nbsp;&nbsp;님 차트</span>
         {
           isReceipt? 
           <Button type="submit" className={cx("form-btn-1", "ml-5", "custom-btn")}
@@ -117,29 +136,29 @@ const PatientInfo = (props) => {
               <div className={cx("d-flex")}>
                 <span className={cx("form-span")}>성명</span>
                 <InputText type="text" onChange={handleChange} name="patient_name" 
-                     value={props.patient_id && patient.patient_name} ></InputText>
+                     value={patient.patient_name ||''} ></InputText>
               </div>
               <div className={cx("d-flex")}>
                 <span className={cx("form-span")}>주민번호</span>
-                <InputText type="text" onChange={handleChange} name="patient_ssn" value={props.patient_id && patient.patient_ssn}></InputText>
+                <InputText type="text" onChange={handleChange} name="patient_ssn" value={patient.patient_ssn ||''}></InputText>
               </div>
               <div className={cx("d-flex")}>
                 <span className={cx("form-span")}>휴대전화</span>
-                <input className={cx("form-input")} type="text" onChange={handleChange} name="patient_phone" value={props.patient_id && patient.patient_phone}/>
+                <input className={cx("form-input")} type="text" onChange={handleChange} name="patient_phone" value={patient.patient_phone ||''}/>
               </div>
               <div className={cx("d-flex", "mb-3")}>
                 <span className={cx("form-span")}>보호자</span>
                 <InputText className="mr-1" width="5em" type="text" onChange={handleChange}  
-                          name="patient_guardian_name" value={props.patient_id && patient.patient_guardian_name}></InputText> 
+                          name="patient_guardian_name" value={patient.patient_guardian_name ||''}></InputText> 
                 <InputText className="mr-1" width="10em" type="text" onChange={handleChange} 
-                          name="patient_guardian_phone" value={props.patient_id && patient.patient_guardian_phone}></InputText> 
-                <select name="patient_guardian_relationship" width="4em" value={props.patient_id && patient.patient_guardian_relationship} onChange={handleChange}>
+                          name="patient_guardian_phone" value={patient.patient_guardian_phone ||''}></InputText> 
+                <select name="patient_guardian_relationship" width="4em" value={patient.patient_guardian_relationship ||'select2'} onChange={handleChange}>
                   <option value="select2" disabled>선택</option>
                   <option value="father">부</option>
                   <option value="mother">모</option>
                   <option value="child">자녀</option>
                   <option value="spouse">배우자</option>           
-                  <option value="spouse">기타</option>           
+                  <option value="spouse2">기타</option>           
                 </select>
               </div>
 
@@ -149,39 +168,39 @@ const PatientInfo = (props) => {
               <DaumPost isModal={isModal} closeAdModal={closeAdModal} handleComplete={handleComplete}/>
               <div className={cx("d-flex")}>
                 <span className={cx("form-span")}>주소</span>
-                <input className={cx("form-input")} type="text" name="address" value={props.patient_id && patient.patient_adddress} />
+                <input className={cx("form-input")} type="text" name="patient_address" value={patient.patient_address ||''} onChange={handleChange} />
               </div>
               <div className={cx("d-flex", "mb-3")}>
                 <span className={cx("form-span")}>상세 주소</span>
-                <input className={cx("form-input")} type="text" name="address" value={props.patient_id && patient.patient_detail_adddress} />
+                <input className={cx("form-input")} type="text" name="patient_detail_address" value={patient.patient_detail_address ||''} onChange={handleChange} />
               </div>
 
               <div className={cx("d-flex")}>
                 <span className={cx("form-span")}>혈액형</span>
-                <input className={cx("form-input")} type="text" onChange={handleChange} name="bloodType" value={props.patient_id && patient.patient_blood_type}/>
+                <input className={cx("form-input")} type="text" onChange={handleChange} name="patient_blood_type" value={patient.patient_blood_type ||''}/>
               </div>
               
               {/* 널 허용하는 인풋 */}
               <div className={cx("d-flex")}>
                 <span className={cx("form-span")}>신장</span>
-                <InputText width="7em" type="text" onChange={handleChange} name="height" value={props.patient_id && patient.patient_height}></InputText>
+                <InputText width="7em" type="text" onChange={handleChange} name="patient_height" value={patient.patient_height ||''}></InputText>
                 <span className="ml-2 mt-2">cm</span>
               </div>
               <div className={cx("d-flex")}>
                 <span className={cx("form-span")}>체중</span>
-                <InputText width="7em" type="text" onChange={handleChange} name="weight" value={props.patient_id && patient.patient_weight}></InputText>
+                <InputText width="7em" type="text" onChange={handleChange} name="patient_weight" value={patient.patient_weight ||''}></InputText>
                 <span className="ml-2 mt-2">kg</span>
               </div>
               <div className={cx("d-flex")}>
                 <span className={cx("form-span")}>혈압</span>
-                <InputText width="7em" type="text" onChange={handleChange} name="max_bp" value={props.patient_id && patient.patient_max_bp}></InputText>
+                <InputText width="7em" type="text" onChange={handleChange} name="patient_max_bp" value={patient.patient_max_bp ||''}></InputText>
                     <span className="ml-4 mr-4 mt-2">/</span>
-                <InputText width="7em" type="text" onChange={handleChange} name="min_bp" value={props.patient_id && patient.patient_min_bp}></InputText>
+                <InputText width="7em" type="text" onChange={handleChange} name="patient_min_bp" value={patient.patient_min_bp ||''}></InputText>
               </div>
 
               <div className={cx("d-flex")}>
                 <span className={cx("form-span")}>맥박</span>
-                <InputText width="7em" type="text" onChange={handleChange} name="pulse" value={props.patient_id && patient.patient_pulse}></InputText> 
+                <InputText width="7em" type="text" onChange={handleChange} name="patient_pulse" value={patient.patient_pulse ||''}></InputText> 
                 <span className="ml-2 mt-2">회/분</span>
               </div>
 

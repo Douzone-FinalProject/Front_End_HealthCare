@@ -36,7 +36,7 @@ const ReceiptInfo = (props) => {
       </div>
       {/* 테이블 */}
       <div className={cx("search-result")}>
-        <table class="table text-center">
+        <table className="table text-center">
           <thead>
             <tr className={cx("table-header")}>
               <th>차트번호</th><th>성명</th><th>성별</th><th>H.P</th><th>상태</th><th>접수시간</th>

@@ -3,7 +3,7 @@ let lastId = 100;
 let patients = [];
 for (var i = 100; i >= 1; i--) {
   patients.push({patient_id: i, patient_name: "홍길동"+i, patient_phone: '01059067787', patient_ssn: "970322-2******",patient_sex: "F",           
-      patient_adddress: "서울시 송파구 중대로 135", patient_detail_adddress: '12층 L301', patient_zipcode: '50123',
+      patient_address: "서울시 송파구 중대로 135", patient_detail_address: '12층 L301', patient_zipcode: '50123',
       patient_blood_type: 'B', patient_guardian_name:'이병주', patient_guardian_phone:'01011223344', patient_guardian_relationship:'부',
       patient_height: '190', patient_weight: 88, patient_max_bp: 120, patient_min_bp: 80, patient_pulse: 130, patient_register_date: '2021-06-21'})
 }
