@@ -24,6 +24,18 @@ const Button = styled.button`
       }
     `
   }
+  
+  ${props => props.init &&
+    css`
+      background-color: white;
+      color: black;
+      border: none;
+      &:hover {
+        background: white;
+      }
+    `
+  }
+
   &+button {    
     margin-left: 0.5rem;
   }
