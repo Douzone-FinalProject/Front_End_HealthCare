@@ -7,7 +7,6 @@ import test from "views/test";
 import TestState from "views/TestState";
 import diagnosis from "views/Diagnosis/index";
 
-
 function AppRoute(props) {
     return(
         <Switch>
