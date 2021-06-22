@@ -3,7 +3,7 @@ import classnames from "classnames/bind";
 import ResultNameBox from "./ResultNameBox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import DianosisNum from "./DianosisNum";
 import SpecimenNum from "./SpecimenNum";
 import Button from "views/common/Button";
@@ -31,20 +31,21 @@ function ResultSearchContainer(props) {
     const [colorReceipt, setColorReceipt] = useState('');
     const [colorSpecimen, setColorSpecimen] = useState('');
 
-    const history = useHistory();
+    // const history = useHistory();
 
     //진단번호, 검체번호별로 url을 이동하고, 현재 url에 따라 버튼 색을 바꿈
     const handleSwitch = useCallback((event) => {
         if(event.target.name === "dianonum") {
             setColorReceipt('white');
             setColorSpecimen('');
-            history.push("/result");
+            console.log(props.props);
+            props.props.history.push("/result");
         } else if(event.target.name === "specinum") {
             setColorSpecimen('white');
             setColorReceipt('');
-            history.push("/result/specimennum");
+            props.props.history.push("/result/specimennum");
         }
-    }, [history]);
+    }, [props.props]);
 
     //input 상태를 바꿈(name, date, today 체크박스)
     const handleNameChange = useCallback((event) => {
