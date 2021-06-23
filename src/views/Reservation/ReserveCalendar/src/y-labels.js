@@ -33,7 +33,9 @@ export default class YLabels extends React.Component {
         return (
             <div>
                 <div className="y-labels">
-                    <div {...this.props.layout.propsForAllDayEventContainer()}>All Day</div>
+                    <div {...this.props.layout.propsForAllDayEventContainer()}>
+                        All Day
+                    </div>
                     {this.renderLabels()}
                 </div>
             </div>

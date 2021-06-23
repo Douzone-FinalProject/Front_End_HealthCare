@@ -1,46 +1,43 @@
 import React from 'react';
-import { render } from 'react-dom';
 import moment from './src/moment-range';
 import Dayz from './src/dayz';
+import { DateTime } from 'react-form-elements';
+import ReserveUpdateForm from '../ReserveUpdateForm';
 require('./demo.scss');
 let COUNT = 1;
 
-class DayzTestComponent extends React.Component {
+const style = {
+    backgroundColor: '#fff5f5',
+    borderRadius: '7px'
+};
+
+class ReserveCalendar extends React.Component {
     constructor(props) {
         super(props);
         this.addEvent = this.addEvent.bind(this);
         this.onEventClick = this.onEventClick.bind(this);
         this.editComponent = this.editComponent.bind(this);
         this.changeDisplay = this.changeDisplay.bind(this);
-        this.onEventResize = this.onEventResize.bind(this);
-        const date = moment('2015-09-11');
+        this.closeModal = this.closeModal.bind(this);
+         // 기준 날짜 - 날짜 선택해서 동적으로 바뀔 수 있도록 함 
+        const date = new Date();
         this.state = {
+            isModal: false,
             date,
             display: 'month',
             events: new Dayz.EventsCollection([
-                { content: '이채정 예약',
-                  range: moment.range(moment('2015-09-08'), moment('2015-09-14')) },
+                { content: '14:00 임도리 1343',
+                  range: moment.range(moment('2021-06-21').hour(14), moment('2021-06-21').hour(14).minutes(20)) },
 
-                { content: 'Continuing event Before',
-                  range: moment.range('2015-09-04', '2015-09-09') },
+                { content: '11:00 주캉병 7643',
+                  range: moment.range(moment('2021-06-23').hour(11), moment('2021-06-23').hour(11).minutes(20)) },
 
-                { content: 'Weeklong',
-                  range: moment.range('2015-09-06', moment('2015-09-12').endOf('day')) },
+                { content: '17:00 무좀상 9977',
+                  range: moment.range(moment('2021-06-29').hour(17), moment('2021-06-29').hour(17).minutes(20))
+                },
 
-                { content: 'A Longer Event',
-                  range: moment.range(moment('2015-09-04'), moment('2015-09-14')) },
-
-                { content: 'Inclusive',
-                  range: moment.range(moment('2015-09-07'), moment('2015-09-12')) },
-
-                { content: '9am - 2pm (resizable)',
-                  resizable: { step: 15 },
-                  range: moment.range(moment('2015-09-11').hour(9),
-                                      moment('2015-09-11').hour(14)) },
-
-                { content: '8am - 8pm (non-resizable)',
-                  range: moment.range(moment('2015-09-07').hour(8),
-                                      moment('2015-09-07').hour(21).minutes(40)) },
+                { content: '10:00 이채정 7787',
+                  range: moment.range(moment('2021-06-23').hour(10), moment('2021-06-23').hour(10).minutes(20)) },
             ]),
         };
     }
@@ -50,26 +47,37 @@ class DayzTestComponent extends React.Component {
     }
 
     onEventClick(ev, event) {
-        event.set({ editing: !event.isEditing() });
+        // 예약 수정, 삭제 할 수 있는 모달 창 뜨게 하기 
+        // event.set({ editing: !event.isEditing() });
+        this.setState({ isModal: true});
     }
-    onEventResize(ev, event) {
-        const start = event.start.format('hh:mma');
-        const end   = event.end.format('hh:mma');
-        event.set({ content: `${start} - ${end} (resizable)` });
+
+    // 예약 수정, 삭제 모달 
+    closeModal(ev){
+        this.setState({ isModal: false});
     }
 
     addEvent(ev, date) {
         this.state.events.add({
             content: `Event ${COUNT++}`,
-            resizable: true,
             range: moment.range(date.clone(), date.clone().add(1, 'hour').add(45, 'minutes')),
         });
     }
 
     editComponent(props) {
-        const onBlur   = function() { props.event.set({ editing: false }); };
-        const onChange = function(ev) { props.event.set({ content: ev.target.value }); };
-        const onDelete = function() { props.event.remove(); };
+        console.log('수정 컴포넌트 props: ', props);
+        const onBlur   = function() { 
+            console.log(' 블러?????  !! ')
+            props.event.set({ editing: false }); 
+        };
+        const onChange = function(e) { 
+
+            props.event.set({ content: e.target.value }); 
+        };
+        const onDelete = function() { 
+            console.log('Delete Button Click !! ')
+            props.event.remove(); 
+        };
         return (
             <div className="edit">
                 <input
@@ -79,14 +87,17 @@ class DayzTestComponent extends React.Component {
                     onBlur={onBlur}
                 />
                 <button onClick={onDelete}>X</button>
+
             </div>
         );
     }
 
     render() {
         return (
-            <div className="dayz-test-wrapper">
-
+            <div className="dayz-test-wrapper" style={style}>
+                <DateTime className="mb-2" label="" name="myDate" 
+                            onChange={(e) => {this.setState({ date: moment(e.target.value)});}}
+                />
                 <div className="tools">
                     <label>
                         Month: <input type="radio"
@@ -104,14 +115,14 @@ class DayzTestComponent extends React.Component {
                 </div>
 
                 <Dayz {...this.state}
-                      displayHours={[6, 22]}
-                      highlightDays={[this.state.date]}
-                      onEventResize={this.onEventResize}
+                      displayHours={[9, 19]}
+                    //   highlightDays={[this.state.date]}
                       editComponent={this.editComponent}
-                      onDayDoubleClick={this.addEvent}
+                    //   onDayDoubleClick={this.addEvent}
                       onEventClick={this.onEventClick}
                 >
                 </Dayz>
+                <ReserveUpdateForm modalIsOpen={this.state.isModal}  closeModal={this.closeModal}/>
             </div>
         );
     }
@@ -123,4 +134,4 @@ class DayzTestComponent extends React.Component {
 // render(React.createElement(DayzTestComponent, {}), div);
 
 
-export default DayzTestComponent;
+export default ReserveCalendar;

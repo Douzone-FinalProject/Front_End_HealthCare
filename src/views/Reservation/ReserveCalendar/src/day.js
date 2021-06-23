@@ -16,7 +16,6 @@ export default class Day extends React.Component {
         position:       PropTypes.number.isRequired,
         highlight:      PropTypes.func,
         onEventClick:   PropTypes.func,
-        onEventResize:  PropTypes.func,
         editComponent:  PropTypes.func,
         onEventDoubleClick: PropTypes.func,
     }
@@ -27,7 +26,7 @@ export default class Day extends React.Component {
 
     constructor() {
         super();
-        this.state = { resize: false };
+        this.state = { };
         [
             'onClick', 'onDoubleClick', 'onMouseMove', 'onMouseUp', 'onDragStart',
         ].forEach((ev) => {

@@ -19,7 +19,6 @@ export default class Dayz extends React.Component {
         displayHours:      PropTypes.array,
         onEventClick:      PropTypes.func,
         editComponent:     PropTypes.func,
-        onEventResize:     PropTypes.func,
         dayEventHandlers:  PropTypes.object,
         locale:            PropTypes.string,
         highlightDays:     PropTypes.oneOfType(
@@ -29,7 +28,7 @@ export default class Dayz extends React.Component {
     }
 
     static defaultProps = {
-        display: 'month',
+        display: 'week',
         locale: 'en',
     }
 
@@ -72,6 +71,8 @@ export default class Dayz extends React.Component {
     }
 
     renderDays() {
+        // 진짜 달력 부분
+        // Day는 하루 의미 (month에서 한칸)
         return this.days.map((day, index) => (
             <Day
                 key={day.format('YYYYMMDD')}
@@ -82,7 +83,7 @@ export default class Dayz extends React.Component {
                 handlers={this.props.dayEventHandlers}
                 eventHandlers={this.props.eventHandlers}
                 onEventClick={this.props.onEventClick}
-                onEventResize={this.props.onEventResize}
+                onDayDoubleClick={this.props.onDayDoubleClick}
             />
         ));
     }
@@ -108,6 +109,7 @@ export default class Dayz extends React.Component {
                     <div className="days">
                         {this.renderDays()}
                         {this.props.children}
+                        
                     </div>
                 </div>
             </div>
