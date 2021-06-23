@@ -36,7 +36,8 @@
 .search{
   background-color:#dee2e6;
   padding: 1em;
-  border: solid 0.7px;
+  /* border: solid 0.7px; */
+  border-radius: 5px;
   border-bottom: none;
 }
 .search-box{
@@ -47,7 +48,7 @@
   margin-right: 0.3em;
 }
 .search-input{
-  border: solid 0.7px;
+  /* border: solid 0.7px; */
   margin-right: 1em;
   padding-left: 0.5em;
 }
@@ -60,7 +61,8 @@
 .search-result{
   background-color:#f8f9fa;
   padding: 1em;
-  border: solid 0.7px;
+  /* border: solid 0.7px; */
+  border-radius: 5px;
   height: 20em;
 }
 
@@ -86,7 +88,6 @@
 /* 2. 진료자 리스트 컴포넌트 */
 .patientlist{
   font-weight:bold;
-  border-bottom: solid;
   width: 6em;
   padding: 4px 2px;
   font-size: 20px;
@@ -100,8 +101,9 @@
 }
 /* 3. 환자 상세 정보 컴포넌트  */
 .patient-detail{
-  border: solid 0.7px;
   background-color: #dee2e6;
+  border-radius: 7px;
+  padding: 0.1em;
   height: 74vh;
 }
 .patient-detail-top{
@@ -112,7 +114,8 @@
 }
 .patient-detail-bottom{
   background-color: #f8f9fa;
-  border: solid 0.5px;
+  /* border: solid 0.5px; */
+  border-radius: 5px;
   margin: 1.6em;
   padding: 1.3em;
   height: 58vh;

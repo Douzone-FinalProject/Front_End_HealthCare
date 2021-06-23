@@ -13,7 +13,7 @@ export const createSetReceiptAction = (receipt_state) => {
 
 // 4.리듀스 선언 
 const receiptReducer = (state=initialState, action) => {
-  console.log('receultReducer------', state, action);
+  // console.log('여기는 receiptReducer 입니다 ', state);
   if(action.type === SET_RECEIPT){
     return {receipt_state: action.receipt_state};
   }else{

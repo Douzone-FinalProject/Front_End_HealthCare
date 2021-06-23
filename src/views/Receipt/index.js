@@ -6,7 +6,7 @@ import style from './style.module.css';
 import classNames from 'classnames/bind';
 import  Button  from "../common/Button";
 import CreatePatient from 'views/CreatePatient';
-import { deletePatient, getPatient, getPatientList} from './db';
+import { deletePatient } from './db';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
 
@@ -16,7 +16,7 @@ const Receipt = (props) => {
   // state 
   const [patient_id, setPatientId] = useState();
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [patients, setPatients] = useState(getPatientList);
+ 
 
   // 신규 등록 모달 
   function openModal() { setIsOpen(true); }
@@ -53,7 +53,7 @@ const Receipt = (props) => {
         {/* 좌측  */}
         <div className={cx("left-component")}>
           {/* 환자 검색 컴포넌트  */}
-            <PatientSearch handleClick={handleClick} patients={patients}/>
+            <PatientSearch handleClick={handleClick}/>
           {/* 진료자 리스트 컴포넌트 */}
             <ReceiptInfo handleClick={handleClick}/>
         </div>

@@ -4,9 +4,8 @@ import style from './style.module.css';
 import  Button  from "../common/Button";
 import InputText from "./InputText";
 import DaumPost from 'views/CreatePatient/DaumPost';
-import { getPatient, updatePatient, deletePatient, deleteReceipt} from './db';
+import { getPatient, updatePatient} from './db';
 import { useDispatch, useSelector } from 'react-redux';
-import { createSetReceiptAction } from 'redux/receipt-reducer';
 import { useEffect } from 'react';
 
 const cx = classNames.bind(style);
@@ -16,35 +15,23 @@ const PatientInfo = (props) => {
   const [isReceipt, setReceipt] = useState(false);
   // state - 환자 1명의 상세 정보 
   const pid = props.patient_id;
-  const patient2 = getPatient(pid);
-  // console.log('patient : ', patient);
+  const db_patient = getPatient(pid);
 
   // props로 안넘어올때랑 넘어올때 화면 구분하기 
-  const [patient, setPatient] = useState({
-    patient_name:'aaa',
-    patient_phone:'',
-    patient_ssn: '',patient_sex:'',           
-    patient_address: '', patient_detail_address:'',
-    patient_zipcode: '',
-    patient_blood_type: '', patient_guardian_name:'',
-    patient_guardian_phone:'', patient_guardian_relationship:'select2',
-    patient_height: '', patient_weight: '',
-    patient_max_bp:'', patient_min_bp: '',
-    patient_pulse: '', patient_register_date: ''
-  });  // re
+  const [patient, setPatient] = useState({}); 
   
   useEffect(() => {
     setPatient({
-      ...patient2
+      ...db_patient
     })
-  }, [patient2]);
+  }, [db_patient]);
 
   // 접수 상태 읽기 
   const receiptState = useSelector((state) => state.receiptReducer.receipt_state);
-  console.log('리덕스 receiptState: ', receiptState);
+  // console.log('리덕스 receiptState: ', receiptState);
 
   // 접수 상태 관리  -------------------------
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   function handleReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
