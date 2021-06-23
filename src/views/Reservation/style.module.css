@@ -1,6 +1,5 @@
 /* Index Component */
 .parent-component{
-  /* background-color: red; */
   height: 100%;
 }
 
@@ -11,9 +10,10 @@
   margin-top: 2em;
   margin-left: 2em;
   margin-bottom: 2em;
-  /* background-color: yellow; */
   /* padding:2em; */
 }
+
+
 
 /* Right Component */
 .right-component{
@@ -25,7 +25,8 @@
 
 .right-component-top{
   margin: 3em;
-  border: solid 0.7px;
+  border-radius: 7px;
+  padding: 0.1em;
   background-color: #dee2e6;;
 }
 
@@ -38,7 +39,7 @@
 
 .reserve-form{
   background-color: #f8f9fa;
-  border: solid 2px;
+  border-radius: 5px;
   padding: 2em;
   margin: 1em;
 }
