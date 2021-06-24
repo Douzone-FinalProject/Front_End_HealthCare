@@ -6,7 +6,6 @@ import ReserveCalendar from './ReserveCalendar';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
 import moment from './ReserveCalendar/src/moment-range';
-import Dayz from './ReserveCalendar/src/dayz';
 import { getReserveList } from './ReserveCalendar/data';
 
 const cx = classNames.bind(style);
@@ -35,13 +34,13 @@ const Reservation = (props) => {
     // ---- 여기서 최종적으로 db로 update 시켜줘야 함  ----
    
     const row = events.find(row => {
-      console.log('1row', row);
       return row.reservation_id === ev.reservation_id;
     });
-    console.log('2row', row);
+    console.log('업데이트한 row', row);
 
-    // const newEvents = events.concat();
-    // setEvents(newEvents);
+    const index = events.findIndex(row => row.reservation_id === ev.reservation_id);
+    const newEvents =events.splice(index, 1);
+    setEvents(newEvents);
   }
 
   useEffect(() => {

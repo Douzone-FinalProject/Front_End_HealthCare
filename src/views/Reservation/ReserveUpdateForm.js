@@ -71,9 +71,11 @@ const ReserveUpdateForm = (props) => {
             name="updateForm"
             onSubmit={
               (data) => {
-                console.log('수정 버튼 누름:',data);
                 setUpdateForm(data); 
-                props.handleUpdate(data); // 부모 상태에 영향을 미칠 함수 
+                props.handleUpdate({
+                  ...updateForm,
+                  ...data
+                }); // 부모 상태에 영향을 미칠 함수 
                 props.closeModal();
               }
             }

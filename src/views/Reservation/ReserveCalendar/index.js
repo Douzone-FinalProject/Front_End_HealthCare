@@ -10,7 +10,7 @@ require('./demo.scss');
  * 
  */
 const style = {
-    backgroundColor: 'white',
+    backgroundColor: '#f8f9fa',
     borderRadius: '7px'
 };
 

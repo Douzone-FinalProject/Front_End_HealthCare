@@ -1,9 +1,6 @@
 import React       from 'react';
-import ReactDOM    from 'react-dom';
 import PropTypes   from 'prop-types';
 import Duration from './api/duration';
-
-const IsResizeClass = new RegExp('(\\s|^)event(\\s|$)');
 
 export default class Event extends React.Component {
 
@@ -35,19 +32,7 @@ export default class Event extends React.Component {
         ev.stopPropagation();
     }
 
-    onDragStart(ev) {
-        // if (!IsResizeClass.test(ev.target.className)) { return; }
-        // const bounds = ReactDOM.findDOMNode(this.refs.element).getBoundingClientRect();
-        // let resize;
-        // if (ev.clientY - bounds.top < 10) {
-        //     resize = { type: 'start' };
-        // } else if (bounds.bottom - ev.clientY < 10) {
-        //     resize = { type: 'end' };
-        // } else {
-        //     return;
-        // }
-        // this.props.onDragStart(resize, this.props.duration);
-    }
+    onDragStart(ev) {}
 
     render() {
         const body = (

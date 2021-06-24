@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import Event     from './event';
 import Layout    from './api/layout';
 import Label     from './label';
-import moment from './moment-range';
-
 
 const IsDayClass = new RegExp('(\\s|^)(events|day|label)(\\s|$)');
 

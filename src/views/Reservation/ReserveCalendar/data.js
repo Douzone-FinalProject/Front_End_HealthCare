@@ -11,11 +11,13 @@ let db_1 = {
 
 
 
-// 달력에 세팅한 데이터 
+// 달력에 세팅한 데이터 - 너를 디비라고 일단 생각하기 ... dto  
 let reserveList = [
-
     { content: db_1.reservation_datetime+' '+db_1.reservation_name,
       reservation_id: db_1.reservation_id,
+      reservation_name: db_1.reservation_name,
+      reservation_phone: db_1.reservation_phone,
+      reservation_datetime: db_1.reservation_datetime,
       resizable: true,
       range: moment.range(moment(db_1.reservation_datetime), moment(db_1.reservation_datetime).add(30, 'minutes')) 
     },
