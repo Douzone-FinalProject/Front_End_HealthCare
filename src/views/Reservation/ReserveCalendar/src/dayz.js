@@ -18,7 +18,7 @@ export default class Dayz extends React.Component {
         dateFormat:        PropTypes.string,
         displayHours:      PropTypes.array,
         onEventClick:      PropTypes.func,
-        editComponent:     PropTypes.func,
+        onEventResize:     PropTypes.func,
         dayEventHandlers:  PropTypes.object,
         locale:            PropTypes.string,
         highlightDays:     PropTypes.oneOfType(
@@ -79,11 +79,10 @@ export default class Dayz extends React.Component {
                 day={day}
                 position={index}
                 layout={this.layout}
-                editComponent={this.props.editComponent}
                 handlers={this.props.dayEventHandlers}
                 eventHandlers={this.props.eventHandlers}
                 onEventClick={this.props.onEventClick}
-                onDayDoubleClick={this.props.onDayDoubleClick}
+                onEventResize={this.props.onEventResize}
             />
         ));
     }
@@ -109,7 +108,7 @@ export default class Dayz extends React.Component {
                     <div className="days">
                         {this.renderDays()}
                         {this.props.children}
-                        
+                    
                     </div>
                 </div>
             </div>

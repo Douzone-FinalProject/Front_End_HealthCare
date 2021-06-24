@@ -1,7 +1,8 @@
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import Modal from "react-modal";
 import classNames from 'classnames/bind';
 import style from './style.module.css';
+import {getReserveById} from './ReserveCalendar/data';
 
 import {
   TextBox,
@@ -28,18 +29,30 @@ const customStyles = {
 Modal.setAppElement('body');
 
 const ReserveUpdateForm = (props) => {
-  // state 
-  const [values, setValues] = useState({}); // form data
-  const [mode, setMode] = useState('create'); // Create or Update/Delete
+  // state
+  const [updateForm, setUpdateForm] = useState({});
 
+  // props 
+  const rid = props.reservation_id;
 
-  // 데이터 양방향 바인딩 
-  // const handleChange = (event) => {
-  //   setValues({
-  //       ...reserveForm,
-  //       [event.target.name]: event.target.value
-  //   });
-  // };
+  useEffect(() => {
+    console.log("rid가 마운트 또는 업데이트 후 실행");
+    if(rid !== undefined) {
+      const reservation = getReserveById(rid);
+      // console.log(reservation);
+      setUpdateForm(reservation);
+    }
+    return (() => {
+      console.log("rid가 언마운트/업데이트 전 실행");
+    });
+  },[rid]);
+
+  const handleChange = (e) => {
+    setUpdateForm({
+      ...updateForm,
+      [e.target.name]: e.target.value
+    });
+  };
 
   return (
     <Modal
@@ -48,43 +61,52 @@ const ReserveUpdateForm = (props) => {
         contentLabel="Reserve-Detail Modal2222"
         style={customStyles}
     >
-      <h5 className="ml-3 mb-1">예약 상세 내역</h5>
-
+      <div className="d-flex justify-content-between">
+        <h5 className="ml-3 mb-1 ">예약 상세 내역</h5>
+          <Button type="button" className={cx("close-btn", "mr-4")} onClick={props.closeModal}
+          >X</Button>
+      </div>
       <div className={cx("reserve-form")}>
           <Form
-            name="testForm"
-            onSubmit={data => {
-              setValues(data)
-            }}
+            name="updateForm"
+            onSubmit={
+              (data) => {
+                console.log('수정 버튼 누름:',data);
+                setUpdateForm(data); 
+                props.handleUpdate(data); // 부모 상태에 영향을 미칠 함수 
+                props.closeModal();
+              }
+            }
           >
-            <div>
-              <div className="float-right">
-                  {/* <Button type="button" className={cx("ml-3", "custom-btn")}
-                    >방문 확인</Button>
-                  <span className="ml-2 ">기존/신규</span> */}
-              </div>
-              <div>
-                <span className="">이름</span>
-                <TextBox className="mb-2" label="" name="myTextBox" />
-                <span>휴대전화</span>
-                <Telephone className="mb-2" label="" name="myTelephone" />
-              </div>
+            <div className="float-right">
+            {/* <Button type="button" className={cx("ml-3", "custom-btn")}
+                  >방문 확인</Button>
+                <span className="ml-2 ">기존/신규</span> */}
             </div>
+            
+            <span className="">이름</span>
+            <TextBox className="mb-2" label="" onChange={handleChange} name="reservation_name" value={updateForm.reservation_name}/>
+            <span>휴대전화</span>
+            <Telephone className="mb-2" label="" onChange={handleChange} name="reservation_phone" value={updateForm.reservation_phone}/>
+          
+            <span>예약 날짜</span>
+            <DateTime
+                className="mb-3"
+                label=""
+                onChange={handleChange}
+                type="datetime-local"
+                name="reservation_datetime"
+                value={updateForm.reservation_datetime}
+            />
 
-            <span className="">예약 날짜</span>
-            <DateTime className="mb-2" label="" name="myDate" />
-            <span className="">예약 시간</span>
-            <DateTime className="mb-4" label="" type="time" name="myTime" />
-            <Button type="submit" className={cx("custom-btn")}
-            >예약 저장</Button>
+            <div className="mr-3 font-weight-bold">{updateForm.reservation_datetime}</div>
+           
             <Button type="button" className={cx("custom-btn")}
             >영구 삭제</Button>
             <Button type="button" className={cx("custom-btn")}
             >SMS 전송</Button>
-
-
-            <Button type="button" className={cx("custom-btn")} onClick={props.closeModal}
-            >닫기</Button>
+            <Button type="submit" className={cx("custom-btn")}
+            >예약 저장</Button>
           </Form>
       </div>
     </Modal>

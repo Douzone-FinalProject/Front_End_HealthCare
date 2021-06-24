@@ -4,41 +4,33 @@ import Dayz from './src/dayz';
 import { DateTime } from 'react-form-elements';
 import ReserveUpdateForm from '../ReserveUpdateForm';
 require('./demo.scss');
-let COUNT = 1;
 
+/**
+ * 예약은 30분 단위로만 할 수 있음 
+ * 
+ */
 const style = {
-    backgroundColor: '#fff5f5',
+    backgroundColor: 'white',
     borderRadius: '7px'
 };
 
 class ReserveCalendar extends React.Component {
     constructor(props) {
         super(props);
-        this.addEvent = this.addEvent.bind(this);
         this.onEventClick = this.onEventClick.bind(this);
-        this.editComponent = this.editComponent.bind(this);
         this.changeDisplay = this.changeDisplay.bind(this);
+        this.onEventResize = this.onEventResize.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
          // 기준 날짜 - 날짜 선택해서 동적으로 바뀔 수 있도록 함 
         const date = new Date();
         this.state = {
             isModal: false,
             date,
-            display: 'month',
-            events: new Dayz.EventsCollection([
-                { content: '14:00 임도리 1343',
-                  range: moment.range(moment('2021-06-21').hour(14), moment('2021-06-21').hour(14).minutes(20)) },
-
-                { content: '11:00 주캉병 7643',
-                  range: moment.range(moment('2021-06-23').hour(11), moment('2021-06-23').hour(11).minutes(20)) },
-
-                { content: '17:00 무좀상 9977',
-                  range: moment.range(moment('2021-06-29').hour(17), moment('2021-06-29').hour(17).minutes(20))
-                },
-
-                { content: '10:00 이채정 7787',
-                  range: moment.range(moment('2021-06-23').hour(10), moment('2021-06-23').hour(10).minutes(20)) },
-            ]),
+            display: 'week',
+            // 디비에서 가져온 예약 리스트도 상태로 가지고 있음 
+            events: new Dayz.EventsCollection(this.props.events),
+            reservation_id: undefined // 예약 내역을 선택해야(이벤트 발생) 상태 바뀌는거임 
         };
     }
 
@@ -46,50 +38,29 @@ class ReserveCalendar extends React.Component {
         this.setState({ display: ev.target.value });
     }
 
+    // 시간대별로 나올 수 있도록 
+    onEventResize(ev, event) {
+        // const start = event.start.format('hh:mma');
+        // const end   = event.end.format('hh:mma');
+        // event.set({ content: `${start} - ${end} (resizable)` });
+    }
+
+    /* 예약 수정, 삭제 할 수 있는 모달 창 뜨게 하기 */
     onEventClick(ev, event) {
-        // 예약 수정, 삭제 할 수 있는 모달 창 뜨게 하기 
-        // event.set({ editing: !event.isEditing() });
         this.setState({ isModal: true});
+        //console.log('reservation_id: ', ev); // 자식에게 넘겨받은 파라미터 -> reservation_id 를 넘겨받아야 함 !!!! 
+        this.setState({reservation_id: ev});   // 이것을 모달창에 넘겨줘야 함 
+    }
+
+    /* 자식인 모달창으로 보낼 함수 , 모달창에서 수정이 일어나면 여기서 리스트 상태를 바꿔주기 */
+    handleUpdate(ev, event){
+        // 부모로 또 전하기 
+        this.props.updateEvent(ev);
     }
 
     // 예약 수정, 삭제 모달 
     closeModal(ev){
         this.setState({ isModal: false});
-    }
-
-    addEvent(ev, date) {
-        this.state.events.add({
-            content: `Event ${COUNT++}`,
-            range: moment.range(date.clone(), date.clone().add(1, 'hour').add(45, 'minutes')),
-        });
-    }
-
-    editComponent(props) {
-        console.log('수정 컴포넌트 props: ', props);
-        const onBlur   = function() { 
-            console.log(' 블러?????  !! ')
-            props.event.set({ editing: false }); 
-        };
-        const onChange = function(e) { 
-
-            props.event.set({ content: e.target.value }); 
-        };
-        const onDelete = function() { 
-            console.log('Delete Button Click !! ')
-            props.event.remove(); 
-        };
-        return (
-            <div className="edit">
-                <input
-                    type="text" autoFocus
-                    value={props.event.content}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                />
-                <button onClick={onDelete}>X</button>
-
-            </div>
-        );
     }
 
     render() {
@@ -100,14 +71,11 @@ class ReserveCalendar extends React.Component {
                 />
                 <div className="tools">
                     <label>
-                        Month: <input type="radio"
-                                      name="style" value="month" onChange={this.changeDisplay}
-                                      checked={'month' === this.state.display} />
-                    </label><label>
                         Week: <input type="radio"
                                      name="style" value="week" onChange={this.changeDisplay}
                                      checked={'week' === this.state.display} />
-                    </label><label>
+                    </label>
+                    <label>
                         Day: <input type="radio"
                                     name="style" value="day" onChange={this.changeDisplay}
                                     checked={'day' === this.state.display} />
@@ -115,14 +83,18 @@ class ReserveCalendar extends React.Component {
                 </div>
 
                 <Dayz {...this.state}
+                      events={new Dayz.EventsCollection(this.props.events)}
                       displayHours={[9, 19]}
                     //   highlightDays={[this.state.date]}
+                      onEventResize={this.onEventResize}
                       editComponent={this.editComponent}
-                    //   onDayDoubleClick={this.addEvent}
                       onEventClick={this.onEventClick}
                 >
-                </Dayz>
-                <ReserveUpdateForm modalIsOpen={this.state.isModal}  closeModal={this.closeModal}/>
+                </Dayz> 
+                <ReserveUpdateForm 
+                    reservation_id={this.state.reservation_id}
+                    handleUpdate={this.handleUpdate}
+                    modalIsOpen={this.state.isModal}  closeModal={this.closeModal}/>
             </div>
         );
     }

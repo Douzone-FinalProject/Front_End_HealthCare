@@ -36,17 +36,17 @@ export default class Event extends React.Component {
     }
 
     onDragStart(ev) {
-        if (!IsResizeClass.test(ev.target.className)) { return; }
-        const bounds = ReactDOM.findDOMNode(this.refs.element).getBoundingClientRect();
-        let resize;
-        if (ev.clientY - bounds.top < 10) {
-            resize = { type: 'start' };
-        } else if (bounds.bottom - ev.clientY < 10) {
-            resize = { type: 'end' };
-        } else {
-            return;
-        }
-        this.props.onDragStart(resize, this.props.duration);
+        // if (!IsResizeClass.test(ev.target.className)) { return; }
+        // const bounds = ReactDOM.findDOMNode(this.refs.element).getBoundingClientRect();
+        // let resize;
+        // if (ev.clientY - bounds.top < 10) {
+        //     resize = { type: 'start' };
+        // } else if (bounds.bottom - ev.clientY < 10) {
+        //     resize = { type: 'end' };
+        // } else {
+        //     return;
+        // }
+        // this.props.onDragStart(resize, this.props.duration);
     }
 
     render() {
