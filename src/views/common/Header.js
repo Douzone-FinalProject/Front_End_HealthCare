@@ -1,7 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt, faHospitalUser } from "@fortawesome/free-solid-svg-icons";
+import { faSignOutAlt, faHospitalUser, faComments } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import { useState } from "react";
+import MessageBox from "./MessageBox";
+import { Link } from "react-router-dom";
+
 
 function Header(props) {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    }
+
     return (
         <div>
             <nav className="navbar bg-dark navbar-dark justify-content-between">
@@ -17,10 +27,15 @@ function Header(props) {
                             </h5>
                             <h6 className="text-white font-weight-bold ml-2">의사</h6>
                         </span>
-                        <button className="btn btn-secondary text-white font-weight-bold ml-4"><FontAwesomeIcon icon={faSignOutAlt} className="mr-1"/>Logout</button>
+                        <button className="btn text-white font-weight-bold ml-4" onClick={toggleMenu}><FontAwesomeIcon icon={faComments} className="mr-1"/>Message</button>
+                        <Link to="/"><button className="btn btn-secondary text-white font-weight-bold ml-2"><FontAwesomeIcon icon={faSignOutAlt} className="mr-1"/>Logout</button></Link>
                     </div>
                 </div>
             </nav>
+            <MessageBox
+                isMenuOpen={isMenuOpen}
+                onMenuToggle={toggleMenu}
+            />
         </div>
     );
 }

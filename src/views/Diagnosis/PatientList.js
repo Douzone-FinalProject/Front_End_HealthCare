@@ -6,8 +6,8 @@ const cx = classnames.bind(style);
 
 function PatientList(props) {
     
-    const selectPatient = (event) => {
-        props.selectPatient(event);
+    const selectPatient = (event1, event2, event3) => {
+        props.selectPatient(event1, event2, event3);
         
     };
 

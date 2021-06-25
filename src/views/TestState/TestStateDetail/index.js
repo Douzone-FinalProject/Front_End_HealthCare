@@ -1,15 +1,17 @@
+// import { CSVLink, CSVDownload } from "react-csv";
+import xlsx from 'xlsx';
 import style from "views/TestState/teststate.module.css";
 import classNames from "classnames/bind"
+import Swal from 'sweetalert2';
 import { Card, Table } from 'antd';
 import Button from "../Button";
 import { useState } from "react";
-import { useContext } from "react";
-import TestStateContext from "views/TestState/TestStateContext";
+import { useEffect } from 'react';
+import { getChartData } from "views/TestState/db";
 
 const cx = classNames.bind(style);
 
-function ComName(props) {
-  const teststateContext = useContext(TestStateContext);
+function TestStateDetail({chartId, resultData, setResultData}, props) {
 
   // const [resultData, setResultData] = useState();
   const resultItem = [
@@ -54,10 +56,12 @@ function ComName(props) {
       dataIndex: "state"
     }
   ]
+  const [rows, setRows] = useState([]);
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
+      setRows(selectedRows);
     },
     onSelect: (record, selected, selectedRows) => {
       console.log(record, selected, selectedRows);
@@ -66,23 +70,82 @@ function ComName(props) {
       console.log(selected, selectedRows, changeRows);
     },
   }
+
+  useEffect(() => {
+    if (chartId) {
+      setResultData(getChartData(chartId))
+    }
+    console.log(resultData);
+  }, [chartId, rows])
   
+  const handleBarcode =  () => {
+    setRows(rows.map(row => {
+      row.state = "검사중";
+      return row;
+    }))
+  }
+
+  const handleCancel = () => {
+    setRows(rows.map(row => {
+      row.state = "검사대기";
+      return row;
+    }))
+  }
+
+  const handleComplete = () => {
+    setRows(rows.map(row => {
+      row.state = "검사완료";
+      return row;
+    }))
+  }
+
+  const saveExcel = () => {
+    // 엑셀저장
+    // Json 배열의 내용을 엑셀의 시트로 변환
+    if (resultData) {
+      const ws = xlsx.utils.json_to_sheet(resultData);
+      // {c:/열/, r:/행/}
+      ['증상코드', '묶음코드', '검사명', '검체명', '용기', '바코드', '검사실', '진료의', '검사자'].forEach((x, idx) => {
+        const cellAdd = xlsx.utils.encode_cell({c: idx, r: 0});
+        ws[cellAdd].v = x
+      });
+  
+      // 열 숨기기
+      ws['!cols'] = [];
+      ws['!cols'][9] = { hidden: true };
+  
+      // 워크북 객체를 생성, 워크시트를 묶어주는 부분
+      const wb = xlsx.utils.book_new();
+      xlsx.utils.book_append_sheet(wb, ws, "sheet1");
+    
+      // 파일저장
+      xlsx.writeFile(wb, "Test.xlsx");
+    } else {
+      Swal.fire(
+        "환자를 선택해주세요!!!",
+        '',
+        'question'
+      )
+    }
+
+  }
+
   return (
     <Card className={cx("card")}>
       <div className={cx("d-flex", "justify-content-between")}>
-        <div className={cx("teststate-patient")}><span><strong>병주캉</strong></span>님: 진단 검사 상세</div>
+        <div className={cx("teststate-patient")}><span><strong>{" " || resultData.name}</strong></span>님: 진단 검사 상세</div>
         <div className="d-flex">
-          <Button color={'rgb(255, 99, 132)'}>바코드 출력</Button>
-          <Button color={'rgb(255, 159, 64)'}>접수 취소</Button>
-          <Button color={'rgb(54, 162, 235)'}>검사 완료</Button>
-          <Button color={'rgb(153, 102, 255)'}>엑셀 저장</Button>
+          <Button color={'rgb(255, 99, 132)'} onClick={handleBarcode}>바코드 출력</Button>
+          <Button color={'rgb(255, 159, 64)'} onClick={handleCancel}>접수 취소</Button>
+          <Button color={'rgb(54, 162, 235)'} onClick={handleComplete}>검사 완료</Button>
+          <Button color={'rgb(153, 102, 255)'} onClick={saveExcel}>엑셀 저장</Button>
         </div>
       </div>
       <div className={cx("teststate-table")}>
-        <Table columns={resultItem} dataSource={teststateContext.resultData} pagination={false} rowKey="doctor" rowSelection={{...rowSelection}}/>
+        <Table columns={resultItem} dataSource={resultData} pagination={false} rowKey="doctor" rowSelection={rowSelection}/>
       </div>
     </Card>
   );
 }
 
-export default ComName;
+export default TestStateDetail;

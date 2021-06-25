@@ -1,9 +1,13 @@
 import style from "./result.module.css"
 import classnames from "classnames/bind";
+import { useEffect } from "react";
 
 const cx = classnames.bind(style);
 
 function ResultTopTable(props) {
+    useEffect(() => {
+        console.log(props);
+    }, [props]);
     //우측 상단 테이블(환자의 기본정보와 검체별 정보를 보여줌)
     return (
         <table className={cx("result-toptable", "table table-bordered mt-4")}>
