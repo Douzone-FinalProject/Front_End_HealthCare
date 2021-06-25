@@ -9,7 +9,7 @@ import moment from './ReserveCalendar/src/moment-range';
 import { getReserveList, insertReserve } from './ReserveCalendar/data';
 
 const cx = classNames.bind(style);
-let lastBno = 9;
+let lastBno = 10;
 
 const Reservation = (props) => {
   // state
@@ -32,10 +32,9 @@ const Reservation = (props) => {
 
     // DB 작업 
     insertReserve(newEvent);
-
+    // console.log('####', newEvents);
     const newEvents = events.concat(newEvent);
     setEvents(newEvents);
-
   };
 
   const updateEvent = (ev) => {

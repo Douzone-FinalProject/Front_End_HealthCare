@@ -86,9 +86,17 @@ let reserveList = [
 // insert reserve 
 export function insertReserve(reserve){
   lastBno++;
-  console.log('insert 직전: ', reserve);
   reserve.reservation_id = lastBno;
   reserveList.push(reserve);
+}
+
+// delete reserve
+export function deleteReserve(rid){
+  console.log('delete-----reserve id: ', rid);
+  console.log('--', reserveList);
+  const index = reserveList.findIndex(reserve => reserve.reservation_id === rid);
+  reserveList.splice(index, 1);
+  
 }
 
 
