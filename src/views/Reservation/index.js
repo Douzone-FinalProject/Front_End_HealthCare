@@ -6,9 +6,10 @@ import ReserveCalendar from './ReserveCalendar';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
 import moment from './ReserveCalendar/src/moment-range';
-import { getReserveList } from './ReserveCalendar/data';
+import { getReserveList, insertReserve } from './ReserveCalendar/data';
 
 const cx = classNames.bind(style);
+let lastBno = 10;
 
 const Reservation = (props) => {
   // state
@@ -18,13 +19,20 @@ const Reservation = (props) => {
   const addEvent = (ev) => {
     console.log('[index] addEvent 입력한 예약내역', ev);
 
+    lastBno++;
     const newEvent = {
-      content: ev.reservation_time+' '+ev.reservation_name,
-      reserve_id: '100', // 디비에서 가져오기 
+      content: ev.reservation_datetime.slice(-5) +' '+ev.reservation_name,
+      reservation_id: lastBno,
+      reservation_name: ev.reservation_name,
+      reservation_phone: ev.reservation_phone,
+      reservation_datetime: ev.reservation_datetime,
       resizable: true,
       range: moment.range(moment(ev.reservation_datetime), moment(ev.reservation_datetime).add(30, 'minutes')) 
     };
 
+    // DB 작업 
+    insertReserve(newEvent);
+    // console.log('####', newEvents);
     const newEvents = events.concat(newEvent);
     setEvents(newEvents);
   };

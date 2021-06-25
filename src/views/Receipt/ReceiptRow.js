@@ -9,7 +9,8 @@ const ReceiptRow = (props) => {
   // console.log('ReceiptRow render: ', props.receipt.patient_id);
 
   return (
-    <div className={cx("table-body","d-flex align-items-center border-bottom ")} 
+    <div style={{height:'100%'}}
+        className={cx("table-body","d-flex align-items-center border-bottom ")} 
          onClick={() => props.handleClick(props.receipt.patient_id)}
     >
         <span width={235} style={{width:"80px"}}>{props.receipt.patient_id}</span>
