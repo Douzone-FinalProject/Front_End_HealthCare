@@ -22,7 +22,7 @@ function DiagnosticCheckList(props) {
         <>
         <div className="mt-4">
             <h4 className={cx("diagnosis-checkList-titleInterval")}>진단 검사 목록</h4>
-            <div>
+            <div className="d-flex justify-content-end mr-3">
             <Button deleteButton={true} className={cx("diagnosis-checkList-button")} onClick={deleteAll}>전체 삭제</Button>
             
             </div>
@@ -47,8 +47,10 @@ function DiagnosticCheckList(props) {
                                 )
                             })}
                 </MDBTableBody>
-            </MDBTable>     
+            </MDBTable>
+            <div className="d-flex justify-content-end mr-3">
             <Button className={cx("diagnosis-checkList-button2","mt-2")} onClick={props.testRequest}>검사 요청</Button>
+            </div>
         </div>
         </>
     );

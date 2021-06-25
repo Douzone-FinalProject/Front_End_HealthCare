@@ -20,6 +20,16 @@ function Login(props) {
         })
     };
 
+    const handlePage = (event) => {
+        if(login.role === 'doctor') {
+            props.history.push('/diagnosis')
+        } else if(login.role === 'nurse') {
+            props.history.push('/receipt')
+        } else {
+            props.history.push('/teststate')
+        }
+    };
+
     return (
         
         <div className={style.loginbackGround}>
@@ -42,7 +52,7 @@ function Login(props) {
                 <input type="radio" name="role" value="inspector" onChange={handleChange} checked={login.role === "inspector"}/><label>검사자</label>
               </div>
               
-              <button onClick={() => props.history.push('/diagnosis')} type="button" className={style.btn}>
+              <button onClick={handlePage} type="button" className={style.btn}>
                 LOG IN 
               </button>
           </form>

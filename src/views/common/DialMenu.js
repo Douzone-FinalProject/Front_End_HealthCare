@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actions = [
-  { icon: <Link to="/"><FontAwesomeIcon icon={faSignOutAlt} size="lg"/></Link>, name: '로그아웃' },
+  { icon: <Link to="/login"><FontAwesomeIcon icon={faSignOutAlt} size="lg"/></Link>, name: '로그아웃' },
   { icon: <Link to="/teststate"><FontAwesomeIcon icon={faSyringe} size="lg"/></Link>, name: '검사' },
   { icon: <Link to="/result"><FontAwesomeIcon icon={faFileInvoice} size="lg"/></Link>, name: '검사결과' },
   { icon: <Link to="/diagnosis"><FontAwesomeIcon icon={faStethoscope} size="lg"/></Link>, name: '진료' },
