@@ -9,7 +9,8 @@ const PatientRow = (props) => {
   // console.log('PatientRow render: ', props.patient.patient_id);
 
   return (
-      <div className={cx("table-body","d-flex align-items-center border-bottom ")} 
+      <div style={{height:'100%'}}
+          className={cx("table-body","d-flex align-items-center border-bottom")} 
           onClick={() => props.handleClick(props.patient.patient_id)}
       >
         <span width={235} style={{width:"80px"}}>{props.patient.patient_id}</span>

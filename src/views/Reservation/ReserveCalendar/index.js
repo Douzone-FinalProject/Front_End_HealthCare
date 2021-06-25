@@ -11,7 +11,7 @@ require('./demo.scss');
  */
 const style = {
     backgroundColor: '#f8f9fa',
-    borderRadius: '7px'
+    borderRadius: '7px',
 };
 
 class ReserveCalendar extends React.Component {
@@ -48,7 +48,7 @@ class ReserveCalendar extends React.Component {
     /* 예약 수정, 삭제 할 수 있는 모달 창 뜨게 하기 */
     onEventClick(ev, event) {
         this.setState({ isModal: true});
-        //console.log('reservation_id: ', ev); // 자식에게 넘겨받은 파라미터 -> reservation_id 를 넘겨받아야 함 !!!! 
+        console.log('reservation_id: ', ev); // 자식에게 넘겨받은 파라미터 -> reservation_id 를 넘겨받아야 함 !!!! 
         this.setState({reservation_id: ev});   // 이것을 모달창에 넘겨줘야 함 
     }
 

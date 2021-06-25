@@ -11,8 +11,8 @@ import Guideline from "views/Main/Guideline";
 function AppRoute(props) {
     return(
         <Switch>
-            <Route path="/" exact component={login}/>
-            <Route path="/main" exact component={Main}/>
+            <Route path="/" exact component={Main}/>
+            <Route path="/login" exact component={login}/>
             <Route path="/guideline" exact component={Guideline}/>
             <Route path="/result" component={Result}/>
             <Route path="/teststate" exact component={TestState}></Route>

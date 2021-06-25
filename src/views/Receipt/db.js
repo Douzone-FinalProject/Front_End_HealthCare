@@ -43,7 +43,7 @@ let lastId2 = 100;
 let receipts = [];
 for (var j = 100; j >= 1; j--) {
   receipts.push({
-    patient_id: i, patient_name: "홍길동"+i, 
+    patient_id: j, patient_name: "홍길동"+j, 
     patient_sex: "F", patient_phone: '01059067787',
     receipt_state: '대기', receipt_datetime: '2020-06-20 13:05:24'})
 }

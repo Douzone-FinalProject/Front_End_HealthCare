@@ -2,7 +2,7 @@ import {React, useState, useEffect} from 'react';
 import Modal from "react-modal";
 import classNames from 'classnames/bind';
 import style from './style.module.css';
-import {getReserveById} from './ReserveCalendar/data';
+import {deleteReserve, getReserveById} from './ReserveCalendar/data';
 
 import {
   TextBox,
@@ -104,7 +104,11 @@ const ReserveUpdateForm = (props) => {
             <div className="mr-3 font-weight-bold">{updateForm.reservation_datetime}</div>
            
             <Button type="button" className={cx("custom-btn")}
-            >영구 삭제</Button>
+                onClick={() => {
+                  deleteReserve(updateForm.reservation_id);
+                  props.closeModal();
+                }}
+            >예약 삭제</Button>
             <Button type="button" className={cx("custom-btn")}
             >SMS 전송</Button>
             <Button type="submit" className={cx("custom-btn")}

@@ -69,7 +69,6 @@ export default class Day extends React.Component {
         const singleDayEvents = [];
         const allDayEvents    = [];
         this.props.layout.forDay(this.props.day).forEach((duration) => {
-            // console.log(duration.event.attributes);
             const event = (    
                 <Event
                     duration={duration}

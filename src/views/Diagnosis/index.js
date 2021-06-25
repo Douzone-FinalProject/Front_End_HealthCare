@@ -462,7 +462,7 @@ function Diagnosis (props) {
         <Header />
         <div className="d-flex flex-column">
             <div>
-                <div className="d-flex flex-row ml-3 mr-2 mt-2 mb-2">
+                <div className="d-flex flex-row ml-3 mr-2 mt-4 mb-2">
                     <div className={cx("diagnosis-component-background", "diagnosis-patient-widthAndHeight", "mr-3")}>
                       <PatientList selectedPatient={selectedPatient} patients={patients} selectPatient={selectPatient}/>
                     </div>
@@ -482,10 +482,10 @@ function Diagnosis (props) {
                 <div className={cx("diagnosis-component-background","diagnosis-opinionAndSearch-Height")}>
                     <OpinionAndSearch fatientOpinion={fatientOpinion} opinions={opinions} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} reportSuccess={reportSuccess} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} />
                 </div>
+                <DialMenu />
             </div>
+            
         </div>
-
-        <DialMenu />
         </>
         
     );
