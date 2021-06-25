@@ -31,17 +31,17 @@
 /* 1. 환자 검색 컴포넌트 */
 .left-component-top{
   margin-bottom: 1.2em;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 .search{
-  background-color:#dee2e6;
+  background-color:white;
   padding: 1em;
   /* border: solid 0.7px; */
   border-radius: 5px;
   border-bottom: none;
 }
 .search-box{
-  border: solid 0.7px;
   padding: 0.2em;
   padding-top: 0.4em;
   font-size: 15px;
@@ -71,7 +71,7 @@
   text-align: center;
 }
 .table-header{
-  background-color: #B3BCE3;
+  background-color: #e9ecef;
   color: black;
   text-align: center;
   font-size: 16px;
@@ -100,7 +100,9 @@
   width: 38em;
   margin-left: 1.2em;
   margin-right: 1.2em;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
+
 /* 3. 환자 상세 정보 컴포넌트  */
 .patient-detail{
   background-color: #dee2e6;
@@ -152,4 +154,8 @@
 
 Button.custom-btn{
   width: 6em;
+}
+
+.left-component-bottom {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }

@@ -1,9 +1,10 @@
 import styled, {css} from "styled-components";
 
 const Button = styled.button`
-  background-color: ${props => props.color || '#B3BCE3'};
-  color: black;
-  border-radius: 4px;
+  background-color: ${props => props.color || 'rgb(54, 162, 235)'};
+  color: white;
+  border: none;
+  /* border-radius: 4px; */
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
@@ -13,7 +14,7 @@ const Button = styled.button`
   height: 40px;
 
   &:hover {
-    background-color: white;
+    color: black
   }
   ${props => props.deleteButton &&
     css`

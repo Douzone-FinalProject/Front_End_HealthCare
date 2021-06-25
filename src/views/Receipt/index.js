@@ -45,8 +45,8 @@ const Receipt = (props) => {
     <div className={cx("all-component")}>
       <Header />
       <div className={cx("menu")}>
-        <Button className="ml-1" color="#4dabf7" onClick={openModal}>신규 등록</Button>
-        <Button className="ml-3" color="#15aabf" onClick={handleReserve}>예약</Button>
+        <Button className="ml-1" color="rgb(153, 102, 255)" onClick={openModal}>신규 등록</Button>
+        <Button className="ml-3" color="rgb(153, 102, 255)" onClick={handleReserve}>예약</Button>
         <CreatePatient modalIsOpen={modalIsOpen} closeModal={closeModal}/>
       </div>
       <div className={cx("d-flex flex-row ")}>
