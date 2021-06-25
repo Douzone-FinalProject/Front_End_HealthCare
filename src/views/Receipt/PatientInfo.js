@@ -18,23 +18,8 @@ const PatientInfo = (props) => {
   const db_patient = getPatient(pid);
 
   // props로 안넘어올때랑 넘어올때 화면 구분하기 
-<<<<<<< HEAD
   const [patient, setPatient] = useState({}); 
-=======
-  const [patient, setPatient] = useState({
-    patient_name:'',
-    patient_phone:'',
-    patient_ssn: '',patient_sex:'',           
-    patient_address: '', patient_detail_address:'',
-    patient_zipcode: '',
-    patient_blood_type: '', patient_guardian_name:'',
-    patient_guardian_phone:'', patient_guardian_relationship:'select2',
-    patient_height: '', patient_weight: '',
-    patient_max_bp:'', patient_min_bp: '',
-    patient_pulse: '', patient_register_date: ''
-  });  // re
->>>>>>> 84ddc3051cdab3e41203641f11d5706f54bd410a
-  
+
   useEffect(() => {
     setPatient({
       ...db_patient
