@@ -25,7 +25,7 @@ let resultData1 = [
         lab: "검사실1",    
         doctor: "닥터 스트레인지",
         staff: "별가",
-        state: "검사접수"
+        state: "검사대기"
       },
       {
         symptom_id: "STS335",
@@ -37,7 +37,7 @@ let resultData1 = [
         lab: "검사실3",    
         doctor: "익준",
         staff: "깐깐징어",
-        state: "검사완료"
+        state: "검사대기"
       },
       {
         symptom_id: "UDR",
@@ -103,6 +103,36 @@ let resultData1 = [
   }
 ]
 
+const waitingData = [
+    {
+      key: 1,
+      order: 1,
+      chart: 1000101,
+      name: '병주캉',
+      sex: "?",
+      age: "900",
+      state: "검사중",
+    },
+    {
+      key: 2,
+      order: 2,
+      chart: 1010215,
+      name: '채정리',
+      sex: "여",
+      age: "3",
+      state: "검사대기"
+    },
+    {
+      key: 3,
+      order: 3,
+      chart: 1001515,
+      name: '민상조',
+      sex: "남",
+      age: "27",
+      state: "검사대기"
+    }
+]
+
 export function getChartData(chartId) {
   let result = resultData1.filter(data => {
     if (data.chartId === chartId) {
@@ -110,4 +140,23 @@ export function getChartData(chartId) {
     }
   })
   return result[0].data; 
-}  
+}
+
+export function getLabData(waitType, state) {
+  console.log(waitType, state);
+  let results = [];
+  for (let result of resultData1) {
+    for (let item of result.data) {
+      if (item.lab === waitType) {
+        console.log(item);
+        results = waitingData.filter(data => {
+          if (data.state === state) { 
+            return data;
+          }
+        })
+      }
+    }
+  }
+  console.log(results);
+  return results || waitingData;
+}
