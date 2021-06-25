@@ -185,7 +185,9 @@
 }
 
 .test1{
-    width: 300px;
-    border: 1px solid black;
-    background-color: white;
+    text-align: center;
+}
+
+.test2{
+    margin-right: 10%;
 }
