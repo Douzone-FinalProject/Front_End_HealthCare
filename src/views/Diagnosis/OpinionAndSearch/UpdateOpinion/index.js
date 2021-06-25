@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import style from "../../Diagnosis.module.css"
 import classnames from "classnames/bind";
 import { useState } from "react";
-import CreateOpinionMedicineListItem from "./CreateOpinionMedicineListItem";
+import OpinionMedicineListItem from "../UpdateOpinion/OpinionMedicineListItem";
 import Button from "../../../common/Button";
 import { MDBTable, MDBTableBody } from 'mdbreact';
 
@@ -21,7 +21,7 @@ const opinionStyles = {
 };
 
 Modal.setAppElement('body');
-function CreateOpinion(props) {
+function UpdateOpinion(props) {
     // const [isModal, setModal] = useState(false);
     // const [opinion, setOpinion] = useState({
     //     receipt_opinion: '',
@@ -43,18 +43,37 @@ function CreateOpinion(props) {
     // const closeAdModal = (event) => {
     //     setModal(false);
     // }
+    // const zz = props.opinions.map((medicine => medicine.medicines));
+    // let hhh = [];
+    // // console.log(zz)
+    // for(let i of zz){
+    //     for(let f of i){
+    //         hhh  =  f
+    //     }
+    // }
+    // console.log(hhh)
+    // const [sibal, setSibal] = useState();
+    // setSibal(hhh)
+    // const kk = hhh.map((hoho) => hoho.medicine_id)
+    // gasibal(kk);
+    // setSibal({kk})
+    // console.log(kk);
 
-
-
+    const hait = props.opinions.filter(opinion => opinion.receipt_id === props.opp.receipt_id);
+    let arr;
+    for(let i of hait){
+        for(let z of i.medicines){
+           arr = z
+        }
+    }
     return(
     <>
-    {props.medicines ?
-       <Modal isOpen={props.modalIsOpen} onRequestClose={props.closeModal} style={opinionStyles}>
+       <Modal isOpen={props.updateIsOpen} onRequestClose={props.closeUpdateModal} style={opinionStyles}>
             <h4 className="mb-3">진단 기록 상세</h4>
             <div>
-                <textarea name="receipt_opinion" className={cx("textArea-font")} style={{width:"642px",height:"300px",resize:"none"}} onChange={props.reportOpinion}/>
+                <textarea name="receipt_opinion" value={props.opp.receipt_opinion} className={cx("textArea-font")} style={{width:"642px",height:"300px",resize:"none"}} onChange={props.updatOpinion}/>
             </div>
-
+            
             <MDBTable className={cx("table-hover", "diagnosis-table1")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr>
@@ -65,44 +84,33 @@ function CreateOpinion(props) {
                     </tr>
                 </thead>
             </MDBTable>    
-            <MDBTable scrollY className={cx("table-hover ")}>
+            <MDBTable scrollY className={cx("table-hover")}>
                 <MDBTableBody>
-                    {props.medicines && props.medicines.map((medicine) => {
+                    
+                    {arr && arr.map((hoho) => {
                                         return (
-                                            <CreateOpinionMedicineListItem key={medicine.medicine_id} medicine={medicine} handleCount={props.handleCount} />
+                                            <OpinionMedicineListItem  key={hoho.medicine_id} hoho={hoho} />
                                         )
                                     })}
+            {/* <tr> */}
+                {/* <td>{kk}</td> */}
+                {/* <td>{props.opp.medicine_name}</td>
+                <td>{props.opp.medicine_unit}</td>
+                <td>{props.opp.quantity}</td> */}
+            {/* </tr> */}
                 </MDBTableBody>
             </MDBTable>
            
-            
 
             <h4 className="mb-3">특이 사항</h4>
-            <textarea name="receipt_uniqueness" className={cx("textArea-font")} style={{width:"642px",height:"100px",resize:"none"}} onChange={props.reportOpinion}/>
+            <textarea name="receipt_uniqueness" value={props.opp.receipt_uniqueness} className={cx("textArea-font")} style={{width:"642px",height:"100px",resize:"none"}} onChange={props.updatOpinion}/>
             <div className="d-flex justify-content-lg-end">
-                <Button onClick={props.reportSuccess}>진료 완료</Button>
-                <Button onClick={props.closeModal}>닫기</Button>
+                <Button onClick={()=>{props.saveOpinion(props.opp.receipt_id)}}>수정 완료</Button>
+                <Button onClick={props.closeUpdateModal}>닫기</Button>
             </div>
        </Modal>
-        :
-        <Modal isOpen={props.modalIsOpen} onRequestClose={props.closeModal} style={opinionStyles}>
-            <h4 className="mb-3">진단 기록 상세</h4>
-            <div>
-                <textarea name="receipt_opinion" className={cx("textArea-font")} style={{width:"642px",height:"400px",resize:"none"}} onChange={props.reportOpinion}/>
-            </div>
-
-            
-            <h4 className="mt-3">특이 사항</h4>
-            <textarea name="receipt_uniqueness" className={cx("textArea-font", "mt-4")} style={{width:"642px",height:"180px",resize:"none"}} onChange={props.reportOpinion}/>
-            <div className="d-flex justify-content-lg-end mr-3 mt-2">
-                <Button onClick={props.reportSuccess}>진료 완료</Button>
-                <Button onClick={props.closeModal}>닫기</Button>
-            </div>
-            </Modal>
-    }
-
     </>
     );
 }
 
-export default CreateOpinion;
+export default UpdateOpinion;
