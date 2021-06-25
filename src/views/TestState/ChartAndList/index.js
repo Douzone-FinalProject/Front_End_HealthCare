@@ -7,7 +7,8 @@ import PatientStateList from "./PatientStateList";
 
 const cx = classNames.bind(style);
 
-function ChartAndList(props) {
+function ChartAndList({waitingData, setWaitingData, setChartId}, props) {
+
   return (
     <Card className={cx("card")}>
       <div>{ new Date().toLocaleDateString('ko-KR') }</div>
@@ -15,7 +16,7 @@ function ChartAndList(props) {
       <div className={cx("teststate-lab")}>
         <LabTable/>
       </div>
-      <PatientStateList/>
+      <PatientStateList waitingData={waitingData} setWaitingData={setWaitingData} setChartId={setChartId}/>
     </Card>
   );
 }
