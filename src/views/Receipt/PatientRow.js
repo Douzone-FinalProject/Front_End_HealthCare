@@ -9,16 +9,16 @@ const PatientRow = (props) => {
   // console.log('PatientRow render: ', props.patient.patient_id);
 
   return (
-      <tr className={cx("table-body")} 
+      <div className={cx("table-body","d-flex align-items-center border-bottom ")} 
           onClick={() => props.handleClick(props.patient.patient_id)}
       >
-        <td width={235}>{props.patient.patient_id}</td>
-        <td width={150}>{props.patient.patient_name}</td>
-        <td width={234}>{props.patient.patient_ssn}</td>
-        <td width={144}>{props.patient.patient_phone}</td>
-        <td width={151}>{props.patient.patient_sex}</td>
-        <td width={318}>{props.patient.patient_register_date}</td>
-      </tr>
+        <span width={235} style={{width:"80px"}}>{props.patient.patient_id}</span>
+        <span style={{width:"210px"}}>{props.patient.patient_name}</span>
+        <span style={{width:"260px"}}>{props.patient.patient_ssn}</span>
+        <span style={{width:"190px"}}>{props.patient.patient_phone}</span>
+        <span style={{width:"230px"}}>{props.patient.patient_sex}</span>
+        <span style={{width:"260px"}}>{props.patient.patient_register_date}</span>
+      </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
 import { AutoSizer, List } from 'react-virtualized';
@@ -20,38 +20,31 @@ const ReceiptInfo = (props) => {
     );
   };
 
-  const getLength = useMemo(() => { 
-    console.log('getLength() 실행 ');
-    return receipts.length;
-  }); 
-
   return (
     <div className={cx("left-component-bottom")}>
       <div className={cx("search", "d-flex")}>
         <div className={cx("flex-grow-1")}>
           <h5 className={cx("patientlist")}>진료자 리스트</h5>
         </div>
-        <span className="ml-5 text-primary">결과 </span>
-        <span className="text-primary">{getLength}</span>
       </div>
       {/* 테이블 */}
       <div className={cx("search-result")}>
-        <table className="table text-center">
-          <thead>
-            <tr className={cx("table-header")}>
-              <th>차트번호</th><th>성명</th><th>성별</th><th>H.P</th><th>상태</th><th>접수시간</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className={cx("table-header", "d-flex ")}>
+              <span className="border " style={{width:"80px"}}>차트번호</span>
+              <span className="border flex-fill">성명</span>
+              <span className="border flex-fill">성별</span>
+              <span className="border flex-fill">H.P</span>
+              <span className="border flex-fill">상태</span>
+              <span className="border flex-fill">접수시간</span>
+            </div>
+            {/* 리스트에서 하나의 행 컴포넌트는 자식으로 따로 만들기 */}
             <AutoSizer disableHeight>
                 {({width, height}) => {
-                  return <List width={width} height={300} list={receipts} rowCount={receipts.length} rowHeight={50} rowRenderer={rowRenderer} overscanRowCount={7}></List>
+                  return <List width={width} height={230} list={receipts} rowCount={receipts.length} rowHeight={50} rowRenderer={rowRenderer} overscanRowCount={7}></List>
                 }}
             </AutoSizer>
-          </tbody>
-          </table>    
+        </div>
       </div>
-    </div>
   );
 };
 

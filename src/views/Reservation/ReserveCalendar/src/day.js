@@ -16,9 +16,7 @@ export default class Day extends React.Component {
         position:       PropTypes.number.isRequired,
         highlight:      PropTypes.func,
         onEventClick:   PropTypes.func,
-        onEventResize:  PropTypes.func,
         editComponent:  PropTypes.func,
-        onEventDoubleClick: PropTypes.func,
     }
 
     static defaultProps = {
@@ -27,9 +25,9 @@ export default class Day extends React.Component {
 
     constructor() {
         super();
-        this.state = { resize: false };
+        this.state = { resize: false};
         [
-            'onClick', 'onDoubleClick', 'onMouseMove', 'onMouseUp', 'onDragStart',
+            'onClick', 'onDoubleClick',
         ].forEach((ev) => {
             this[ev] = this[ev].bind(this);
         });
@@ -65,48 +63,21 @@ export default class Day extends React.Component {
         this.onClickHandler(ev, this.props.handlers.onDoubleClick);
     }
 
-    onDragStart(resize, eventLayout) {
-        eventLayout.setIsResizing(true);
-        const bounds = this.boundingBox;
-        Object.assign(resize, { eventLayout, height: bounds.height, top: bounds.top });
-        this.setState({ resize });
-    }
-
-    onMouseMove(ev) {
-        if (!this.state.resize) { return; }
-        const coord = ev.clientY - this.state.resize.top;
-        this.state.resize.eventLayout.adjustEventTime(
-            this.state.resize.type, coord, this.state.resize.height,
-        );
-        this.forceUpdate();
-    }
-
-    onMouseUp(ev) {
-        if (!this.state.resize) { return; }
-        this.state.resize.eventLayout.setIsResizing(false);
-        setTimeout(() => this.setState({ resize: false }), 1);
-        if (this.props.onEventResize) {
-            this.props.onEventResize(ev, this.state.resize.eventLayout.event);
-        }
-        this.lastMouseUp = (new Date()).getMilliseconds();
-    }
-
     renderEvents() {
+        // content - 예약 내역 들어가는 공간 
         const asMonth = this.props.layout.isDisplayingAsMonth;
         const singleDayEvents = [];
         const allDayEvents    = [];
-        const onMouseMove = asMonth ? null : this.onMouseMove;
         this.props.layout.forDay(this.props.day).forEach((duration) => {
-            const event = (
+            // console.log(duration.event.attributes);
+            const event = (    
                 <Event
                     duration={duration}
                     key={duration.key()}
                     day={this.props.day}
                     parent={this}
-                    onDragStart={this.onDragStart}
-                    onClick={this.props.onEventClick}
-                    editComponent={this.props.editComponent}
-                    onDoubleClick={this.props.onEventDoubleClick}
+                    // 부모에게 props로 받은 이벤트함수에 파라미터로 이벤트 아이디를 넘겨줌 
+                    onClick={() => this.props.onEventClick(duration.event.attributes.reservation_id)}
                 />
             );
             (duration.event.isSingleDay() ? singleDayEvents : allDayEvents).push(event);
@@ -119,11 +90,10 @@ export default class Day extends React.Component {
                 </div>,
             );
         }
-        if (singleDayEvents.length) {
+        if (singleDayEvents.length) { // 하루!! 일반적인 경우 
             events.push(
                 <div
                     key="events" ref="events" className="events"
-                    onMouseMove={onMouseMove} onMouseUp={this.onMouseUp}
                 >
                     {singleDayEvents}
                 </div>,

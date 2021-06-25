@@ -1,6 +1,5 @@
 /* Index Component */
 .parent-component{
-  /* background-color: red; */
   height: 100%;
 }
 
@@ -11,7 +10,6 @@
   margin-top: 2em;
   margin-left: 2em;
   margin-bottom: 2em;
-  /* background-color: yellow; */
   /* padding:2em; */
 }
 
@@ -25,7 +23,8 @@
 
 .right-component-top{
   margin: 3em;
-  border: solid 0.7px;
+  border-radius: 7px;
+  padding: 0.1em;
   background-color: #dee2e6;;
 }
 
@@ -38,7 +37,7 @@
 
 .reserve-form{
   background-color: #f8f9fa;
-  border: solid 2px;
+  border-radius: 5px;
   padding: 2em;
   margin: 1em;
 }
@@ -48,11 +47,16 @@
   margin: 2em;
   border: solid 2px;
   padding: 2em;
-
   /* background-color: yellow; */
 }
 
 Button.custom-btn{
   /* padding: 1em; */
   width: 6em;
+}
+
+Button.close-btn{
+  width: 2.3em;
+  height: 2.3em;
+  font-size: 15px;
 }

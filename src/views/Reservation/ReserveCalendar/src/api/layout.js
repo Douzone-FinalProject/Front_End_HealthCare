@@ -40,6 +40,7 @@ export default class Layout {
         this.events.forEach((event) => {
             // we only care about events that are in the range we were provided
             if (range.overlaps(event.range())) {
+                // Month에 이벤트 여러개 보여주는 부분 
                 this[cacheMethod](event);
                 if (!event.isSingleDay()) {
                     multiDayCount += 1;
@@ -143,7 +144,8 @@ export default class Layout {
     }
 
     hourRange() {
-        const range = [7, 19];
+        // 시간 범위 -------------
+        const range = [9, 19];
         Array.from(this.range.by('days')).forEach((day) => {
             this.forDay(day).forEach((duration) => {
                 range[0] = Math.min(duration.event.start.hour(), range[0]);
@@ -155,6 +157,7 @@ export default class Layout {
     }
 
     getEventsForWeek(start) {
+        // Week ----------------- 
         const day = start.clone();
         const weeklyEvents = [];
         for (let i = 0; i < 7; i++) {

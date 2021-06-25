@@ -1,16 +1,18 @@
-import React, {useState, useMemo, useEffect} from 'react';
+import React, {useState, useMemo} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
 import  Button  from "../common/Button";
 import { AutoSizer, List } from 'react-virtualized';
 import PatientRow from './PatientRow';
+import { getPatientList} from './db';
 
 const cx = classNames.bind(style);
 
 const PatientSearch = (props) => {
   // state 
   const [search, setSearch] = useState({name: '', phone: '', sex: ''});
-  const patients = props.patients;
+  //const [patients, setPatients] = useState(getPatientList); 이걸 굳이 상태로 만들어야 하나? 
+  const patients = getPatientList();
 
   // 사용자가 입력한 값 바인딩 
   const handleChange = (event) => {
@@ -22,13 +24,12 @@ const PatientSearch = (props) => {
 
   // 재연산을 방지하자 => useMemo 
   const getLength = useMemo(() => { // 매번 입력할때마다 실행될 필요 없음 -> 성능 향상 시키기 
-    console.log('getLength() 실행 ');
     return patients.length;
   }); 
 
   // 검색 결과 초기화 
   const handleInit = (e) => {
-    console.log('handleInit 실행됨 ');
+    // console.log('handleInit 실행됨 ');
     setSearch({name: '', phone: '', sex: ''});
   };
 
@@ -73,20 +74,20 @@ const PatientSearch = (props) => {
       </div>
       {/* 1. 검색 결과가 나오는 div */}
       <div className={cx("search-result")}>
-          <table className="table text-center">
-            <thead >
-              <tr className={cx("table-header")}>
-                <th>차트번호</th><th>성명</th><th>주민번호</th><th>H.P</th><th>성별</th><th>최근진료날짜</th>
-              </tr>    
-            </thead>
-            <tbody>
-              <AutoSizer disableHeight>
+            <div className={cx("table-header", "d-flex ")}>
+              <span className="border " style={{width:"80px"}}>차트번호</span>
+              <span className="border flex-fill">성명</span>
+              <span className="border flex-fill">주민번호</span>
+              <span className="border flex-fill">H.P</span>
+              <span className="border flex-fill">성별</span>
+              <span className="border flex-fill">최근진료날짜</span>
+            </div>
+            {/* 리스트에서 하나의 행 컴포넌트는 자식으로 따로 만들기 */}
+            <AutoSizer disableHeight>
                 {({width, height}) => {
-                  return <List width={width} height={300} list={props.patients} rowCount={props.patients.length} rowHeight={50} rowRenderer={rowRenderer} overscanRowCount={7}></List>
+                  return <List width={width} height={230} list={patients} rowCount={patients.length} rowHeight={50} rowRenderer={rowRenderer} overscanRowCount={5}></List>
                 }}
-              </AutoSizer>
-            </tbody>
-          </table>
+            </AutoSizer>
       </div>
     </div>
   );

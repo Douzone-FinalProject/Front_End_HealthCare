@@ -4,9 +4,8 @@ import style from './style.module.css';
 import  Button  from "../common/Button";
 import InputText from "./InputText";
 import DaumPost from 'views/CreatePatient/DaumPost';
-import { getPatient, updatePatient, deletePatient, deleteReceipt} from './db';
-import { useDispatch, useSelector } from 'react-redux';
-import { createSetReceiptAction } from 'redux/receipt-reducer';
+import { getPatient, updatePatient} from './db';
+// import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 const cx = classNames.bind(style);
@@ -16,10 +15,12 @@ const PatientInfo = (props) => {
   const [isReceipt, setReceipt] = useState(false);
   // state - 환자 1명의 상세 정보 
   const pid = props.patient_id;
-  const patient2 = getPatient(pid);
-  // console.log('patient : ', patient);
+  const db_patient = getPatient(pid);
 
   // props로 안넘어올때랑 넘어올때 화면 구분하기 
+<<<<<<< HEAD
+  const [patient, setPatient] = useState({}); 
+=======
   const [patient, setPatient] = useState({
     patient_name:'',
     patient_phone:'',
@@ -32,19 +33,20 @@ const PatientInfo = (props) => {
     patient_max_bp:'', patient_min_bp: '',
     patient_pulse: '', patient_register_date: ''
   });  // re
+>>>>>>> 84ddc3051cdab3e41203641f11d5706f54bd410a
   
   useEffect(() => {
     setPatient({
-      ...patient2
+      ...db_patient
     })
-  }, [patient2]);
+  }, [db_patient]);
 
   // 접수 상태 읽기 
-  const receiptState = useSelector((state) => state.receiptReducer.receipt_state);
-  console.log('리덕스 receiptState: ', receiptState);
+  // const receiptState = useSelector((state) => state.receiptReducer.receipt_state);
+  // console.log('리덕스 receiptState: ', receiptState);
 
   // 접수 상태 관리  -------------------------
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   function handleReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
@@ -111,7 +113,6 @@ const PatientInfo = (props) => {
     props.handleDelete(patient.patient_id); // 부모에게 상태 변경 알리기 
   }; 
 
-console.log(props);
   return (
     <div className={cx("patient-detail")}>
       <div className={cx("patient-detail-top")}>

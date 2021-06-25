@@ -20,7 +20,7 @@ export function insertPatient(patient) {
 }
 
 export function getPatient(patient_id) {
-  console.log('db getPatient: ', patient_id);
+  // console.log('db getPatient: ', patient_id);
   const patient = patients.find(patient => patient.patient_id === patient_id);
   return patient;
 }
@@ -33,7 +33,7 @@ export function deletePatient(patient_id) {
 
 export function updatePatient(patient) {
   console.log('update db patient');
-  const row = patients.find(row => row.patient_id === patient.patient_id);
+  // const row = patients.find(row => row.patient_id === patient.patient_id);
   // row.btitle = patient.btitle;
   // row.bcontent = patient.bcontent;
 }
@@ -41,7 +41,7 @@ export function updatePatient(patient) {
 // -------- DB Receipt Table ----------
 let lastId2 = 100;
 let receipts = [];
-for (var i = 100; i >= 1; i--) {
+for (var j = 100; j >= 1; j--) {
   receipts.push({
     patient_id: i, patient_name: "홍길동"+i, 
     patient_sex: "F", patient_phone: '01059067787',
