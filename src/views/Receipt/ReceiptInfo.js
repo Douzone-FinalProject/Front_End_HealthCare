@@ -10,6 +10,7 @@ const cx = classNames.bind(style);
 const ReceiptInfo = (props) => {
   // state
   const [receipts, setReceipts] = useState(getReceiptList);
+  console.log('receipts: ', receipts);
 
   // 하나의 행 UI 만들기 
   const rowRenderer = ({index, key, style}) => {

@@ -74,7 +74,7 @@ const PatientSearch = (props) => {
       </div>
       {/* 1. 검색 결과가 나오는 div */}
       <div className={cx("search-result")}>
-            <div className={cx("table-header", "d-flex ")}>
+            <div className={cx("table-header", "d-flex")}>
               <span className="border " style={{width:"80px"}}>차트번호</span>
               <span className="border flex-fill">성명</span>
               <span className="border flex-fill">주민번호</span>
