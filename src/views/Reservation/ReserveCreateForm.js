@@ -22,7 +22,10 @@ const ReserveCreateForm = (props) => {
       <div className={cx("reserve-form")}>
         <Form
           name="createForm"
-          onSubmit={(data) => props.addEvent(data)}
+          onSubmit={(data) => {
+            console.log('data: ', data);
+            return props.addEvent(data);
+          }}
             // 여기서 디비로 insert 되어서 캘린더는 실시간 동기화로 나타나게 됨 
         >
           <div className="float-right">

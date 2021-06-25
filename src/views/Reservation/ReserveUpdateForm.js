@@ -104,7 +104,7 @@ const ReserveUpdateForm = (props) => {
             <div className="mr-3 font-weight-bold">{updateForm.reservation_datetime}</div>
            
             <Button type="button" className={cx("custom-btn")}
-            >영구 삭제</Button>
+            >예약 취소</Button>
             <Button type="button" className={cx("custom-btn")}
             >SMS 전송</Button>
             <Button type="submit" className={cx("custom-btn")}

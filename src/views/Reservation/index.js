@@ -19,7 +19,7 @@ const Reservation = (props) => {
     console.log('[index] addEvent 입력한 예약내역', ev);
 
     const newEvent = {
-      content: ev.reservation_time+' '+ev.reservation_name,
+      content: ev.reservation_datetime.slice(-5) +' '+ev.reservation_name,
       reserve_id: '100', // 디비에서 가져오기 
       resizable: true,
       range: moment.range(moment(ev.reservation_datetime), moment(ev.reservation_datetime).add(30, 'minutes')) 
