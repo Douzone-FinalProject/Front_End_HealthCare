@@ -1,6 +1,7 @@
 .result-container {
+    border-radius: 8px;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid gray;
     height: 90vh;
     width: 25%;
     margin: 10px;
@@ -47,8 +48,9 @@ Button.result-button {
 }
 
 .result-secondcontainer {
+    border-radius: 8px;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid gray;
     height: 90vh;
     width: 70%;
     margin: 10px;

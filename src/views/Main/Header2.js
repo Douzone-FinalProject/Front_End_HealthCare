@@ -21,7 +21,7 @@ function Header2(props) {
                             </h5>
                             {/* <h6 className="text-white font-weight-bold ml-2"></h6> */}
                         </span>
-                        <Link to="/">
+                        <Link to="/login">
                         <button className="btn btn-secondary text-white font-weight-bold ml-4"><FontAwesomeIcon icon={faSignInAlt} className="mr-1"/>Login</button>
                         </Link>
                     </div>
