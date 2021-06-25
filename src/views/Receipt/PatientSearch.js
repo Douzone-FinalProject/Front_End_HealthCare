@@ -68,19 +68,17 @@ const PatientSearch = (props) => {
         <div className={cx("")}>
           <Button type="button" className={cx("form-btn-1", "ml-3", "custom-btn")}
                       onClick={function(e){e.preventDefault(); handleInit();}}>모든 환자</Button>                 
-          <span className="ml-5 text-primary">결과 </span>
-          <span className="text-primary">{getLength}</span>
         </div>
       </div>
       {/* 1. 검색 결과가 나오는 div */}
       <div className={cx("search-result")}>
             <div className={cx("table-header", "d-flex")}>
-              <span className="border " style={{width:"80px"}}>차트번호</span>
-              <span className="border flex-fill">성명</span>
-              <span className="border flex-fill">주민번호</span>
-              <span className="border flex-fill">H.P</span>
-              <span className="border flex-fill">성별</span>
-              <span className="border flex-fill">최근진료날짜</span>
+              <span style={{width:"80px"}}>차트번호</span>
+              <span className="flex-fill">성명</span>
+              <span className="flex-fill">주민번호</span>
+              <span className="flex-fill">H.P</span>
+              <span className="flex-fill">성별</span>
+              <span className="flex-fill">최근진료날짜</span>
             </div>
             {/* 리스트에서 하나의 행 컴포넌트는 자식으로 따로 만들기 */}
             <AutoSizer disableHeight>
