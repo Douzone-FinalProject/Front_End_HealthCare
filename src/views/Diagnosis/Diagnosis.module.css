@@ -72,11 +72,11 @@
     border: 1px solid black;
     background-color: white;
     width: 1552px;
-    height: 450px;
+    height: 440px;
 }
 /*진단 검사 목록 컴포넌트 높이*/
 .diagnosis-checkList-Height{ 
-    height: 500px;
+    height: 478px;
     margin-right: 16px;
 }
 /*진단 검사 목록 타이틀 간격*/
@@ -94,12 +94,12 @@
 .diagnosis-checkList-button{ 
     
     margin-top: 20px;
-    margin-left: 1030px;
+    margin-left: 1010px;
     margin-bottom: 1%;
 }
 .diagnosis-checkList-button2{ 
     
-    margin-left: 1030px;
+    margin-left: 1010px;
     margin-bottom: 1%;
 }  
 
@@ -119,7 +119,7 @@
 }
 /*--------------------증상 및 소견, 환자 검색 컴포넌트----------------*/
 .diagnosis-opinionAndSearch-widthAndHeight{  
-    width: 778px;
+    width: 771px;
     height: 500px;
 }
 .diagnosis-opinionAndSearch-title{
@@ -145,6 +145,7 @@
 }
 .diagnosis-opinionAndSearch-button{
     margin-left: 65%;
+    margin-right: 6px;
 }
 .diagnosis-opinionAndSearch-buttonFocus:focus{
     background-color: white;
@@ -158,20 +159,26 @@
     text-align: center;
 }
 .diagnosis-opinionAndSearch-tabaleHeight{
-    height: 300px;
+    height: 270px;
 }
 .diagnosis-opinion-tabaleinterval{
     margin-bottom: 53px;
 }
 .diagnosis-opinionAndSearch-Height{ 
-    height: 500px;
-    margin-right: 10px;
+    height: 478px;
+    margin-right: 7px;
 }
 /*-------------------환자 검색 컴포넌트---------------------------*/
 .diagnosis-searchPatients-input{
     width: 140px;
 }
 
-.tzw{
-    width: 550px;
+.textArea-font{
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.noneLink{
+    color: inherit;
+    text-decoration: none !important;
 }

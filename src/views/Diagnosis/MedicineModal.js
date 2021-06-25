@@ -10,13 +10,14 @@ const cx = classnames.bind(style);
 
 function MedicineModal(props) {
   const [medicineData, setMedicineData] = useState();
+
   const columns = [
     {
       title: "약품코드",
       dataIndex: "medicine_id",
     },
     {
-      title: "영문명",
+      title: "약품명",
       dataIndex: "medicine_name"
     },
     {
@@ -33,6 +34,8 @@ function MedicineModal(props) {
     setMedicineData(search(event.target.value));
   }
 
+ 
+
   let data = [];
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -47,13 +50,12 @@ function MedicineModal(props) {
   }
   
   return (
-    <div className={cx("medicine")} onClick={props.handleModal}>
+    <div className={cx("medicine")}>
       <div className={cx("modal-container")} onClick={(event) => event.stopPropagation()}>
         <Card>
           <div className={cx("d-flex", "justify-content-between", "mb-2")}>
             <div>
               <input type="text" className={cx("mr-2", "medicine-input")} onChange={searchMedicine}/>
-              {/* <Button className={cx("medicine-btn")} color={'rgb(54, 162, 235)'} onChange={searchMedicine}>검색</Button> */}
             </div>
             <div>
               <Button className={cx("medicine-btn")} onClick={() => props.addMedicines(data)}>추가</Button>
