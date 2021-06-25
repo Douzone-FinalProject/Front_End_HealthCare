@@ -11,7 +11,7 @@ require('./demo.scss');
  */
 const style = {
     backgroundColor: '#f8f9fa',
-    borderRadius: '7px'
+    borderRadius: '7px',
 };
 
 class ReserveCalendar extends React.Component {
