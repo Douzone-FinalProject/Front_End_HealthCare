@@ -21,7 +21,7 @@ const PatientInfo = (props) => {
 
   // props로 안넘어올때랑 넘어올때 화면 구분하기 
   const [patient, setPatient] = useState({
-    patient_name:'aaa',
+    patient_name:'',
     patient_phone:'',
     patient_ssn: '',patient_sex:'',           
     patient_address: '', patient_detail_address:'',

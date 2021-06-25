@@ -5,6 +5,7 @@ import ResultTable from "./ResultTable";
 import { useState, useEffect, useCallback } from 'react';
 import Button from "views/common/Button";
 import { getSpecimenData } from "./data";
+import { Link } from "react-router-dom";
 
 const cx = classnames.bind(style);
 
@@ -133,13 +134,12 @@ function ResultContainer(props) {
             <div>
                 <div className="d-flex justify-content-center">
                     <div className={cx("result-imgbox")}>
-                        <img src="http://localhost:3000/logo512.png" alt="" height="100%"/>
-                        <img src="http://localhost:3000/logo512.png" alt="" height="100%"/>
-                        <img src="http://localhost:3000/logo512.png" alt="" height="100%"/>
-                        <img src="http://localhost:3000/logo512.png" alt="" height="100%"/>
-                        <img src="http://localhost:3000/logo512.png" alt="" height="100%"/>
-                        <img src="http://localhost:3000/logo512.png" alt="" height="100%"/>
-                        <img src="http://localhost:3000/logo512.png" alt="" height="100%"/>
+                        <img src="http://localhost:3000/mri1.jpg" alt="" height="100%"/>
+                        <img src="http://localhost:3000/mri1.jpg" alt="" height="100%"/>
+                        <img src="http://localhost:3000/mri2.png" alt="" height="100%"/>
+                        <img src="http://localhost:3000/mri2.png" alt="" height="100%"/>
+                        <img src="http://localhost:3000/mri3.jpg" alt="" height="100%"/>
+                        <img src="http://localhost:3000/mri3.jpg" alt="" height="100%"/>
                     </div>
                 </div>
             </div>
@@ -147,7 +147,7 @@ function ResultContainer(props) {
                 <div className="d-flex justify-content-center">
                     <div className={cx("result-buttonbox", "d-flex justify-content-end")}>
                         <Button className={cx("result-button")} onClick={handleSave}>저장</Button>
-                        <Button className={cx("result-button", "ml-2")}>뒤로</Button>
+                        <Link to="/diagnosis"><Button className={cx("result-button", "ml-2")}>뒤로</Button></Link>
                     </div>
                 </div>
             </div>
