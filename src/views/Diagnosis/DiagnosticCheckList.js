@@ -10,13 +10,13 @@ const cx = classnames.bind(style);
 function DiagnosticCheckList(props) {
    
     const deleteAll = (event) => {
-        // console.log(zzz);
         props.deleteAll(event);
     };
-    const testRequest = useEffect ( (event) => {
 
+    const testRequest =  (event) => {
+        props.testRequest();
 
-    }, []); 
+    }; 
 
     return(
         <>
@@ -48,7 +48,7 @@ function DiagnosticCheckList(props) {
                             })}
                 </MDBTableBody>
             </MDBTable>     
-            <Button className={cx("diagnosis-checkList-button2","mt-2")} onClick={testRequest}>검사 요청</Button>
+            <Button className={cx("diagnosis-checkList-button2","mt-2")} onClick={props.testRequest}>검사 요청</Button>
         </div>
         </>
     );

@@ -12,7 +12,6 @@ function DiagnosticCheckListItem(props) {
     
     return(
         <tr key={props.item.search_id}>
-            {/* <td><Button deleteButton={true} className={cx("tzw")} onClick={()=>{deletePrescript(props.item.search_id)}}>X</Button></td> */}
             <td onClick={()=>{deletePrescript(props.item.search_id)}} className="bold">X</td>
             <td>{props.item.symptom_code}</td>
             <td>{props.item.bundle_code}</td>

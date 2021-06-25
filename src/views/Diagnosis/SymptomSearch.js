@@ -14,7 +14,13 @@ function SymptomSearch(props) {
     };
 
     const selectSymptom = (event) => {
-        props.selectSymptom(event);
+        if(props.selectedPatient.patient_id){
+            props.selectSymptom(event);
+        }
+        else{
+            alert("검사 요청 할 환자를 먼저 선택해주세요.");
+        }
+        
         
     };
 
