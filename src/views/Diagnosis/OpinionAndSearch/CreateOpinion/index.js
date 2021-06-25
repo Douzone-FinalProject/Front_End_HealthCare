@@ -55,7 +55,7 @@ function CreateOpinion(props) {
                 <textarea name="receipt_opinion" className={cx("textArea-font")} style={{width:"642px",height:"300px",resize:"none"}} onChange={props.reportOpinion}/>
             </div>
 
-            <MDBTable className={cx("table-hover", "diagnosis-table1")}>
+            <MDBTable className={cx("table-hover", "diagnosis-table1","test2")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr>
                     <th>약품코드</th>
