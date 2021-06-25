@@ -1,6 +1,7 @@
 import style from "./result.module.css"
 import classnames from "classnames/bind";
 import { Table } from 'antd';
+import { MDBTable, MDBTableBody } from 'mdbreact';
 
 const cx = classnames.bind(style);
 

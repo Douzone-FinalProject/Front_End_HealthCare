@@ -1,0 +1,35 @@
+.sidebar-menu {
+    width: 300px;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    left: -300px;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    -webkit-transition: .3s ease all;
+    transition: .3s ease all;
+    background: #333;
+    &.open {
+      -webkit-transform: translateX(300px);
+      transform: translateX(300px);
+    }
+    .menu {
+      padding: 15px 20px;
+      color: #fff;
+    }
+    .receivebox {
+      width: 280px;
+      border-radius: 4px;
+      background-color: white;
+    }
+    .sendbox {
+      border-radius: 4px;
+      width: 280px;
+      height: 300px;
+      background-color: white;
+    }
+    .selectbox {
+      width: 100px;
+    }
+  }
