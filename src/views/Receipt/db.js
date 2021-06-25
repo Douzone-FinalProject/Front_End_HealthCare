@@ -20,7 +20,7 @@ export function insertPatient(patient) {
 }
 
 export function getPatient(patient_id) {
-  console.log('db getPatient: ', patient_id);
+  // console.log('db getPatient: ', patient_id);
   const patient = patients.find(patient => patient.patient_id === patient_id);
   return patient;
 }

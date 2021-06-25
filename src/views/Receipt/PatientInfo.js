@@ -5,7 +5,7 @@ import  Button  from "../common/Button";
 import InputText from "./InputText";
 import DaumPost from 'views/CreatePatient/DaumPost';
 import { getPatient, updatePatient} from './db';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 const cx = classNames.bind(style);
@@ -27,7 +27,7 @@ const PatientInfo = (props) => {
   }, [db_patient]);
 
   // 접수 상태 읽기 
-  const receiptState = useSelector((state) => state.receiptReducer.receipt_state);
+  // const receiptState = useSelector((state) => state.receiptReducer.receipt_state);
   // console.log('리덕스 receiptState: ', receiptState);
 
   // 접수 상태 관리  -------------------------
@@ -98,7 +98,6 @@ const PatientInfo = (props) => {
     props.handleDelete(patient.patient_id); // 부모에게 상태 변경 알리기 
   }; 
 
-console.log(props);
   return (
     <div className={cx("patient-detail")}>
       <div className={cx("patient-detail-top")}>
