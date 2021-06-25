@@ -1,5 +1,7 @@
 import moment from './src/moment-range';
 
+let lastBno = 9;
+
 // db에서 불러온 데이터 
 let db_1 = { 
   reservation_id: '1',
@@ -60,7 +62,7 @@ let reserveList = [
       range: moment.range(moment('2021-06-22 10:30'), moment('2021-06-22 10:30').add(30, 'minutes')) 
     },
     { content: '11:30 좀상민',
-      reservation_id: 6,
+      reservation_id: 7,
       reservation_name: '좀상민',
       reservation_phone: '01012312312',
       reservation_datetime: '2021-06-22 11:30',
@@ -68,7 +70,7 @@ let reserveList = [
       range: moment.range(moment('2021-06-22 11:30'), moment('2021-06-22 11:30').add(30, 'minutes')) 
     },
     { content: '14:30 병주캉',
-      reservation_id: 6,
+      reservation_id: 8,
       reservation_name: '병주캉',
       reservation_phone: '01012312312',
       reservation_datetime: '2021-06-23 14:30',
@@ -81,6 +83,15 @@ let reserveList = [
 
 ];
 
+// insert reserve 
+export function insertReserve(reserve){
+  lastBno++;
+  console.log('insert 직전: ', reserve);
+  reserve.reservation_id = lastBno;
+  reserveList.push(reserve);
+}
+
+
 // 전체 예약 테이블 뽑아오기 
 export function getReserveList() {
   return reserveList;
@@ -88,11 +99,9 @@ export function getReserveList() {
 
 // 해당 아이디의 예약 한 행 뽑아오기 
 export function getReserveById(rid) {
-
   for(var i=0; i < reserveList.length; i++){
     if (reserveList[i].reservation_id === rid){
       return reserveList[i];
     }
   }
-  
 };
