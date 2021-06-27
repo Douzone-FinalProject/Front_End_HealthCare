@@ -1,13 +1,40 @@
 import React, {useState} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
-import  Button  from "../common/Button";
 import { AutoSizer, List } from 'react-virtualized';
 import PatientRow from './PatientRow';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import { makeStyles } from '@material-ui/core/styles';
+import ReplyAllIcon from '@material-ui/icons/ReplyAll';
 
 const cx = classNames.bind(style);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  divider: {
+    height: 28,
+    margin: 4,
+  },
+}));
 
 const PatientSearch = (props) => {
+  const classes = useStyles();
+
   // state 
   const [search, setSearch] = useState({name: '', phone: '', sex: ''});
   const patients = props.patients;
@@ -38,12 +65,30 @@ const PatientSearch = (props) => {
   return (
     <div className={cx("left-component-top")}>
       {/* 1. 검색할 내용 입력하는 div */}
-      <div className={cx("search", "d-flex")}>
+      <div className={cx("search", "d-flex justify-content-between")}>
         <form method='post' onSubmit={(e) => {
           e.preventDefault();
           alert('submit : '+ e.target.uname.value +' '+e.target.uphone.value+' '+e.target.usex.value);
         }}>
-          <span className={cx("search-box")} >성명</span>
+
+      <Paper component="form" className={classes.root}>
+            <InputBase
+              className={classes.input} name="uname" onClick={handleChange}
+              placeholder="환자 이름을 검색하세요"
+            />
+            <IconButton type="submit" className={classes.iconButton} aria-label="search">
+              <SearchIcon />
+            </IconButton>
+            <Divider className={classes.divider} orientation="vertical" />
+            <IconButton color="primary" className={classes.iconButton} aria-label="전체보기" 
+                    onClick={function(e){e.preventDefault(); handleInit();}}>
+              <ReplyAllIcon />
+            </IconButton>
+            {/* <Button type="button" className={cx("form-btn-1", "ml-3", "custom-btn")}
+           color="" onClick={function(e){e.preventDefault(); handleInit();}}>전체보기</Button> */}
+      </Paper>
+
+          {/* <span className={cx("search-box")} >성명</span>
           <input className={cx("search-input")}  placeholder='홍길동' name="uname" onClick={handleChange}></input>
           <span className={cx("search-box")} >H.P</span>
           <input className={cx("search-input")} placeholder='010xxxxxxxx' name="uphone" onClick={handleChange}></input>
@@ -55,15 +100,13 @@ const PatientSearch = (props) => {
             <span className="ml-1">F</span>
           </span>
           <Button type="submit" className={cx("form-btn-1", "ml-3", "custom-btn")}
-          >찾기</Button>
+          >찾기</Button> */}
         </form>
         
-        <div className={cx("")}>
-          <Button type="button" className={cx("form-btn-1", "ml-3", "custom-btn")}
-                      onClick={function(e){e.preventDefault(); handleInit();}}>모든 환자</Button>                 
-        </div>
+       
       </div>
-      {/* 1. 검색 결과가 나오는 div */}
+
+      {/* 2. 검색 결과가 나오는 div */}
       <div className={cx("search-result")}>
             <div className={cx("table-header", "d-flex")}>
               <span style={{width:"80px"}}>차트번호</span>
