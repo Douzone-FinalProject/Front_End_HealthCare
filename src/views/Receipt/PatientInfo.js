@@ -4,7 +4,7 @@ import style from './style.module.css';
 import  Button  from "../common/Button";
 import InputText from "./InputText";
 import DaumPost from 'views/CreatePatient/DaumPost';
-import { getPatient, getRidByPatient, updatePatient} from './db';
+import { getPatient, getRidByPatient} from './db';
 import { useEffect } from 'react';
 
 const cx = classNames.bind(style);
@@ -14,25 +14,25 @@ const PatientInfo = (props) => {
   const [isModal, setModal] = useState(false);
   const [patient, setPatient] = useState({}); 
 
-  const pid = props.patient_id;
-  const db_patient = getPatient(pid);
-  
   useEffect(() => {
-    setPatient({
-      ...db_patient
-    })
-  }, [db_patient]);
+    if(props.patient_id !== undefined){
+      const newPatient = getPatient(props.patient_id);
+      setPatient(newPatient);
+    }
+  }, [props.patient_id]);
 
   function handleReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
     // DB insert 
-    props.addReceipt(db_patient);
+    // props.addReceipt(db_patient);
+    props.addReceipt(patient);
   }
 
   function cancelReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
     // DB delete 
-    const rid = getRidByPatient(db_patient.patient_id);
+    // const rid = getRidByPatient(db_patient.patient_id);
+    const rid = getRidByPatient(patient.patient_id);
     props.deleteReceipt(rid);
   }
 
@@ -46,7 +46,6 @@ const PatientInfo = (props) => {
         ...patient,
         [event.target.name]: event.target.value
     });
-    console.log(patient);
   };
 
   // 주소 모달에 전달할 함수 
@@ -72,14 +71,12 @@ const PatientInfo = (props) => {
   // DB 환자 정보 수정
   const handleUpdate = (e) => {
     e.preventDefault();
-    // console.log("환자 정보 수정: ", ...patient);
-    updatePatient(...patient); // DB 접근 
+    props.handleUpdate(patient); // 부모에게 상태 변경 알리기 
   }; 
 
   // DB 환자 정보 영구 삭제 
   const handleDelete = (e) => {
     e.preventDefault();
-    // console.log("환자 정보 삭제: ", patient.patient_id);
     props.handleDelete(patient.patient_id); // 부모에게 상태 변경 알리기 
   }; 
 

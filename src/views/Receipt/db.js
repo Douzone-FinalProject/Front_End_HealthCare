@@ -20,16 +20,9 @@ export function insertPatient(patient) {
 }
 
 export function getPatient(patient_id) {
-  // console.log('db getPatient: ', patient_id);
   const patient = patients.find(patient => patient.patient_id === patient_id);
+  console.log('수정된 환자 정보가 나와야 함 : ', patient);
   return patient;
-}
-
-export function updatePatient(patient) {
-  console.log('update db patient');
-  // const row = patients.find(row => row.patient_id === patient.patient_id);
-  // row.btitle = patient.btitle;
-  // row.bcontent = patient.bcontent;
 }
 
 // -------- DB Receipt Table ----------

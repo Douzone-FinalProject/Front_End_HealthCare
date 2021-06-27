@@ -32,11 +32,37 @@ const Receipt = (props) => {
 
   // 환자 영구 삭제 
   const handleDelete = (patient_id) => {
-    console.log('handleDelete', patient_id);
     // DB에 삭제 시키기 
     const newPatients = Array.from(patients);
     const index = newPatients.findIndex(patient => patient.patient_id === patient_id);
     newPatients.splice(index, 1);
+    setPatients(newPatients);
+  };
+
+  // 환자 정보 수정 
+  const handleUpdate = (patient) => {
+    // DB UPDATE 
+    const newPatients = Array.from(patients);
+
+    const row = newPatients.find(row => row.patient_id === patient.patient_id);
+    row.patient_name = patient.patient_name;
+    row.patient_phone = patient.patient_phone;
+    row.patient_ssn = patient.patient_ssn;
+    row.patient_sex = patient.patient_sex;
+    row.patient_address = patient.patient_address;
+    row.patient_detail_address = patient.patient_detail_address;
+    row.patient_zipcode = patient.patient_zipcode;
+    row.patient_blood_type = patient.patient_blood_type;
+    row.patient_guardian_name = patient.patient_guardian_name;
+    row.patient_guardian_phone = patient.patient_guardian_phone;
+    row.patient_guardian_relationship = patient.patient_guardian_relationship;
+    row.patient_height = patient.patient_height;
+    row.patient_weight = patient.patient_weight;
+    row.patient_max_bp = patient.patient_max_bp;
+    row.patient_min_bp = patient.patient_min_bp;
+    row.patient_pulse = patient.patient_pulse;
+    row.patient_register_date = patient.patient_register_date;
+    
     setPatients(newPatients);
   };
  
@@ -88,6 +114,7 @@ const Receipt = (props) => {
         {/* 우측 - 환자 상세 정보 컴포넌트 */}
           <div className={cx("right-component")}>
             <PatientInfo handleDelete={handleDelete} patient_id={patient_id} 
+                        handleUpdate={handleUpdate}
                         addReceipt={addReceipt} deleteReceipt={deleteReceipt}/>
           </div>
       </div>
