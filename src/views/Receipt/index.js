@@ -4,8 +4,6 @@ import PatientSearch from './PatientSearch';
 import ReceiptInfo from './ReceiptInfo';
 import style from './style.module.css';
 import classNames from 'classnames/bind';
-import  Button  from "../common/Button";
-import CreatePatient from 'views/CreatePatient';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
 import { getReceiptList, getPatientList} from './db';
@@ -16,13 +14,8 @@ let lastId2 = 1;
 const Receipt = (props) => {
   // state 
   const [patient_id, setPatientId] = useState();
-  const [modalIsOpen, setIsOpen] = useState(false);
   const [receipts, setReceipts] = useState(getReceiptList);
   const [patients, setPatients] = useState(getPatientList);
-  
-  // 신규 등록 모달 
-  function openModal() { setIsOpen(true); }
-  function closeModal() { setIsOpen(false); }
 
   // 검색 목록 한 행 클릭 -> 환자 상세 정보 READ
   const handleClick = (patient_id) => {
@@ -65,11 +58,7 @@ const Receipt = (props) => {
     
     setPatients(newPatients);
   };
- 
-  // 예약 페이지로 이동 
-  const handleReserve = (event) => {
-    props.history.push('/reserve');
-  };
+
 
   // 접수 
   const addReceipt = (db_patient) => { 
@@ -99,9 +88,6 @@ const Receipt = (props) => {
     <div className={cx("all-component")}>
       <Header />
       <div className={cx("menu")}>
-        <Button className="ml-1" color="rgb(153, 102, 255)" onClick={openModal}>신규 등록</Button>
-        <Button className="ml-3" color="rgb(153, 102, 255)" onClick={handleReserve}>예약</Button>
-        <CreatePatient modalIsOpen={modalIsOpen} closeModal={closeModal}/>
       </div>
       <div className={cx("d-flex flex-row ")}>
         {/* 좌측  */}
@@ -109,12 +95,12 @@ const Receipt = (props) => {
           {/* 환자 검색 컴포넌트  */}
             <PatientSearch handleClick={handleClick} patients={patients}/>
           {/* 진료자 리스트 컴포넌트 */}
-            <ReceiptInfo handleClick={handleClick} receipts={receipts} />
+            <ReceiptInfo handleClick={handleClick} receipts={receipts} patient_id={patient_id} />
         </div>
         {/* 우측 - 환자 상세 정보 컴포넌트 */}
           <div className={cx("right-component")}>
             <PatientInfo handleDelete={handleDelete} patient_id={patient_id} 
-                        handleUpdate={handleUpdate}
+                        handleUpdate={handleUpdate} receipts={receipts} 
                         addReceipt={addReceipt} deleteReceipt={deleteReceipt}/>
           </div>
       </div>

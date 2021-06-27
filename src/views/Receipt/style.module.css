@@ -12,8 +12,7 @@
 .menu{
   margin: 1.2em;
   width: 60%;
-  margin-top: 2em;
-
+  margin-top: 1.2em;
 }
 
 .all-component{
@@ -61,7 +60,7 @@
   background-color:#f8f9fa;
   padding: 1em;
   border-radius: 5px;
-  height: 23em;
+  height: 26em;
 }
 
 
@@ -122,8 +121,7 @@
   border-radius: 5px;
   margin: 1.6em;
   padding: 1.3em;
-  /* height: 58vh; */
-  height: 85%;
+  height: 87%;
   font-size: 13px;
 }
 
@@ -152,6 +150,10 @@
 
 Button.custom-btn{
   width: 6em;
+}
+
+Button.custom-btn-send{
+  width: 12em;
 }
 
 .left-component-bottom {
