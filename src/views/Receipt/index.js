@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import PatientInfo from './PatientInfo';
 import PatientSearch from './PatientSearch';
 import ReceiptInfo from './ReceiptInfo';
@@ -6,10 +6,9 @@ import style from './style.module.css';
 import classNames from 'classnames/bind';
 import  Button  from "../common/Button";
 import CreatePatient from 'views/CreatePatient';
-import { deletePatient } from './db';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
-import { getReceiptList } from './db';
+import { getReceiptList, getPatientList} from './db';
 
 const cx = classNames.bind(style);
 let lastId2 = 1;
@@ -19,6 +18,7 @@ const Receipt = (props) => {
   const [patient_id, setPatientId] = useState();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [receipts, setReceipts] = useState(getReceiptList);
+  const [patients, setPatients] = useState(getPatientList);
   
   // 신규 등록 모달 
   function openModal() { setIsOpen(true); }
@@ -32,10 +32,12 @@ const Receipt = (props) => {
 
   // 환자 영구 삭제 
   const handleDelete = (patient_id) => {
-    console.log('[index] handleDelete', patient_id);
+    console.log('handleDelete', patient_id);
     // DB에 삭제 시키기 
-    deletePatient(patient_id); // 실제 디비에선 접수 리스트에도 영향을 미침 
-   // setPatients();
+    const newPatients = Array.from(patients);
+    const index = newPatients.findIndex(patient => patient.patient_id === patient_id);
+    newPatients.splice(index, 1);
+    setPatients(newPatients);
   };
  
   // 예약 페이지로 이동 
@@ -79,7 +81,7 @@ const Receipt = (props) => {
         {/* 좌측  */}
         <div className={cx("left-component")}>
           {/* 환자 검색 컴포넌트  */}
-            <PatientSearch handleClick={handleClick}/>
+            <PatientSearch handleClick={handleClick} patients={patients}/>
           {/* 진료자 리스트 컴포넌트 */}
             <ReceiptInfo handleClick={handleClick} receipts={receipts} />
         </div>

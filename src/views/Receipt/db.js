@@ -25,12 +25,6 @@ export function getPatient(patient_id) {
   return patient;
 }
 
-export function deletePatient(patient_id) {
-  console.log('영구 삭제 디비 접근');
-  const index = patients.findIndex(patient => patient.patient_id === patient_id);
-  patients.splice(index, 1);
-}
-
 export function updatePatient(patient) {
   console.log('update db patient');
   // const row = patients.find(row => row.patient_id === patient.patient_id);

@@ -26,7 +26,6 @@ const PatientInfo = (props) => {
   function handleReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
     // DB insert 
-    // index로 set 요청하기 
     props.addReceipt(db_patient);
   }
 

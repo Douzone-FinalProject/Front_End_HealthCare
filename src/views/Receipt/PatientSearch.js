@@ -1,18 +1,16 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
 import  Button  from "../common/Button";
 import { AutoSizer, List } from 'react-virtualized';
 import PatientRow from './PatientRow';
-import { getPatientList} from './db';
 
 const cx = classNames.bind(style);
 
 const PatientSearch = (props) => {
   // state 
   const [search, setSearch] = useState({name: '', phone: '', sex: ''});
-  //const [patients, setPatients] = useState(getPatientList); 이걸 굳이 상태로 만들어야 하나? 
-  const patients = getPatientList();
+  const patients = props.patients;
 
   // 사용자가 입력한 값 바인딩 
   const handleChange = (event) => {
@@ -21,11 +19,6 @@ const PatientSearch = (props) => {
         [event.target.name]: event.target.value
     });
   };
-
-  // 재연산을 방지하자 => useMemo 
-  const getLength = useMemo(() => { // 매번 입력할때마다 실행될 필요 없음 -> 성능 향상 시키기 
-    return patients.length;
-  }); 
 
   // 검색 결과 초기화 
   const handleInit = (e) => {
