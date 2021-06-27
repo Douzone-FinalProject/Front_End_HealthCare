@@ -1,22 +1,20 @@
-import React, {useState} from 'react';
+import React from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
 import { AutoSizer, List } from 'react-virtualized';
 import ReceiptRow from './ReceiptRow';
-import { getReceiptList } from './db';
 
 const cx = classNames.bind(style);
 
 const ReceiptInfo = (props) => {
-  // state
-  const [receipts, setReceipts] = useState(getReceiptList);
-  console.log('receipts: ', receipts);
+  const receiptList = props.receipts;
+  console.log('진료자 리스트: ', receiptList);
 
-  // 하나의 행 UI 만들기 
+  /* 하나의 행 UI 만들기 */
   const rowRenderer = ({index, key, style}) => {
     return (
       <div key={key} style={style}>
-        <ReceiptRow receipt={receipts[index]} handleClick={props.handleClick}></ReceiptRow>
+        <ReceiptRow receipt={receiptList[index]} handleClick={props.handleClick}></ReceiptRow>
       </div>
     );
   };
@@ -41,7 +39,7 @@ const ReceiptInfo = (props) => {
             {/* 리스트에서 하나의 행 컴포넌트는 자식으로 따로 만들기 */}
             <AutoSizer disableHeight>
                 {({width, height}) => {
-                  return <List width={width} height={230} list={receipts} rowCount={receipts.length} rowHeight={50} rowRenderer={rowRenderer} overscanRowCount={7}></List>
+                  return <List width={width} height={230} list={receiptList} rowCount={receiptList.length} rowHeight={50} rowRenderer={rowRenderer} overscanRowCount={7}></List>
                 }}
             </AutoSizer>
         </div>

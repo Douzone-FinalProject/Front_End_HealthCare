@@ -1,24 +1,21 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
 import  Button  from "../common/Button";
 import InputText from "./InputText";
 import DaumPost from 'views/CreatePatient/DaumPost';
-import { getPatient, updatePatient} from './db';
-// import { useDispatch, useSelector } from 'react-redux';
+import { getPatient, getRidByPatient, updatePatient} from './db';
 import { useEffect } from 'react';
 
 const cx = classNames.bind(style);
 
 const PatientInfo = (props) => {
+  // state 
   const [isModal, setModal] = useState(false);
-  const [isReceipt, setReceipt] = useState(false);
-  // state - 환자 1명의 상세 정보 
+  const [patient, setPatient] = useState({}); 
+
   const pid = props.patient_id;
   const db_patient = getPatient(pid);
-
-  // props로 안넘어올때랑 넘어올때 화면 구분하기 
-  const [patient, setPatient] = useState({}); 
   
   useEffect(() => {
     setPatient({
@@ -26,28 +23,18 @@ const PatientInfo = (props) => {
     })
   }, [db_patient]);
 
-  // 접수 상태 읽기 
-  // const receiptState = useSelector((state) => state.receiptReducer.receipt_state);
-  // console.log('리덕스 receiptState: ', receiptState);
-
-  // 접수 상태 관리  -------------------------
-  // const dispatch = useDispatch();
-
   function handleReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
-    console.log('handleReceipt ');
-    setReceipt(true);
-    // dispatch(createSetReceiptAction(state));
     // DB insert 
+    // index로 set 요청하기 
+    props.addReceipt(db_patient);
   }
 
   function cancelReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
-    console.log('cancelReceipt ');
-    setReceipt(false);
-    // dispatch(createSetReceiptAction(state));
     // DB delete 
-    //deleteReceipt(); // 접수 아이디 넘기기
+    const rid = getRidByPatient(db_patient.patient_id);
+    props.deleteReceipt(rid);
   }
 
   // 주소 찾기 모달 
@@ -67,7 +54,6 @@ const PatientInfo = (props) => {
   const handleComplete = (data) => {
     let fullAddress = data.address;
     let extraAddress = ''; 
-    
     if (data.addressType === 'R') {
       if (data.bname !== '') {
         extraAddress += data.bname;
@@ -102,14 +88,11 @@ const PatientInfo = (props) => {
     <div className={cx("patient-detail")}>
       <div className={cx("patient-detail-top")}>
         <span><i>{patient.patient_name}</i>&nbsp;&nbsp;님 차트</span>
-        {
-          isReceipt? 
           <Button type="submit" className={cx("form-btn-1", "ml-5", "custom-btn")}
               onClick={cancelReceipt}>접수 취소</Button>
-          :
+
           <Button type="submit" className={cx("form-btn-1", "ml-3", "custom-btn")}
               onClick={handleReceipt}>접수  </Button>
-        }      
       </div>
       {/* form - 환자 정보 읽기, 수정 또는 삭제 기능 */}
       <div className={cx("patient-detail-bottom")}>

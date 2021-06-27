@@ -39,28 +39,17 @@ export function updatePatient(patient) {
 }
 
 // -------- DB Receipt Table ----------
-let lastId2 = 100;
 let receipts = [];
-for (var j = 100; j >= 1; j--) {
-  receipts.push({
-    patient_id: j, patient_name: "홍길동"+j, 
-    patient_sex: "F", patient_phone: '01059067787',
-    receipt_state: '대기', receipt_datetime: '2020-06-20 13:05:24'})
-}
 
 export function getReceiptList() {  
   return receipts;
 };
 
-export function insertReceipt(receipt) {
-  lastId2++;
-  receipt.receipt_id = lastId2;
-  receipt.receipt_datetime = new Date().toLocaleDateString();
-  receipts.push(receipt);
-}
-
-export function deleteReceipt(receipt_id) {
-  console.log('접수 삭제 디비 접근');
-  const index = receipts.findIndex(receipt => receipt.receipt_id === receipt_id);
-  receipts.splice(index, 1);
+export function getRidByPatient(pid){ 
+  // Receipt 테이블에서 pid로 rid 뽑아오기 (이미 접수했다면)
+  for(var j=0; j< receipts.length; j++){
+    if(receipts[j].patient_id === pid){
+      return receipts[j].receipt_id;
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import PatientInfo from './PatientInfo';
 import PatientSearch from './PatientSearch';
 import ReceiptInfo from './ReceiptInfo';
@@ -9,15 +9,17 @@ import CreatePatient from 'views/CreatePatient';
 import { deletePatient } from './db';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
+import { getReceiptList } from './db';
 
 const cx = classNames.bind(style);
+let lastId2 = 1;
 
 const Receipt = (props) => {
   // state 
   const [patient_id, setPatientId] = useState();
   const [modalIsOpen, setIsOpen] = useState(false);
- 
-
+  const [receipts, setReceipts] = useState(getReceiptList);
+  
   // 신규 등록 모달 
   function openModal() { setIsOpen(true); }
   function closeModal() { setIsOpen(false); }
@@ -35,11 +37,35 @@ const Receipt = (props) => {
     deletePatient(patient_id); // 실제 디비에선 접수 리스트에도 영향을 미침 
    // setPatients();
   };
-
+ 
+  // 예약 페이지로 이동 
   const handleReserve = (event) => {
     props.history.push('/reserve');
   };
 
+  // 접수 
+  const addReceipt = (db_patient) => { 
+    lastId2++;
+    const newReceipts = receipts.concat({
+      patient_id: db_patient.patient_id,
+      patient_name: db_patient.patient_name,
+      patient_sex: db_patient.patient_sex,
+      patient_phone: db_patient.patient_phone,
+      receipt_id: lastId2,
+      receipt_state: '대기',
+      receipt_datetime: new Date().toLocaleDateString(),
+    });
+    setReceipts(newReceipts);
+  };
+
+  // 접수 취소 
+  const deleteReceipt = (rid) => {
+    console.log('접수 삭제');
+    const newRecipts = Array.from(receipts);
+    const index = newRecipts.findIndex(receipt => receipt.receipt_id === rid);
+    newRecipts.splice(index, 1);
+    setReceipts(newRecipts);
+  };
 
   return (
     <div className={cx("all-component")}>
@@ -55,11 +81,12 @@ const Receipt = (props) => {
           {/* 환자 검색 컴포넌트  */}
             <PatientSearch handleClick={handleClick}/>
           {/* 진료자 리스트 컴포넌트 */}
-            <ReceiptInfo handleClick={handleClick}/>
+            <ReceiptInfo handleClick={handleClick} receipts={receipts} />
         </div>
         {/* 우측 - 환자 상세 정보 컴포넌트 */}
           <div className={cx("right-component")}>
-            <PatientInfo handleDelete={handleDelete} patient_id={patient_id}/>
+            <PatientInfo handleDelete={handleDelete} patient_id={patient_id} 
+                        addReceipt={addReceipt} deleteReceipt={deleteReceipt}/>
           </div>
       </div>
       <DialMenu />
