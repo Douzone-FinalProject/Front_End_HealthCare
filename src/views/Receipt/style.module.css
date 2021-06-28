@@ -12,8 +12,7 @@
 .menu{
   margin: 1.2em;
   width: 60%;
-  margin-top: 2em;
-
+  margin-top: 1.2em;
 }
 
 .all-component{
@@ -26,29 +25,28 @@
 .left-component{
   width: 80em;
   margin-left: 1.2em;
+
 }
 
 /* 1. 환자 검색 컴포넌트 */
 .left-component-top{
   margin-bottom: 1.2em;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 .search{
-  background-color:#dee2e6;
+  background-color:white;
   padding: 1em;
-  /* border: solid 0.7px; */
   border-radius: 5px;
   border-bottom: none;
 }
 .search-box{
-  border: solid 0.7px;
   padding: 0.2em;
   padding-top: 0.4em;
   font-size: 15px;
   margin-right: 0.3em;
 }
 .search-input{
-  /* border: solid 0.7px; */
   margin-right: 1em;
   padding-left: 0.5em;
 }
@@ -62,7 +60,7 @@
   background-color:#f8f9fa;
   padding: 1em;
   border-radius: 5px;
-  height: 20em;
+  height: 26em;
 }
 
 
@@ -71,7 +69,7 @@
   text-align: center;
 }
 .table-header{
-  background-color: #B3BCE3;
+  background-color: #e9ecef;
   color: black;
   text-align: center;
   font-size: 16px;
@@ -100,13 +98,16 @@
   width: 38em;
   margin-left: 1.2em;
   margin-right: 1.2em;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
+
 /* 3. 환자 상세 정보 컴포넌트  */
 .patient-detail{
   background-color: #dee2e6;
   border-radius: 7px;
   padding: 0.1em;
-  height: 74vh;
+  /* height: 74vh; */
+  height: 100%;
 }
 .patient-detail-top{
   margin-top: 0.8em;
@@ -120,7 +121,7 @@
   border-radius: 5px;
   margin: 1.6em;
   padding: 1.3em;
-  height: 58vh;
+  height: 87%;
   font-size: 13px;
 }
 
@@ -142,14 +143,19 @@
 .form-btn{
   margin-top: 2.3em;
   margin-left: 23em;
-  /* background-color: yellow; */
-
 }
-
 .form-btn-1{
   width: 7em;
 }
 
 Button.custom-btn{
   width: 6em;
+}
+
+Button.custom-btn-send{
+  width: 12em;
+}
+
+.left-component-bottom {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }

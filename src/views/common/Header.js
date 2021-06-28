@@ -28,7 +28,7 @@ function Header(props) {
                             <h6 className="text-white font-weight-bold ml-2">의사</h6>
                         </span>
                         <button className="btn text-white font-weight-bold ml-4" onClick={toggleMenu}><FontAwesomeIcon icon={faComments} className="mr-1"/>Message</button>
-                        <Link to="/"><button className="btn btn-secondary text-white font-weight-bold ml-2"><FontAwesomeIcon icon={faSignOutAlt} className="mr-1"/>Logout</button></Link>
+                        <Link to="/login"><button className="btn btn-secondary text-white font-weight-bold ml-2"><FontAwesomeIcon icon={faSignOutAlt} className="mr-1"/>Logout</button></Link>
                     </div>
                 </div>
             </nav>
