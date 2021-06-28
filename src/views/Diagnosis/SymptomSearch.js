@@ -34,10 +34,10 @@ function SymptomSearch(props) {
 
             <h4 className="mb-4 ml-4">증상 검색</h4>
             <input className={cx("diagnosis-symptom-input","ml-4 mb-2")} type="text" name="symptom_name" onChange={handleChange} placeholder="증상을 검색하시오."/>
-            <Button className="ml-3" onClick={()=>{searchSymptom(props.search.symptom_name)}}>검색</Button>
-            <Button className="ml-1" onClick={()=>{selectSymptom(props.search.symptom_name)}}>선택</Button>
+            <Button className={cx("symptomButton")} onClick={()=>{searchSymptom(props.search.symptom_name)}}>검색</Button>
+            <Button className="ml-2" onClick={()=>{selectSymptom(props.search.symptom_name)}}>선택</Button>
 
-            <MDBTable className={cx("diagnosis-table1")}>
+            <MDBTable className={cx("diagnosis-tbh")}>
                 <thead  className={cx("diagnosis-table-header")}>
                     <tr> 
                     <th>증상명칭</th>
@@ -47,7 +47,7 @@ function SymptomSearch(props) {
                     </tr>
                 </thead>
             </MDBTable>     
-            <MDBTable scrollY className={cx("table-hover ", "diagnosis-table2")}>
+            <MDBTable scrollY className={cx("table-hover ", "diagnosis-tbb")}>
                 <MDBTableBody>
                     {props.symptomsCopy.map((symptom) => {
                         return (

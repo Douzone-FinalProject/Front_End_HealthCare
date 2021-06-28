@@ -15,7 +15,7 @@ function PatientList(props) {
         <>
         <div className="mt-4">
             <h4 className="mb-4 ml-3">환자 리스트</h4>
-            <table className={cx("table table-hover ml-2", "diagnosis-table")}>
+            <table className={cx("table table-hover", "diagnosis-patient-tb")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr> 
                     <th>차트번호</th>

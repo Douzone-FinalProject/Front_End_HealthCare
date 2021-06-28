@@ -52,20 +52,20 @@ function CreateOpinion(props) {
        <Modal isOpen={props.modalIsOpen} onRequestClose={props.closeModal} style={opinionStyles}>
             <h4 className="mb-3">진단 기록 상세</h4>
             <div>
-                <textarea name="receipt_opinion" className={cx("textArea-font")} style={{width:"642px",height:"300px",resize:"none"}} onChange={props.reportOpinion}/>
+                <textarea name="receipt_opinion" className={cx("textArea-font", "moadl-textArea")} style={{width:"642px",height:"300px",resize:"none"}} onChange={props.reportOpinion}/>
             </div>
-
-            <MDBTable className={cx("table-hover", "diagnosis-table1","test2")}>
+            <h4 className="mb-3 mt-3">약품 목록</h4>
+            <MDBTable className={cx("table-hover", "diagnosis-table1", "modal-medic-width", "moadl-textArea")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr>
                     <th>약품코드</th>
                     <th>약품명</th>
-                    <th>단위</th>
-                    <th>수량</th>
+                    <th style={{width:"20%"}}>단위</th>
+                    <th style={{width:"25%"}}>수량</th>
                     </tr>
                 </thead>
             </MDBTable>    
-            <MDBTable scrollY className={cx("table-hover ")}>
+            <MDBTable scrollY className={cx("table-hover", "modal-medic-width")}>
                 <MDBTableBody>
                     {props.medicines && props.medicines.map((medicine) => {
                                         return (
@@ -78,25 +78,25 @@ function CreateOpinion(props) {
             
 
             <h4 className="mb-3">특이 사항</h4>
-            <textarea name="receipt_uniqueness" className={cx("textArea-font")} style={{width:"642px",height:"100px",resize:"none"}} onChange={props.reportOpinion}/>
-            <div className="d-flex justify-content-lg-end">
+            <textarea name="receipt_uniqueness" className={cx("textArea-font" , "moadl-textArea")} style={{width:"642px",height:"100px",resize:"none"}} onChange={props.reportOpinion}/>
+            <div className="d-flex justify-content-lg-end mr-3 mt-2">
                 <Button onClick={props.reportSuccess}>진료 완료</Button>
-                <Button onClick={props.closeModal}>닫기</Button>
+                <Button className="ml-2" onClick={props.closeModal}>닫기</Button>
             </div>
        </Modal>
         :
         <Modal isOpen={props.modalIsOpen} onRequestClose={props.closeModal} style={opinionStyles}>
             <h4 className="mb-3">진단 기록 상세</h4>
             <div>
-                <textarea name="receipt_opinion" className={cx("textArea-font")} style={{width:"642px",height:"400px",resize:"none"}} onChange={props.reportOpinion}/>
+                <textarea name="receipt_opinion" className={cx("textArea-font", "moadl-textArea")} style={{width:"642px",height:"400px",resize:"none"}} onChange={props.reportOpinion}/>
             </div>
 
             
-            <h4 className="mt-3">특이 사항</h4>
-            <textarea name="receipt_uniqueness" className={cx("textArea-font", "mt-4")} style={{width:"642px",height:"180px",resize:"none"}} onChange={props.reportOpinion}/>
+            <h4 className="mb-3 mt-3">특이 사항</h4>
+            <textarea name="receipt_uniqueness" className={cx("textArea-font", "mt-4", "moadl-textArea")} style={{width:"642px",height:"180px",resize:"none"}} onChange={props.reportOpinion}/>
             <div className="d-flex justify-content-lg-end mr-3 mt-2">
                 <Button onClick={props.reportSuccess}>진료 완료</Button>
-                <Button onClick={props.closeModal}>닫기</Button>
+                <Button className="ml-2" onClick={props.closeModal}>닫기</Button>
             </div>
             </Modal>
     }
