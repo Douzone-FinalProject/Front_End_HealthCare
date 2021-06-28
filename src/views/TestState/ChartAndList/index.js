@@ -4,17 +4,18 @@ import { Card } from 'antd';
 import ChartSection from "./ChartSection";
 import LabTable from "./LabTable";
 import PatientStateList from "./PatientStateList";
+import Clock from 'react-live-clock';
 
 const cx = classNames.bind(style);
 
-function ChartAndList({waitingData, setWaitingData, setChartId}, props) {
+function ChartAndList({waitingData, setWaitingData, setChartId, patientNames, chartData1}, props) {
 
   return (
     <Card className={cx("card")}>
-      <div>{ new Date().toLocaleDateString('ko-KR') }</div>
-      <ChartSection/>
+      <div className={cx("mb-3", "clock")}><Clock format={'YYYY년 MM월 DD일 HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/></div>
+      <ChartSection chartData1={chartData1} />
       <div className={cx("teststate-lab")}>
-        <LabTable/>
+        <LabTable patientNames={patientNames}/>
       </div>
       <PatientStateList waitingData={waitingData} setWaitingData={setWaitingData} setChartId={setChartId}/>
     </Card>
