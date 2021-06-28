@@ -19,7 +19,14 @@ const ReceiptRow = (props) => {
         <span style={{width:"220px"}}>{props.receipt.patient_name}</span>
         <span style={{width:"230px"}}>{props.receipt.patient_sex}</span>
         <span style={{width:"220px"}}>{props.receipt.patient_phone}</span>
-        <span style={{width:"250px"}}>{props.receipt.receipt_state}</span>
+        <span style={{width:"250px"}}>
+          {
+            props.receipt.receipt_state === '대기'?
+            <span style={{color:"orange"}}>{props.receipt.receipt_state}</span>
+            :
+            <span style={{color:"red"}}>{props.receipt.receipt_state}</span>
+          }
+        </span>
         <span style={{width:"250px"}}>{props.receipt.receipt_datetime}</span>
     </div>
   );

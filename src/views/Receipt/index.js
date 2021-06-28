@@ -17,10 +17,30 @@ const Receipt = (props) => {
   const [receipts, setReceipts] = useState(getReceiptList);
   const [patients, setPatients] = useState(getPatientList);
 
+  // 진료자 리스트에 존재하고 && 대기상태인지 체크 => 버튼 나오게 하기 
+  const isWaitState = () =>{
+    for(var i=0; i < receipts.length; i++){
+      if(receipts[i].patient_id === patient_id && receipts[i].receipt_state === '대기'){return true;}
+    }
+    return false;
+  }
+
+  // 진료자 리스트 상태값 변경 : 대기 => 진료중 
+  const changeReceiptState = (pid) => {
+    const newReceipts = Array.from(receipts);
+    console.log('index', pid);
+    // db update
+    const row = newReceipts.find(row => row.patient_id === pid);
+    row.receipt_state = '진료중';
+    setReceipts(newReceipts);
+  };
+
   // 검색 목록 한 행 클릭 -> 환자 상세 정보 READ
   const handleClick = (patient_id) => {
     console.log('[index] 클릭한 patient_id', patient_id);
     setPatientId(patient_id);
+    // case1) 진료리스트 상태가 대기일 경우 => 진료 보내기 버튼 나옴 
+    // case2) 진료리스트 상태가 수납전일 경우 => 수납버튼 나옴 
   };
 
   // 환자 영구 삭제 
@@ -95,7 +115,8 @@ const Receipt = (props) => {
           {/* 환자 검색 컴포넌트  */}
             <PatientSearch handleClick={handleClick} patients={patients}/>
           {/* 진료자 리스트 컴포넌트 */}
-            <ReceiptInfo handleClick={handleClick} receipts={receipts} patient_id={patient_id} />
+            <ReceiptInfo handleClick={handleClick} isWaitState={isWaitState} changeReceiptState={changeReceiptState}
+                        receipts={receipts} patient_id={patient_id} />
         </div>
         {/* 우측 - 환자 상세 정보 컴포넌트 */}
           <div className={cx("right-component")}>
