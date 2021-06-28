@@ -47,12 +47,6 @@ const Receipt = (props) => {
   // 신규 환자 생성 
   const handleAdd = (patient) => {
     // DB에 추가 시키기
-    // const newPatients = Array.from(patients);
-    // const index = newPatients[0].patient_id + 1;
-    // patient.patient_id = index;
-    // newPatients.push(patient);
-    // console.log(newPatients);
-    // setPatients(newPatients);
     insertPatient(patient);
   };
 

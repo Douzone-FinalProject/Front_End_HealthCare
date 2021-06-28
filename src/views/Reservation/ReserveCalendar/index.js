@@ -43,16 +43,11 @@ class ReserveCalendar extends React.Component {
     }
 
     // 시간대별로 나올 수 있도록 
-    onEventResize(ev, event) {
-        // const start = event.start.format('hh:mma');
-        // const end   = event.end.format('hh:mma');
-        // event.set({ content: `${start} - ${end} (resizable)` });
-    }
+    onEventResize(ev, event) {}
 
     /* 예약 수정, 삭제 할 수 있는 컴포넌트 뜨게 하기 => 부모의 mode 상태 바꾸기  */
     onEventClick(ev, event) {
-        console.log('reservation_id: ', ev); // 자식에게 넘겨받은 파라미터 -> reservation_id 를 넘겨받아야 함 !!!! 
-        this.props.handleMode(ev);
+        this.props.handleClick(ev);
     }
 
     render() {
@@ -84,7 +79,6 @@ class ReserveCalendar extends React.Component {
                 <Dayz {...this.state}
                       events={new Dayz.EventsCollection(this.props.events)}
                       displayHours={[9, 19]}
-                    //   highlightDays={[this.state.date]}
                       onEventResize={this.onEventResize}
                       editComponent={this.editComponent}
                       onEventClick={this.onEventClick}
@@ -94,11 +88,5 @@ class ReserveCalendar extends React.Component {
         );
     }
 }
-
-
-// const div = document.createElement('div');
-// document.body.appendChild(div);
-// render(React.createElement(DayzTestComponent, {}), div);
-
 
 export default ReserveCalendar;

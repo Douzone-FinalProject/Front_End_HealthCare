@@ -1,10 +1,9 @@
-import React from 'react';
+import {React, useState} from 'react';
 import style from './style.module.css';
 import classNames from 'classnames/bind';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import TextField from '@material-ui/core/TextField';
 import {
-  DateTime,
   Form,
 } from 'react-form-elements';
 import Button from 'views/common/Button';
@@ -13,6 +12,12 @@ import { TextareaAutosize } from '@material-ui/core';
 const cx = classNames.bind(style);
 
 const ReserveSMS = (props) => {
+  // state
+  
+  let handleColor = (time) => {
+    return time.getHours() > 8 && time.getHours() < 19? "text-success" : "text-error";
+  };
+
   return (
     <div className={cx("right-component-bottom")}>
        <div className={cx("form-subject")}>
@@ -32,14 +37,10 @@ const ReserveSMS = (props) => {
               <TextField required label="이름" className="mr-5" name="reservation_name" /> <br/>
               <TextField required label="휴대전화" name="reservation_phone" /> <br/>
               <div className="mt-4">
-                예약 날짜
-                <DateTime
-                  label=""
-                  type="datetime-local"
-                  name="reservation_datetime"
-                /> 
+                <div style={{color: 'gray'}}>예약 날짜</div>
+                {/* <div className="mr-3 font-weight-bold">{updateForm.reservation_datetime || ''}</div> */}
               </div> 
-              <TextareaAutosize className="mt-5" required name="message" rowsMin={5} placeholder="보낼 내용 입력" />
+              <TextareaAutosize className="mt-3" required name="message" rowsMin={5} placeholder="보낼 내용 입력" />
             </div>
             
             <div className="d-flex justify-content-end">
