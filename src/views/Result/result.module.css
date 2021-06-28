@@ -1,7 +1,8 @@
 .result-container {
     border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     background-color: white;
-    border: 1px solid gray;
+    border: none;
     height: 90vh;
     width: 25%;
     margin: 10px;
@@ -20,18 +21,20 @@
 
 .result-whitebox {
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid lightgray;
     width: 10vw;
     height: 25px;
     text-align: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 .result-inputbox {
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid lightgray;
     width: 10vw;
     height: 30px;
     text-align: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 Button.result-button {
@@ -49,8 +52,9 @@ Button.result-button {
 
 .result-secondcontainer {
     border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     background-color: white;
-    border: 1px solid gray;
+    border: none;
     height: 90vh;
     width: 70%;
     margin: 10px;
@@ -63,14 +67,19 @@ Button.result-button {
 .result-toptable {
     width: 95%;
     height: 40%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 .result-toptablecol {
-    background-color: #B3BCE3;
+    background-color: rgba(54, 162, 235, 0.5);
+}
+
+.result-toptablecol2 {
+    background-color: rgba(255, 159, 64, 0.7);
 }
 
 .result-toptablecol thead > tr > th {
-    background-color: #B3BCE3;
+    background-color: #e9ecef;
 }
 
 .result-toptablecol tbody > tr:hover {
@@ -82,8 +91,9 @@ Button.result-button {
 }
 
 .result-imgbox {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     display: flex;
-    border: 1px solid black;
+    border: none;
     width: 95%;
     height: 25vh;
     overflow-x: auto;

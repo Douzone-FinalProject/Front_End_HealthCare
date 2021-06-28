@@ -28,20 +28,26 @@ function ResultSearchContainer(props) {
     const [receiptData, setReceiptData] = useState([]);
     const [specimenData, setSpecimenData] = useState([]);
     //버튼 색을 바꾸기 위한 상태
-    const [colorReceipt, setColorReceipt] = useState('');
-    const [colorSpecimen, setColorSpecimen] = useState('');
+    const [colorReceipt, setColorReceipt] = useState({});
+    const [colorSpecimen, setColorSpecimen] = useState({});
 
     // const history = useHistory();
 
     //진단번호, 검체번호별로 url을 이동하고, 현재 url에 따라 버튼 색을 바꿈
     const handleSwitch = useCallback((event) => {
         if(event.target.name === "dianonum") {
-            setColorReceipt('white');
-            setColorSpecimen('');
+            setColorReceipt({
+                backgroundColor: '#e9ecef',
+                color: 'black'
+            });
+            setColorSpecimen({});
             props.props.history.push("/result");
         } else if(event.target.name === "specinum") {
-            setColorSpecimen('white');
-            setColorReceipt('');
+            setColorSpecimen({
+                backgroundColor: '#e9ecef',
+                color: 'black'
+            });
+            setColorReceipt({});
             props.props.history.push("/result/specimennum");
         }
     }, [props.props]);
@@ -92,7 +98,7 @@ function ResultSearchContainer(props) {
             </div>
             <div className={cx("result-smallcontainer")}>
                 <ResultNameBox>환자이름</ResultNameBox>
-                <input type="text" className={cx("result-whitebox")} value={name} onChange={handleNameChange}/>
+                <input type="text" className={cx("result-whitebox")} value={name} onChange={handleNameChange} placeholder="이름을 검색하세요."/>
             </div>
             <div className={cx("result-smallcontainer")}>
                 <input type="checkbox" onChange={handleTodayChange} checked={today} /> <small className="ml-1">Today</small>
@@ -111,10 +117,10 @@ function ResultSearchContainer(props) {
                 </select>
             </div>
             <div className={cx("result-smallcontainer")}>
-                <Button className={cx("result-button")} onClick={()=>handleSearch(name, receipt_datetime)}><FontAwesomeIcon icon={faSearch} className="mr-1"/>조회</Button>
+                <Button className={cx("result-button")} onClick={()=>handleSearch(name, receipt_datetime)} ><FontAwesomeIcon icon={faSearch} className="mr-1"/>조회</Button>
                 <div className="w-100 d-flex justify-content-end">
-                <Button className={cx("result-button")} onClick={handleSwitch} name="dianonum" style={{backgroundColor: colorReceipt}}>진단번호</Button>
-                <Button className={cx("result-button", "ml-1")} onClick={handleSwitch} name="specinum" style={{backgroundColor: colorSpecimen}}>검체번호</Button>
+                <Button className={cx("result-button")} onClick={handleSwitch} name="dianonum" style={colorReceipt}>진단번호</Button>
+                <Button className={cx("result-button", "ml-1")} onClick={handleSwitch} name="specinum" style={colorSpecimen}>검체번호</Button>
                 </div>
             </div>
             <div className={cx("result-lefttable")}>
