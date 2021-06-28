@@ -7,13 +7,13 @@ import { Card, Table } from 'antd';
 import Button from "../Button";
 import { useState } from "react";
 import { useEffect } from 'react';
-import { getChartData } from "views/TestState/db";
+import { changeState, getTestStateDetailData, getChartData, getLabPatient, getPatientName } from "views/TestState/db";
 
 const cx = classNames.bind(style);
 
-function TestStateDetail({chartId, resultData, setResultData}, props) {
+function TestStateDetail({chartId, resultData, setResultData, waitingData, setWaitingData, setPatientNames, setChartData1}, props) {
 
-  // const [resultData, setResultData] = useState();
+  const [patientName, setPatientName] = useState();
   const resultItem = [
     {
       title: "증상코드",
@@ -60,49 +60,81 @@ function TestStateDetail({chartId, resultData, setResultData}, props) {
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
+      // console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
       setRows(selectedRows);
     },
     onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
+      // console.log(record, selected, selectedRows);
     },
     onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
+      // console.log(selected, selectedRows, changeRows);
     },
   }
 
   useEffect(() => {
     if (chartId) {
-      setResultData(getChartData(chartId))
+      setResultData(getTestStateDetailData(chartId));
+      setPatientName(getPatientName(chartId));
     }
-    console.log(resultData);
-  }, [chartId, rows])
+  }, [chartId])
   
   const handleBarcode =  () => {
-    setRows(rows.map(row => {
-      row.state = "검사중";
-      return row;
-    }))
+    if (rows.length !== 0) {
+      setRows(rows.map(row => {
+        row.state = "검사접수";
+        return row;
+      }));
+      setWaitingData(changeState(waitingData, resultData, chartId));
+      setPatientNames(getLabPatient(resultData, chartId));
+      setChartData1(getChartData());
+    } else {
+      Swal.fire(
+        "환자 선택 후 검사를 선택해주세요!!!",
+        '',
+        'question'
+      )
+    }
   }
 
   const handleCancel = () => {
-    setRows(rows.map(row => {
-      row.state = "검사대기";
-      return row;
-    }))
+    if (rows.length !== 0) {
+      setRows(rows.map(row => {
+        row.state = "검사대기";
+        return row;
+      }));
+      setWaitingData(changeState(waitingData, resultData, chartId));
+      setChartData1(getChartData());
+    } else {
+      Swal.fire(
+        "환자 선택 후 검사를 선택해주세요!!!",
+        '',
+        'question'
+      )
+    }
   }
 
   const handleComplete = () => {
-    setRows(rows.map(row => {
-      row.state = "검사완료";
-      return row;
-    }))
+    if (rows.length !== 0) {
+      setRows(rows.map(row => {
+        row.state = "검사완료";
+        return row;
+      }))
+      setWaitingData(changeState(waitingData, resultData, chartId));
+      setPatientNames(getLabPatient(resultData, chartId));
+      setChartData1(getChartData());
+    } else {
+      Swal.fire(
+        "환자 선택 후 검사를 선택해주세요!!!",
+        '',
+        'question'
+      )
+    }
   }
 
   const saveExcel = () => {
     // 엑셀저장
     // Json 배열의 내용을 엑셀의 시트로 변환
-    if (resultData) {
+    if (resultData.length !== 0) {
       const ws = xlsx.utils.json_to_sheet(resultData);
       // {c:/열/, r:/행/}
       ['증상코드', '묶음코드', '검사명', '검체명', '용기', '바코드', '검사실', '진료의', '검사자'].forEach((x, idx) => {
@@ -119,7 +151,7 @@ function TestStateDetail({chartId, resultData, setResultData}, props) {
       xlsx.utils.book_append_sheet(wb, ws, "sheet1");
     
       // 파일저장
-      xlsx.writeFile(wb, "Test.xlsx");
+      xlsx.writeFile(wb, `${chartId}-${patientName}.xlsx`);
     } else {
       Swal.fire(
         "환자를 선택해주세요!!!",
@@ -133,7 +165,7 @@ function TestStateDetail({chartId, resultData, setResultData}, props) {
   return (
     <Card className={cx("card")}>
       <div className={cx("d-flex", "justify-content-between")}>
-        <div className={cx("teststate-patient")}><span><strong>{" " || resultData.name}</strong></span>님: 진단 검사 상세</div>
+        <div className={cx("teststate-patient")}><span><strong>{patientName}</strong></span>님: 진단 검사 상세</div>
         <div className="d-flex">
           <Button color={'rgb(255, 99, 132)'} onClick={handleBarcode}>바코드 출력</Button>
           <Button color={'rgb(255, 159, 64)'} onClick={handleCancel}>접수 취소</Button>

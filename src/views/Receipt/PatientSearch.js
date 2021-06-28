@@ -1,36 +1,51 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
-import  Button  from "../common/Button";
 import { AutoSizer, List } from 'react-virtualized';
 import PatientRow from './PatientRow';
-import { getPatientList} from './db';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import { makeStyles } from '@material-ui/core/styles';
+import ReplyAllIcon from '@material-ui/icons/ReplyAll';
+import  Button  from "../common/Button";
+import CreatePatient from 'views/CreatePatient';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(style);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+}));
+
 
 const PatientSearch = (props) => {
+  const classes = useStyles();
+
   // state 
-  const [search, setSearch] = useState({name: '', phone: '', sex: ''});
-  //const [patients, setPatients] = useState(getPatientList); 이걸 굳이 상태로 만들어야 하나? 
-  const patients = getPatientList();
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const patients = props.patients;
 
-  // 사용자가 입력한 값 바인딩 
-  const handleChange = (event) => {
-    setSearch({
-        ...search,
-        [event.target.name]: event.target.value
-    });
-  };
-
-  // 재연산을 방지하자 => useMemo 
-  const getLength = useMemo(() => { // 매번 입력할때마다 실행될 필요 없음 -> 성능 향상 시키기 
-    return patients.length;
-  }); 
+  // 신규 등록 모달 
+  function openModal() { setIsOpen(true); }
+  function closeModal() { setIsOpen(false); }
 
   // 검색 결과 초기화 
   const handleInit = (e) => {
     // console.log('handleInit 실행됨 ');
-    setSearch({name: '', phone: '', sex: ''});
   };
 
   // 하나의 행 UI 만들기 
@@ -45,32 +60,36 @@ const PatientSearch = (props) => {
   return (
     <div className={cx("left-component-top")}>
       {/* 1. 검색할 내용 입력하는 div */}
-      <div className={cx("search", "d-flex")}>
-        <form method='post' onSubmit={(e) => {
-          e.preventDefault();
-          alert('submit : '+ e.target.uname.value +' '+e.target.uphone.value+' '+e.target.usex.value);
-        }}>
-          <span className={cx("search-box")} >성명</span>
-          <input className={cx("search-input")}  placeholder='홍길동' name="uname" onClick={handleChange}></input>
-          <span className={cx("search-box")} >H.P</span>
-          <input className={cx("search-input")} placeholder='010xxxxxxxx' name="uphone" onClick={handleChange}></input>
-          <span className={cx("search-box")}>성별</span>
-          <span className="p-1">
-            <input className=" mt-2" type="radio" name="usex" value="male" onClick={handleChange}/>
-            <span className="ml-1">M</span>
-            <input className="ml-3 mt-2" type="radio" name="usex" value="female" onClick={handleChange}/>
-            <span className="ml-1">F</span>
-          </span>
-          <Button type="submit" className={cx("form-btn-1", "ml-3", "custom-btn")}
-          >찾기</Button>
-        </form>
-        
-        <div className={cx("")}>
-          <Button type="button" className={cx("form-btn-1", "ml-3", "custom-btn")}
-                      onClick={function(e){e.preventDefault(); handleInit();}}>모든 환자</Button>                 
+      <div className={cx("search", "d-flex justify-content-between")}>
+        <div>
+          <Button className={cx("ml-1", "custom-btn")} color="rgb(153, 102, 255)" onClick={openModal}>신규 등록</Button>
+          <Link to="/reserve">
+            <Button className={cx("ml-3", "custom-btn")} color="rgb(153, 102, 255)">예약</Button>
+          </Link>
+          <CreatePatient modalIsOpen={modalIsOpen} closeModal={closeModal}/>
         </div>
+          <Paper component="form" className={classes.root}>
+                <InputBase
+                  className={classes.input} name="patient_name" defaultValue="" 
+                  placeholder="환자 이름을 검색하세요" 
+                />
+                <IconButton type="submit" className={classes.iconButton} aria-label="search"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    alert('submit : ', e);
+                  }}
+                >
+                  <SearchIcon />
+                </IconButton>
+                <Divider className={classes.divider} orientation="vertical" />
+                <IconButton color="primary" className={classes.iconButton} aria-label="전체보기" 
+                        onClick={function(e){e.preventDefault(); handleInit();}}>
+                  <ReplyAllIcon />
+                </IconButton>
+          </Paper>
       </div>
-      {/* 1. 검색 결과가 나오는 div */}
+
+      {/* 2. 검색 결과가 나오는 div */}
       <div className={cx("search-result")}>
             <div className={cx("table-header", "d-flex")}>
               <span style={{width:"80px"}}>차트번호</span>
@@ -83,7 +102,7 @@ const PatientSearch = (props) => {
             {/* 리스트에서 하나의 행 컴포넌트는 자식으로 따로 만들기 */}
             <AutoSizer disableHeight>
                 {({width, height}) => {
-                  return <List width={width} height={230} list={patients} rowCount={patients.length} rowHeight={50} rowRenderer={rowRenderer} overscanRowCount={5}></List>
+                  return <List width={width} height={300} list={patients} rowCount={patients.length} rowHeight={50} rowRenderer={rowRenderer} overscanRowCount={7}></List>
                 }}
             </AutoSizer>
       </div>

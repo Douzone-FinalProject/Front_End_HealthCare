@@ -2,38 +2,27 @@ import style from "views/TestState/teststate.module.css";
 import classNames from "classnames/bind";
 import { Row, Col } from "antd";
 import PieChart from "views/TestState/PieChart";
+import { useState } from "react";
+import { useEffect } from "react";
+import { getChartData2 } from "views/TestState/db";
 
 const cx = classNames.bind(style);
 
-function ChartSection(props) {
-  const data = [
-    {
-      "id": "a",
-      "label": "대기",
-      "value": 297,
-      "color": "rgb(255, 99, 132)"
-    },
-    {
-      "id": "b",
-      "label": "진행중",
-      "value": 150,
-      "color": "rgb(255, 205, 86)"
-    },
-    {
-      "id": "c",
-      "label": "수납전",
-      "value": 275,
-      "color": "rgb(75, 192, 192)"
-    },
-  ]
+function ChartSection({chartData1}, props) {
+
+  const [chartData2, setChartData2] = useState([]);
+
+  useEffect(() => {
+    setChartData2(getChartData2());
+  }, [chartData2])
   return (
     <>
       <Row>
         <Col flex={1} className={cx("chart")}>
-          <PieChart category={"검사대기"} chartData={data} />
+          <PieChart category={"검사대기"} chartData={chartData1} />
         </Col>
         <Col flex={1} className={cx("chart")}>
-          <PieChart category={"진료대기"} chartData={data}/>
+          <PieChart category={"검사실인원"} chartData={chartData2} />
         </Col>
       </Row>
     </>
