@@ -18,10 +18,10 @@ const Button = styled.button`
   }
   ${props => props.deleteButton &&
     css`
-      background-color: #fa5252;
-      color: black;
+      background-color: 'rgb(54, 162, 235)';
+      color: white;
       &:hover {
-        background: white;
+        background: #fa5252;
       }
     `
   }
@@ -31,15 +31,22 @@ const Button = styled.button`
       background-color: white;
       color: black;
       border: none;
-      &:hover {
-        background: white;
+      /* &:hover {
+        color: white;
       }
+       */
+    `
+  }
+  ${props => props.init2 &&
+    css`
+      background-color: #38d9a9;
+      color: white;
+      border: none;
+      
     `
   }
 
-  &+button {    
-    margin-left: 0.5rem;
-  }
+  
 `;
 
 export default Button;

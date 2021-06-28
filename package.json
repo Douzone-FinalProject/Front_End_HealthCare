@@ -9,6 +9,7 @@
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
+    "@material/radio": "^11.0.0",
     "@nivo/core": "^0.70.1",
     "@nivo/pie": "^0.70.1",
     "@testing-library/jest-dom": "^5.11.4",
@@ -33,11 +34,7 @@
     "react-form-elements": "^4.14.0",
     "react-live-clock": "^5.2.0",
     "react-modal": "^3.14.3",
-<<<<<<< HEAD
     "react-moment": "^1.1.1",
-    "react-native-simple-radio-button": "^2.7.4",
-=======
->>>>>>> 338a33ddb391cf803028224479cc2be91b58067b
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",

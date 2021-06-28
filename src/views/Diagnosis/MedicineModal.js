@@ -58,7 +58,7 @@ function MedicineModal(props) {
               <input type="text" className={cx("mr-2", "medicine-input")} onChange={searchMedicine}/>
             </div>
             <div>
-              <Button className={cx("medicine-btn")} onClick={() => props.addMedicines(data)}>추가</Button>
+              <Button className={cx("medicine-btn","mr-2")} onClick={() => props.addMedicines(data)}>추가</Button>
               <Button className={cx("medicine-btn")} onClick={props.handleModal}>닫기</Button>
             </div>
           </div>
