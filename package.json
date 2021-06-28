@@ -33,11 +33,7 @@
     "react-form-elements": "^4.14.0",
     "react-live-clock": "^5.2.0",
     "react-modal": "^3.14.3",
-<<<<<<< HEAD
     "react-moment": "^1.1.1",
-    "react-native-simple-radio-button": "^2.7.4",
-=======
->>>>>>> 338a33ddb391cf803028224479cc2be91b58067b
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
