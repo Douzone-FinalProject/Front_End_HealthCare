@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import style from './style.module.css';
 import classNames from 'classnames/bind';
 import ReserveCreateForm from './ReserveCreateForm';
@@ -8,7 +8,7 @@ import DialMenu from 'views/common/DialMenu';
 import moment from './ReserveCalendar/src/moment-range';
 import { getReserveList, insertReserve } from './ReserveCalendar/data';
 import ReserveSMS from './ReserveSMS';
-import ReserveScheduler from './ReserveScheduler';
+import ReserveUpdateForm from './ReserveUpdateForm';
 
 const cx = classNames.bind(style);
 let lastBno = 10;
@@ -16,11 +16,11 @@ let lastBno = 10;
 const Reservation = (props) => {
   // state
   const [events, setEvents] = useState(getReserveList);
-  console.log('index - events 상태값 출력 ', events);
+  const [mode, setMode] = useState('create');
+  const [reservation_id, setReservationId] = useState(undefined);
 
+  // 이벤트 등록 
   const addEvent = (ev) => {
-    console.log('[index] addEvent 입력한 예약내역', ev);
-
     lastBno++;
     const newEvent = {
       content: ev.reservation_datetime.slice(-5) +' '+ev.reservation_name,
@@ -34,11 +34,11 @@ const Reservation = (props) => {
 
     // DB 작업 
     insertReserve(newEvent);
-    // console.log('####', newEvents);
     const newEvents = events.concat(newEvent);
     setEvents(newEvents);
   };
 
+  // 이벤트 수정 
   const updateEvent = (ev) => {
     console.log('[index] updateEvent 입력한 예약내역', ev);
     // ---- 여기서 최종적으로 db로 update 시켜줘야 함  ----
@@ -53,12 +53,17 @@ const Reservation = (props) => {
     setEvents(newEvents);
   }
 
-  useEffect(() => {
-    console.log('events 상태가 마운트 또는 업데이트 후 실행 ');
-    return (() => {
-      console.log("events 상태가 언마운트 업데이트 전 실행");
-    });
-  }, [events]);
+   /* 자식인 모달창으로 보낼 함수 , 모달창에서 수정이 일어나면 여기서 리스트 상태를 바꿔주기 */
+   const handleUpdate = (ev, event) => {
+    // 부모로 또 전하기 
+    updateEvent(ev);
+  }
+
+  /* 자식으로 mode 바꾸는 함수 보내기  */
+  const handleMode = (ev) => {
+    console.log('handleMode: ', ev);
+    setMode('update');
+  };
 
   return (
     <>
@@ -67,16 +72,25 @@ const Reservation = (props) => {
         {/* 좌측  */}
         <div className={cx("left-component")}>
           {/* 1. 예약 결과 조회 컴포넌트 */}
-          <ReserveCalendar events={events} updateEvent={updateEvent}/>
-          {/* <ReserveScheduler /> */}
+          <ReserveCalendar events={events} 
+                  updateEvent={updateEvent} handleMode={handleMode}/>
         </div>
         
         {/* 우측 */}
         <div className={cx("right-component")}>
           <div>
             {/* 2. 예약 Create 컴포넌트 */}
-            <ReserveCreateForm addEvent={addEvent}/>
-
+            {
+              mode==='create'?
+              <ReserveCreateForm addEvent={addEvent}/>
+              :
+              <ReserveUpdateForm 
+                reservation_id={reservation_id}
+                handleUpdate={handleUpdate}
+    
+              />
+            }
+           
             {/* 3. 시간대별 예약 상세 리스트 */}
             <ReserveSMS />
           </div>

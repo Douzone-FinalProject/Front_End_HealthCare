@@ -6,7 +6,7 @@
 /* Left Component */
 .left-component{ 
   /* 달력 큰 테이블 */
-  width: 70%;
+  width: 82%;
   margin-top: 1.2em;
   margin-left: 1.2em;
   margin-bottom: 1.2em;
@@ -15,7 +15,7 @@
 
 /* Right Component */
 .right-component{
-  width: 30%;
+  width: 18%;
   margin: 1.2em;
 }
 
@@ -52,6 +52,10 @@
 
 Button.custom-btn{
   width: 6em;
+}
+
+Button.custom-btn-confirm{
+  width: 3em;
 }
 
 Button.close-btn{

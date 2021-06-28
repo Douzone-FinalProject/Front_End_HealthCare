@@ -1,32 +1,17 @@
 import {React, useState, useEffect} from 'react';
-import Modal from "react-modal";
 import classNames from 'classnames/bind';
 import style from './style.module.css';
 import {deleteReserve, getReserveById} from './ReserveCalendar/data';
+import AddAlarmIcon from '@material-ui/icons/AddAlarm';
+import TextField from '@material-ui/core/TextField';
 
 import {
-  TextBox,
   DateTime,
-  Telephone,
   Form,
 } from 'react-form-elements';
 import Button from 'views/common/Button';
 
 const cx = classNames.bind(style);
-const customStyles = {
-  content: {
-      width: '750px',
-      height: '430px',
-      top: '50%',
-      left: '44%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-  },
-};
-
-Modal.setAppElement('body');
 
 const ReserveUpdateForm = (props) => {
   // state
@@ -39,7 +24,6 @@ const ReserveUpdateForm = (props) => {
     console.log("rid가 마운트 또는 업데이트 후 실행");
     if(rid !== undefined) {
       const reservation = getReserveById(rid);
-      // console.log(reservation);
       setUpdateForm(reservation);
     }
     return (() => {
@@ -55,16 +39,15 @@ const ReserveUpdateForm = (props) => {
   };
 
   return (
-    <Modal
-        isOpen={props.modalIsOpen}
-        onRequestClose={props.closeModal}
-        contentLabel="Reserve-Detail Modal2222"
-        style={customStyles}
-    >
-      <div className="d-flex justify-content-between">
-        <h5 className="ml-3 mb-1 ">예약 상세 내역</h5>
-          <Button type="button" className={cx("close-btn", "mr-4")} onClick={props.closeModal}
-          >X</Button>
+    <div className={cx("right-component-top")}>
+      <div className={cx("form-subject", "d-flex justify-content-between")}>
+        <div>
+          <AddAlarmIcon style={{fontSize: '1.8em'}} className="mr-1"/>예약 수정 
+        </div>
+        <Button className={cx("custom-btn-confirm", "mr-4")} color="#FF6384"
+            onClick={() => {
+              console.log('sdf');
+            }}>추가 </Button>
       </div>
       <div className={cx("reserve-form")}>
           <Form
@@ -76,46 +59,47 @@ const ReserveUpdateForm = (props) => {
                   ...updateForm,
                   ...data
                 }); // 부모 상태에 영향을 미칠 함수 
-                props.closeModal();
               }
             }
           >
-            <div className="float-right">
-            {/* <Button type="button" className={cx("ml-3", "custom-btn")}
-                  >방문 확인</Button>
-                <span className="ml-2 ">기존/신규</span> */}
-            </div>
-            
-            <span className="">이름</span>
-            <TextBox className="mb-2" label="" onChange={handleChange} name="reservation_name" value={updateForm.reservation_name}/>
-            <span>휴대전화</span>
-            <Telephone className="mb-2" label="" onChange={handleChange} name="reservation_phone" value={updateForm.reservation_phone}/>
-          
-            <span>예약 날짜</span>
-            <DateTime
-                className="mb-3"
-                label=""
-                onChange={handleChange}
-                type="datetime-local"
-                name="reservation_datetime"
-                value={updateForm.reservation_datetime}
-            />
+            <div className="d-flex-col">
+            <div>
+              <TextField required label="이름" className="mr-5" name="reservation_name" 
+                      onChange={handleChange} value={updateForm.reservation_name}/> 
+              <TextField required label="휴대전화" name="reservation_phone" 
+                      onChange={handleChange} value={updateForm.reservation_phone}/> 
 
-            <div className="mr-3 font-weight-bold">{updateForm.reservation_datetime}</div>
-           
-            <Button type="button" className={cx("custom-btn")}
-                onClick={() => {
-                  deleteReserve(updateForm.reservation_id);
-                  props.closeModal();
-                }}
-            >예약 삭제</Button>
-            <Button type="button" className={cx("custom-btn")}
-            >SMS 전송</Button>
-            <Button type="submit" className={cx("custom-btn")}
-            >예약 저장</Button>
+              <TextField required label="내원사유" name="reservation_reason" value={updateForm.reservation_reason}/> 
+              <div className="mt-4">
+                예약 날짜 
+                <div className="mr-3 font-weight-bold">{updateForm.reservation_datetime}</div>
+
+                <DateTime
+                    className="mb-3"
+                    label=""
+                    onChange={handleChange}
+                    type="datetime-local"
+                    name="reservation_datetime"
+                    value={updateForm.reservation_datetime}
+                />
+              </div> 
+            </div>
+
+            <div className="d-flex justify-content-end">
+              <Button type="submit" className={cx("custom-btn", "mr-3")}>SMS 발송</Button>
+
+              <Button type="button" className={cx("custom-btn-confirm", "mr-3")}
+                  onClick={() => {
+                    deleteReserve(updateForm.reservation_id);
+                  }}
+              >삭제</Button>
+
+              <Button type="submit" className={cx("custom-btn-confirm")}>수정</Button>
+            </div>
+          </div>
           </Form>
-      </div>
-    </Modal>
+        </div>
+    </div>
   )
 };
 
