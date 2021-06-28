@@ -29,27 +29,34 @@ function CreatePatient(props) {
     const [isModal, setModal] = useState(false);
     //환자 정보 상태
     const [patient, setPatient] = useState({
-        name: '',
+        patient_name: '',
+        patient_ssn: '',
+        patient_sex: '',
+        patient_phone: '',
+        patient_zipcode: '',
+        patient_address: '',
+        patient_detail_address: '',
+        patient_blood_type: 'select3',
+        patient_max_bp: '',
+        patient_min_bp: '',
+        patient_pulse: '',
+        patient_height: '',
+        patient_weight: '',
+        patient_guardian_name: '',
+        patient_guardian_phone: '',
+        patient_guardian_relationship: 'select2'
+    });
+    const [ssn, setSsn] = useState({
         ssn1: '',
-        ssn2: '',
-        sex: '',
-        phone1: 'zero',
+        ssn2: ''
+    });
+    const [phone, setPhone] = useState({
+        phone1: '010',
         phone2: '',
         phone3: '',
-        zipcode: '',
-        address: '',
-        detail_address: '',
-        blood_type: 'select3',
-        max_bp: '',
-        min_bp: '',
-        pulse: '',
-        height: '',
-        weight: '',
-        guardian_name: '',
         guardian_phone1: 'select1',
         guardian_phone2: '',
-        guardian_phone3: '',
-        guardian_relationship: 'select2'
+        guardian_phone3: ''
     });
 
     //환자 정보 input 상태를 변경
@@ -59,6 +66,61 @@ function CreatePatient(props) {
             [event.target.name]: event.target.value
         }))
     }, []);
+    const handleSsnChange = (event) => {
+        setSsn({
+            ...ssn,
+            [event.target.name]: event.target.value,
+        })
+        if(event.target.name === 'ssn1') {
+            setPatient({
+                ...patient,
+                patient_ssn: event.target.value + '-' + ssn.ssn2
+            })
+        } else {
+            setPatient({
+                ...patient,
+                patient_ssn: ssn.ssn1 + '-' + event.target.value
+            })
+        }
+    };
+    const handlePhoneChange = (event) => {
+        console.log(phone);
+        setPhone({
+            ...phone,
+            [event.target.name]: event.target.value,
+        })
+        if(event.target.name === 'phone1') {
+            setPatient({
+                ...patient,
+                patient_phone: event.target.value + phone.phone2 + phone.phone3
+            })
+        } else if(event.target.name === 'phone2') {
+            setPatient({
+                ...patient,
+                patient_phone: phone.phone1 + event.target.value + phone.phone3
+            })
+        } else if(event.target.name === 'phone3') {
+            setPatient({
+                ...patient,
+                patient_phone: phone.phone1 + phone.phone2 + event.target.value
+            })
+        } else if(event.target.name === 'guardian_phone1') {
+            setPatient({
+                ...patient,
+                patient_guardian_phone: event.target.value + phone.guardian_phone2 + phone.guardian_phone3
+            })
+        } else if(event.target.name === 'guardian_phone2') {
+            setPatient({
+                ...patient,
+                patient_guardian_phone: phone.guardian_phone1 + event.target.value + phone.guardian_phone3
+            })
+        } else {
+            setPatient({
+                ...patient,
+                patient_guardian_phone: phone.guardian_phone1 + phone.guardian_phone2 + event.target.value
+            })
+        }
+    };
 
     //주소찾기 modal을 열고 닫기
     const openAdModal = useCallback(() => {
@@ -83,8 +145,8 @@ function CreatePatient(props) {
         }
         setPatient(prevPatient => ({
             ...prevPatient,
-            address: fullAddress,
-            zipcode: data.zonecode
+            patient_address: fullAddress,
+            patient_zipcode: data.zonecode
         }))
         closeAdModal();
     }, [closeAdModal]);
@@ -92,39 +154,46 @@ function CreatePatient(props) {
     //저장 버튼 클릭 시, 필수 정보 null인지 확인
     //필수 정보가 null이 아니면 저장 후 modal 닫기
     const handleSave = useCallback((argPatient, argProps) => {
-        if(argPatient.name && argPatient.ssn1 && argPatient.ssn2 && argPatient.sex &&
-            argPatient.phone2 && argPatient.phone3 && argPatient.address && argPatient.detail_address &&
-            argPatient.blood_type !== 'select3') {
+        if(argPatient.patient_name && ssn.ssn1 & ssn.ssn2 && argPatient.patient_sex &&
+            phone.phone2 && phone.phone3 && argPatient.patient_address && argPatient.patient_detail_address &&
+            argPatient.patient_blood_type !== 'select3') {
             console.log(argPatient);
             setPatient({
-                name: '',
+                patient_name: '',
+                patient_ssn: '',
+                patient_sex: '',
+                patient_phone: '',
+                patient_zipcode: '',
+                patient_address: '',
+                patient_detail_address: '',
+                patient_blood_type: 'select3',
+                patient_max_bp: '',
+                patient_min_bp: '',
+                patient_pulse: '',
+                patient_height: '',
+                patient_weight: '',
+                patient_guardian_name: '',
+                patient_guardian_phone: '',
+                patient_guardian_relationship: 'select2'
+            });
+            setSsn({
                 ssn1: '',
-                ssn2: '',
-                sex: '',
-                phone1: 'zero',
+                ssn2: ''
+            });
+            setPhone({
+                phone1: '010',
                 phone2: '',
                 phone3: '',
-                zipcode: '',
-                address: '',
-                detail_address: '',
-                blood_type: 'select3',
-                max_bp: '',
-                min_bp: '',
-                pulse: '',
-                height: '',
-                weight: '',
-                guardian_name: '',
                 guardian_phone1: 'select1',
                 guardian_phone2: '',
-                guardian_phone3: '',
-                guardian_relationship: 'select2'
+                guardian_phone3: ''
             });
             alert('신규 환자가 등록되었습니다.');
             argProps.closeModal();
         } else {
             alert("필수 사항을 입력해주세요.");
         }
-    }, []);
+    }, [ssn, phone]);
 
     return (
         <Modal
@@ -136,14 +205,14 @@ function CreatePatient(props) {
             <h5 className="mb-1">신규 환자 생성</h5>
             <div className="row">
                 <div className="col-7">
-                    <InputText name={'name'} val={patient.name} handleChange={handleChange}>이름</InputText>
+                    <InputText name={'patient_name'} val={patient.patient_name} handleChange={handleChange}>이름</InputText>
                     <div className="row mt-1">
                         <div className="col-4 text-right">주민등록번호</div>
                         <div className="col-8">
                             <div className="row">
-                                <div className="col-6 mr-n1"><input type="text" className="w-100" name="ssn1" value={patient.ssn1} onChange={handleChange}/></div>
+                                <div className="col-6 mr-n1"><input type="text" className="w-100" name="ssn1" value={ssn.ssn1} onChange={handleSsnChange}/></div>
                                 -
-                                <div className="col-6 ml-n1"><input type="text" className="w-100" name="ssn2" value={patient.ssn2} onChange={handleChange}/></div>
+                                <div className="col-6 ml-n1"><input type="text" className="w-100" name="ssn2" value={ssn.ssn2} onChange={handleSsnChange}/></div>
                             </div>
                         </div>
                     </div>
@@ -152,13 +221,13 @@ function CreatePatient(props) {
                         <div className="col-8">
                             <div className="row">
                                 <div className="col-3">
-                                <input type="radio" name="sex" value="male" onChange={handleChange} checked={patient.sex === "male"}/>
+                                <input type="radio" name="patient_sex" value="M" onChange={handleChange} checked={patient.patient_sex === "M"}/>
                                 <label className="ml-1">
                                     남
                                 </label>
                                 </div>
                                 <div className="col-3">
-                                <input type="radio" name="sex" value="female" onChange={handleChange} checked={patient.sex === "female"}/>
+                                <input type="radio" name="patient_sex" value="F" onChange={handleChange} checked={patient.patient_sex === "F"}/>
                                 <label className="ml-1">
                                     여
                                 </label>
@@ -171,18 +240,18 @@ function CreatePatient(props) {
                         <div className="col-8">
                             <div className="row">
                                 <div className="col-4 mr-n1">
-                                <select name="phone1" className="w-100" value={patient.phone1} onChange={handleChange}>
-                                    <option value="zero">010</option>
-                                    <option value="one">011</option>
-                                    <option value="six">016</option>
-                                    <option value="seven">017</option>
-                                    <option value="nine">019</option>
+                                <select name="phone1" className="w-100" value={phone.phone1} onChange={handlePhoneChange}>
+                                    <option value="010">010</option>
+                                    <option value="011">011</option>
+                                    <option value="016">016</option>
+                                    <option value="017">017</option>
+                                    <option value="019">019</option>
                                 </select>
                                 </div>
                                 -
-                                <div className="col-4 ml-n1"><input type="text" className="w-100" name="phone2" value={patient.phone2} onChange={handleChange}/></div>
+                                <div className="col-4 ml-n1"><input type="text" className="w-100" name="phone2" value={phone.phone2} onChange={handlePhoneChange}/></div>
                                 -
-                                <div className="col-4 ml-n1"><input type="text" className="w-100" name="phone3" value={patient.phone3} onChange={handleChange}/></div>
+                                <div className="col-4 ml-n1"><input type="text" className="w-100" name="phone3" value={phone.phone3} onChange={handlePhoneChange}/></div>
                             </div>
                         </div>
                     </div>
@@ -192,25 +261,25 @@ function CreatePatient(props) {
                         </div>
                         <DaumPost isModal={isModal} closeAdModal={closeAdModal} handleComplete={handleComplete}/>
                         <div className="col-8">
-                            <input type="text" className="w-100" name="address" value={patient.address} onChange={handleChange} />
+                            <input type="text" className="w-100" name="patient_address" value={patient.patient_address} onChange={handleChange} />
                         </div>
                     </div>
-                    <InputText name={'detail_address'} val={patient.detail_address} handleChange={handleChange}>상세주소</InputText>
+                    <InputText name={'patient_detail_address'} val={patient.patient_detail_address} handleChange={handleChange}>상세주소</InputText>
                 </div>
                 <div className={cx("col-5", "patient-rightcontainer", "pt-1")}>
                     <div className="row mt-1">
                         <div className="col-4 text-right">혈액형</div>
                         <div className="col-8">
-                            <select name="blood_type" className="w-50" value={patient.blood_type} onChange={handleChange}>
+                            <select name="patient_blood_type" className="w-50" value={patient.patient_blood_type} onChange={handleChange}>
                                 <option value="select3" disabled>선택</option>
-                                <option value="bloodA">A</option>
-                                <option value="bloodB">B</option>
-                                <option value="bloodAB">AB</option>
-                                <option value="bloodO">O</option>
-                                <option value="bloodmA">Rh-A</option>
-                                <option value="bloodmB">Rh-B</option>
-                                <option value="bloodmAB">Rh-AB</option>
-                                <option value="bloodmO">Rh-O</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="AB">AB</option>
+                                <option value="O">O</option>
+                                <option value="Rh-A">Rh-A</option>
+                                <option value="Rh-B">Rh-B</option>
+                                <option value="Rh-AB">Rh-AB</option>
+                                <option value="Rh-O">Rh-O</option>
                             </select>
                         </div>
                     </div>
@@ -218,51 +287,52 @@ function CreatePatient(props) {
                         <div className="col-4 text-right">혈압</div>
                         <div className="col-8">
                             <div className="row">
-                                <div className="col-6 mr-n1"><input type="text" className="w-100" name="min_bp" value={patient.min_bp} onChange={handleChange}/></div>
+                                <div className="col-6 mr-n1"><input type="text" className="w-100" name="patient_min_bp" value={patient.patient_min_bp} onChange={handleChange}/></div>
                                 /
-                                <div className="col-6 ml-n1"><input type="text" className="w-100" name="max_bp" value={patient.max_bp} onChange={handleChange}/></div>
+                                <div className="col-6 ml-n1"><input type="text" className="w-100" name="patient_max_bp" value={patient.patient_max_bp} onChange={handleChange}/></div>
                             </div>
                         </div>
                     </div>
-                    <InputSmText unit={'회/분'} name={'pulse'} val={patient.pulse} handleChange={handleChange}>맥박</InputSmText>
-                    <InputSmText unit={'cm'} name={'height'} val={patient.height} handleChange={handleChange}>신장</InputSmText>
-                    <InputSmText unit={'kg'} name={'weight'} val={patient.weight} handleChange={handleChange}>체중</InputSmText>
+                    <InputSmText unit={'회/분'} name={'patient_pulse'} val={patient.patient_pulse} handleChange={handleChange}>맥박</InputSmText>
+                    <InputSmText unit={'cm'} name={'patient_height'} val={patient.patient_height} handleChange={handleChange}>신장</InputSmText>
+                    <InputSmText unit={'kg'} name={'patient_weight'} val={patient.patient_weight} handleChange={handleChange}>체중</InputSmText>
                 </div>
             </div>
             <hr/>
             <div className="row">
                 <div className="col-7">
-                    <InputText name={'guardian_name'} val={patient.guardian_name} handleChange={handleChange}>보호자 이름</InputText>
+                    <InputText name={'patient_guardian_name'} val={patient.patient_guardian_name} handleChange={handleChange}>보호자 이름</InputText>
                     <div className="row mt-1">
                         <div className="col-4 text-right">보호자 번호</div>
                         <div className="col-8">
                             <div className="row">
                                 <div className="col-4 mr-n1">
-                                <select name="guardian_phone1" className="w-100" value={patient.guardian_phone1} onChange={handleChange}>
+                                <select name="guardian_phone1" className="w-100" value={phone.guardian_phone1} onChange={handlePhoneChange}>
                                     <option value="select1" disabled>선택</option>
-                                    <option value="zero">010</option>
-                                    <option value="one">011</option>
-                                    <option value="six">016</option>
-                                    <option value="seven">017</option>
-                                    <option value="nine">019</option>
+                                    <option value="010">010</option>
+                                    <option value="011">011</option>
+                                    <option value="016">016</option>
+                                    <option value="017">017</option>
+                                    <option value="019">019</option>
                                 </select>
                                 </div>
                                 -
-                                <div className="col-4 ml-n1"><input type="text" className="w-100" name="guardian_phone2" value={patient.guardian_phone2} onChange={handleChange}/></div>
+                                <div className="col-4 ml-n1"><input type="text" className="w-100" name="guardian_phone2" value={phone.guardian_phone2} onChange={handlePhoneChange}/></div>
                                 -
-                                <div className="col-4 ml-n1"><input type="text" className="w-100" name="guardian_phone3" value={patient.guardian_phone3} onChange={handleChange}/></div>
+                                <div className="col-4 ml-n1"><input type="text" className="w-100" name="guardian_phone3" value={phone.guardian_phone3} onChange={handlePhoneChange}/></div>
                             </div>
                         </div>
                     </div>
                     <div className="row mt-1">
                         <div className="col-4 text-right">가족관계</div>
                         <div className="col-8">
-                            <select name="guardian_relationship" className="w-25" value={patient.guardian_relationship} onChange={handleChange}>
+                            <select name="patient_guardian_relationship" className="w-25" value={patient.patient_guardian_relationship} onChange={handleChange}>
                                 <option value="select2" disabled>선택</option>
-                                <option value="father">부</option>
-                                <option value="mother">모</option>
-                                <option value="child">자녀</option>
-                                <option value="spouse">배우자</option>
+                                <option value="부">부</option>
+                                <option value="모">모</option>
+                                <option value="자녀">자녀</option>
+                                <option value="배우자">배우자</option>
+                                <option value="기타">기타</option>
                             </select>
                         </div>
                     </div>
