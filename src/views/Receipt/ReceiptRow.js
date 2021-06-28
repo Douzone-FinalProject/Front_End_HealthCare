@@ -11,14 +11,16 @@ const ReceiptRow = (props) => {
   return (
     <div style={{height:'100%'}}
         className={cx("table-body","d-flex align-items-center border-bottom ")} 
-         onClick={() => props.handleClick(props.receipt.patient_id)}
+         onClick={() => {
+            return props.handleClick(props.receipt.patient_id);
+         }}
     >
-        <span width={235} style={{width:"80px"}}>{props.receipt.patient_id}</span>
-        <span style={{width:"210px"}}>{props.receipt.patient_name}</span>
-        <span style={{width:"260px"}}>{props.receipt.patient_sex}</span>
-        <span style={{width:"190px"}}>{props.receipt.patient_phone}</span>
-        <span style={{width:"230px"}}>{props.receipt.receipt_state}</span>
-        <span style={{width:"260px"}}>{props.receipt.receipt_datetime}</span>
+        <span width={235} style={{width:"90px"}}>{props.receipt.patient_id}</span>
+        <span style={{width:"220px"}}>{props.receipt.patient_name}</span>
+        <span style={{width:"230px"}}>{props.receipt.patient_sex}</span>
+        <span style={{width:"220px"}}>{props.receipt.patient_phone}</span>
+        <span style={{width:"250px"}}>{props.receipt.receipt_state}</span>
+        <span style={{width:"250px"}}>{props.receipt.receipt_datetime}</span>
     </div>
   );
 };

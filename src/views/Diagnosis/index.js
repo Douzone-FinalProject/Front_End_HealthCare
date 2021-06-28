@@ -55,7 +55,10 @@ function Diagnosis (props) {
             {search_id:"1", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C2202", bundle_name:"Total Protein", bundle_specimen:"Urine, 24hrs", bundle_bottle:"UrinePack", bundle_lab:"검사실2"},
             {search_id:"2", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"E6540", bundle_name:"Blood Pressure", bundle_specimen:"", bundle_bottle:"", bundle_lab:"검사실2" },
             {search_id:"3", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C3791", bundle_name:"Na (Sodium)" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
-            {search_id:"4", symptom_name:"당뇨", symptom_code:"ARQ21", bundle_code:"A3791", bundle_name:"PICKE" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"}
+            {search_id:"4", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C3791", bundle_name:"Na (Sodium)" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
+            {search_id:"5", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C3791", bundle_name:"Na (Sodium)" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
+            {search_id:"6", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C3791", bundle_name:"Na (Sodium)" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
+            {search_id:"7", symptom_name:"당뇨", symptom_code:"ARQ21", bundle_code:"A3791", bundle_name:"PICKE" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"}
         ];
         return symptoms;
     }
@@ -242,7 +245,7 @@ function Diagnosis (props) {
     
 
     const deleteMedicineAll = (event) => {  //전체 삭제
-        const deleteAll = medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id);
+        const deleteAll = medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id);
         setMedicines(deleteAll); 
     };
     const deleteMedicine = (event) => {  // 삭제
@@ -460,9 +463,9 @@ function Diagnosis (props) {
     return(
         <>
         <Header />
-        <div className="d-flex flex-column">
+        <div className="d-flex flex-column ">
             <div>
-                <div className="d-flex flex-row ml-3 mr-2 mt-4 mb-2">
+                <div className="d-flex flex-row ml-3 mr-2 mt-2 mb-2">
                     <div className={cx("diagnosis-component-background", "diagnosis-patient-widthAndHeight", "mr-3")}>
                       <PatientList selectedPatient={selectedPatient} patients={patients} selectPatient={selectPatient}/>
                     </div>

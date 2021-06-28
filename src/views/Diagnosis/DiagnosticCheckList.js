@@ -26,7 +26,7 @@ function DiagnosticCheckList(props) {
             <Button deleteButton={true} className={cx("diagnosis-checkList-button")} onClick={deleteAll}>전체 삭제</Button>
             
             </div>
-            <MDBTable className={cx("diagnosis-checkList-tableInterval","diagnosis-table1")}>
+            <MDBTable className={cx("diagnosis-checkList-tableInterval","diagnosis-tbh")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr>
                     <th></th> 
@@ -39,7 +39,7 @@ function DiagnosticCheckList(props) {
                     </tr>
                 </thead>
             </MDBTable>
-            <MDBTable scrollY className={cx("table-hover ", "diagnosis-table2")}>     
+            <MDBTable scrollY className={cx("table-hover ", "diagnosis-tbb")}>     
                 <MDBTableBody>
                      {props.selectSymptoms.map((item) => {
                                 return (
