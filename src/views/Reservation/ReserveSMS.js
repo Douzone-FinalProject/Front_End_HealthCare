@@ -10,7 +10,7 @@ function sendSMS(pageName){
   // $("#smsForm").submit();
 }
 
-const HourlyReservationList = (props) => {
+const ReserveSMS = (props) => {
   return (
     <div className={cx("right-component-bottom")}>
        <div className={cx("form-subject")}>
@@ -37,4 +37,4 @@ const HourlyReservationList = (props) => {
   );
 };
 
-export default HourlyReservationList;
+export default ReserveSMS;

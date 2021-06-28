@@ -7,7 +7,7 @@ import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
 import moment from './ReserveCalendar/src/moment-range';
 import { getReserveList, insertReserve } from './ReserveCalendar/data';
-import HourlyReservationList from './HourlyReservationList';
+import ReserveSMS from './ReserveSMS';
 
 const cx = classNames.bind(style);
 let lastBno = 10;
@@ -76,7 +76,7 @@ const Reservation = (props) => {
             <ReserveCreateForm addEvent={addEvent}/>
 
             {/* 3. 시간대별 예약 상세 리스트 */}
-            <HourlyReservationList />
+            <ReserveSMS />
           </div>
         </div>
       </div>
