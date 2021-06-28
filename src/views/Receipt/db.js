@@ -12,11 +12,19 @@ export function getPatientList() {
   return patients;
 };
 
+export function getPatientListBySearch(patient_name) {
+  var data = patients.filter(temp => temp.patient_name === patient_name);
+  return data;
+}
+
 export function insertPatient(patient) {
   lastId++;
   patient.patient_id = lastId;
-  patient.patient_register_date = new Date().toLocaleDateString();
-  patients.push(patient);
+  var curr = new Date();
+  curr.setDate(curr.getDate());
+  var date = curr.toISOString().substr(0,10);
+  patient.patient_register_date = date;
+  patients.unshift(patient);
 }
 
 export function getPatient(patient_id) {
