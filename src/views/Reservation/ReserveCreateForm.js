@@ -1,11 +1,10 @@
 import {React} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
+import TextField from '@material-ui/core/TextField';
 
 import {
-  TextBox,
-  DateTime,
-  Telephone,  
+  DateTime, 
   Form,
 } from 'react-form-elements';
 import Button from 'views/common/Button';
@@ -34,10 +33,14 @@ const ReserveCreateForm = (props) => {
                 <span className="ml-2 ">기존/신규</span> */}
           </div>
 
-          <span className="">이름</span>
-          <TextBox className="mb-2" label="" name="reservation_name" />
-          <span>휴대전화</span>
-          <Telephone className="mb-2" label="" name="reservation_phone" />
+          <TextField required label="이름" defaultValue="" name="reservation_name" /> 
+          <div>
+          <TextField required label="휴대전화" defaultValue="" name="reservation_phone" /> 
+          </div>
+          <div>
+          <TextField required label="내원사유" defaultValue="" name="reservation_reason" /> 
+          </div>
+
           
           <span>예약 날짜</span>
           <DateTime
@@ -52,7 +55,7 @@ const ReserveCreateForm = (props) => {
           <span className="">예약 시간</span>
           <DateTime className="mb-4" label="" type="time" name="reservation_time" /> */}
           <Button type="submit" className={cx("custom-btn")}
-          >예약 저장</Button>
+          >예약 추가</Button>
         </Form>
       </div>
     </div>
