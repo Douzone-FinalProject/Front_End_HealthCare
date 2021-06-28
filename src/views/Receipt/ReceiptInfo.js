@@ -4,6 +4,7 @@ import style from './style.module.css';
 import { AutoSizer, List } from 'react-virtualized';
 import ReceiptRow from './ReceiptRow';
 import  Button  from "../common/Button";
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 const cx = classNames.bind(style);
 
@@ -29,8 +30,11 @@ const ReceiptInfo = (props) => {
   return (
     <div className={cx("left-component-bottom")}>
       <div className={cx("search", "d-flex")}>
-        <div className={cx("flex-grow-1")}>
-          <h5 className={cx("patientlist")}>진료자 리스트</h5>
+        <div className={cx("flex-grow-1 d-flex")}>
+          <AssignmentIcon style={{fontSize: '2.2em'}} className="mr-2 mt-1"/> 
+          <h5 className={cx("patientlist", "mt-1")}>
+            진료자 리스트
+          </h5>
         </div>
         <div>
           {/* 여기 div는 진료리스트에 있는 환자이고 && 대기상태인 환자를 클릭했을 때만 보여야 함  */}

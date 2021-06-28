@@ -3,13 +3,21 @@ import moment from './src/moment-range';
 import Dayz from './src/dayz';
 import { DateTime } from 'react-form-elements';
 import ReserveUpdateForm from '../ReserveUpdateForm';
+import  Button  from "../../common/Button";
+import { Link } from 'react-router-dom';
+import style from '../style.module.css';
+import classNames from 'classnames/bind';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 require('./demo.scss');
 
 /**
  * 예약은 30분 단위로만 할 수 있음 
  * 
  */
-const style = {
+const cx = classNames.bind(style);
+
+const custom_style = {
     backgroundColor: '#f8f9fa',
     borderRadius: '7px',
 };
@@ -65,10 +73,17 @@ class ReserveCalendar extends React.Component {
 
     render() {
         return (
-            <div className="dayz-test-wrapper" style={style}>
-                <DateTime className="mb-2" label="" name="myDate" 
-                            onChange={(e) => {this.setState({ date: moment(e.target.value)});}}
-                />
+            
+            <div className="dayz-test-wrapper" style={custom_style}>
+                <div className="d-flex justify-content-between">
+                    <Link to="/receipt">
+                        <Button className={cx("ml-3", "custom-btn")} color="rgb(153, 102, 255)">
+                            <ArrowBackIcon/> 접수
+                        </Button>
+                    </Link>
+                    <DateTime className="mb-2" label="" name="myDate" 
+                            onChange={(e) => {this.setState({ date: moment(e.target.value)});}}/>
+                </div>
                 <div className="tools">
                     <label>
                         Week: <input type="radio"
