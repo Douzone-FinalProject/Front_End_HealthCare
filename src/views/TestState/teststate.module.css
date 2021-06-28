@@ -1,3 +1,5 @@
+@import 'antd/dist/antd.css';
+
 /* 전체 화면크기 */
 /* .whole-frame {
   height: 100vh;
@@ -48,7 +50,7 @@
 }
 
 /* ant-table */
-.ant-th.ant-table-thead{
+.ant-table-thead > tr > th {
   background-color: black;
 }
 
