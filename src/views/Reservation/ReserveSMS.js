@@ -1,6 +1,7 @@
 import React from 'react';
 import style from './style.module.css';
 import classNames from 'classnames/bind';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
 const cx = classNames.bind(style);
 
@@ -14,7 +15,8 @@ const ReserveSMS = (props) => {
   return (
     <div className={cx("right-component-bottom")}>
        <div className={cx("form-subject")}>
-        예약 확인 문자 발송 
+        <MailOutlineIcon style={{fontSize: '1.8em'}} className="mr-1"/>
+        문자 발송 
       </div>
       <div className={cx("reserve-form")}>
         {/* 이름 , 핸드폰번호, 문자메세지 내용 입력  */}

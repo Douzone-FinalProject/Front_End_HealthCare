@@ -12,6 +12,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import ReplyAllIcon from '@material-ui/icons/ReplyAll';
 import  Button  from "../common/Button";
 import CreatePatient from 'views/CreatePatient';
+import AddAlarmIcon from '@material-ui/icons/AddAlarm';
+import AddToQueueIcon from '@material-ui/icons/AddToQueue';
 import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(style);
@@ -62,9 +64,13 @@ const PatientSearch = (props) => {
       {/* 1. 검색할 내용 입력하는 div */}
       <div className={cx("search", "d-flex justify-content-between")}>
         <div>
-          <Button className={cx("ml-1", "custom-btn")} color="rgb(153, 102, 255)" onClick={openModal}>신규 등록</Button>
+          <Button className={cx("ml-1", "custom-btn")} color="rgb(153, 102, 255)" onClick={openModal}>
+               <AddToQueueIcon className="mr-2 mb-1"/>신규
+          </Button>
           <Link to="/reserve">
-            <Button className={cx("ml-3", "custom-btn")} color="rgb(153, 102, 255)">예약</Button>
+            <Button className={cx("ml-3", "custom-btn")} color="rgb(153, 102, 255)">
+               <AddAlarmIcon className="mr-2 mb-1"/>예약
+            </Button>
           </Link>
           <CreatePatient modalIsOpen={modalIsOpen} closeModal={closeModal}/>
         </div>

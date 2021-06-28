@@ -8,6 +8,7 @@ import DialMenu from 'views/common/DialMenu';
 import moment from './ReserveCalendar/src/moment-range';
 import { getReserveList, insertReserve } from './ReserveCalendar/data';
 import ReserveSMS from './ReserveSMS';
+import ReserveScheduler from './ReserveScheduler';
 
 const cx = classNames.bind(style);
 let lastBno = 10;
@@ -67,6 +68,7 @@ const Reservation = (props) => {
         <div className={cx("left-component")}>
           {/* 1. 예약 결과 조회 컴포넌트 */}
           <ReserveCalendar events={events} updateEvent={updateEvent}/>
+          {/* <ReserveScheduler /> */}
         </div>
         
         {/* 우측 */}

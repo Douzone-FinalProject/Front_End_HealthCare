@@ -2,6 +2,7 @@ import {React} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
 import TextField from '@material-ui/core/TextField';
+import AddAlarmIcon from '@material-ui/icons/AddAlarm';
 
 import {
   DateTime, 
@@ -16,7 +17,8 @@ const ReserveCreateForm = (props) => {
   return (
     <div className={cx("right-component-top")}>
       <div className={cx("form-subject")}>
-        예약 접수
+        <AddAlarmIcon style={{fontSize: '1.8em'}} className="mr-1"/>
+        예약 추가
       </div>
       <div className={cx("reserve-form")}>
         <Form
@@ -28,9 +30,10 @@ const ReserveCreateForm = (props) => {
             // 여기서 디비로 insert 되어서 캘린더는 실시간 동기화로 나타나게 됨 
         >
           <div className="float-right">
-            {/* <Button type="button" className={cx("ml-3", "custom-btn")}
-                  >방문 확인</Button>
-                <span className="ml-2 ">기존/신규</span> */}
+            <Button type="button" className={cx("ml-3", "custom-btn")}
+            >방문 확인</Button>
+            <span className="ml-2">기존</span>
+            
           </div>
 
           <TextField required label="이름" defaultValue="" name="reservation_name" /> 

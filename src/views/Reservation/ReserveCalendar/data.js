@@ -7,7 +7,7 @@ let db_1 = {
   reservation_id: '1',
   reservation_name: '채정리',
   reservation_phone: '01011123334',
-  reservation_datetime: '2021-06-21 15:00',
+  reservation_datetime: '2021-06-30 15:00',
 }
 
 
@@ -25,9 +25,9 @@ let reserveList = [
       reservation_id: 2,
       reservation_name: '무좀상',
       reservation_phone: '01012312312',
-      reservation_datetime: '2021-06-25 10:00',
+      reservation_datetime: '2021-06-30 10:00',
       resizable: true,
-      range: moment.range(moment('2021-06-25 10:00'), moment('2021-06-25 10:00').add(30, 'minutes')) 
+      range: moment.range(moment('2021-06-30 10:00'), moment('2021-06-30 10:00').add(30, 'minutes')) 
     },
     { content: '14:00 임도리',
       reservation_id: 3,
@@ -35,47 +35,47 @@ let reserveList = [
       reservation_phone: '01012312312',
       reservation_datetime: '2021-06-25 14:00',
       resizable: true,
-      range: moment.range(moment('2021-06-25 14:00'), moment('2021-06-25 14:00').add(30, 'minutes')) 
+      range: moment.range(moment('2021-06-30 14:00'), moment('2021-06-30 14:00').add(30, 'minutes')) 
     }, 
     { content: '16:00 병주캉',
       reservation_id: 4,
       reservation_name: '병주캉',
       reservation_phone: '01012312312',
-      reservation_datetime: '2021-06-25 16:00',
+      reservation_datetime: '2021-06-28 16:00',
       resizable: true,
-      range: moment.range(moment('2021-06-25 16:00'), moment('2021-06-25 16:00').add(30, 'minutes')) 
+      range: moment.range(moment('2021-06-28 16:00'), moment('2021-06-28 16:00').add(30, 'minutes')) 
     },
     { content: '10:30 신용건',
       reservation_id: 5,
       reservation_name: '신용건',
       reservation_phone: '01012312312',
-      reservation_datetime: '2021-06-25 10:30',
+      reservation_datetime: '2021-06-30 10:30',
       resizable: true,
-      range: moment.range(moment('2021-06-25 10:30'), moment('2021-06-25 10:30').add(30, 'minutes')) 
+      range: moment.range(moment('2021-06-30 10:30'), moment('2021-06-30 10:30').add(30, 'minutes')) 
     },
     { content: '10:30 도희희',
       reservation_id: 6,
       reservation_name: '도희희',
       reservation_phone: '01012312312',
-      reservation_datetime: '2021-06-22 10:30',
+      reservation_datetime: '2021-06-30 10:30',
       resizable: true,
-      range: moment.range(moment('2021-06-22 10:30'), moment('2021-06-22 10:30').add(30, 'minutes')) 
+      range: moment.range(moment('2021-06-30 10:30'), moment('2021-06-30 10:30').add(30, 'minutes')) 
     },
     { content: '11:30 좀상민',
       reservation_id: 7,
       reservation_name: '좀상민',
       reservation_phone: '01012312312',
-      reservation_datetime: '2021-06-22 11:30',
+      reservation_datetime: '2021-06-30 11:30',
       resizable: true,
-      range: moment.range(moment('2021-06-22 11:30'), moment('2021-06-22 11:30').add(30, 'minutes')) 
+      range: moment.range(moment('2021-06-30 11:30'), moment('2021-06-30 11:30').add(30, 'minutes')) 
     },
     { content: '14:30 병주캉',
       reservation_id: 8,
       reservation_name: '병주캉',
       reservation_phone: '01012312312',
-      reservation_datetime: '2021-06-23 14:30',
+      reservation_datetime: '2021-06-30 14:30',
       resizable: true,
-      range: moment.range(moment('2021-06-23 14:30'), moment('2021-06-23 14:30').add(30, 'minutes')) 
+      range: moment.range(moment('2021-06-30 14:30'), moment('2021-06-30 14:30').add(30, 'minutes')) 
     },
     
     
