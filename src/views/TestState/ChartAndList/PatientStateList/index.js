@@ -11,7 +11,7 @@ const cx = classNames.bind(style);
 function PatientStateList({waitingData, setWaitingData, setChartId}, props) {
 
   const [waitType, setWaitType] = useState("전체");
-  const [state, setState] = useState("검사대기");
+  const [state, setState] = useState("whole");
 
   const waitingDataColums = [
     {
@@ -58,7 +58,7 @@ function PatientStateList({waitingData, setWaitingData, setChartId}, props) {
   }
 
   useEffect(() => {
-    getLabData(waitType, state);
+    setWaitingData(getLabData(waitType, state, waitingData));
   }, [waitType, state])
   return (
     <>
@@ -73,17 +73,17 @@ function PatientStateList({waitingData, setWaitingData, setChartId}, props) {
           <div className="ml-1" onClick={handleState} value="검사실3">검사실3</div>
         </div>
         <div className="d-flex">
-          {/* <div className="mr-1 " onClick={handleState} value="전체" checked={true}>전체</div> */}
+          <div className="mr-1 " onClick={handleState} value="whole" checked={true}>전체</div>
           <span>|</span>
-          <div className="ml-1 mr-1" onClick={handleState} value="검사대기">검사대기</div>
+          <div className="ml-1 mr-1" onClick={handleState} value="검사대기">대기</div>
           <span>|</span>
-          <div className="ml-1 mr-1" onClick={handleState} value="검사중">검사접수</div>
+          <div className="ml-1 mr-1" onClick={handleState} value="검사중">검사중</div>
           <span>|</span>
           <div className="ml-1" onClick={handleState} value="검사완료">완료</div>
         </div>
       </div>
       <div className={cx("teststate-table")}>
-        <Table columns={waitingDataColums} dataSource={waitingData} pagination={false} onRow={handlePatient}/>
+        <Table columns={waitingDataColums} className={cx("ant-th")} dataSource={waitingData} pagination={false} onRow={handlePatient}/>
         {/* <Table columns={waitingDataColums} datas={waitingData} /> */}
       </div>
     </>

@@ -20,7 +20,9 @@
     "classnames": "^2.3.1",
     "dayz": "^2.9.0",
     "mdbreact": "^5.0.2",
+    "moment": "^2.29.1",
     "moment-range": "^4.0.2",
+    "moment-timezone": "^0.5.33",
     "node-sass": "5.0.0",
     "react": "^17.0.2",
     "react-bootstrap": "1.5.2",
@@ -31,6 +33,11 @@
     "react-form-elements": "^4.14.0",
     "react-live-clock": "^5.2.0",
     "react-modal": "^3.14.3",
+<<<<<<< HEAD
+    "react-moment": "^1.1.1",
+    "react-native-simple-radio-button": "^2.7.4",
+=======
+>>>>>>> 338a33ddb391cf803028224479cc2be91b58067b
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
