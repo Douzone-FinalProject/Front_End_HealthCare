@@ -84,7 +84,6 @@ function CreatePatient(props) {
         }
     };
     const handlePhoneChange = (event) => {
-        console.log(phone);
         setPhone({
             ...phone,
             [event.target.name]: event.target.value,
@@ -154,10 +153,11 @@ function CreatePatient(props) {
     //저장 버튼 클릭 시, 필수 정보 null인지 확인
     //필수 정보가 null이 아니면 저장 후 modal 닫기
     const handleSave = useCallback((argPatient, argProps) => {
-        if(argPatient.patient_name && ssn.ssn1 & ssn.ssn2 && argPatient.patient_sex &&
+        if(argPatient.patient_name && ssn.ssn1 && ssn.ssn2 && argPatient.patient_sex &&
             phone.phone2 && phone.phone3 && argPatient.patient_address && argPatient.patient_detail_address &&
             argPatient.patient_blood_type !== 'select3') {
             console.log(argPatient);
+            props.handleAdd(argPatient);
             setPatient({
                 patient_name: '',
                 patient_ssn: '',
@@ -193,7 +193,7 @@ function CreatePatient(props) {
         } else {
             alert("필수 사항을 입력해주세요.");
         }
-    }, [ssn, phone]);
+    }, [ssn, phone, props]);
 
     return (
         <Modal

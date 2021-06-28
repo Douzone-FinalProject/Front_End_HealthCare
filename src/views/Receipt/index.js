@@ -6,7 +6,7 @@ import style from './style.module.css';
 import classNames from 'classnames/bind';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
-import { getReceiptList, getPatientList} from './db';
+import { getReceiptList, getPatientList, insertPatient, getPatientListBySearch} from './db';
 import moment from 'views/Reservation/ReserveCalendar/src/moment-range';
 
 const cx = classNames.bind(style);
@@ -42,6 +42,18 @@ const Receipt = (props) => {
     setPatientId(patient_id);
     // case1) 진료리스트 상태가 대기일 경우 => 진료 보내기 버튼 나옴 
     // case2) 진료리스트 상태가 수납전일 경우 => 수납버튼 나옴 
+  };
+
+  // 신규 환자 생성 
+  const handleAdd = (patient) => {
+    // DB에 추가 시키기
+    // const newPatients = Array.from(patients);
+    // const index = newPatients[0].patient_id + 1;
+    // patient.patient_id = index;
+    // newPatients.push(patient);
+    // console.log(newPatients);
+    // setPatients(newPatients);
+    insertPatient(patient);
   };
 
   // 환자 영구 삭제 
@@ -80,6 +92,15 @@ const Receipt = (props) => {
     setPatients(newPatients);
   };
 
+  //회원 검색
+  const handleSearch = (patient_name) => {
+    let newPatients = getPatientListBySearch(patient_name);
+    setPatients(newPatients);
+  };
+  const handleAllSearch = () => {
+    let newPatients = getPatientList();
+    setPatients(newPatients);
+  };
 
   // 접수 
   const addReceipt = (db_patient) => { 
@@ -114,7 +135,7 @@ const Receipt = (props) => {
         {/* 좌측  */}
         <div className={cx("left-component")}>
           {/* 환자 검색 컴포넌트  */}
-            <PatientSearch handleClick={handleClick} patients={patients}/>
+            <PatientSearch handleClick={handleClick} patients={patients} handleAdd={handleAdd} handleSearch={handleSearch} handleAllSearch={handleAllSearch}/>
           {/* 진료자 리스트 컴포넌트 */}
             <ReceiptInfo handleClick={handleClick} isWaitState={isWaitState} changeReceiptState={changeReceiptState}
                         receipts={receipts} patient_id={patient_id} />

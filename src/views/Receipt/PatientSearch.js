@@ -39,15 +39,16 @@ const PatientSearch = (props) => {
 
   // state 
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [patient_name, setPatient_name] = useState('');
   const patients = props.patients;
 
   // 신규 등록 모달 
   function openModal() { setIsOpen(true); }
   function closeModal() { setIsOpen(false); }
 
-  // 검색 결과 초기화 
-  const handleInit = (e) => {
-    // console.log('handleInit 실행됨 ');
+  const handleChange = (event) => {
+    setPatient_name(event.target.value);
+    console.log(patient_name);
   };
 
   // 하나의 행 UI 만들기 
@@ -72,24 +73,24 @@ const PatientSearch = (props) => {
                <AddAlarmIcon className="mr-2 mb-1"/>예약
             </Button>
           </Link>
-          <CreatePatient modalIsOpen={modalIsOpen} closeModal={closeModal}/>
+          <CreatePatient modalIsOpen={modalIsOpen} closeModal={closeModal} handleAdd={props.handleAdd}/>
         </div>
           <Paper component="form" className={classes.root}>
                 <InputBase
-                  className={classes.input} name="patient_name" defaultValue="" 
+                  className={classes.input} name="patient_name" value={patient_name} onChange={handleChange}
                   placeholder="환자 이름을 검색하세요" 
                 />
                 <IconButton type="submit" className={classes.iconButton} aria-label="search"
                   onClick={(e) => {
                     e.preventDefault();
-                    alert('submit : ', e);
+                    props.handleSearch(patient_name);
                   }}
                 >
                   <SearchIcon />
                 </IconButton>
                 <Divider className={classes.divider} orientation="vertical" />
                 <IconButton color="primary" className={classes.iconButton} aria-label="전체보기" 
-                        onClick={function(e){e.preventDefault(); handleInit();}}>
+                        onClick={function(e){e.preventDefault(); props.handleAllSearch();}}>
                   <ReplyAllIcon />
                 </IconButton>
           </Paper>
