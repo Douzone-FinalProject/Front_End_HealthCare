@@ -7,6 +7,7 @@ import classNames from 'classnames/bind';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
 import { getReceiptList, getPatientList} from './db';
+import moment from 'views/Reservation/ReserveCalendar/src/moment-range';
 
 const cx = classNames.bind(style);
 let lastId2 = 1;
@@ -90,7 +91,7 @@ const Receipt = (props) => {
       patient_phone: db_patient.patient_phone,
       receipt_id: lastId2,
       receipt_state: '대기',
-      receipt_datetime: new Date().toLocaleDateString(),
+      receipt_datetime:  moment(new Date()).format('YYYY MM DD HH:mm:ss'),
     });
     setReceipts(newReceipts);
   };
