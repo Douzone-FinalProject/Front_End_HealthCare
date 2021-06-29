@@ -22,22 +22,22 @@ function ImgModal(props) {
         {
             original: 'http://localhost:3000/mri1.jpg',
             thumbnail: 'http://localhost:3000/mri1.jpg',
-            originalHeight: '700px',
+            originalHeight: 700,
         },
         {
             original: 'http://localhost:3000/mri1.jpg',
             thumbnail: 'http://localhost:3000/mri1.jpg',
-            originalHeight: '700px',
+            originalHeight: 700,
         },
         {
             original: 'http://localhost:3000/mri2.png',
             thumbnail: 'http://localhost:3000/mri2.png',
-            originalHeight: '700px',
+            originalHeight: 700,
         },
         {
             original: 'http://localhost:3000/mri2.png',
             thumbnail: 'http://localhost:3000/mri2.png',
-            originalHeight: '700px',
+            originalHeight: 700,
         },
     ];
 

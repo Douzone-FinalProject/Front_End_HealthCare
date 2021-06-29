@@ -21,7 +21,7 @@ function Header(props) {
                 </div>
                 <div>
                     <div className="d-flex align-items-center">
-                        <span className="d-flex align-items-center mr-2">
+                        <span className="d-flex align-items-center mr-2 mt-1">
                             <h5 className="text-white font-weight-bold">
                                 <FontAwesomeIcon icon={faHospitalUser} className="mr-2"/>신용권
                             </h5>
