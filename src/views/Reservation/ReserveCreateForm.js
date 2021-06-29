@@ -75,8 +75,9 @@ const ReserveCreateForm = (props) => {
                   timeClassName={handleColor}
                 />
               </div> 
-              <Button type="submit" className={cx("custom-btn-confirm")}>등록</Button>
-          
+              <div className="d-flex justify-content-end">
+                <Button type="submit" className={cx("custom-btn-confirm")}>등록</Button>
+              </div>
         </Form>
       </div>
     </div>
