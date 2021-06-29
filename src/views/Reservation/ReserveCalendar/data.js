@@ -1,12 +1,11 @@
 import moment from './src/moment-range';
 
-let lastBno = 9;
-
 // db에서 불러온 데이터 
 let db_1 = { 
   reservation_id: '1',
   reservation_name: '채정리',
   reservation_phone: '01011123334',
+  reservation_reason: '진단검사',
   reservation_datetime: '2021-06-30 15:00',
 }
 
@@ -18,6 +17,7 @@ let reserveList = [
       reservation_name: db_1.reservation_name,
       reservation_phone: db_1.reservation_phone,
       reservation_datetime: db_1.reservation_datetime,
+      reservation_reason: '진단검사',
       resizable: true,
       range: moment.range(moment(db_1.reservation_datetime), moment(db_1.reservation_datetime).add(30, 'minutes')) 
     },
@@ -26,6 +26,7 @@ let reserveList = [
       reservation_name: '무좀상',
       reservation_phone: '01012312312',
       reservation_datetime: '2021-06-30 10:00',
+      reservation_reason: '진단검사',
       resizable: true,
       range: moment.range(moment('2021-06-30 10:00'), moment('2021-06-30 10:00').add(30, 'minutes')) 
     },
@@ -34,6 +35,7 @@ let reserveList = [
       reservation_name: '임도리',
       reservation_phone: '01012312312',
       reservation_datetime: '2021-06-25 14:00',
+      reservation_reason: '진단검사',
       resizable: true,
       range: moment.range(moment('2021-06-30 14:00'), moment('2021-06-30 14:00').add(30, 'minutes')) 
     }, 
@@ -42,6 +44,7 @@ let reserveList = [
       reservation_name: '병주캉',
       reservation_phone: '01012312312',
       reservation_datetime: '2021-06-28 16:00',
+      reservation_reason: '진단검사',
       resizable: true,
       range: moment.range(moment('2021-06-28 16:00'), moment('2021-06-28 16:00').add(30, 'minutes')) 
     },
@@ -50,6 +53,7 @@ let reserveList = [
       reservation_name: '신용건',
       reservation_phone: '01012312312',
       reservation_datetime: '2021-06-30 10:30',
+      reservation_reason: '진단검사',
       resizable: true,
       range: moment.range(moment('2021-06-30 10:30'), moment('2021-06-30 10:30').add(30, 'minutes')) 
     },
@@ -58,6 +62,7 @@ let reserveList = [
       reservation_name: '도희희',
       reservation_phone: '01012312312',
       reservation_datetime: '2021-06-30 10:30',
+      reservation_reason: '진단검사',
       resizable: true,
       range: moment.range(moment('2021-06-30 10:30'), moment('2021-06-30 10:30').add(30, 'minutes')) 
     },
@@ -66,6 +71,7 @@ let reserveList = [
       reservation_name: '좀상민',
       reservation_phone: '01012312312',
       reservation_datetime: '2021-06-30 11:30',
+      reservation_reason: '진단검사',
       resizable: true,
       range: moment.range(moment('2021-06-30 11:30'), moment('2021-06-30 11:30').add(30, 'minutes')) 
     },
@@ -74,30 +80,11 @@ let reserveList = [
       reservation_name: '병주캉',
       reservation_phone: '01012312312',
       reservation_datetime: '2021-06-30 14:30',
+      reservation_reason: '진단검사',
       resizable: true,
       range: moment.range(moment('2021-06-30 14:30'), moment('2021-06-30 14:30').add(30, 'minutes')) 
     },
-    
-    
-      
-
 ];
-
-// insert reserve 
-export function insertReserve(reserve){
-  lastBno++;
-  reserve.reservation_id = lastBno;
-  reserveList.push(reserve);
-}
-
-// delete reserve
-export function deleteReserve(rid){
-  console.log('delete-----reserve id: ', rid);
-  console.log('--', reserveList);
-  const index = reserveList.findIndex(reserve => reserve.reservation_id === rid);
-  reserveList.splice(index, 1);
-  
-}
 
 
 // 전체 예약 테이블 뽑아오기 

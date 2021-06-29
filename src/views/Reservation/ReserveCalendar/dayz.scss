@@ -113,7 +113,6 @@ $dayz-event-text-colors: (
                 display: flex;
                 justify-content: center;
                 flex-direction: column;
-                // text-indent: 8px;
                 text-indent: 8px;
                 text-align: left;
                 border-bottom: 1px solid $dayz-border-color;
@@ -138,7 +137,8 @@ $dayz-event-text-colors: (
         border-bottom: 1px solid $dayz-border-color;
         box-sizing: border-box;
         // background-color: yellow;
-        height: 50em;
+        // 달력 크기 조정 
+        height: 52em;
 
         .event > * {
             height: 100%;
