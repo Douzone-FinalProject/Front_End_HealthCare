@@ -1,6 +1,6 @@
 function Footer(props) {
     return (
-        <div style={{marginTop:'150px'}}>
+        <div style={{marginTop:'60px'}}>
             <hr/>
             <div className="row w-100">
                 <div className="col-1"></div>
