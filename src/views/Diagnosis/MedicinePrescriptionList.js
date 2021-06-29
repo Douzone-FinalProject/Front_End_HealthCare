@@ -4,8 +4,6 @@ import Button from "../common/Button";
 import { MDBTable, MDBTableBody } from 'mdbreact';
 import MedicineModal from "./MedicineModal";
 import MedicinePrescriptionListItem from "./MedicinePrescriptionListItem";
-import { useState } from "react";
-
 
 const cx = classnames.bind(style);
 

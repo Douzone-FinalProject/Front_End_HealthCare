@@ -1,7 +1,6 @@
 import Modal from "react-modal";
 import style from "../../Diagnosis.module.css"
 import classnames from "classnames/bind";
-import { useState } from "react";
 import CreateOpinionMedicineListItem from "./CreateOpinionMedicineListItem";
 import Button from "../../../common/Button";
 import { MDBTable, MDBTableBody } from 'mdbreact';

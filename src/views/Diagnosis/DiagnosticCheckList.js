@@ -2,7 +2,6 @@ import style from "./Diagnosis.module.css";
 import classnames from "classnames/bind";
 import Button from "../common/Button";
 import DiagnosticCheckListItem from "./DiagnosticCheckListItem"
-import {useEffect, useState} from "react";
 import { MDBTable, MDBTableBody } from 'mdbreact';
 
 const cx = classnames.bind(style);
@@ -12,11 +11,6 @@ function DiagnosticCheckList(props) {
     const deleteAll = (event) => {
         props.deleteAll(event);
     };
-
-    const testRequest =  (event) => {
-        props.testRequest();
-
-    }; 
 
     return(
         <>

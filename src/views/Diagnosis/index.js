@@ -5,7 +5,7 @@ import OpinionAndSearch from "./OpinionAndSearch";
 import MedicinePrescriptionList from "./MedicinePrescriptionList";
 import style from "./Diagnosis.module.css";
 import classnames from "classnames/bind";
-import {useState, useCallback} from "react";
+import {useState} from "react";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
 import { useEffect } from "react";
@@ -27,6 +27,7 @@ function Diagnosis (props) {
     }
     
     const [patients, setpatients] = useState(getPatients);
+    console.log(setpatients)
     const [selectedPatient, setSelectP] = useState({
         patient_id: "",
         patient_name: "",
@@ -66,7 +67,7 @@ function Diagnosis (props) {
     const [symptoms, setSympToms] = useState(getSympTom);
     const [symptomsCopy, setSympTomCopys] = useState([]);
     const [selectSymptoms, setSelectSymptoms] = useState([]);
-
+    console.log(setSympToms)
     const [search, setSearch] = useState({
         symptom_name : ""
     });
@@ -103,7 +104,7 @@ function Diagnosis (props) {
         ]);  
     };
 
-    const deleteAll = (event) => {  //전체 삭제
+    const deleteAll = () => {  //전체 삭제
         const symptomSelect = selectSymptoms.filter(symptom => symptom.search_id !== symptom.search_id);
         setSelectSymptoms([
             ...symptomSelect
@@ -203,13 +204,13 @@ function Diagnosis (props) {
     /*약품 관련 */
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [medicines, setMedicines] =  useState([]);
-    const [copymedic, setCopyMedic] = useState();
+    const [copymedic, setCopyMedic] = useState([]);
     
     const handleModal = () => { //모달 창 열기, 닫기      
         setIsModalVisible(!isModalVisible);
     }
-
-    const addMedicines = (data) => {    //약품 '추가'한 목록을 상태에 저장
+   
+    const addMedicines =  (data) => {    //약품 '추가'한 목록을 상태에 저장
         setIsModalVisible(!isModalVisible);
 
         if(data.filter(x => medicines.includes(x)).length === 0) {
@@ -225,34 +226,7 @@ function Diagnosis (props) {
             })
         }
       
-        // if(medicines.length === 0) {
-        //     setMedicines(
-        //         medicines.concat(data)
-        //     )
-        // } else {
-        //     let count = medicines.length * data.length;
-        //     for(let dt of data) {
-        //         for(let medicine of medicines){
-        //             if(dt.medicine_id && medicine.medicine_id !== dt.medicine_id){
-        //                 count = count-1;
-        //             } else {
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     if(count === 0) {
-        //         setMedicines(
-        //             medicines.concat(data)
-        //         )
-        //     } else {
-        //         Swal.fire({
-        //             icon: 'error',
-        //             title: '중복된 약이 존재합니다.',
-        //             showConfirmButton: false,
-        //             timer: 1500
-        //         })
-        //     }
-        // }
+        
                 
     };
    
@@ -432,9 +406,7 @@ function Diagnosis (props) {
 
 
     const [opp, setOpp] = useState({});
-    const [medicopp, setMedopp] = useState();   //함 사용해보기
 
-    
     function openUpdateModal() {
         setUpdateIsOpen(true);
     }
@@ -483,7 +455,6 @@ function Diagnosis (props) {
               i.receipt_opinion = opp.receipt_opinion;
               i.receipt_uniqueness = opp.receipt_uniqueness;
             }
-            setMedopp(i);
       }
       alert("수정이 완료되었습니다.")
       closeUpdateModal();

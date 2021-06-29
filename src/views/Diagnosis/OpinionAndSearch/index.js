@@ -2,7 +2,6 @@ import SymptomAndOpinion from "./SymptomAndOpinion";
 import SearchPatients from "./SearchPatients";
 import style from "../Diagnosis.module.css";
 import classnames from "classnames/bind";
-import Button from "../../common/Button";
 import { useState } from "react";
 import UpdateOpinion from "./UpdateOpinion";
 

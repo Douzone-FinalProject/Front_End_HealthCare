@@ -3,9 +3,8 @@ import classnames from "classnames/bind";
 import Button from "../../common/Button";
 import CreateOpinion from "./CreateOpinion";
 import OpinionListItem from "./OpinionListItem";
-import {useState} from "react";
 import { MDBTable, MDBTableBody } from 'mdbreact';
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const cx = classnames.bind(style);
 
