@@ -1,5 +1,5 @@
 function OpinionMedicineListItem(props) {
- 
+    console.log("OpinionMedicineListItem 진입");
     return(
         
 

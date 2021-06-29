@@ -5,8 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+
 
 const CustomRadio = withStyles({
   root: {
@@ -69,12 +68,12 @@ function Login(props) {
                             control={ <CustomRadio
                                 checked={login.role === "doctor"}
                                 onChange={handleChange}
-                                value="doctor"
+                                value ="doctor"
                                 name="role"
-                                inputProps={{ 'aria-label': 'A' }}
+                                
                             />}
                             label="의사"
-                            labelPlacement="doctor"
+                            
                             />
                     <FormControlLabel
                             value="doctor"
@@ -83,10 +82,10 @@ function Login(props) {
                                 onChange={handleChange}
                                 value="nurse"
                                 name="role"
-                                inputProps={{ 'aria-label': 'B' }}
+                                
                               />}
                             label="간호사"
-                            labelPlacement="nurse"
+                            
                             />
                     <FormControlLabel
                             value="doctor"
@@ -95,10 +94,10 @@ function Login(props) {
                                 onChange={handleChange}
                                 value="inspector"
                                 name="role"
-                                inputProps={{ 'aria-label': 'C' }}
+                                
                               />}
                             label="검사자"
-                            labelPlacement="inspector"
+                            
                             />     
      
                 </RadioGroup>

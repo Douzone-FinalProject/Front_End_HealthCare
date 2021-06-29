@@ -3,6 +3,7 @@ import style from "../../Diagnosis.module.css"
 import classnames from "classnames/bind";
 import { useState } from "react";
 import OpinionMedicineListItem from "../UpdateOpinion/OpinionMedicineListItem";
+import TestAfterMedicineListItem from "../UpdateOpinion/TestAfterMedicineListItem";
 import Button from "../../../common/Button";
 import { MDBTable, MDBTableBody } from 'mdbreact';
 
@@ -22,43 +23,7 @@ const opinionStyles = {
 
 Modal.setAppElement('body');
 function UpdateOpinion(props) {
-    // const [isModal, setModal] = useState(false);
-    // const [opinion, setOpinion] = useState({
-    //     receipt_opinion: '',
-    //     receipt_medicine: [],
-    //     receipt_uniqueness: ''
-    // });
-
-    // const handleChange = (event) => {
-    //     setOpinion({
-    //         ...opinion,
-    //         [event.target.name]: event.target.value
-    //     });
-    // };
-
-    // const openAdModal = (event) => {
-    //     setModal(true);
-    // }
-
-    // const closeAdModal = (event) => {
-    //     setModal(false);
-    // }
-    // const zz = props.opinions.map((medicine => medicine.medicines));
-    // let hhh = [];
-    // // console.log(zz)
-    // for(let i of zz){
-    //     for(let f of i){
-    //         hhh  =  f
-    //     }
-    // }
-    // console.log(hhh)
-    // const [sibal, setSibal] = useState();
-    // setSibal(hhh)
-    // const kk = hhh.map((hoho) => hoho.medicine_id)
-    // gasibal(kk);
-    // setSibal({kk})
-    // console.log(kk);
-
+    
     const hait = props.opinions.filter(opinion => opinion.receipt_id === props.opp.receipt_id);
     let arr;
     for(let i of hait){
@@ -66,7 +31,10 @@ function UpdateOpinion(props) {
            arr = z
         }
     }
+
+
     return(
+        
     <>
        <Modal isOpen={props.updateIsOpen} onRequestClose={props.closeUpdateModal} style={opinionStyles}>
             <h4 className="mb-3">진단 기록 상세</h4>
@@ -83,31 +51,52 @@ function UpdateOpinion(props) {
                     <th style={{width:"25%"}}>수량</th>
                     </tr>
                 </thead>
-            </MDBTable>    
+            </MDBTable>   
+
+            {props.opp.test_flag && props.medicines[0] ? //백 할 때는 '검사 완료'로 수정해야 함.
+              <MDBTable scrollY className={cx("table-hover", "modal-medic-width")}>
+                <MDBTableBody>
+                    {props.medicines && props.medicines.map((hoho2) => {
+                                        return (
+                                            <TestAfterMedicineListItem key={hoho2.medicine_id} hoho2={hoho2}/>
+                                        )
+                                    })}
+                </MDBTableBody>
+                </MDBTable> 
+              : 
             <MDBTable scrollY className={cx("table-hover", "modal-medic-width")}>
                 <MDBTableBody>
                     
-                    {arr && arr.map((hoho) => {
+                    {!props.medicines || arr && arr.map((hoho) => {
                                         return (
                                             <OpinionMedicineListItem  key={hoho.medicine_id} hoho={hoho} />
                                         )
                                     })}
-            {/* <tr> */}
-                {/* <td>{kk}</td> */}
-                {/* <td>{props.opp.medicine_name}</td>
-                <td>{props.opp.medicine_unit}</td>
-                <td>{props.opp.quantity}</td> */}
-            {/* </tr> */}
+
                 </MDBTableBody>
             </MDBTable>
-           
+            } 
 
             <h4 className="mb-3 mt-3">특이 사항</h4>
             <textarea name="receipt_uniqueness" value={props.opp.receipt_uniqueness} className={cx("textArea-font","moadl-textArea")} style={{width:"642px",height:"100px",resize:"none"}} onChange={props.updatOpinion}/>
-            <div className="d-flex justify-content-lg-end mr-3 mt-2">
-                <Button onClick={()=>{props.saveOpinion(props.opp.receipt_id)}}>수정 완료</Button>
-                <Button className="ml-2" onClick={props.closeUpdateModal}>닫기</Button>
-            </div>
+            
+                
+                
+                    {props.opp.test_flag && props.medicines[0] ? //백 할 때는 '검사 완료'로 수정해야 함. props.opp.diagnostic_test_state === "검사 중" props.opp.medicines === null
+                    <div className="d-flex justify-content-lg-end mr-3 mt-2">
+                        <Button onClick={()=>{props.saveMedicine(props.opp.receipt_id)}}>약 처방</Button>
+                        <Button className="ml-2" onClick={()=>{props.saveOpinion(props.opp.receipt_id)}}>수정 완료</Button>
+                        <Button className="ml-2" onClick={props.closeUpdateModal}>닫기</Button>
+                    </div>
+                    :
+                    <div className="d-flex justify-content-lg-end mr-3 mt-2">
+                        <Button className="ml-2" onClick={()=>{props.saveOpinion(props.opp.receipt_id)}}>수정 완료</Button>
+                        <Button className="ml-2" onClick={props.closeUpdateModal}>닫기</Button>
+                    </div>
+                    }
+                    
+                
+            
        </Modal>
     </>
     );

@@ -13,12 +13,6 @@ function OpinionAndSearch(props) {
         change: "1"
     });
 
-    // const [initButton, setInitButton] = useState(true);
-    
-    // function initCancleButton() {
-    //     setInitButton(false);
-    // }
-
     const changeToSearch = () => {
         setPage({
             ...page,
@@ -39,7 +33,7 @@ function OpinionAndSearch(props) {
 
     return(
         <>    
-         <UpdateOpinion updateIsOpen={props.updateIsOpen} closeUpdateModal={props.closeUpdateModal} medicines={props.medicines} medicineCount={props.medicineCount} handleCount={props.handleCount} quantity={props.quantity} reportOpinion={props.reportOpinion} reportSuccess={props.reportSuccess} opp={props.opp} updatOpinion={props.updatOpinion} saveOpinion={props.saveOpinion} opinions={props.opinions} medicopp={props.medicopp} />
+         <UpdateOpinion updateIsOpen={props.updateIsOpen} closeUpdateModal={props.closeUpdateModal} medicines={props.medicines} medicineCount={props.medicineCount} handleCount={props.handleCount} quantity={props.quantity} reportOpinion={props.reportOpinion} reportSuccess={props.reportSuccess} opp={props.opp} updatOpinion={props.updatOpinion} saveOpinion={props.saveOpinion} opinions={props.opinions} medicopp={props.medicopp} saveMedicine={props.saveMedicine} />
             <div className={cx("diagnosis-opinionAndSearch-widthAndHeight")}>
                 {page.change === "1"?
                     <SymptomAndOpinion fatientOpinion={props.fatientOpinion} medicines={props.medicines}  selectedPatient={props.selectedPatient} handleCount={props.handleCount}  handleT={props.handleT} reportOpinion={props.reportOpinion} reportSuccess={props.reportSuccess} modalIsOpen={props.modalIsOpen} openModal={props.openModal} closeModal={props.closeModal} openOpinion={props.openOpinion} selectOpinion={props.selectOpinion} selectReceipt_id={props.selectReceipt_id} changeToSearch={changeToSearch}/>
