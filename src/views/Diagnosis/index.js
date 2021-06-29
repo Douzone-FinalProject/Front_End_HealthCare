@@ -209,15 +209,7 @@ function Diagnosis (props) {
     const handleModal = () => { //모달 창 열기, 닫기      
         setIsModalVisible(!isModalVisible);
     }
-    useEffect(() => {
-        
-        // setMedicines(medicines.concat(copymedic))
-        return () => {
-            console.log(medicines)
-            // setMedicines(medicines.concat(medicines));
-        }
-    }, [medicines])
-
+   
     const addMedicines =  (data) => {    //약품 '추가'한 목록을 상태에 저장
         setIsModalVisible(!isModalVisible);
 
@@ -234,34 +226,7 @@ function Diagnosis (props) {
             })
         }
       
-        // if(medicines.length === 0) {
-        //     setMedicines(
-        //         medicines.concat(data)
-        //     )
-        // } else {
-        //     let count = medicines.length * data.length;
-        //     for(let dt of data) {
-        //         for(let medicine of medicines){
-        //             if(dt.medicine_id && medicine.medicine_id !== dt.medicine_id){
-        //                 count = count-1;
-        //             } else {
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     if(count === 0) {
-        //         setMedicines(
-        //             medicines.concat(data)
-        //         )
-        //     } else {
-        //         Swal.fire({
-        //             icon: 'error',
-        //             title: '중복된 약이 존재합니다.',
-        //             showConfirmButton: false,
-        //             timer: 1500
-        //         })
-        //     }
-        // }
+        
                 
     };
    
