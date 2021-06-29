@@ -1,7 +1,6 @@
 import Modal from "react-modal";
 import style from "../../Diagnosis.module.css"
 import classnames from "classnames/bind";
-import { useState } from "react";
 import OpinionMedicineListItem from "../UpdateOpinion/OpinionMedicineListItem";
 import TestAfterMedicineListItem from "../UpdateOpinion/TestAfterMedicineListItem";
 import Button from "../../../common/Button";

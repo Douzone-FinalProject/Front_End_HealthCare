@@ -7,7 +7,7 @@ import { Card, Table } from 'antd';
 import Button from "../Button";
 import { useState } from "react";
 import { useEffect } from 'react';
-import { changeState, getTestStateDetailData, getChartData, getLabPatient, getPatientName, barcode } from "views/TestState/db";
+import { changeState, getTestStateDetailData, getChartData, getLabPatient, getPatientName, barcode, deleteBarcode } from "views/TestState/db";
 
 const cx = classNames.bind(style);
 
@@ -18,42 +18,53 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
     {
       title: "증상코드",
       dataIndex: "symptom_id",
+      width: 80,
     },
     {
       title: "묶음코드",
-      dataIndex: "bundle_id"
+      dataIndex: "bundle_id",
+      width: 80,
     },
     {
       title: "검사명",
-      dataIndex: "prescription_name"
+      dataIndex: "prescription_name",
+      width: 300,
     },
     {
       title: "검체명",
-      dataIndex: "specimen"
+      dataIndex: "specimen",
+      width: 120,
     },
     {
       title: "용기",
-      dataIndex: "bottle"
+      dataIndex: "bottle",
+      width: 150,
     },
     {
       title: "바코드",
-      dataIndex: "barcode"
+      dataIndex: "barcode",
+      width: 150,
     },
     {
       title: "검사실",
-      dataIndex: "lab"
+      dataIndex: "lab",
+      width: 80,
     },
     {
       title: "진료의",
-      dataIndex: "doctor"
+      dataIndex: "doctor",
+      width: 80,
     },
     {
       title: "검사자",
-      dataIndex: "staff"
+      dataIndex: "staff",
+      width: 80,
     },
     {
       title: "상태",
       dataIndex: "state",
+      width: 100,
+
       render: state => {
         let color = (state === "검사대기") ? "rgb(255, 99, 132)" : "rgb(255, 99, 132)";
         if (state === "검사접수") {
@@ -90,8 +101,6 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
     }
   }, [chartId])
 
-  useEffect(() => {
-  }, [rows])
   
   const handleBarcode =  () => {
     if (rows.length !== 0) {
@@ -102,7 +111,7 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
       setWaitingData(changeState(waitingData, resultData, chartId));
       setPatientNames(getLabPatient(resultData, chartId));
       setChartData1(getChartData());
-      barcode(resultData, rows);
+      setResultData(barcode(resultData, rows));
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -120,6 +129,7 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
       }));
       setWaitingData(changeState(waitingData, resultData, chartId));
       setChartData1(getChartData());
+      setResultData(deleteBarcode(resultData, rows));
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -190,7 +200,7 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
         </div>
       </div>
       <div className={cx("teststate-table")}>
-        <Table className={cx("ant-th", "ant-tbody")} columns={resultItem} dataSource={resultData} pagination={false} rowKey={record => chartId + "-" + record.bundle_id} rowSelection={{...rowSelection}}/>
+        <Table className={cx("ant-th", "ant-tbody")} tableLayout="auto" columns={resultItem} dataSource={resultData} pagination={false} rowKey={record => chartId + "-" + record.bundle_id} rowSelection={{...rowSelection}}/>
       </div>
     </Card>
   );

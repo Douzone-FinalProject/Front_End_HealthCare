@@ -52,10 +52,10 @@ let reserveList = [
       reservation_id: 5,
       reservation_name: '신용건',
       reservation_phone: '01012312312',
-      reservation_datetime: '2021-06-30 10:30',
+      reservation_datetime: '2021-06-29 10:30',
       reservation_reason: '진단검사',
       resizable: true,
-      range: moment.range(moment('2021-06-30 10:30'), moment('2021-06-30 10:30').add(30, 'minutes')) 
+      range: moment.range(moment('2021-06-29 10:30'), moment('2021-06-29 10:30').add(30, 'minutes')) 
     },
     { content: '10:30 도희희',
       reservation_id: 6,

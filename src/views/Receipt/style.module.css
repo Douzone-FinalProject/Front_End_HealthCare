@@ -23,7 +23,7 @@
 
 /* Left Component */
 .left-component{
-  width: 80em;
+  width: 80%;
   margin-left: 1.2em;
 
 }
@@ -60,7 +60,7 @@
   background-color:#f8f9fa;
   padding: 1em;
   border-radius: 5px;
-  height: 25em;
+  height: 29em;
 }
 
 
@@ -95,7 +95,7 @@
 
 /* Right Component */
 .right-component{
-  width: 38em;
+  width: 38%;
   margin-left: 1.2em;
   margin-right: 1.2em;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
