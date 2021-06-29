@@ -1,15 +1,26 @@
 import style from "./Diagnosis.module.css";
 import classnames from "classnames/bind";
-import { useState } from "react";
 import  Button  from "../common/Button";
 import SymptomSearchItem from "./SymptomSearchItem"
 import { MDBTable, MDBTableBody } from 'mdbreact';
+import Swal from "sweetalert2";
 const cx = classnames.bind(style);
 
 function SymptomSearch(props) {
 
     const searchSymptom = (event) => {
-        props.searchSymptom(event);
+        if(!event){
+            Swal.fire({
+                icon: 'info',
+                title: '검색 할 증상을 입력해주세요.',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+        else{
+            props.searchSymptom(event);
+        }
+        
         
     };
 
@@ -18,7 +29,12 @@ function SymptomSearch(props) {
             props.selectSymptom(event);
         }
         else{
-            alert("검사 요청 할 환자를 먼저 선택해주세요.");
+            Swal.fire({
+                icon: 'info',
+                title: '진행 할 환자를 먼저 선택해주세요.',
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
         
         

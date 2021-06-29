@@ -5,11 +5,11 @@ import OpinionAndSearch from "./OpinionAndSearch";
 import MedicinePrescriptionList from "./MedicinePrescriptionList";
 import style from "./Diagnosis.module.css";
 import classnames from "classnames/bind";
-import {useState, useCallback} from "react";
+import {useState} from "react";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
 import { useEffect } from "react";
-
+import Swal from 'sweetalert2';
 
 const cx = classnames.bind(style);
 
@@ -27,6 +27,7 @@ function Diagnosis (props) {
     }
     
     const [patients, setpatients] = useState(getPatients);
+    console.log(setpatients)
     const [selectedPatient, setSelectP] = useState({
         patient_id: "",
         patient_name: "",
@@ -35,7 +36,12 @@ function Diagnosis (props) {
 
     const selectPatient = (child_patient_id, child_patient_name, child_patient_state) => {
         if(child_patient_state !== "진료 중"){
-            alert("진료 상태인 환자만 선택 가능합니다.");
+            Swal.fire({
+                icon: 'info',
+                title: '진료 상태인 환자만 선택 가능합니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
         else{
             setSelectP({
@@ -66,7 +72,7 @@ function Diagnosis (props) {
     const [symptoms, setSympToms] = useState(getSympTom);
     const [symptomsCopy, setSympTomCopys] = useState([]);
     const [selectSymptoms, setSelectSymptoms] = useState([]);
-
+    console.log(setSympToms)
     const [search, setSearch] = useState({
         symptom_name : ""
     });
@@ -103,7 +109,15 @@ function Diagnosis (props) {
         ]);  
     };
 
-    const deleteAll = (event) => {  //전체 삭제
+    const deleteAll = () => {  //전체 삭제
+        if(selectSymptoms.length === 0){
+            Swal.fire({
+                icon: 'info',
+                title: '삭제 할 증상이 없습니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
         const symptomSelect = selectSymptoms.filter(symptom => symptom.search_id !== symptom.search_id);
         setSelectSymptoms([
             ...symptomSelect
@@ -143,102 +157,100 @@ function Diagnosis (props) {
     const [testFlag, setTestFlag] = useState(1);
 
     const testRequest = (event) => { //검사 요청
-        console.log(event.patient_id)
-
-        let flag = true;
-        for(let op of opinions) {
-            if(op.diagnostic_test_state === '검사 중') {
-                if(op.patient_id === event.patient_id)
-                    flag = false;
-            }
-        }
-
-        if(selectedPatient.patient_id && flag && selectSymptoms.length !== 0) {
-
-            let time = new Date();
-            let yy = time.getFullYear();
-            let tempmm = time.getMonth() + 1;
-            let dd = time.getDate();
-
-            if(10 > tempmm){
-                let mm = '0'+tempmm;
-                let myDateString = yy + '-' + mm + '-' + dd;
-                setOpinions(opinions.concat({
-                    receipt_id: newReceipt_id,
-                    receipt_opinion: '검사 완료 후 소견 작성 필요',
-                    receipt_uniqueness: '',
-                    receipt_datetime: myDateString,
-                    patient_id: selectedPatient.patient_id+'',
-                    patient_name: selectedPatient.patient_name+'',
-                    diagnostic_test_state:'검사 중',
-                    medicines: [],
-                    test_flag: testFlag
-                }));
-                setNewReceipt_id(newReceipt_id + 1);
-                setTestFlag(testFlag +1);
-                console.log(opinions)
-            }
-            else{
-                let myDateString = yy + '-' + tempmm + '-' + dd;
-                setOpinions(opinions.concat({
-                    receipt_id: newReceipt_id,
-                    receipt_opinion: '검사 완료 후 작성 필요',
-                    receipt_uniqueness: '',
-                    receipt_datetime: myDateString,
-                    patient_id: selectedPatient.patient_id+'',
-                    patient_name: selectedPatient.patient_name+'',
-                    diagnostic_test_state:'검사 중',
-                    medicines: [],
-                    test_flag: testFlag
-                }));
-                setNewReceipt_id(newReceipt_id + 1);
-                setTestFlag(testFlag +1);
-            }
-            
-            deleteAll();
-        }
+       
         
+
+                let flag = true;
+                for(let op of opinions) {
+                    if(op.diagnostic_test_state === '검사 중') {
+                        if(op.patient_id === event.patient_id){
+                            flag = false;
+                            Swal.fire({
+                                icon: 'error',
+                                title: '이미 검사 중인 목록이 있습니다.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    }
+                }
+
+                if(selectedPatient.patient_id && flag && selectSymptoms.length !== 0) {
+
+                    let time = new Date();
+                    let yy = time.getFullYear();
+                    let tempmm = time.getMonth() + 1;
+                    let dd = time.getDate();
+
+                    if(10 > tempmm){
+                        let mm = '0'+tempmm;
+                        let myDateString = yy + '-' + mm + '-' + dd;
+                        setOpinions(opinions.concat({
+                            receipt_id: newReceipt_id,
+                            receipt_opinion: '검사 완료 후 소견 작성 필요',
+                            receipt_uniqueness: '',
+                            receipt_datetime: myDateString,
+                            patient_id: selectedPatient.patient_id+'',
+                            patient_name: selectedPatient.patient_name+'',
+                            diagnostic_test_state:'검사 중',
+                            medicines: [],
+                            test_flag: testFlag
+                        }));
+                        setNewReceipt_id(newReceipt_id + 1);
+                        setTestFlag(testFlag +1);
+                        console.log(opinions)
+                    }
+                    else{
+                        let myDateString = yy + '-' + tempmm + '-' + dd;
+                        setOpinions(opinions.concat({
+                            receipt_id: newReceipt_id,
+                            receipt_opinion: '검사 완료 후 작성 필요',
+                            receipt_uniqueness: '',
+                            receipt_datetime: myDateString,
+                            patient_id: selectedPatient.patient_id+'',
+                            patient_name: selectedPatient.patient_name+'',
+                            diagnostic_test_state:'검사 중',
+                            medicines: [],
+                            test_flag: testFlag
+                        }));
+                        setNewReceipt_id(newReceipt_id + 1);
+                        setTestFlag(testFlag +1);
+                    }
+                    
+                    deleteAll();
+                    Swal.fire({
+                        icon: 'success',
+                        title: '검사 요청을 완료하였습니다.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+               
     }; 
      
     /*약품 관련 */
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [medicines, setMedicines] =  useState([]);
-    const [copymedic, setCopyMedic] = useState();
     
     const handleModal = () => { //모달 창 열기, 닫기      
         setIsModalVisible(!isModalVisible);
     }
-
-    const addMedicines = (data) => {    //약품 '추가'한 목록을 상태에 저장
+   
+    const addMedicines =  (data) => {    //약품 '추가'한 목록을 상태에 저장
         setIsModalVisible(!isModalVisible);
-      
-                let dat;
-                for(let i of data){
-                    dat = i.medicine_id
-                }
 
-
-                let med;
-                for(let i of medicines){
-                    med = i.medicine_id
-                    // console.log(zz)
-                }
-                if(dat || med){
-                    if(dat && med !== dat){
-                        setMedicines(
-                                 medicines.concat(data)
-                                 )
-                    }
-                    
-                }
-
-                // setMedicines(medicines.filter((medicine, index) => {
-                //     if (medicines.indexOf(medicine) === index) {
-                //         console.log("들어옴")
-                //     }
-                // }));
-                
-               
+        if(data.filter(x => medicines.includes(x)).length === 0) {
+            setMedicines(
+                medicines.concat(data)
+            )
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: '중복된 약이 존재합니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
     };
    
     
@@ -270,8 +282,18 @@ function Diagnosis (props) {
     
 
     const deleteMedicineAll = () => {  //전체 삭제
-        const deleteAll = medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id);
-        setMedicines(deleteAll); 
+        if(medicines.length === 0){
+            Swal.fire({
+                icon: 'info',
+                title: '추가된 약이 없습니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+        else{
+            const deleteAll = medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id);
+            setMedicines(deleteAll); 
+        }
     };
     const deleteMedicine = (event) => {  // 삭제
         const deleteAll = medicines.filter(medicine => medicine.medicine_id !== event);
@@ -417,9 +439,7 @@ function Diagnosis (props) {
 
 
     const [opp, setOpp] = useState({});
-    const [medicopp, setMedopp] = useState();   //함 사용해보기
 
-    
     function openUpdateModal() {
         setUpdateIsOpen(true);
     }
@@ -462,15 +482,19 @@ function Diagnosis (props) {
     const saveOpinion = (event) => {
         
         
-        for(let i of opinions){
+    for(let i of opinions){
             
-            if(event === i.receipt_id){
-              i.receipt_opinion = opp.receipt_opinion;
-              i.receipt_uniqueness = opp.receipt_uniqueness;
-            }
-            setMedopp(i);
-      }
-      alert("수정이 완료되었습니다.")
+        if(event === i.receipt_id){
+            i.receipt_opinion = opp.receipt_opinion;
+            i.receipt_uniqueness = opp.receipt_uniqueness;
+        }
+    }
+    Swal.fire({
+        icon: 'success',
+        title: '수정이 완료되었습니다.',
+        showConfirmButton: false,
+        timer: 1500
+    })
       closeUpdateModal();
       deleteMedicineAll();  
     }
@@ -484,8 +508,12 @@ function Diagnosis (props) {
             }
             
       }
-    
-       alert("약 처방이 완료되었습니다.");
+       Swal.fire({
+        icon: 'success',
+        title: '약 처방이 완료되었습니다.',
+        showConfirmButton: false,
+        timer: 1500
+    })
        
        setMedicines(medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id)); 
     }
@@ -504,11 +532,6 @@ function Diagnosis (props) {
             receipt_id: event1,
             diagnostic_test_state: event2
         });
-        
-
-
-        
-
     }
     useEffect(() => {
         console.log("증상 선택 및 소견 추가시 재실행")

@@ -2,7 +2,6 @@ import style from "./Diagnosis.module.css";
 import classnames from "classnames/bind";
 import Button from "../common/Button";
 import DiagnosticCheckListItem from "./DiagnosticCheckListItem"
-import {useEffect, useState} from "react";
 import { MDBTable, MDBTableBody } from 'mdbreact';
 
 const cx = classnames.bind(style);
@@ -12,11 +11,6 @@ function DiagnosticCheckList(props) {
     const deleteAll = (event) => {
         props.deleteAll(event);
     };
-
-    const testRequest =  (event) => {
-        props.testRequest();
-
-    }; 
 
     return(
         <>
@@ -48,9 +42,16 @@ function DiagnosticCheckList(props) {
                             })}
                 </MDBTableBody>
             </MDBTable>
+            
+            {props.selectSymptoms.length !== 0?
             <div className="d-flex justify-content-end mr-3">
             <Button className={cx("diagnosis-checkList-button2","mt-2")} onClick={() => props.testRequest(props.selectedPatient)}>검사 요청</Button>
             </div>
+            :
+            <>
+            </>
+            }
+
         </div>
         </>
     );
