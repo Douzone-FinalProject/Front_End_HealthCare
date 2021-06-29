@@ -8,12 +8,12 @@ import Clock from 'react-live-clock';
 
 const cx = classNames.bind(style);
 
-function ChartAndList({waitingData, setWaitingData, setChartId, patientNames, chartData1}, props) {
+function ChartAndList({waitingData, setWaitingData, setChartId, patientNames, chartData1, setChartData1}, props) {
 
   return (
     <Card className={cx("card")}>
       <div className={cx("mb-3", "clock")}><Clock format={'YYYY년 MM월 DD일 HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/></div>
-      <ChartSection chartData1={chartData1} />
+      <ChartSection chartData1={chartData1} setChartData1={setChartData1}/>
       <div className={cx("teststate-lab")}>
         <LabTable patientNames={patientNames}/>
       </div>

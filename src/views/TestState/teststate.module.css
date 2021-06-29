@@ -12,10 +12,11 @@
 
 /* Clock */
 .clock {
-  /* background-color: rgba(201, 203, 207, 0.4); */
+  background-color: rgba(201, 203, 207, 0.3);
   /* background-color: rgba(231, 245, 255, 0.7); */
   /* background-color: rgba(248, 240, 252); */
-  background-color: #f3d9fa;
+  /* background-color: #f3d9fa; */
+  font-weight: bold;
 }
 
 /* testState card */
@@ -33,7 +34,7 @@
 }
 
 .teststate-table {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .teststate-lab {
@@ -45,21 +46,45 @@
 }
 
 /* 검사대기/진료대기  전체/대기/검사중/완료 부분 */
-.checked {
-  color: blue;
+.focus {
+  font-weight: bold;
+}
+
+.focus::before {
+  background-image: url("/src//images//check/check-mark.png");
+  content: "";
+  display: inline-block;
+  margin-right: 3px;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+}
+
+.font-size {
+  font-size: 14px;
 }
 
 /* ant-table */
-.ant-table-thead > tr > th {
-  background-color: black;
+.ant-th :global(.ant-table-thead > tr > th) {
+  /* background-color: #f3d9fa; */
+  background-color: rgba(201, 203, 207, 0.3);
+  text-align: center;
+  font-weight: bold;
+}
+
+.ant-tbody :global(.ant-table-cell) {
+  text-align: center;
 }
 
 /* LabTable */
 .lab-th {
   /* background-color: rgba(201, 203, 207, 0.25); */
   /* background-color: rgba(231, 245, 255, 0.7); */
-  background-color: rgba(248, 240, 252);
+  /* background-color: #f3d9fa; */
+  background-color: rgba(201, 203, 207, 0.3);
 }
+
+
 
 
 

@@ -71,20 +71,22 @@ function TestState(props) {
       "color": "rgb(75, 192, 192)"
     },
   ]);
+
   return (
     <>
       <div className={cx("whole-frame")}>
         <Header />
           <Row>
             <Col flex={2} className={cx("teststate-frame")}>
-              <ChartAndList waitingData={waitingData} setWaitingData={setWaitingData} setChartId={setChartId} patientNames={patientNames} chartData1={chartData1}/>
+              <ChartAndList waitingData={waitingData} setWaitingData={setWaitingData} setChartId={setChartId} patientNames={patientNames} chartData1={chartData1} setChartData1={setChartData1}/>
             </Col>
             <Col flex={3} className="m-2">
               <TestStateDetail chartId={chartId} 
                               resultData={resultData} setResultData={setResultData} 
                               waitingData={waitingData} setWaitingData={setWaitingData} 
                               setPatientNames={setPatientNames} 
-                              setChartData1={setChartData1}/>
+                              setChartData1={setChartData1}
+                              />
             </Col>
           </Row>
         <DialMenu />
