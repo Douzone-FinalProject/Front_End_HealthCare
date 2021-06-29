@@ -22,30 +22,7 @@ const opinionStyles = {
 
 Modal.setAppElement('body');
 function CreateOpinion(props) {
-    // const [isModal, setModal] = useState(false);
-    // const [opinion, setOpinion] = useState({
-    //     receipt_opinion: '',
-    //     receipt_medicine: [],
-    //     receipt_uniqueness: ''
-    // });
-
-    // const handleChange = (event) => {
-    //     setOpinion({
-    //         ...opinion,
-    //         [event.target.name]: event.target.value
-    //     });
-    // };
-
-    // const openAdModal = (event) => {
-    //     setModal(true);
-    // }
-
-    // const closeAdModal = (event) => {
-    //     setModal(false);
-    // }
-
-
-
+  
     return(
     <>
     {props.medicines ?
@@ -69,7 +46,7 @@ function CreateOpinion(props) {
                 <MDBTableBody>
                     {props.medicines && props.medicines.map((medicine) => {
                                         return (
-                                            <CreateOpinionMedicineListItem key={medicine.medicine_id} medicine={medicine} handleCount={props.handleCount} />
+                                            <CreateOpinionMedicineListItem key={medicine.medicine_id} medicine={medicine} />
                                         )
                                     })}
                 </MDBTableBody>

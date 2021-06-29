@@ -11,8 +11,6 @@ function SearchListItem(props) {
     const openOpinion = (event) => {
         props.openOpinion(event);
     }
-
-    // selectOpinion2={props.selectOpinion2} selectReceipt_id2={props.selectReceipt_id2}
     return(
     
     <tr onDoubleClick={()=>{openOpinion(props.opinion.receipt_id)}} onClick={()=>{selectOpinion2(props.opinion.receipt_id, props.opinion.diagnostic_test_state)}} className={cx("diagnosis-opinionAndSearch-row")} key={props.opinion.receipt_id}>

@@ -11,33 +11,6 @@ const cx = classnames.bind(style);
 
 function SymptomAndOpinion(props) {
     
-    // const [modalIsOpen, setIsOpen] = useState(false);
-
-    // function openModal() {
-    //     setIsOpen(true);
-    //     if(!props.medicines){
-            
-    //     }
-    //     else{
-    //         props.handleT();
-    //     }
-        
-        
-    // }
-
-    // function closeModal() {
-    //     setIsOpen(false);
-    // }
-    // const { params } = props.match;
-
-    // const changeToOpinion = (event) => {
-    //     props.changeToOpinion();
-        
-    // };
-  
-    
-    
-
     const changeToSearch = (event) => {
         props.changeToSearch(event);
     };

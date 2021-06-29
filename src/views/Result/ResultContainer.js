@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Button from "views/common/Button";
 import { getSpecimenData } from "./data";
 import { Link } from "react-router-dom";
+import ImgModal from "./ImgModal";
 
 const cx = classnames.bind(style);
 
@@ -50,11 +51,11 @@ function ResultContainer(props) {
         },
         {
             title: '검사항목명',
-            dataIndex: "diagnosisname",
+            dataIndex: "prescription_name",
         },
         {
             title: '결과',
-            dataIndex: "result",
+            dataIndex: "diagnostic_result",
             render(text, record) {
                 const handleFirstChange = (event) => {
                     setResult({
@@ -97,15 +98,15 @@ function ResultContainer(props) {
         },
         {
             title: '이전결과',
-            dataIndex: "prevResult",
+            dataIndex: "diagnostic_previous_result",
         },
         {
             title: '이전결과일',
-            dataIndex: "prevDate",
+            dataIndex: "diagnostic_previous_date",
         },
         {
             title: '참고치',
-            dataIndex: "referenceValue",
+            dataIndex: "prescription_reference_value",
             render(text, record) {
                 return {
                     props: {
@@ -117,9 +118,13 @@ function ResultContainer(props) {
         },
         {
             title: '단위',
-            dataIndex: "unit",
+            dataIndex: "prescription_unit",
         }
     ];
+
+    const [modalIsOpen, setIsOpen] = useState(false);
+    function openModal() { setIsOpen(true); }
+    function closeModal() { setIsOpen(false); }
 
     return (
         <div className={cx("result-secondcontainer")}>
@@ -133,15 +138,17 @@ function ResultContainer(props) {
             </div>
             <div>
                 <div className="d-flex justify-content-center">
-                    <div className={cx("result-imgbox")}>
+                    {props.result.length ?
+                    <div className={cx("result-imgbox")} onClick={openModal}>
                         <img src="http://localhost:3000/mri1.jpg" alt="" height="100%"/>
                         <img src="http://localhost:3000/mri1.jpg" alt="" height="100%"/>
                         <img src="http://localhost:3000/mri2.png" alt="" height="100%"/>
                         <img src="http://localhost:3000/mri2.png" alt="" height="100%"/>
-                        <img src="http://localhost:3000/mri3.jpg" alt="" height="100%"/>
-                        <img src="http://localhost:3000/mri3.jpg" alt="" height="100%"/>
                     </div>
+                    :<div className={cx("result-imgbox")}></div>
+                    }
                 </div>
+                <ImgModal modalIsOpen={modalIsOpen} closeModal={closeModal} />
             </div>
             <div>
                 <div className="d-flex justify-content-center">

@@ -18,7 +18,7 @@ function Diagnosis (props) {
     function getPatients() {
         const patients = [
             {patient_id:"100552", patient_name:"이채정", patient_state:"진료 중", receipt_datetime: "2021. 06. 03. 13:10:15"},
-            {patient_id:"100412", patient_name:"조민상", patient_state:"수납 전", receipt_datetime: "2021. 06. 03 13:15:31"},
+            {patient_id:"100412", patient_name:"조민상", patient_state:"진료 중", receipt_datetime: "2021. 06. 03 13:15:31"},
             {patient_id:"100732", patient_name:"임도희", patient_state:"대기", receipt_datetime: "2021. 06. 03 13:17:55"},
             {patient_id:"100212", patient_name:"강병주", patient_state:"대기", receipt_datetime: "2021. 06. 03 13:50:11"},
             {patient_id:"100002", patient_name:"임꺽정", patient_state:"대기", receipt_datetime: "2021. 06. 03 14:36:31"}
@@ -140,12 +140,16 @@ function Diagnosis (props) {
 
     const [newReceipt_id, setNewReceipt_id] = useState(10000);
 
+    const [testFlag, setTestFlag] = useState(1);
+
     const testRequest = (event) => { //검사 요청
+        console.log(event.patient_id)
 
         let flag = true;
         for(let op of opinions) {
             if(op.diagnostic_test_state === '검사 중') {
-                flag = false;
+                if(op.patient_id === event.patient_id)
+                    flag = false;
             }
         }
 
@@ -167,56 +171,70 @@ function Diagnosis (props) {
                     patient_id: selectedPatient.patient_id+'',
                     patient_name: selectedPatient.patient_name+'',
                     diagnostic_test_state:'검사 중',
-                    medicines: []
+                    medicines: [],
+                    test_flag: testFlag
                 }));
                 setNewReceipt_id(newReceipt_id + 1);
+                setTestFlag(testFlag +1);
+                console.log(opinions)
             }
             else{
                 let myDateString = yy + '-' + tempmm + '-' + dd;
                 setOpinions(opinions.concat({
                     receipt_id: newReceipt_id,
-                    receipt_opinion: '검사 완료 후 소견 작성 필요',
+                    receipt_opinion: '검사 완료 후 작성 필요',
                     receipt_uniqueness: '',
                     receipt_datetime: myDateString,
                     patient_id: selectedPatient.patient_id+'',
                     patient_name: selectedPatient.patient_name+'',
                     diagnostic_test_state:'검사 중',
-                    medicines: []
+                    medicines: [],
+                    test_flag: testFlag
                 }));
                 setNewReceipt_id(newReceipt_id + 1);
+                setTestFlag(testFlag +1);
             }
             
+            deleteAll();
         }
+        
     }; 
      
     /*약품 관련 */
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [medicines, setMedicines] =  useState();
-
+    const [medicines, setMedicines] =  useState([]);
+    const [copymedic, setCopyMedic] = useState();
     
-    // const [medicineCount, setMedicineCount] =  useState([]);
-
     const handleModal = () => { //모달 창 열기, 닫기      
         setIsModalVisible(!isModalVisible);
     }
 
     const addMedicines = (data) => {    //약품 '추가'한 목록을 상태에 저장
         setIsModalVisible(!isModalVisible);
-        // for(let a of data){
-        //     // if(medicines.find(medicine => medicine.medicine_id === a.medicine_id)){
-
-        //     // }
-        //     // else{
-        //         const addSelectMedic = medicines.filter(medicine => medicine.medicine_id === a.medicine_id);
-        //         setMedicines(medicines.concat([
-        //             ...addSelectMedic
-        //         ]))
-        //     // }
-        // }
+      
         
-        setMedicines(data);
-    };
+                let dat;
+                for(let i of data){
+                    dat = i.medicine_id
+                }
 
+
+                let med;
+                for(let i of medicines){
+                    med = i.medicine_id
+                    // console.log(zz)
+                }
+                if(dat || med){
+                    if(dat && med !== dat){
+                        setMedicines(
+                                 medicines.concat(data)
+                                 )
+                    }
+                    
+                }
+               
+    };
+   
     
     const [quantity, setQuantity] = useState({});
 
@@ -241,10 +259,11 @@ function Diagnosis (props) {
         }
         
         setMedicines(tempMedicines); 
+        
     }
     
 
-    const deleteMedicineAll = (event) => {  //전체 삭제
+    const deleteMedicineAll = () => {  //전체 삭제
         const deleteAll = medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id);
         setMedicines(deleteAll); 
     };
@@ -317,6 +336,7 @@ function Diagnosis (props) {
                     medicines: [medicines]
                 }));
                 setNewReceipt_id(newReceipt_id + 1);
+                console.log(opinions)
                 closeModal()
             }
             else{
@@ -396,7 +416,6 @@ function Diagnosis (props) {
     
     function openUpdateModal() {
         setUpdateIsOpen(true);
-        
     }
 
     function closeUpdateModal() {
@@ -405,14 +424,25 @@ function Diagnosis (props) {
     
     const openOpinion = (event) => {
         setUpdateIsOpen(true);
-
-        let getOpinion;
-        for(let i of opinions){
-              if(event === i.receipt_id){
-                getOpinion = i
-              }
+        if(medicines){
+            handleT();
+            let getOpinion;
+            for(let i of opinions){
+                  if(event === i.receipt_id){
+                    getOpinion = i
+                  }
+            }
+            setOpp(getOpinion);
         }
-        setOpp(getOpinion);
+        else{
+            let getOpinion;
+            for(let i of opinions){
+                  if(event === i.receipt_id){
+                    getOpinion = i
+                  }
+            }
+            setOpp(getOpinion);
+        }
         
     }
     
@@ -425,6 +455,7 @@ function Diagnosis (props) {
 
     const saveOpinion = (event) => {
         
+        
         for(let i of opinions){
             
             if(event === i.receipt_id){
@@ -433,9 +464,26 @@ function Diagnosis (props) {
             }
             setMedopp(i);
       }
+      alert("수정이 완료되었습니다.")
       closeUpdateModal();
-   
+      deleteMedicineAll();  
     }
+
+    const saveMedicine = (event) => {
+        
+        for(let i of opinions){
+            
+            if(event === i.receipt_id){
+              i.medicines.push(medicines);
+            }
+            
+      }
+    
+       alert("약 처방이 완료되었습니다.");
+       
+       setMedicines(medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id)); 
+    }
+    
     
     const selectOpinion = (event1, event2) => {
         setSelectReceipt_id({
@@ -480,10 +528,10 @@ function Diagnosis (props) {
             </div>
             <div className="d-flex flex-row ">
                 <div className={cx("diagnosis-checkList-widthAndHeight","diagnosis-checkList-Height", "ml-3")}>
-                      <DiagnosticCheckList selectSymptoms={selectSymptoms} setSelectSymptoms={setSelectSymptoms} deletePrescript={deletePrescript} deleteAll={deleteAll} testRequest={testRequest}/>
+                      <DiagnosticCheckList selectedPatient={selectedPatient} selectSymptoms={selectSymptoms} setSelectSymptoms={setSelectSymptoms} deletePrescript={deletePrescript} deleteAll={deleteAll} testRequest={testRequest}/>
                 </div>
                 <div className={cx("diagnosis-component-background","diagnosis-opinionAndSearch-Height")}>
-                    <OpinionAndSearch fatientOpinion={fatientOpinion} opinions={opinions} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} reportSuccess={reportSuccess} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} />
+                    <OpinionAndSearch fatientOpinion={fatientOpinion} opinions={opinions} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} reportSuccess={reportSuccess} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} saveMedicine={saveMedicine} />
                 </div>
                 <DialMenu />
             </div>

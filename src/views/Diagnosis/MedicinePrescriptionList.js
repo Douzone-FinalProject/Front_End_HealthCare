@@ -48,7 +48,6 @@ function MedicinePrescriptionList(props) {
                             })}
                 </MDBTableBody>
             </MDBTable>
-            {/* {medicines && medicines.map(medicine => <div key={medicine.medicine_id}>{medicine.medicine_id}</div>)} */}
         </div>
         </>
     );

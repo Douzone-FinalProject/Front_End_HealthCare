@@ -145,18 +145,18 @@ const PatientInfo = (props) => {
       <form onSubmit={handleUpdate} className={classes.root} noValidate autoComplete="off">
         <div>
           <div>
-            <TextField disabled id="standard-required" label="차트번호" defaultValue="" onChange={handleChange}
+            <TextField disabled id="standard-required" label="차트번호"  onChange={handleChange}
                     value={props.patient_id ||''}/> 
           </div>
-          <TextField required label="이름" defaultValue="" onChange={handleChange}
+          <TextField required label="이름" onChange={handleChange}
                   name="patient_name"  value={patient.patient_name ||''}/> 
-          <TextField required label="주민번호" defaultValue="" onChange={handleChange}
+          <TextField required label="주민번호"  onChange={handleChange}
                   name="patient_ssn"  value={patient.patient_ssn ||''}/>  
-          <TextField required label="휴대전화" defaultValue="" onChange={handleChange}
+          <TextField required label="휴대전화" onChange={handleChange}
                   name="patient_phone" value={patient.patient_phone ||''}/>      
-          <TextField required label="보호자" defaultValue="" onChange={handleChange}
+          <TextField required label="보호자" onChange={handleChange}
                    name="patient_guardian_name" value={patient.patient_guardian_name ||''}/>   
-          <TextField required label="보호자 휴대전화" defaultValue="" onChange={handleChange}
+          <TextField required label="보호자 휴대전화" onChange={handleChange}
                    name="patient_guardian_phone" value={patient.patient_guardian_phone ||''}/>   
           <TextField select label="보호자 관계" name="patient_guardian_relationship"
             value={patient.patient_guardian_relationship ||'select2'} onChange={handleChange} helperText="선택해주세요">
@@ -168,9 +168,9 @@ const PatientInfo = (props) => {
 
           
           <DaumPost isModal={isModal} closeAdModal={closeAdModal} handleComplete={handleComplete}/>
-          <TextField required label="주소" defaultValue="" onChange={handleChange}
+          <TextField required label="주소"  onChange={handleChange}
                     name="patient_address" value={patient.patient_address ||''}/>      
-          <TextField required label="상세 주소" defaultValue="" onChange={handleChange}
+          <TextField required label="상세 주소" onChange={handleChange}
                     name="patient_detail_address" value={patient.patient_detail_address ||''} />    
           <Button className={cx("custom-btn")} type="button" onClick={openAdModal}>주소찾기</Button>
           
@@ -183,20 +183,20 @@ const PatientInfo = (props) => {
                     {option.label}
                   </MenuItem>))}
             </TextField>
-            <TextField label="맥박" defaultValue="" onChange={handleChange}
+            <TextField label="맥박" onChange={handleChange}
                     name="patient_pulse" value={patient.patient_pulse ||''}/>    
           </div>
 
           <div className="d-flex">
             <div className="ml-1 d-flex-col">
               <Input
-                  name="patient_height" value={patient.patient_height ||''} onChange={handleChange}
+                  name="patient_height"  value={patient.patient_height ||''} onChange={handleChange}
                   endAdornment={<InputAdornment position="end">cm</InputAdornment>}/>
               <FormHelperText >신장</FormHelperText>
             </div>
             <div className="ml-5 d-flex-col">
               <Input
-                  name="patient_weight" value={patient.patient_weight ||''} onChange={handleChange}
+                  name="patient_weight"  value={patient.patient_weight ||''} onChange={handleChange}
                   endAdornment={<InputAdornment position="end">Kg</InputAdornment>}
               />
               <FormHelperText>Weight</FormHelperText>
@@ -220,10 +220,10 @@ const PatientInfo = (props) => {
           </div>
 
           <div className="mt-5">
-            <TextField disabled label="최초진료" defaultValue="2021-06-01" value="2021-06-01"/> 
-            <TextField disabled label="최근진료" defaultValue="2021-06-03" value="2021-06-03"/> 
+            <TextField disabled label="최초진료" value="2021-06-01"/> 
+            <TextField disabled label="최근진료" value="2021-06-03"/> 
           </div>
-          <TextField disabled label="다음예약" defaultValue="2021-06-20" value="2021-06-20"/> 
+          <TextField disabled label="다음예약" value="2021-06-20"/> 
 
           <div className={cx("form-btn")}>
                 <Button type="button" className={cx("form-btn-1", "custom-btn")} onClick={handleDelete}>영구 삭제</Button>
