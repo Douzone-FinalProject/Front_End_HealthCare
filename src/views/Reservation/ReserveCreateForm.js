@@ -8,7 +8,7 @@ import AddAlarmIcon from '@material-ui/icons/AddAlarm';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from './ReserveCalendar/src/moment-range';
-
+import Swal from 'sweetalert2';
 import {
   Form,
 } from 'react-form-elements';
@@ -37,12 +37,26 @@ const ReserveCreateForm = (props) => {
   };
 
   const handleSubmit = (e) => {
+    Swal.fire({
+      icon: 'success',
+      title: createForm.reservation_name + '님 에약이 등록되었습니다.',
+      showConfirmButton: false,
+      timer: 1500
+    })
+
     props.addEvent({
       ...createForm,
       reservation_datetime: moment(startDate).format('YYYY-MM-DD HH:mm'),
       range: moment.range(moment(startDate), moment(startDate).add(30, 'minutes')),
   
     });
+  
+    setCreateForm({
+      reservation_name: '',
+      reservation_phone: '',
+      reservation_reason: '',
+    });
+    setStartDate(new Date());
   };
 
   return (

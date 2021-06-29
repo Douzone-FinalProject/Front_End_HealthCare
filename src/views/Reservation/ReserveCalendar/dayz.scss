@@ -82,11 +82,20 @@ $dayz-event-text-colors: (
         align-items: center;
         display: flex;
         flex-direction: row;
+        // 달력의 x축 날짜 design 
         .day-label {
             display: flex;
             flex-grow: 1;
             flex-basis: 1px;
             padding-left: 8px;
+            font-size: large;
+            // justify-content: center;
+        }
+        // today 
+        .day-label-today{
+            font-size: large;
+            font-weight: bold;
+            color:#60BD68;
         }
     }
 
@@ -120,6 +129,10 @@ $dayz-event-text-colors: (
             .all-day {
                 flex-grow: 0;
             }
+            // lunch time design ###### 
+            .hour12{
+                background-color: #f7f0b9;
+            }
         }
 
         .days {
@@ -136,9 +149,9 @@ $dayz-event-text-colors: (
         border-right:  1px solid $dayz-border-color;
         border-bottom: 1px solid $dayz-border-color;
         box-sizing: border-box;
-        // background-color: yellow;
-        // 달력 크기 조정 
-        height: 52em;
+
+        // 달력 크기 조정 design ############# 
+        height: 56em;
 
         .event > * {
             height: 100%;
@@ -222,7 +235,9 @@ $dayz-event-text-colors: (
 
     // styling in common for events in all displays
     .event {
+        // event design 달력의 이벤트 ###############
         background: $dayz-event-default-color;
+        // background-color: yellow;
         color: $dayz-event-text-default-color;
         @each $current-color in $dayz-event-colors {
             $i: index($dayz-event-colors, $current-color);
@@ -291,16 +306,25 @@ $dayz-event-text-colors: (
             }
             &.is-resizing, &:hover {
                 &:before, &:after {
-                    visibility: visible;
+                    // visibility: visible;
                 }
             }
         }
-
         .evbody {
             padding-left: 0.4rem;
             height: 100%;
             overflow: hidden;
         }
+        // event content design onclick #############
+        .evbody:hover{
+            color: white;
+            background-color: #5DA5DA;
+        }
+        .evbody_visited{
+            color: white;
+            background-color: #5DA5DA;
+        }
+
 
         &.is-continued {
             border-top-right-radius: 0;

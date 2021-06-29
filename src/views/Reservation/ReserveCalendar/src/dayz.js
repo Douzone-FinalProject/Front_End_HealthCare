@@ -80,9 +80,9 @@ export default class Dayz extends React.Component {
                 position={index}
                 layout={this.layout}
                 handlers={this.props.dayEventHandlers}
-                eventHandlers={this.props.eventHandlers}
+                // eventHandlers={this.props.eventHandlers}
                 onEventClick={this.props.onEventClick}
-                onEventResize={this.props.onEventResize}
+                // onEventResize={this.props.onEventResize}
             />
         ));
     }

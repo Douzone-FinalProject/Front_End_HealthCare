@@ -1,6 +1,7 @@
 /* Index Component */
 .parent-component{
   height: 100%;
+  padding: 0.2em;
 }
 
 /* Left Component */
@@ -24,6 +25,8 @@
   padding: 0.1em;
   background-color: #dee2e6;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  height: 30em;
+  margin-top: 0.4em;
 }
 
 .form-subject{
@@ -36,16 +39,19 @@
 .reserve-form{
   background-color: #f8f9fa;
   border-radius: 5px;
-  padding: 0.9em;
-  margin: 0.3em;
+  padding: 1.2em;
+  margin: 0.8em;
+  margin-top: 1.2em;
+  height: 80%;
 }
 
 .right-component-bottom{
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  margin-top: 1.2em;
+  margin-top: 1.7em;
   border-radius: 7px;
   padding: 0.1em;
   background-color: #dee2e6;
+  height: 30em;
 }
 
 Button.custom-btn{

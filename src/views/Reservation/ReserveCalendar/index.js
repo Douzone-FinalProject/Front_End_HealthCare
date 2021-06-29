@@ -2,7 +2,6 @@ import React from 'react';
 import moment from './src/moment-range';
 import Dayz from './src/dayz';
 import { DateTime } from 'react-form-elements';
-import ReserveUpdateForm from '../ReserveUpdateForm';
 import  Button  from "../../common/Button";
 import { Link } from 'react-router-dom';
 import style from '../style.module.css';
@@ -78,7 +77,7 @@ class ReserveCalendar extends React.Component {
 
                 <Dayz {...this.state}
                       events={new Dayz.EventsCollection(this.props.events)}
-                      displayHours={[9, 19]}
+                      displayHours={[8, 19]}
                       onEventResize={this.onEventResize}
                       editComponent={this.editComponent}
                       onEventClick={this.onEventClick}
