@@ -5,7 +5,7 @@ import OpinionAndSearch from "./OpinionAndSearch";
 import MedicinePrescriptionList from "./MedicinePrescriptionList";
 import style from "./Diagnosis.module.css";
 import classnames from "classnames/bind";
-import {useState, useCallback} from "react";
+import {useState} from "react";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
 import { useEffect } from "react";
@@ -27,6 +27,7 @@ function Diagnosis (props) {
     }
     
     const [patients, setpatients] = useState(getPatients);
+    console.log(setpatients)
     const [selectedPatient, setSelectP] = useState({
         patient_id: "",
         patient_name: "",
@@ -66,7 +67,7 @@ function Diagnosis (props) {
     const [symptoms, setSympToms] = useState(getSympTom);
     const [symptomsCopy, setSympTomCopys] = useState([]);
     const [selectSymptoms, setSelectSymptoms] = useState([]);
-
+    console.log(setSympToms)
     const [search, setSearch] = useState({
         symptom_name : ""
     });
@@ -103,7 +104,7 @@ function Diagnosis (props) {
         ]);  
     };
 
-    const deleteAll = (event) => {  //전체 삭제
+    const deleteAll = () => {  //전체 삭제
         const symptomSelect = selectSymptoms.filter(symptom => symptom.search_id !== symptom.search_id);
         setSelectSymptoms([
             ...symptomSelect
@@ -203,35 +204,83 @@ function Diagnosis (props) {
     /*약품 관련 */
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [medicines, setMedicines] =  useState([]);
-    const [copymedic, setCopyMedic] = useState();
+    const [copymedic, setCopyMedic] = useState([]);
     
     const handleModal = () => { //모달 창 열기, 닫기      
         setIsModalVisible(!isModalVisible);
     }
-
-    const addMedicines = (data) => {    //약품 '추가'한 목록을 상태에 저장
-        setIsModalVisible(!isModalVisible);
-      
+    useEffect(() => {
         
-                let dat;
-                for(let i of data){
-                    dat = i.medicine_id
-                }
+        // setMedicines(medicines.concat(copymedic))
+        return () => {
+            console.log(medicines)
+            // setMedicines(medicines.concat(medicines));
+        }
+    }, [medicines])
 
+    const addMedicines =  (data) => {    //약품 '추가'한 목록을 상태에 저장
+        setIsModalVisible(!isModalVisible);
 
-                let med;
-                for(let i of medicines){
-                    med = i.medicine_id
-                    // console.log(zz)
-                }
-                if(dat || med){
-                    if(dat && med !== dat){
-                        setMedicines(
-                                 medicines.concat(data)
-                                 )
-                    }
+        setMedicines(data);
+        // setCopyMedic(data);
+        // if(medicines[0]){
+    
+        //         console.log("zen2?")
+            
+        // }
+        // else{
+        //     console.log("zzz")
+        //     // let ha;
+        //     // for(let z of data){
+        //     //     ha = z;
+        //     // }
+
+        //     for(let i of medicines){
+        //         for(let z of data){
+        //              if(i.medicine_id !== z.medicine_id){
+        //             // setMedicines(medicines.concat(data));
+        //         }
+        //         else{
+        //             setMedicines(data);
+        //         }
+        //         }
+                
+        //     }
+
+        // }
+        // let zz;
+        // for(let i of data){
+        //     zz = i
+
+        //     if(medicines.filter((med) => med.medicine_id !== med.medicine_id)){
+                
+        //     }
+        //     else{
+        //         setMedicines(medicines.concat(data));
+        //     }
+        // }
+        
+        
+
+        // if(medicines){
+        //     for(let i of data){
+        //         for(let z of medicines){
+        //             if(i.medicine_id !== z.medicine_id){
+        //                 setMedicines(medicines.concat(data))
+        //         }
+        //         else{
                     
-                }
+        //             
+        //         }
+        //         }
+                
+        //     }
+        // }
+        
+        
+        
+        
+               
                
     };
    
@@ -411,9 +460,7 @@ function Diagnosis (props) {
 
 
     const [opp, setOpp] = useState({});
-    const [medicopp, setMedopp] = useState();   //함 사용해보기
 
-    
     function openUpdateModal() {
         setUpdateIsOpen(true);
     }
@@ -462,7 +509,6 @@ function Diagnosis (props) {
               i.receipt_opinion = opp.receipt_opinion;
               i.receipt_uniqueness = opp.receipt_uniqueness;
             }
-            setMedopp(i);
       }
       alert("수정이 완료되었습니다.")
       closeUpdateModal();

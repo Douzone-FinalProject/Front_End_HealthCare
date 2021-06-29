@@ -1,6 +1,5 @@
 import style from "./Diagnosis.module.css";
 import classnames from "classnames/bind";
-import { useState } from "react";
 import  Button  from "../common/Button";
 import SymptomSearchItem from "./SymptomSearchItem"
 import { MDBTable, MDBTableBody } from 'mdbreact';
