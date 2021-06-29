@@ -9,7 +9,7 @@ import {useState, useCallback} from "react";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
 import { useEffect } from "react";
-
+import Swal from 'sweetalert2';
 
 const cx = classnames.bind(style);
 
@@ -211,28 +211,49 @@ function Diagnosis (props) {
 
     const addMedicines = (data) => {    //약품 '추가'한 목록을 상태에 저장
         setIsModalVisible(!isModalVisible);
+
+        if(data.filter(x => medicines.includes(x)).length === 0) {
+            setMedicines(
+                medicines.concat(data)
+            )
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: '중복된 약이 존재합니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
       
-        
-                let dat;
-                for(let i of data){
-                    dat = i.medicine_id
-                }
-
-
-                let med;
-                for(let i of medicines){
-                    med = i.medicine_id
-                    // console.log(zz)
-                }
-                if(dat || med){
-                    if(dat && med !== dat){
-                        setMedicines(
-                                 medicines.concat(data)
-                                 )
-                    }
-                    
-                }
-               
+        // if(medicines.length === 0) {
+        //     setMedicines(
+        //         medicines.concat(data)
+        //     )
+        // } else {
+        //     let count = medicines.length * data.length;
+        //     for(let dt of data) {
+        //         for(let medicine of medicines){
+        //             if(dt.medicine_id && medicine.medicine_id !== dt.medicine_id){
+        //                 count = count-1;
+        //             } else {
+        //                 break;
+        //             }
+        //         }
+        //     }
+        //     if(count === 0) {
+        //         setMedicines(
+        //             medicines.concat(data)
+        //         )
+        //     } else {
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: '중복된 약이 존재합니다.',
+        //             showConfirmButton: false,
+        //             timer: 1500
+        //         })
+        //     }
+        // }
+                
     };
    
     
