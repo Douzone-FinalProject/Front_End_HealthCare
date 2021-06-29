@@ -6,6 +6,7 @@ import InputText from "./InputText";
 import InputSmText from "./InputSmText";
 import DaumPost from "./DaumPost";
 import Button from "views/common/Button";
+import Swal from 'sweetalert2';
 
 const cx = classnames.bind(style);
 
@@ -188,10 +189,20 @@ function CreatePatient(props) {
                 guardian_phone2: '',
                 guardian_phone3: ''
             });
-            alert('신규 환자가 등록되었습니다.');
+            Swal.fire({
+                icon: 'success',
+                title: '신규 환자가 등록되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
             argProps.closeModal();
         } else {
-            alert("필수 사항을 입력해주세요.");
+            Swal.fire({
+                icon: 'error',
+                title: '필수 사항을 입력해주세요.',
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
     }, [ssn, phone, props]);
 
