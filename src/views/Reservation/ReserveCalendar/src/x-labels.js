@@ -1,6 +1,7 @@
 import React  from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import WhereToVoteIcon from '@material-ui/icons/WhereToVote';
 
 export default class XLabels extends React.Component {
 
@@ -42,12 +43,23 @@ export default class XLabels extends React.Component {
     }
 
     render() {
+        const today = moment(new Date()).format('YYYYMMDD')
         return (
             <div className="x-labels">
                 {
                     this.days.map(day => 
+                        // 달력의 날짜 부분 #####
                         <div key={day.format('YYYYMMDD')} className="day-label">
-                            {day.locale(this.props.locale).format(this.dateFormat)}
+                            {day.format('YYYYMMDD') === today?
+                            <div key={day.format('YYYYMMDD')} className="day-label day-label-today">
+                                <WhereToVoteIcon className="m-1"/>
+                                {day.locale(this.props.locale).format(this.dateFormat)}
+                            </div>
+                            :
+                            <div key={day.format('YYYYMMDD')} className="day-label">
+                                {day.locale(this.props.locale).format(this.dateFormat)}
+                            </div>
+                            }
                         </div>
                 )}
             </div>

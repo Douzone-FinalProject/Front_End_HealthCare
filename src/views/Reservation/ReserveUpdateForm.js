@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from './ReserveCalendar/src/moment-range';
+import Swal from 'sweetalert2';
 
 import {
   Form,
@@ -49,10 +50,21 @@ const ReserveUpdateForm = (props) => {
   };
 
   const handleUpdate = (e) => {
+    Swal.fire({
+      icon: 'success',
+      title: updateForm.reservation_name + '님 에약이 수정되었습니다.',
+      showConfirmButton: false,
+      timer: 1500
+    })
+
     // DB 수정  
     updateForm.reservation_datetime = moment(startDate).format('YYYY-MM-DD HH:mm');
     updateForm.range = moment.range(moment(updateForm.reservation_datetime), moment(updateForm.reservation_datetime).add(30, 'minutes')) 
     props.handleUpdate(updateForm);
+
+    // 값 초기화 
+    setUpdateForm({});
+    setStartDate(new Date());
   };
 
   return (
@@ -94,8 +106,29 @@ const ReserveUpdateForm = (props) => {
                 <Button type="button" className={cx("custom-btn", "mr-3")}>SMS 발송</Button>
                 <Button type="button" className={cx("custom-btn-confirm", "mr-3")}
                     onClick={() => {
-                      const rid = updateForm.reservation_id;
-                      props.handleDelete(rid);
+
+                      Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                          )
+                          const rid = updateForm.reservation_id;
+                          props.handleDelete(rid);
+                          setUpdateForm({});
+                          setStartDate(new Date());
+                          props.handleMode();
+                        }
+                      })
                     }}
                 >삭제</Button> 
                 <Button type="submit" className={cx("custom-btn-confirm")}>수정</Button>            

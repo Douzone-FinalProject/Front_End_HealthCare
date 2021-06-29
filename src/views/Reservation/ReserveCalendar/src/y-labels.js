@@ -22,10 +22,20 @@ export default class YLabels extends React.Component {
     }
 
     renderLabels() {
+        // 달력에서 한 행 의미 (시간별)
         const day = moment().startOf('hour');
         return this.hours.map(hour => 
             <div key={hour} className="hour">
-                {day.hour(hour).format(this.props.timeFormat)}
+
+            {hour === 12? 
+                <div key={hour} className="hour hour12">
+                    {day.hour(hour).format(this.props.timeFormat)}
+                </div>
+                :
+                <div key={hour} className="hour">
+                    {day.hour(hour).format(this.props.timeFormat)}
+                </div>
+            }
             </div>
         );
     }

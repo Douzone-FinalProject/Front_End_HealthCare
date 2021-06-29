@@ -26,8 +26,9 @@ export default class Day extends React.Component {
     constructor() {
         super();
         this.state = { resize: false};
+        //'onDoubleClick',
         [
-            'onClick', 'onDoubleClick',
+            'onClick', 
         ].forEach((ev) => {
             this[ev] = this[ev].bind(this);
         });
@@ -59,9 +60,9 @@ export default class Day extends React.Component {
         this.onClickHandler(ev, this.props.handlers.onClick);
     }
 
-    onDoubleClick(ev) {
-        this.onClickHandler(ev, this.props.handlers.onDoubleClick);
-    }
+    // onDoubleClick(ev) {
+    //     this.onClickHandler(ev, this.props.handlers.onDoubleClick);
+    // }
 
     renderEvents() {
         // content - 예약 내역 들어가는 공간 
@@ -76,7 +77,14 @@ export default class Day extends React.Component {
                     day={this.props.day}
                     parent={this}
                     // 부모에게 props로 받은 이벤트함수에 파라미터로 이벤트 아이디를 넘겨줌 
-                    onClick={() => this.props.onEventClick(duration.event.attributes.reservation_id)}
+                    onClick={
+                        (e) => {
+                            console.log('7s6dfs7dfoa8sd8f9');
+                            console.log(e.target);
+                            console.log(e.target.className);
+                            this.props.onEventClick(duration.event.attributes.reservation_id);
+                        }
+                    }
                 />
             );
             (duration.event.isSingleDay() ? singleDayEvents : allDayEvents).push(event);
@@ -109,7 +117,7 @@ export default class Day extends React.Component {
                 ref="root"
                 {...props}
                 onClick={this.onClick}
-                onDoubleClick={this.onDoubleClick}
+                // onDoubleClick={this.onDoubleClick}
             >
                 <Label day={this.props.day} className="label">
                     {this.props.day.format('D')}
