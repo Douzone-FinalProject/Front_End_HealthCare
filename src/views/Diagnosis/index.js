@@ -212,7 +212,6 @@ function Diagnosis (props) {
     const addMedicines = (data) => {    //약품 '추가'한 목록을 상태에 저장
         setIsModalVisible(!isModalVisible);
       
-        
                 let dat;
                 for(let i of data){
                     dat = i.medicine_id
@@ -232,6 +231,13 @@ function Diagnosis (props) {
                     }
                     
                 }
+
+                // setMedicines(medicines.filter((medicine, index) => {
+                //     if (medicines.indexOf(medicine) === index) {
+                //         console.log("들어옴")
+                //     }
+                // }));
+                
                
     };
    

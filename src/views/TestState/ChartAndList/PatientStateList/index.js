@@ -16,32 +16,32 @@ function PatientStateList({waitingData, setWaitingData, setChartId}, props) {
     {
       title: '순서',
       dataIndex: "order",
-      width: '15%'
+      width: 50
     },
     {
       title: '차트번호',
       dataIndex: "chart",
-      width: '20%'
+      width: 80
     },
     {
       title: '이름',
       dataIndex: "name",
-      width: '15%'
+      width: 70
     },
     {
       title: '성별',
       dataIndex: "sex",
-      width: '15%'
+      width: 50
     },
     {
       title: '나이',
       dataIndex: "age",
-      width: '15%'
+      width: 50
     },
     {
       title: '상태',
       dataIndex: "state",
-      width: '20%',
+      width: 80,
       render: state => {
         let color = (state === "검사대기") ? "rgb(255, 99, 132)" : "rgb(255, 99, 132)";
         if (state === "검사중") {

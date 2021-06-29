@@ -6,14 +6,14 @@ let resultData1 = [
     data: [
       {
         symptom_id: "STS335",
-        bundle_id: "H1001",
-        prescription_name: "Hematocrit",
-        specimen: "Blood/DeTA tube",
-        bottle: "EDTA",
-        barcode: "EDTABNP1",
+        bundle_id: "ANM05",
+        prescription_name: "Valproic acid therapeutic drug monitoring",
+        specimen: "Whole Blood",
+        bottle: "Sodium Citrate",
+        barcode: "",
         lab: "검사실2",    
-        doctor: "닥터후",
-        staff: "스펀지밥",
+        doctor: "황성욱",
+        staff: "홍종현",
         state: "검사대기"
       },
       {
@@ -22,10 +22,10 @@ let resultData1 = [
         prescription_name: "Mean Cell Volume",
         specimen: "Blood/DeTA tube",
         bottle: "EDTA",
-        barcode: "EDTABNP2",
+        barcode: "",
         lab: "검사실1",    
-        doctor: "닥터 스트레인지",
-        staff: "별가",
+        doctor: "홍종현",
+        staff: "박시현",
         state: "검사대기"
       },
       {
@@ -34,10 +34,10 @@ let resultData1 = [
         prescription_name: "Hemoglobin",
         specimen: "Blood/DeTA tube",
         bottle: "EDTA",
-        barcode: "EDTABNP3",
+        barcode: "",
         lab: "검사실3",    
-        doctor: "익준",
-        staff: "깐깐징어",
+        doctor: "박시현",
+        staff: "김형윤",
         state: "검사대기"
       },
       {
@@ -46,10 +46,10 @@ let resultData1 = [
         prescription_name: "Diabets melitus Test",
         specimen: "Spot urine/cup",
         bottle: "Urine",
-        barcode: "Urine",
+        barcode: "",
         lab: "검사실2",    
-        doctor: "낭만닥터",
-        staff: "야나두",
+        doctor: "김형윤",
+        staff: "박빛나",
         state: "검사대기"
       }
     ]
@@ -64,10 +64,10 @@ let resultData1 = [
         prescription_name: "Hematocrit",
         specimen: "Blood/DeTA tube",
         bottle: "EDTA",
-        barcode: "EDTABNP1",
+        barcode: "",
         lab: "검사실2",    
-        doctor: "닥터후",
-        staff: "스펀지밥",
+        doctor: "박빛나",
+        staff: "윤서영",
         state: "검사대기"
       },
       {
@@ -76,10 +76,10 @@ let resultData1 = [
         prescription_name: "Mean Cell Volume",
         specimen: "Blood/DeTA tube",
         bottle: "EDTA",
-        barcode: "EDTABNP2",
+        barcode: "",
         lab: "검사실1",    
-        doctor: "닥터 스트레인지",
-        staff: "별가",
+        doctor: "윤서영",
+        staff: "이종현",
         state: "검사대기"
       },
     ]
@@ -94,10 +94,10 @@ let resultData1 = [
         prescription_name: "Hematocrit",
         specimen: "Blood/DeTA tube",
         bottle: "EDTA",
-        barcode: "EDTABNP1",
+        barcode: "",
         lab: "검사실2",    
-        doctor: "닥터후",
-        staff: "스펀지밥",
+        doctor: "이종현",
+        staff: "민지현",
         state: "검사대기"
       },
     ]
@@ -111,7 +111,7 @@ const waitingData = [
       chart: 1000101,
       name: '병주캉',
       sex: "?",
-      age: "900",
+      age: "90",
       state: "검사대기",
     },
     {
@@ -139,6 +139,7 @@ export function getTestStateDetailData(chartId) {
     if (data.chartId === chartId) {
        return data.data;
     }
+    return "";
   })
   return result[0].data; 
 }
@@ -150,11 +151,7 @@ export function getLabData(waitType, state) {
     if (state === "whole") {
       return results = waitingData;
     } else {
-      results = waitingData.filter(data => {
-        if (data.state === state) {
-          return data;
-        }
-      })
+      results = waitingData.filter(data => data.state === state)
     }
   } else {
     results = waitingData.filter(data => {
@@ -171,6 +168,7 @@ export function getLabData(waitType, state) {
           }
         }
       }
+      return "";
     })
   }
   return results;
@@ -364,15 +362,31 @@ export function barcode(resultData, rows) {
     }
     barcodes.push(barcode)
   }
-  rows.map((row, index) => {
+  for (let index in rows) {
     for (let i in barcodes) {
-      if (i === index) {
-        row.barcode = barcodes[i];
+      if (index === i && !rows[index].barcode) {
+        rows[index].barcode = barcodes[i]
       }
     }
+  }
+  results = resultData.map(result => {
+    for (let row of rows) {
+      if (result.bundle_id === row.bundle_id) {
+        return row
+      } 
+    }
+    return result;
   })
-  // results = resultData.map(result => {
-    
-  // })
+  return results;
+}
 
+export function deleteBarcode(resultData, rows) {
+  for (let row of rows) {
+    for (let result of resultData) {
+      if (row.bundle_id && result.bundle_id) {
+        result.barcode = ""
+      }
+    }
+  }
+  return resultData;
 }
