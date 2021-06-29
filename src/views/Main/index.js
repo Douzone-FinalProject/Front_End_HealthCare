@@ -26,10 +26,10 @@ function Main(props) {
                                 <div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>뉴스 & 공지사항</h5></div>
                             </div>
                             <div className="col-2">
-                                <div className="d-flex align-items-center">06-25</div>
-                                <div className="d-flex align-items-center mt-2">06-25</div>
-                                <div className="d-flex align-items-center mt-2">06-25</div>
-                                <div className="d-flex align-items-center mt-2">06-24</div>
+                                <div className="d-flex align-items-center"><h6>06-25</h6></div>
+                                <div className="d-flex align-items-center mt-3"><h6>06-25</h6></div>
+                                <div className="d-flex align-items-center mt-3"><h6>06-25</h6></div>
+                                <div className="d-flex align-items-center mt-3"><h6>06-24</h6></div>
                             </div>
                         </div>
                     </div>
@@ -44,22 +44,22 @@ function Main(props) {
                             <Link to="/guideline"><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈시 부작용</h5></div></Link>
                             </div>
                             <div className="col-2">
-                                <div className="d-flex align-items-center">06-25</div>
-                                <div className="d-flex align-items-center mt-2">06-25</div>
-                                <div className="d-flex align-items-center mt-2">06-25</div>
-                                <div className="d-flex align-items-center mt-2">06-24</div>
+                                <div className="d-flex align-items-center"><h6>06-25</h6></div>
+                                <div className="d-flex align-items-center mt-3"><h6>06-25</h6></div>
+                                <div className="d-flex align-items-center mt-3"><h6>06-25</h6></div>
+                                <div className="d-flex align-items-center mt-3"><h6>06-24</h6></div>
                             </div>
                         </div>
                     </div>
                     <div className="col-2">
                         <a href="http://www.douzone.com/company/about/about01_idea_01">
                             <button className="btn btn-primary w-100 h-50 d-flex align-items-center justify-content-center">
-                                <h1 className="text-white"><FontAwesomeIcon icon={faDesktop} className="mr-3"/></h1><h4 className="text-white">더존 홈페이지</h4>
+                                <h1 className="text-white"><FontAwesomeIcon icon={faDesktop} className="mr-3"/></h1><h3 className="text-white">더존 홈페이지</h3>
                             </button>
                         </a>
                         <a href="https://help.douzone.com/main/index.jsp">
                             <button className="btn btn-primary w-100 h-50 d-flex align-items-center justify-content-center mt-2">
-                                <h1 className="text-white"><FontAwesomeIcon icon={faHeadset} className="mr-3"/></h1><h4 className="text-white">고객센터 문의</h4>
+                                <h1 className="text-white"><FontAwesomeIcon icon={faHeadset} className="mr-3"/></h1><h3 className="text-white">고객센터 문의</h3>
                             </button>
                         </a>
                     </div>
