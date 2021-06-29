@@ -9,7 +9,7 @@ import {useState} from "react";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
 import { useEffect } from "react";
-
+import Swal from 'sweetalert2';
 
 const cx = classnames.bind(style);
 
@@ -221,67 +221,48 @@ function Diagnosis (props) {
     const addMedicines =  (data) => {    //약품 '추가'한 목록을 상태에 저장
         setIsModalVisible(!isModalVisible);
 
-        setMedicines(data);
-        // setCopyMedic(data);
-        // if(medicines[0]){
-    
-        //         console.log("zen2?")
-            
+        if(data.filter(x => medicines.includes(x)).length === 0) {
+            setMedicines(
+                medicines.concat(data)
+            )
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: '중복된 약이 존재합니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+      
+        // if(medicines.length === 0) {
+        //     setMedicines(
+        //         medicines.concat(data)
+        //     )
+        // } else {
+        //     let count = medicines.length * data.length;
+        //     for(let dt of data) {
+        //         for(let medicine of medicines){
+        //             if(dt.medicine_id && medicine.medicine_id !== dt.medicine_id){
+        //                 count = count-1;
+        //             } else {
+        //                 break;
+        //             }
+        //         }
+        //     }
+        //     if(count === 0) {
+        //         setMedicines(
+        //             medicines.concat(data)
+        //         )
+        //     } else {
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: '중복된 약이 존재합니다.',
+        //             showConfirmButton: false,
+        //             timer: 1500
+        //         })
+        //     }
         // }
-        // else{
-        //     console.log("zzz")
-        //     // let ha;
-        //     // for(let z of data){
-        //     //     ha = z;
-        //     // }
-
-        //     for(let i of medicines){
-        //         for(let z of data){
-        //              if(i.medicine_id !== z.medicine_id){
-        //             // setMedicines(medicines.concat(data));
-        //         }
-        //         else{
-        //             setMedicines(data);
-        //         }
-        //         }
                 
-        //     }
-
-        // }
-        // let zz;
-        // for(let i of data){
-        //     zz = i
-
-        //     if(medicines.filter((med) => med.medicine_id !== med.medicine_id)){
-                
-        //     }
-        //     else{
-        //         setMedicines(medicines.concat(data));
-        //     }
-        // }
-        
-        
-
-        // if(medicines){
-        //     for(let i of data){
-        //         for(let z of medicines){
-        //             if(i.medicine_id !== z.medicine_id){
-        //                 setMedicines(medicines.concat(data))
-        //         }
-        //         else{
-                    
-        //             
-        //         }
-        //         }
-                
-        //     }
-        // }
-        
-        
-        
-        
-               
-               
     };
    
     
