@@ -13,8 +13,8 @@ function MedicinePrescriptionList(props) {
         props.handleModal();        
     }
 
-    const deleteMedicineAll = (event) => {
-        props.deleteMedicineAll(event);
+    const deleteMedicineAll = () => {
+        props.deleteMedicineAll();
     };
 
     return(

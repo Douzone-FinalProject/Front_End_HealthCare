@@ -38,6 +38,7 @@ function MedicineModal(props) {
 
   let data = [];
   const rowSelection = {
+    preserveSelectedRowKeys: true,
     onChange: (selectedRowKeys, selectedRows) => {
       data = selectedRows;
     },

@@ -42,9 +42,16 @@ function DiagnosticCheckList(props) {
                             })}
                 </MDBTableBody>
             </MDBTable>
+            
+            {props.selectSymptoms.length !== 0?
             <div className="d-flex justify-content-end mr-3">
             <Button className={cx("diagnosis-checkList-button2","mt-2")} onClick={() => props.testRequest(props.selectedPatient)}>검사 요청</Button>
             </div>
+            :
+            <>
+            </>
+            }
+
         </div>
         </>
     );
