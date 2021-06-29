@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React} from 'react';
 import style from './style.module.css';
 import classNames from 'classnames/bind';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
@@ -12,12 +12,7 @@ import { TextareaAutosize } from '@material-ui/core';
 const cx = classNames.bind(style);
 
 const ReserveSMS = (props) => {
-  // state
   
-  let handleColor = (time) => {
-    return time.getHours() > 8 && time.getHours() < 19? "text-success" : "text-error";
-  };
-
   return (
     <div className={cx("right-component-bottom")}>
        <div className={cx("form-subject")}>

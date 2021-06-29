@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import style from './style.module.css';
 import TextField from '@material-ui/core/TextField';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+// import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import AddAlarmIcon from '@material-ui/icons/AddAlarm';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'

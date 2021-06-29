@@ -1,7 +1,5 @@
 import moment from './src/moment-range';
 
-let lastBno = 9;
-
 // db에서 불러온 데이터 
 let db_1 = { 
   reservation_id: '1',
@@ -87,12 +85,6 @@ let reserveList = [
       range: moment.range(moment('2021-06-30 14:30'), moment('2021-06-30 14:30').add(30, 'minutes')) 
     },
 ];
-
-
-// delete reserve
-export function deleteReserve(rid){
-  
-}
 
 
 // 전체 예약 테이블 뽑아오기 
