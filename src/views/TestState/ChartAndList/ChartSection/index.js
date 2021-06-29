@@ -4,13 +4,17 @@ import { Row, Col } from "antd";
 import PieChart from "views/TestState/PieChart";
 import { useState } from "react";
 import { useEffect } from "react";
-import { getChartData2 } from "views/TestState/db";
+import { getChartData, getChartData2 } from "views/TestState/db";
 
 const cx = classNames.bind(style);
 
-function ChartSection({chartData1}, props) {
+function ChartSection({chartData1, setChartData1}, props) {
 
   const [chartData2, setChartData2] = useState([]);
+
+  useEffect(() => {
+    setChartData1(getChartData())
+  }, [chartData1])
 
   useEffect(() => {
     setChartData2(getChartData2());

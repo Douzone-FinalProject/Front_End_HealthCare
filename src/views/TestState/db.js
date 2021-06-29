@@ -112,7 +112,7 @@ const waitingData = [
       name: '병주캉',
       sex: "?",
       age: "900",
-      state: "검사중",
+      state: "검사대기",
     },
     {
       key: 2,
@@ -151,7 +151,6 @@ export function getLabData(waitType, state) {
       return results = waitingData;
     } else {
       results = waitingData.filter(data => {
-        console.log(data)
         if (data.state === state) {
           return data;
         }
@@ -330,7 +329,6 @@ export function getChartData2() {
     }
   }
   for (let data of lab) {
-    console.log(data.value)
     if (data.label === "검사실1") {
       data.value = count[0];
     } else if (data.label === "검사실2") {
@@ -339,7 +337,6 @@ export function getChartData2() {
       data.value = count[2];
     }
   }
-  console.log(lab)
   return lab;
 }
 
@@ -350,4 +347,32 @@ export function getPatientName(chartId) {
       return wait.name
     }
   }
+}
+
+// 바코드 생성(내가 그냥 만든거)
+export function barcode(resultData, rows) {
+  console.log(resultData);
+  console.log(rows)
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+  let barcodes = [];
+  let results = [];
+  for (let row in rows) {
+    let barcode = "";
+    for (let i = 0; i < 13; i++) {
+      const rnum = Math.floor(Math.random() * chars.length)
+      barcode += chars.substring(rnum, rnum + 1)
+    }
+    barcodes.push(barcode)
+  }
+  rows.map((row, index) => {
+    for (let i in barcodes) {
+      if (i === index) {
+        row.barcode = barcodes[i];
+      }
+    }
+  })
+  // results = resultData.map(result => {
+    
+  // })
+
 }
