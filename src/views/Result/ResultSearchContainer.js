@@ -21,7 +21,7 @@ function ResultSearchContainer(props) {
     }, []);
 
     //검색을 하기 위한 상태
-    const [name, setName] = useState('');
+    const [patient_name, setPatient_name] = useState('');
     const [receipt_datetime, setReceipt_datetime] = useState(date);
     const [today, setToday] = useState(true);
     //진단번호, 검체번호별로 출력될 상태
@@ -54,7 +54,7 @@ function ResultSearchContainer(props) {
 
     //input 상태를 바꿈(name, date, today 체크박스)
     const handleNameChange = useCallback((event) => {
-        setName(event.target.value);
+        setPatient_name(event.target.value);
     }, []);
     const handleDateChange = useCallback((event) => {
         setReceipt_datetime(event.target.value);
@@ -78,9 +78,9 @@ function ResultSearchContainer(props) {
     }, [date, receipt_datetime]);
 
     //조회 버튼 클릭 시, 검색조건별로 데이터를 가져옴.
-    const handleSearch = useCallback((argName, argReceipt_datetime) => {
-        setReceiptData(getReceiptData(argName, argReceipt_datetime));
-        setSpecimenData(getDiagnosticData(argName, argReceipt_datetime));
+    const handleSearch = useCallback((argPatient_name, argReceipt_datetime) => {
+        setReceiptData(getReceiptData(argPatient_name, argReceipt_datetime));
+        setSpecimenData(getDiagnosticData(argPatient_name, argReceipt_datetime));
     }, []);
 
     //처음 화면에 보여질 때, 기본값인 오늘 기준으로 데이터를 가져옴.
@@ -98,7 +98,7 @@ function ResultSearchContainer(props) {
             </div>
             <div className={cx("result-smallcontainer")}>
                 <ResultNameBox>환자이름</ResultNameBox>
-                <input type="text" className={cx("result-whitebox")} value={name} onChange={handleNameChange} placeholder="이름을 검색하세요."/>
+                <input type="text" className={cx("result-whitebox")} value={patient_name} onChange={handleNameChange} placeholder="이름을 검색하세요."/>
             </div>
             <div className={cx("result-smallcontainer")}>
                 <input type="checkbox" onChange={handleTodayChange} checked={today} /> <small className="ml-1">Today</small>
@@ -117,7 +117,7 @@ function ResultSearchContainer(props) {
                 </select>
             </div>
             <div className={cx("result-smallcontainer")}>
-                <Button className={cx("result-button")} onClick={()=>handleSearch(name, receipt_datetime)} ><FontAwesomeIcon icon={faSearch} className="mr-1"/>조회</Button>
+                <Button className={cx("result-button")} onClick={()=>handleSearch(patient_name, receipt_datetime)} ><FontAwesomeIcon icon={faSearch} className="mr-1"/>조회</Button>
                 <div className="w-100 d-flex justify-content-end">
                 <Button className={cx("result-button")} onClick={handleSwitch} name="dianonum" style={colorReceipt}>진단번호</Button>
                 <Button className={cx("result-button", "ml-1")} onClick={handleSwitch} name="specinum" style={colorSpecimen}>검체번호</Button>

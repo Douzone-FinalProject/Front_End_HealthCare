@@ -1,7 +1,6 @@
 import style from "./result.module.css"
 import classnames from "classnames/bind";
 import { Table } from 'antd';
-import { MDBTable, MDBTableBody } from 'mdbreact';
 
 const cx = classnames.bind(style);
 
@@ -18,7 +17,7 @@ function SpecimenNum(props) {
         },
         {
             title: '성명',
-            dataIndex: "name",
+            dataIndex: "patient_name",
         },
         {
             title: '상태',

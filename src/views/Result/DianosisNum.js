@@ -17,7 +17,7 @@ function DianosisNum(props) {
         },
         {
             title: '성명',
-            dataIndex: "name",
+            dataIndex: "patient_name",
         },
         {
             title: '상태',
