@@ -251,9 +251,6 @@ function Diagnosis (props) {
                 timer: 1500
             })
         }
-      
-        
-                
     };
    
     

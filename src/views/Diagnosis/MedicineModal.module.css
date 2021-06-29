@@ -31,3 +31,10 @@ Button.medicine-btn {
   width: 3rem;
   height: 2rem;
 }
+
+.ant-th :global(.ant-table-thead > tr > th) {
+  /* background-color: #f3d9fa; */
+  background-color: rgba(201, 203, 207, 0.5);
+  text-align: center;
+  font-weight: bold;
+}

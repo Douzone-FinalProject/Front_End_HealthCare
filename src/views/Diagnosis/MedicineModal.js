@@ -4,7 +4,7 @@ import classnames from "classnames/bind";
 import Button from "views/common/Button";
 import { search } from "./db";
 import { useState } from 'react';
-
+import { useEffect } from 'react';
 
 const cx = classnames.bind(style);
 
@@ -49,6 +49,10 @@ function MedicineModal(props) {
       console.log(selected, selectedRows, changeRows);
     },
   }
+
+  useEffect(() => {
+    console.log(data);
+  }, [data])
   
   return (
     <div className={cx("medicine")}>
@@ -63,7 +67,7 @@ function MedicineModal(props) {
               <Button className={cx("medicine-btn")} onClick={props.handleModal}>닫기</Button>
             </div>
           </div>
-          <Table columns={columns} dataSource={medicineData} rowKey={medicine => medicine.medicine_id} rowSelection={{...rowSelection}}/>
+          <Table className={cx("ant-th")} columns={columns} dataSource={medicineData} rowKey={medicine => medicine.medicine_id} pagination={false} rowSelection={{...rowSelection}}/>
         </Card>
       </div>    
     </div>
