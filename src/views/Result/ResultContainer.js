@@ -51,11 +51,11 @@ function ResultContainer(props) {
         },
         {
             title: '검사항목명',
-            dataIndex: "diagnosisname",
+            dataIndex: "prescription_name",
         },
         {
             title: '결과',
-            dataIndex: "result",
+            dataIndex: "diagnostic_result",
             render(text, record) {
                 const handleFirstChange = (event) => {
                     setResult({
@@ -98,15 +98,15 @@ function ResultContainer(props) {
         },
         {
             title: '이전결과',
-            dataIndex: "prevResult",
+            dataIndex: "diagnostic_previous_result",
         },
         {
             title: '이전결과일',
-            dataIndex: "prevDate",
+            dataIndex: "diagnostic_previous_date",
         },
         {
             title: '참고치',
-            dataIndex: "referenceValue",
+            dataIndex: "prescription_reference_value",
             render(text, record) {
                 return {
                     props: {
@@ -118,7 +118,7 @@ function ResultContainer(props) {
         },
         {
             title: '단위',
-            dataIndex: "unit",
+            dataIndex: "prescription_unit",
         }
     ];
 
