@@ -12,35 +12,7 @@ const cx = classNames.bind(style);
 
 function TestState(props) {
 
-  const [waitingData, setWaitingData] = useState([
-    {
-      key: 1,
-      order: 1,
-      chart: 1000101,
-      name: '병주캉',
-      sex: "?",
-      age: "900",
-      state: "검사중",
-    },
-    {
-      key: 2,
-      order: 2,
-      chart: 1010215,
-      name: '채정리',
-      sex: "여",
-      age: "3",
-      state: "대기"
-    },
-    {
-      key: 3,
-      order: 3,
-      chart: 1001515,
-      name: '민상조',
-      sex: "남",
-      age: "27",
-      state: "대기"
-    }
-  ]);
+  const [waitingData, setWaitingData] = useState([]);
 
   // 차트 아이디
   const [chartId, setChartId] = useState();
@@ -51,26 +23,7 @@ function TestState(props) {
   // LabTab에 prop
   const [patientNames, setPatientNames] = useState([]);
 
-  const [chartData1, setChartData1] = useState([
-    {
-      "id": "a",
-      "label": "검사대기",
-      "value": 0,
-      "color": "rgb(255, 99, 132)"
-    },
-    {
-      "id": "b",
-      "label": "검사중",
-      "value": 0,
-      "color": "rgb(255, 205, 86)"
-    },
-    {
-      "id": "c",
-      "label": "검사완료",
-      "value": 0,
-      "color": "rgb(75, 192, 192)"
-    },
-  ]);
+  const [chartData1, setChartData1] = useState([]);
 
   return (
     <>
