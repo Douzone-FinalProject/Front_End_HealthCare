@@ -28,7 +28,7 @@ function Diagnosis (props) {
     
     const [patients, setpatients] = useState(getPatients);
     console.log(setpatients)
-    const [selectedPatient, setSelectP] = useState({
+    const [selectedPatient, setSelectP] = useState({        //설명 할 부분 ---------1
         patient_id: "",
         patient_name: "",
         patient_state: "",
