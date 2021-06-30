@@ -7,6 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 const useStyles = makeStyles((theme) => ({
     margin: {
       margin: theme.spacing(-1),
+      marginLeft: "20px"
     },
     
   }));
@@ -21,7 +22,7 @@ function DiagnosticCheckListItem(props) {
     
     return(
         <tr key={props.item.search_id}>
-            <td onClick={()=>{deletePrescript(props.item.search_id)}}><IconButton aria-label="delete" className={classes.margin}><DeleteIcon fontSize="small"/></IconButton></td>
+            <td style={{width:"50px", marginRight:"50px"}} onClick={()=>{deletePrescript(props.item.search_id)}}><IconButton aria-label="delete" className={classes.margin}><DeleteIcon fontSize="small"/></IconButton></td>
             <td>{props.item.symptom_code}</td>
             <td>{props.item.bundle_code}</td>
             <td>{props.item.bundle_name}</td>

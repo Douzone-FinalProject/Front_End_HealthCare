@@ -11,6 +11,7 @@ function PatientListItem(props) {
                     {props.patient.patient_state === "진료 중" && <td style={{color:"red"}}>{props.patient.patient_state}</td>}
                     {props.patient.patient_state === "수납 전" && <td style={{color:"blue"}}>{props.patient.patient_state}</td>}  
                     {props.patient.patient_state === "대기" && <td style={{color:"gold"}}>{props.patient.patient_state}</td>}
+                    {props.patient.patient_state === "검사 중" && <td style={{color:"#3bc9db"}}>{props.patient.patient_state}</td>}
                     <td>{props.patient.receipt_datetime}</td> 
                 </tr>
     );

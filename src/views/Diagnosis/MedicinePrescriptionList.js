@@ -29,7 +29,7 @@ function MedicinePrescriptionList(props) {
             <MDBTable  className={cx("table-hover", "diagnosis-tbh")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr>
-                    <th></th>
+                    <th style={{width:"50px"}}></th>
                     <th>약품코드</th>
                     <th>약품명</th>
                     <th>단위</th>
