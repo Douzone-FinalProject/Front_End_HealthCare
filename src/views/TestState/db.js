@@ -20,7 +20,7 @@ let resultData1 = [
         symptom_id: "STS335",
         bundle_id: "M1515",
         prescription_name: "Mean Cell Volume",
-        specimen: "Blood/DeTA tube",
+        specimen: "Whole Blood",
         bottle: "EDTA",
         barcode: "",
         lab: "검사실1",    
@@ -32,7 +32,7 @@ let resultData1 = [
         symptom_id: "STS335",
         bundle_id: "H1232",
         prescription_name: "Hemoglobin",
-        specimen: "Blood/DeTA tube",
+        specimen: "Whole Blood",
         bottle: "EDTA",
         barcode: "",
         lab: "검사실3",    
@@ -62,7 +62,7 @@ let resultData1 = [
         symptom_id: "STS335",
         bundle_id: "H1001",
         prescription_name: "Hematocrit",
-        specimen: "Blood/DeTA tube",
+        specimen: "Whole Blood",
         bottle: "EDTA",
         barcode: "",
         lab: "검사실2",    
@@ -74,7 +74,7 @@ let resultData1 = [
         symptom_id: "STS335",
         bundle_id: "M1515",
         prescription_name: "Mean Cell Volume",
-        specimen: "Blood/DeTA tube",
+        specimen: "Whole Blood",
         bottle: "EDTA",
         barcode: "",
         lab: "검사실1",    
@@ -92,7 +92,7 @@ let resultData1 = [
         symptom_id: "STS335",
         bundle_id: "H1001",
         prescription_name: "Hematocrit",
-        specimen: "Blood/DeTA tube",
+        specimen: "Whole Blood",
         bottle: "EDTA",
         barcode: "",
         lab: "검사실2",    
@@ -175,14 +175,16 @@ export function getLabData(waitType, state) {
 }
 
 // TestStateDetail에서 상태가 변경 되었을 시 PatientStateList에 있는 상태가 변화
-export function changeState(waitingDatas, datas, chartId) {
+export function changeState(waitingDatas, resultDatas, chartId) {
   let results = [];
-  if (datas) {
+  if (resultDatas) {
+    console.log("waitingData", waitingData);
+    console.log("watingDatas", waitingDatas)
     results = waitingDatas.map(wait => {
       if (wait.chart === chartId) {
         let waitCount = 0;
         let complete = 0;
-        for (let data of datas) {
+        for (let data of resultDatas) {
           if (data.state === "검사접수") {
             wait.state = "검사중";
             return wait;
@@ -193,10 +195,10 @@ export function changeState(waitingDatas, datas, chartId) {
           }
         }
         // watiCount, complete 길이에 따라 상태가 달라짐
-        if (waitCount === datas.length) {
+        if (waitCount === resultDatas.length) {
           wait.state = "검사대기";
           return wait;
-        } else if (complete === datas.length) {
+        } else if (complete === resultDatas.length) {
           wait.state = "검사완료";
           return wait;
         } else {
@@ -349,8 +351,6 @@ export function getPatientName(chartId) {
 
 // 바코드 생성(내가 그냥 만든거)
 export function barcode(resultData, rows) {
-  console.log(resultData);
-  console.log(rows)
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
   let barcodes = [];
   let results = [];
