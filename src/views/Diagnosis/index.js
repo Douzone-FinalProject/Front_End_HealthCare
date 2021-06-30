@@ -18,9 +18,9 @@ function Diagnosis (props) {
     function getPatients() {
         const patients = [
             {patient_id:"100552", patient_name:"이채정", patient_state:"진료 중", receipt_datetime: "06/03 13:10"},
-            {patient_id:"100412", patient_name:"조민상", patient_state:"진료 중", receipt_datetime: "06/03 13:15"},
-            {patient_id:"100732", patient_name:"임도희", patient_state:"대기", receipt_datetime: "06/03 13:17"},
-            {patient_id:"100212", patient_name:"강병주", patient_state:"대기", receipt_datetime: "06/03 13:50"},
+            {patient_id:"100412", patient_name:"조민상", patient_state:"검사 중", receipt_datetime: "06/03 13:15"},
+            {patient_id:"100732", patient_name:"임도희", patient_state:"검사 중", receipt_datetime: "06/03 13:17"},
+            {patient_id:"100212", patient_name:"강병주", patient_state:"수납 전", receipt_datetime: "06/03 13:50"},
             {patient_id:"100002", patient_name:"임꺽정", patient_state:"대기", receipt_datetime: "06/03 14:36"}
         ];
         return patients;
