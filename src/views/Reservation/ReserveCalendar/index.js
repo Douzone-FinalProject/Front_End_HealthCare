@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import style from '../style.module.css';
 import classNames from 'classnames/bind';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Swal from 'sweetalert2';
 
 require('./demo.scss');
 
