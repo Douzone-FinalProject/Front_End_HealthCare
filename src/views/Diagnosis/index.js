@@ -121,18 +121,18 @@ function Diagnosis (props) {
 
     function getOpinion(){
         const opinions = [
-            {receipt_id:2020, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "", receipt_datetime:"2021-06-13", patient_id:"100552", patient_name:"이채정", diagnostic_test_state:"검사 완료", medicines: []},
+            {receipt_id:2020, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "", receipt_datetime:"2021-06-13", patient_id:"100552", patient_name:"이채정", diagnostic_test_state:"", medicines: []},
             {receipt_id:2022, receipt_opinion:"이중인격 의심. 심리 검사 후 재진 필요", receipt_uniqueness: "", receipt_datetime:"2021-06-10", patient_id:"100552", patient_name:"이채정", diagnostic_test_state:"", medicines: []},
-            {receipt_id:2051, receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_uniqueness: "", receipt_datetime:"2021-06-11", patient_id:"100412", patient_name:"조민상", diagnostic_test_state:"검사 완료", medicines: []},
-            {receipt_id:2072, receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_uniqueness: "", receipt_datetime:"2021-06-02", patient_id:"100412", patient_name:"조민상",diagnostic_test_state:"검사 완료", medicines: []},
+            {receipt_id:2051, receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_uniqueness: "", receipt_datetime:"2021-06-11", patient_id:"100412", patient_name:"조민상", diagnostic_test_state:"", medicines: []},
+            {receipt_id:2072, receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_uniqueness: "", receipt_datetime:"2021-06-02", patient_id:"100412", patient_name:"조민상",diagnostic_test_state:"", medicines: []},
             {receipt_id:2042, receipt_opinion:"어디에나 끼는 병 의심심각함", receipt_uniqueness: "",  receipt_datetime:"2021-06-13", patient_id:"100732", patient_name:"임도희",diagnostic_test_state:"", medicine_id:'', medicines: []},
             {receipt_id:2152, receipt_opinion:"형님병 의심", receipt_uniqueness: "",  receipt_datetime:"2021-06-13", patient_id:"100732", patient_name:"임도희",diagnostic_test_state:"", medicines: []},
             {receipt_id:3521, receipt_opinion:"중2병 의심. 심리 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-07", patient_id:"100212", patient_name:"강병주",diagnostic_test_state:"", medicines: []},
-            {receipt_id:7212, receipt_opinion:"사진증 의심... 사진 찍을 때만 옷 입는...", receipt_uniqueness: "",  receipt_datetime:"2021-06-01", patient_id:"100212", patient_name:"강병주", diagnostic_test_state:"검사 완료", medicines: []},
-            {receipt_id:9921, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-23", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"검사 완료", medicines: []},
-            {receipt_id:9429, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-18", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"검사 완료", medicines: []},
-            {receipt_id:5255, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-11", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"검사 완료", medicines: []},
-            {receipt_id:9531, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-18", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"검사 완료", medicines: []}
+            {receipt_id:7212, receipt_opinion:"사진증 의심... 사진 찍을 때만 옷 입는...", receipt_uniqueness: "",  receipt_datetime:"2021-06-01", patient_id:"100212", patient_name:"강병주", diagnostic_test_state:"", medicines: []},
+            {receipt_id:9921, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-23", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []},
+            {receipt_id:9429, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-18", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []},
+            {receipt_id:5255, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-11", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []},
+            {receipt_id:9531, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-18", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []}
            
             
             
@@ -155,7 +155,7 @@ function Diagnosis (props) {
 
                 let flag = true;
                 for(let op of opinions) {
-                    if(op.diagnostic_test_state === '검사 중') {
+                    if(op.diagnostic_test_state === '검사 완료') {
                         if(op.patient_id === event.patient_id){
                             flag = false;
                             Swal.fire({
@@ -185,7 +185,7 @@ function Diagnosis (props) {
                             receipt_datetime: myDateString,
                             patient_id: selectedPatient.patient_id+'',
                             patient_name: selectedPatient.patient_name+'',
-                            diagnostic_test_state:'검사 중',
+                            diagnostic_test_state:'검사 완료',
                             medicines: [],
                             test_flag: testFlag
                         }));
@@ -202,7 +202,7 @@ function Diagnosis (props) {
                             receipt_datetime: myDateString,
                             patient_id: selectedPatient.patient_id+'',
                             patient_name: selectedPatient.patient_name+'',
-                            diagnostic_test_state:'검사 중',
+                            diagnostic_test_state:'검사 완료',
                             medicines: [],
                             test_flag: testFlag
                         }));
