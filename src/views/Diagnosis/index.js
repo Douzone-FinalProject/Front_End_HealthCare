@@ -110,14 +110,7 @@ function Diagnosis (props) {
     };
 
     const deleteAll = () => {  //전체 삭제
-        if(selectSymptoms.length === 0){
-            Swal.fire({
-                icon: 'info',
-                title: '삭제 할 증상이 없습니다.',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        }
+        
         const symptomSelect = selectSymptoms.filter(symptom => symptom.search_id !== symptom.search_id);
         setSelectSymptoms([
             ...symptomSelect
@@ -282,18 +275,9 @@ function Diagnosis (props) {
     
 
     const deleteMedicineAll = () => {  //전체 삭제
-        if(medicines.length === 0){
-            Swal.fire({
-                icon: 'info',
-                title: '추가된 약이 없습니다.',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        }
-        else{
             const deleteAll = medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id);
             setMedicines(deleteAll); 
-        }
+       
     };
     const deleteMedicine = (event) => {  // 삭제
         const deleteAll = medicines.filter(medicine => medicine.medicine_id !== event);

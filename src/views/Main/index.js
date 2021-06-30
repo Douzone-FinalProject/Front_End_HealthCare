@@ -7,7 +7,7 @@ import Footer from "./Footer";
 function Main(props) {
 
     return (
-        <>
+        <div className="bg-white">
             <Header2 />
             <div>
                 <img src="http://localhost:3000/mainimg.jpg" alt="" width="" height="500" className="w-100"/>
@@ -67,7 +67,7 @@ function Main(props) {
                 </div>
             </div>
             <Footer />
-        </>
+        </div>
     );
 }
 
