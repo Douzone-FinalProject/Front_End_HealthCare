@@ -61,7 +61,7 @@ const ReceiptInfo = (props) => {
             {/* 리스트에서 하나의 행 컴포넌트는 자식으로 따로 만들기 */}
             <AutoSizer disableHeight>
                 {({width, height}) => {
-                  return <List width={width} height={300} list={receiptList} rowCount={receiptList.length} rowHeight={50} rowRenderer={rowRenderer} overscanRowCount={7}></List>
+                  return <List width={width} height={275} list={receiptList} rowCount={receiptList.length} rowHeight={45} rowRenderer={rowRenderer} overscanRowCount={7}></List>
                 }}
             </AutoSizer>
         </div>
