@@ -17,11 +17,11 @@ function Diagnosis (props) {
     /* 환자 리스트  */
     function getPatients() {
         const patients = [
-            {patient_id:"100552", patient_name:"이채정", patient_state:"진료 중", receipt_datetime: "2021. 06. 03. 13:10:15"},
-            {patient_id:"100412", patient_name:"조민상", patient_state:"진료 중", receipt_datetime: "2021. 06. 03 13:15:31"},
-            {patient_id:"100732", patient_name:"임도희", patient_state:"대기", receipt_datetime: "2021. 06. 03 13:17:55"},
-            {patient_id:"100212", patient_name:"강병주", patient_state:"대기", receipt_datetime: "2021. 06. 03 13:50:11"},
-            {patient_id:"100002", patient_name:"임꺽정", patient_state:"대기", receipt_datetime: "2021. 06. 03 14:36:31"}
+            {patient_id:"100552", patient_name:"이채정", patient_state:"진료 중", receipt_datetime: "06/03 13:10"},
+            {patient_id:"100412", patient_name:"조민상", patient_state:"진료 중", receipt_datetime: "06/03 13:15"},
+            {patient_id:"100732", patient_name:"임도희", patient_state:"대기", receipt_datetime: "06/03 13:17"},
+            {patient_id:"100212", patient_name:"강병주", patient_state:"대기", receipt_datetime: "06/03 13:50"},
+            {patient_id:"100002", patient_name:"임꺽정", patient_state:"대기", receipt_datetime: "06/03 14:36"}
         ];
         return patients;
     }
