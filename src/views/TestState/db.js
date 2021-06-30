@@ -178,6 +178,8 @@ export function getLabData(waitType, state) {
 export function changeState(waitingDatas, resultDatas, chartId) {
   let results = [];
   if (resultDatas) {
+    console.log("waitingData", waitingData);
+    console.log("watingDatas", waitingDatas)
     results = waitingDatas.map(wait => {
       if (wait.chart === chartId) {
         let waitCount = 0;
