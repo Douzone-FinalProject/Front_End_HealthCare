@@ -7,13 +7,11 @@ import { Link } from 'react-router-dom';
 import style from '../style.module.css';
 import classNames from 'classnames/bind';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Swal from 'sweetalert2';
 
 require('./demo.scss');
 
-/**
+/*
  * 예약은 30분 단위로만 할 수 있음 
- * 
  */
 const cx = classNames.bind(style);
 
@@ -38,6 +36,21 @@ class ReserveCalendar extends React.Component {
         };
     }
 
+    // 달력에서 문자열 길이만큼 보여주기 
+    textLengthOverCut(txt, len, lastTxt) {
+        if (len === "" || len === null) { // 기본값
+            len = 20;
+        }
+        if (lastTxt === "" || lastTxt === null) { // 기본값
+            lastTxt = "...";
+        }
+        if (txt.length > len) {
+            txt = txt.substr(0, len) + lastTxt;
+        }
+        return txt;
+    }
+
+    // month or day mode 
     changeDisplay(ev) {
         this.setState({ display: ev.target.value });
     }
@@ -50,9 +63,10 @@ class ReserveCalendar extends React.Component {
         this.props.handleClick(ev);
     }
 
+    
+
     render() {
         return (
-            
             <div className="dayz-test-wrapper" style={custom_style}>
                 <div className="d-flex justify-content-between">
                     <Link to="/receipt">
