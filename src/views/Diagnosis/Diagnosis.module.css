@@ -17,7 +17,7 @@
     text-align: center;
 }
 .diagnosis-table{
-    margin-left: 23px;
+    margin-left: 12px;
     width: 96%;
     border-bottom: 0.5px solid rgb(209, 207, 207);
     
@@ -52,14 +52,14 @@
 /*환자 리스트 컴포넌트 크기*/
 .diagnosis-patient-widthAndHeight{  
     width: 470px;
-    height: 470px;
+    height: 430px;
 }
 /*------------------증상 검색 컴포넌트----------------------*/
 
 /*증상 검색 컴포넌트 크기*/
 .diagnosis-symptom-widthAndHeight{ 
     width: 770px;
-    height: 470px;
+    height: 430px;
     /* width: 30vw;
     height: 100%; */
 }
@@ -75,14 +75,13 @@
     border: 1px solid gray;
     background-color: white;
     width: 1160px;
-    height: 440px;
+    /* height: 440px; */
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-/*진단 검사 목록 컴포넌트 높이*/
-.diagnosis-checkList-Height{ 
-    height: 530px;
-    margin-right: 16px;
-}
+
+
+
+
 /*진단 검사 목록 타이틀 간격*/
 .diagnosis-checkList-titleInterval{ 
     margin-left: 26px;
@@ -109,7 +108,7 @@
 /*--------------------약품 처방 목록 컴포넌트----------------*/
 .diagnosis-medicine-widthAndHeight{  
     width: 780px;
-    height: 470px;
+    height: 430px;
 }
 .diagnosis-medicine-button{
     margin-left: 67%;
@@ -120,10 +119,10 @@
     
 }
 /*--------------------증상 및 소견, 환자 검색 컴포넌트----------------*/
-.diagnosis-opinionAndSearch-widthAndHeight{  
+/* .diagnosis-opinionAndSearch-widthAndHeight{  
     width: 700px;
-    height: 500px;
-}
+    height: 480px;
+} */
 .diagnosis-opinionAndSearch-title{
     margin-left: 2%;
 }
@@ -146,7 +145,7 @@
     text-align: center;
 }
 .diagnosis-opinionAndSearch-button{
-    margin-left: 68%;
+    margin-left: 60%;
     margin-right: 6px;
 }
 .diagnosis-opinionAndSearch-buttonFocus:focus{
@@ -162,15 +161,23 @@
     text-align: center;
 }
 .diagnosis-opinionAndSearch-tabaleHeight{
-    height: 270px;
+    height: 268px;
+}
+.diagnosis-opinionAndSearch-tabaleHeight2{
+    height: 258px;
 }
 .diagnosis-opinion-tabaleinterval{
-    margin-bottom: 53px;
+    margin-bottom: 40px;
 }
 .diagnosis-opinionAndSearch-Height{ 
-    height: 530px;
+    height: 460px;
     width: 720px;
     margin-right: 7px;
+}
+/*진단 검사 목록 컴포넌트 높이*/
+.diagnosis-checkList-Height{ 
+    height: 460px;
+    margin-right: 16px;
 }
 /*-------------------환자 검색 컴포넌트---------------------------*/
 .diagnosis-searchPatients-input{
@@ -203,8 +210,8 @@
     text-align:center;
 }
 .diagnosis-tbb{
-    margin-left: 1%;
-    width: 97.5%;
+    margin-left: 1.5%;
+    width: 97%;
     border-bottom: 0.5px solid rgb(209, 207, 207);
     table-layout: fixed;
     text-align:center;

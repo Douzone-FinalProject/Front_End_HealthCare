@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,13 +100,39 @@ const PatientInfo = (props) => {
   // DB 환자 정보 수정
   const handleUpdate = (e) => {
     e.preventDefault();
+    Swal.fire({
+      icon: 'success',
+      title: patient.patient_name + '님 정보가 수정되었습니다.',
+      showConfirmButton: false,
+      timer: 1500
+    })
     props.handleUpdate(patient); // 부모에게 상태 변경 알리기 
   }; 
 
   // DB 환자 정보 영구 삭제 
   const handleDelete = (e) => {
     e.preventDefault();
-    props.handleDelete(patient.patient_id); // 부모에게 상태 변경 알리기 
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+
+        props.handleDelete(patient.patient_id); // 부모에게 상태 변경 알리기 
+        setPatient({});
+      }
+    })
+    
   }; 
 
   const relations = [

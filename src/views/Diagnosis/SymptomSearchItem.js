@@ -12,7 +12,7 @@ function SymptomSearchItem(props) {
             <td>{props.symptom.symptom_name}</td>
             <td>{props.symptom.symptom_code}</td>
             <td>{props.symptom.bundle_code}</td>
-            <td className={cx("diagnosis-alphabet")}>{props.symptom.bundle_name}</td>
+            <td>{props.symptom.bundle_name}</td>
         </tr>
     );
 }

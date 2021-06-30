@@ -12,7 +12,7 @@ let db_1 = {
 
 // 달력에 세팅한 데이터 - 너를 디비라고 일단 생각하기 ... dto  
 let reserveList = [
-    { content: '15:00 채정리',
+    { content: '15:00 채정리 진단검사',
       reservation_id: db_1.reservation_id,
       reservation_name: db_1.reservation_name,
       reservation_phone: db_1.reservation_phone,
@@ -21,7 +21,7 @@ let reserveList = [
       resizable: true,
       range: moment.range(moment(db_1.reservation_datetime), moment(db_1.reservation_datetime).add(30, 'minutes')) 
     },
-    { content: '10:00 무좀상',
+    { content: '10:00 무좀상 진단검사',
       reservation_id: 2,
       reservation_name: '무좀상',
       reservation_phone: '01012312312',
@@ -30,7 +30,7 @@ let reserveList = [
       resizable: true,
       range: moment.range(moment('2021-06-30 10:00'), moment('2021-06-30 10:00').add(30, 'minutes')) 
     },
-    { content: '14:00 임도리',
+    { content: '14:00 임도리 진단검사',
       reservation_id: 3,
       reservation_name: '임도리',
       reservation_phone: '01012312312',
@@ -39,7 +39,7 @@ let reserveList = [
       resizable: true,
       range: moment.range(moment('2021-06-30 14:00'), moment('2021-06-30 14:00').add(30, 'minutes')) 
     }, 
-    { content: '16:00 병주캉',
+    { content: '16:00 병주캉 진단검사',
       reservation_id: 4,
       reservation_name: '병주캉',
       reservation_phone: '01012312312',
@@ -48,7 +48,7 @@ let reserveList = [
       resizable: true,
       range: moment.range(moment('2021-06-28 16:00'), moment('2021-06-28 16:00').add(30, 'minutes')) 
     },
-    { content: '10:30 신용건',
+    { content: '10:30 신용건 진단검사',
       reservation_id: 5,
       reservation_name: '신용건',
       reservation_phone: '01012312312',
@@ -57,7 +57,7 @@ let reserveList = [
       resizable: true,
       range: moment.range(moment('2021-06-29 10:30'), moment('2021-06-29 10:30').add(30, 'minutes')) 
     },
-    { content: '10:30 도희희',
+    { content: '10:30 도희희 진단검사',
       reservation_id: 6,
       reservation_name: '도희희',
       reservation_phone: '01012312312',
@@ -66,7 +66,7 @@ let reserveList = [
       resizable: true,
       range: moment.range(moment('2021-06-30 10:30'), moment('2021-06-30 10:30').add(30, 'minutes')) 
     },
-    { content: '11:30 좀상민',
+    { content: '11:30 좀상민 진단검사',
       reservation_id: 7,
       reservation_name: '좀상민',
       reservation_phone: '01012312312',
@@ -75,7 +75,7 @@ let reserveList = [
       resizable: true,
       range: moment.range(moment('2021-06-30 11:30'), moment('2021-06-30 11:30').add(30, 'minutes')) 
     },
-    { content: '14:30 병주캉',
+    { content: '14:30 병주캉 진단검사',
       reservation_id: 8,
       reservation_name: '병주캉',
       reservation_phone: '01012312312',

@@ -23,7 +23,7 @@ function DiagnosticCheckList(props) {
             <MDBTable className={cx("diagnosis-checkList-tableInterval","diagnosis-tbh")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr>
-                    <th></th> 
+                        <th style={{width:"50px"}}></th>
                     <th>증상코드</th>
                     <th>묶음코드</th>
                     <th>검사명</th>
