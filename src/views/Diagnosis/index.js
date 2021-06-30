@@ -61,10 +61,10 @@ function Diagnosis (props) {
             {search_id:"1", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C2202", bundle_name:"Total Protein", bundle_specimen:"Urine, 24hrs", bundle_bottle:"UrinePack", bundle_lab:"검사실2"},
             {search_id:"2", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"E6540", bundle_name:"Blood Pressure", bundle_specimen:"", bundle_bottle:"", bundle_lab:"검사실2" },
             {search_id:"3", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C3791", bundle_name:"Na (Sodium)" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
-            {search_id:"4", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C3791", bundle_name:"Na (Sodium)" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
-            {search_id:"5", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C3791", bundle_name:"Na (Sodium)" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
-            {search_id:"6", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C3791", bundle_name:"Na (Sodium)" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
-            {search_id:"7", symptom_name:"당뇨", symptom_code:"ARQ21", bundle_code:"A3791", bundle_name:"PICKE" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"}
+            {search_id:"4", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C2202", bundle_name:"Total Protein", bundle_specimen:"Urine, 24hrs", bundle_bottle:"UrinePack", bundle_lab:"검사실2"},
+            {search_id:"5", symptom_name:"당뇨", symptom_code:"DBT02", bundle_code:"C3712", bundle_name:"HbA1C", bundle_specimen:"", bundle_bottle:"", bundle_lab:"검사실2" },
+            {search_id:"6", symptom_name:"당뇨", symptom_code:"DBT02", bundle_code:"C3825", bundle_name:"Glucose, 24hrs Urine" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
+            {search_id:"7", symptom_name:"당뇨", symptom_code:"DBT02", bundle_code:"C2302", bundle_name:"Microalbumin, 24hrs urine" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"}
         ];
         return symptoms;
     }
@@ -368,6 +368,14 @@ function Diagnosis (props) {
                 setNewReceipt_id(newReceipt_id + 1);
                 closeModal()
             }
+            Swal.fire({
+                icon: 'success',
+                title: '진료 작성이 완료되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
+
+            setMedicines(medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id));
         }
         else{
             if(10 > tempmm){
@@ -405,6 +413,12 @@ function Diagnosis (props) {
                 setNewReceipt_id(newReceipt_id + 1);
                 closeModal()
             }
+            Swal.fire({
+                icon: 'success',
+                title: '진료 작성이 완료되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
         };
     
     }

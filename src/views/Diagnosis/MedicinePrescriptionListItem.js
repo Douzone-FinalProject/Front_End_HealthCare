@@ -4,7 +4,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
     margin: {
-      margin: theme.spacing(-0.5),
+        margin: theme.spacing(-1),
+        marginLeft: "20px"
     },
     
   }));
@@ -21,7 +22,7 @@ function MedicinePrescriptionListItem(props) {
 
     return(
         <tr key={props.medicine.medicine_id}>
-            <td onClick={()=>{deleteMedicine(props.medicine.medicine_id)}}><IconButton aria-label="delete" className={classes.margin}><DeleteIcon fontSize="small"/></IconButton></td>
+            <td style={{width:"50px", marginRight:"50px"}} onClick={()=>{deleteMedicine(props.medicine.medicine_id)}}><IconButton aria-label="delete" className={classes.margin}><DeleteIcon fontSize="small"/></IconButton></td>
             <td>{props.medicine.medicine_id}</td>
             <td>{props.medicine.medicine_name}</td>
             <td>{props.medicine.medicine_unit}</td>

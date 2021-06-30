@@ -37,9 +37,9 @@ function SymptomAndOpinion(props) {
                 </div>
                 
                 {props.selectedPatient.patient_id ? 
-                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button")} onClick={props.openModal}>소견 작성</Button>
+                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mb-1")} onClick={props.openModal}>소견 작성</Button>
                     :
-                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button")} onClick={() =>
+                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mb-1")} onClick={() =>
                          Swal.fire({
                             icon: 'info',
                             title: '진료 할 환자를 선택해주세요.',
@@ -48,7 +48,7 @@ function SymptomAndOpinion(props) {
                         })}>소견 작성</Button>
                 }
                 {props.selectReceipt_id.patient_id || props.selectReceipt_id.diagnostic_test_state === "검사 완료" ?
-                    <Link className={cx("noneLink","diagnosis-button")} to="/result"><Button>결과 조회</Button></Link>
+                    <Link className={cx("noneLink","diagnosis-button", "mb-1")} to="/result"><Button>결과 조회</Button></Link>
                     :
                     <>
                     </>

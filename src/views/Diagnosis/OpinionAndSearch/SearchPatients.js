@@ -81,10 +81,10 @@ function SearchPatients(props) {
         
             <h4 className={cx("diagnosis-opinionAndSearch-title","mb-3")}>환자 검색</h4>
             <input className={cx("ml-3 mr-2", "diagnosis-searchPatients-input")} type="text" name="patient_name" onChange={handleSearch} placeholder="이름"/>
-            <input className={cx("mb-2 mr-2", "diagnosis-searchPatients-input")} name="patient_id" type="text" placeholder="차트번호" onChange={handleSearch}/>
+            <input className={cx("mb-1 mr-2", "diagnosis-searchPatients-input")} name="patient_id" type="text" placeholder="차트번호" onChange={handleSearch}/>
             <input type="date" name="receipt_datetime" onChange={handleSearch}/>
 
-            <div className={cx("diagnosis-opinionAndSearch-tabaleHeight")}>
+            <div className={cx("diagnosis-opinionAndSearch-tabaleHeight2")}>
                 <MDBTable scrollY className={cx("diagnosis-table", "diagnosis-opinionAndSearch-tableInterval","table-hover")}>
                     <MDBTableBody>
                     {opinionsCopy.map((opinion) => {
