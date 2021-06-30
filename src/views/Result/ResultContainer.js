@@ -78,21 +78,21 @@ function ResultContainer(props) {
                       style: { background: "#a5d8ff", padding: '0px' }
                     },
                     children: 
-                        <div>
-                            {flag[record.key] ?
-                                <input type="text"
-                                       className="w-100"
-                                       style={{backgroundColor: '#a5d8ff', border: 'none', height: '40px'}}
-                                       value={result[record.key]}
-                                       onChange={handleChange} />
-                                :
-                                <input type="text"
-                                       className="w-100"
-                                       style={{backgroundColor: '#a5d8ff', border: 'none', height: '40px'}}
-                                       value={text}
-                                       onChange={handleFirstChange} />
-                            }
-                        </div>
+                    <div>
+                    {flag[record.key] ?
+                    <input type="text"
+                            className="w-100"
+                            style={{backgroundColor: '#a5d8ff', border: 'none', height: '40px'}}
+                            value={result[record.key]}
+                            onChange={handleChange} />
+                    :
+                    <input type="text"
+                            className="w-100"
+                            style={{backgroundColor: '#a5d8ff', border: 'none', height: '40px'}}
+                            value={' '+text}
+                            onChange={handleFirstChange} />
+                    }
+                    </div>
                 };
             }
         },

@@ -383,7 +383,7 @@ export function barcode(resultData, rows) {
 export function deleteBarcode(resultData, rows) {
   for (let row of rows) {
     for (let result of resultData) {
-      if (row.bundle_id && result.bundle_id) {
+      if (row.bundle_id === result.bundle_id) {
         result.barcode = ""
       }
     }
