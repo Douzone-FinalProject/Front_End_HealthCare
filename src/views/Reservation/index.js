@@ -54,7 +54,8 @@ const Reservation = (props) => {
     row.reservation_phone = updateForm.reservation_phone;
     row.reservation_reason = updateForm.reservation_reason;
     row.reservation_datetime = updateForm.reservation_datetime;
-    row.content = updateForm.reservation_datetime.slice(-5) + ' ' + updateForm.reservation_name;
+    row.reservation_reason = updateForm.reservation_reason;
+    row.content = updateForm.reservation_datetime.slice(-5) + ' ' + updateForm.reservation_name + ' ' + updateForm.reservation_reason;
     setEvents(newEvents);
   };
 

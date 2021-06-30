@@ -73,27 +73,21 @@ function PatientStateList({waitingData, setWaitingData, setChartId}, props) {
   }
 
   useEffect(() => {
-    setWaitingData(getLabData(waitType, state, waitingData));
+    setWaitingData(getLabData(waitType, state));
   }, [waitType, state])
   return (
     <>
       <div className={cx("d-flex", "justify-content-between", "mt-2", "flex-2")}>
         <div className={cx("d-flex", "font-size")}>
-          <div className={cx(waitType === "전체" ? 'focus' : "", "d-flex", "align-items-center", "mr-1")} onClick={handleState} value="전체" checked={true}>전체</div>
-          {/* <span className="d-block">|</span> */}
+          <div className={cx(waitType === "전체" ? 'focus' : "", "d-flex", "align-items-center", "mr-1")} onClick={handleState} value="전체">전체</div>
           <div className={cx(waitType === "검사실1" ? 'focus' : "", "d-flex", "align-items-center", "mr-1", "ml-1")} onClick={handleState} value="검사실1">검사실1</div>
-          {/* <span className="d-block">|</span> */}
           <div className={cx(waitType === "검사실2" ? 'focus' : "", "d-flex", "align-items-center", "mr-1", "ml-1")} onClick={handleState} value="검사실2">검사실2</div>
-          {/* <span className="d-block">|</span> */}
           <div className={cx(waitType === "검사실3" ? 'focus' : "", "d-flex", "align-items-center", "ml-1")} onClick={handleState} value="검사실3">검사실3</div>
         </div>
         <div className={cx("d-flex", "font-size")}>
-          <div className={cx(state === "whole" ? 'focus' : "", "d-flex", "align-items-center", "mr-1")} onClick={handleState} value="whole" checked={true}>전체</div>
-          {/* <span>|</span> */}
+          <div className={cx(state === "whole" ? 'focus' : "", "d-flex", "align-items-center", "mr-1")} onClick={handleState} value="whole">전체</div>
           <div className={cx(state === "검사대기" ? 'focus' : "", "d-flex", "align-items-center", "mr-1", "ml-1")} onClick={handleState} value="검사대기">대기</div>
-          {/* <span>|</span> */}
           <div className={cx(state === "검사중" ? 'focus' : "", "d-flex", "align-items-center", "mr-1", "ml-1")} onClick={handleState} value="검사중">검사중</div>
-          {/* <span>|</span> */}
           <div className={cx(state === "검사완료" ? 'focus' : "", "d-flex", "align-items-center", "ml-1")} onClick={handleState} value="검사완료">완료</div>
         </div>
       </div>

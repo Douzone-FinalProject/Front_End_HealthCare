@@ -1,7 +1,8 @@
 $dayz-event-arrow-width        : 10px !default;
 $dayz-event-height             : 20px !default;
 $dayz-y-label-width            : 60px !default;
-$dayz-border-color             : #b6b6b6 !default;
+// $dayz-border-color             : #b6b6b6 !default;
+$dayz-border-color             : #e2dfdf !default;
 $dayz-heading-label-color      : #555 !default;
 $dayz-highlight-color          : #ececec !default;
 $dayz-event-border-color       : #b6b6b6 !default;
@@ -95,7 +96,8 @@ $dayz-event-text-colors: (
         .day-label-today{
             font-size: large;
             font-weight: bold;
-            color:#60BD68;
+            color:rgb(165, 15, 235);
+            margin-left: -14px;
         }
     }
 
@@ -115,7 +117,6 @@ $dayz-event-text-colors: (
             width: 100%;
             .all-day, .hour {
                 width: 100%;
-                // height: 50%;
                 // background-color: #2b2b2b;
                 // font-size: 5em;
                 flex: 1;
@@ -131,7 +132,7 @@ $dayz-event-text-colors: (
             }
             // lunch time design ###### 
             .hour12{
-                background-color: #f7f0b9;
+                background-color: #e6e5e4;
             }
         }
 
@@ -151,7 +152,7 @@ $dayz-event-text-colors: (
         box-sizing: border-box;
 
         // 달력 크기 조정 design ############# 
-        height: 56em;
+        height: 46em;
 
         .event > * {
             height: 100%;
@@ -236,9 +237,10 @@ $dayz-event-text-colors: (
     // styling in common for events in all displays
     .event {
         // event design 달력의 이벤트 ###############
-        background: $dayz-event-default-color;
-        // background-color: yellow;
-        color: $dayz-event-text-default-color;
+        // background: $dayz-event-default-color;
+        background-color: #c18fe7;
+        // color: $dayz-event-text-default-color;
+        color: white;
         @each $current-color in $dayz-event-colors {
             $i: index($dayz-event-colors, $current-color);
             &.color-#{$i} .evbody {
@@ -247,10 +249,12 @@ $dayz-event-text-colors: (
             }
         }
 
-        box-sizing: border-box;
+        // box-sizing: border-box;
         position: relative;
-        border: 1px solid $dayz-event-border-color;
-        border-radius: $dayz-event-border-radius;
+        // border: 1px solid $dayz-event-border-color;
+        border-bottom: 1px solid lightgray;
+        // border: none;
+        // border-radius: $dayz-event-border-radius;
 
         $span: 0;
         @while $span < 7 {
@@ -317,12 +321,11 @@ $dayz-event-text-colors: (
         }
         // event content design onclick #############
         .evbody:hover{
-            color: white;
-            background-color: #5DA5DA;
+            color: black;
+            // background-color: #5DA5DA;
         }
         .evbody_visited{
-            color: white;
-            background-color: #5DA5DA;
+            color: black;
         }
 
 

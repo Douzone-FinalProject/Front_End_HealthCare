@@ -15,9 +15,12 @@ const ReserveSMS = (props) => {
   
   return (
     <div className={cx("right-component-bottom")}>
-       <div className={cx("form-subject")}>
-        <MailOutlineIcon style={{fontSize: '1.8em'}} className="mr-1"/>
-        문자 발송 
+       <div className={cx("form-subject", "d-flex justify-content-between")}>
+        <div>
+          <MailOutlineIcon style={{fontSize: '1.8em'}} className="mr-1"/>
+          문자 발송 
+        </div>
+        <Button type="submit" className={cx("custom-btn-confirm", "mr-3")}>전송</Button>
       </div>
       <div className={cx("reserve-form")}>
         {/* 이름 , 핸드폰번호, 문자메세지 내용 입력  */}
@@ -38,9 +41,9 @@ const ReserveSMS = (props) => {
               <TextareaAutosize className="mt-3" required name="message" rowsMin={5} placeholder="보낼 내용 입력" />
             </div>
             
-            <div className="d-flex justify-content-end">
+            {/* <div className="d-flex justify-content-end">
               <Button type="submit" className={cx("custom-btn-confirm")}>전송</Button>
-            </div>
+            </div> */}
           </div>
         </Form>
       </div>
