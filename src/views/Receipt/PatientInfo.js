@@ -53,14 +53,12 @@ const PatientInfo = (props) => {
   function handleReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
     // DB insert 
-    // props.addReceipt(db_patient);
     props.addReceipt(patient);
   }
 
   function cancelReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
     // DB delete 
-    // const rid = getRidByPatient(db_patient.patient_id);
     const rid = getRidByPatient(patient.patient_id);
     props.deleteReceipt(rid);
   }
