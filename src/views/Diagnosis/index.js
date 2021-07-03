@@ -10,6 +10,7 @@ import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
 import { useEffect } from "react";
 import Swal from 'sweetalert2';
+import { useSelector } from "react-redux";
 
 const cx = classnames.bind(style);
 
@@ -25,7 +26,7 @@ function Diagnosis (props) {
         ];
         return patients;
     }
-    
+    const receiptList = useSelector((state) => state.receiptReducer.receiptList);
     const [patients, setpatients] = useState(getPatients);
     console.log(setpatients)
     const [selectedPatient, setSelectP] = useState({        //설명 할 부분 ---------1
