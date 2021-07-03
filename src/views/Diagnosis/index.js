@@ -344,7 +344,8 @@ function Diagnosis (props) {
                     patient_id: selectedPatient.patient_id+'',
                     patient_name: selectedPatient.patient_name+'',
                     diagnostic_test_state:'',
-                    medicines: [medicines]
+                    medicines: [medicines],
+                    test_flag: testFlag
                 }));
                 setNewReceipt_id(newReceipt_id + 1);
                 console.log(opinions)
@@ -362,7 +363,8 @@ function Diagnosis (props) {
                     patient_id: selectedPatient.patient_id+'',
                     patient_name: selectedPatient.patient_name+'',
                     diagnostic_test_state:'',
-                    medicines: [medicines]
+                    medicines: [medicines],
+                    test_flag: testFlag
                 }));
                 setNewReceipt_id(newReceipt_id + 1);
                 closeModal()
@@ -390,7 +392,8 @@ function Diagnosis (props) {
                     patient_id: selectedPatient.patient_id+'',
                     patient_name: selectedPatient.patient_name+'',
                     diagnostic_test_state:'',
-                    medicines: []
+                    medicines: [],
+                    test_flag: testFlag
                 }));
                 setNewReceipt_id(newReceipt_id + 1);
                 closeModal()
@@ -407,7 +410,8 @@ function Diagnosis (props) {
                     patient_id: selectedPatient.patient_id+'',
                     patient_name: selectedPatient.patient_name+'',
                     diagnostic_test_state:'',
-                    medicines: []
+                    medicines: [],
+                    test_flag: testFlag
                 }));
                 setNewReceipt_id(newReceipt_id + 1);
                 closeModal()
