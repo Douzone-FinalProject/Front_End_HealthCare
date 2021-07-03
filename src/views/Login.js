@@ -5,7 +5,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import axios from 'axios';
+import { login } from "apis/auth";
+import { addAuthHeader } from "apis/axiosConfig";
+import { useDispatch } from "react-redux";
+import { createSetAuthTokenAction, createSetUidAction } from "redux/auth-reducer";
 
 const CustomRadio = withStyles({
   root: {
@@ -21,30 +24,66 @@ function Login(props) {
         staff_login_pwd: "",
         hospital_id:  "",
         staff_role: ""
-    })
+    });
+    const [role, setRole] = useState('')
+    
+    const dispatch = useDispatch();
 
     const handleChange = (event) => {
-        setUser({
-            ...user,
-            [event.target.name]: event.target.value
-        })
+      setUser({
+        ...user,
+        [event.target.name]: event.target.value
+      })
     };
 
-    const handlePage = (event) => {
-        if(user.staff_role === 'doctor') {
-            props.history.push('/diagnosis')
-        } else if(user.staff_role === 'nurse') {
-            props.history.push('/receipt')
-        } else {
-            props.history.push('/teststate')
-        }
+    const handleRoleChange = (event) => {
+      setRole(event.target.value);
+      if(event.target.value === "doctor") {
+        setUser({
+          ...user,
+          staff_role: "ROLE_DOCTOR"
+        });
+      } else {
+        setUser({
+          ...user,
+          staff_role: "ROLE_NURSE"
+        });
+      }
     };
-    const login = async () => {
+
+    const handleLogin = async () => {
       try {
         console.log(user);
-        const response = await axios.post("http://localhost:8080/auth/login", user);
+        //로그인 요청
+        const userInfo = {...user};
+        const response = await login(userInfo);
         console.log(response.data);
+        if(response.data.login_status === "success") {
+          //요청 헤더에 JWT 토큰 추가
+          addAuthHeader(response.data.authToken);
+          //Redux에 인증 내용 저장
+          dispatch(createSetUidAction(response.data.staff_login_id));
+          dispatch(createSetAuthTokenAction(response.data.authToken));
+          //SessionStorage에 인증 내용 저장(브라우저 갱신시 사용)
+          sessionStorage.setItem("staff_login_id", response.data.staff_login_id);
+          sessionStorage.setItem("authToken", response.data.authToken);
+
+          if(role === 'doctor') {
+            props.history.push('/diagnosis')
+          } else if(role === 'nurse') {
+            props.history.push('/receipt')
+          } else {
+            props.history.push('/teststate')
+          }
+        } else if(response.data.login_status === "hospitalIdFailure") {
+          alert("병원코드가 맞지 않습니다.");
+        } else if(response.data.login_status === "roleFailure"){
+          alert("권한이 다릅니다.");
+        } else {
+          alert("로그인 실패");
+        }
       } catch(error) {
+        alert("로그인에 실패하였습니다.")
         console.log(error);
       } 
     };
@@ -72,10 +111,10 @@ function Login(props) {
                     <FormControlLabel
                             value="doctor"
                             control={ <CustomRadio
-                                checked={user.staff_role === "doctor"}
-                                onChange={handleChange}
+                                checked={role === "doctor"}
+                                onChange={handleRoleChange}
                                 value ="doctor"
-                                name="staff_role"
+                                name="role"
                                 
                             />}
                             label="의사"
@@ -84,10 +123,10 @@ function Login(props) {
                     <FormControlLabel
                             value="doctor"
                             control={  <CustomRadio
-                                checked={user.staff_role === "nurse"}
-                                onChange={handleChange}
+                                checked={role === "nurse"}
+                                onChange={handleRoleChange}
                                 value="nurse"
-                                name="staff_role"
+                                name="role"
                                 
                               />}
                             label="간호사"
@@ -96,10 +135,10 @@ function Login(props) {
                     <FormControlLabel
                             value="doctor"
                             control={  <CustomRadio
-                                checked={user.staff_role === "inspector"}
-                                onChange={handleChange}
+                                checked={role === "inspector"}
+                                onChange={handleRoleChange}
                                 value="inspector"
-                                name="staff_role"
+                                name="role"
                                 
                               />}
                             label="검사자"
@@ -109,7 +148,7 @@ function Login(props) {
                 </RadioGroup>
             </div>
 
-              <button onClick={login} type="button" className={style.btn}>
+              <button onClick={handleLogin} type="button" className={style.btn}>
                 LOG IN 
               </button>
              

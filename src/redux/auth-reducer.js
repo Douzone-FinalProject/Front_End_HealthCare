@@ -1,13 +1,13 @@
 const initialState = {
-  uid: '',
+  staff_login_id: '',
   authToken: ''
 };
 
 const SET_UID = "auth/setUid";
 const SET_AUTH_TOKEN = "auth/setAuthToken"; 
 
-export const createSetUidAction = (uid) => {
-  return {type:SET_UID, uid}
+export const createSetUidAction = (staff_login_id) => {
+  return {type:SET_UID, staff_login_id}
 };
 
 export const createSetAuthTokenAction = (authToken) => {
@@ -16,7 +16,7 @@ export const createSetAuthTokenAction = (authToken) => {
 
 const authReducer = (state=initialState, action) => {
   if(action.type === SET_UID){
-    return {...state, uid: action.uid};
+    return {...state, staff_login_id: action.staff_login_id};
   }else if(action.type === SET_AUTH_TOKEN){
     return {...state, authToken: action.authToken}; 
   }else{
