@@ -17,11 +17,11 @@ function Diagnosis (props) {
     /* 환자 리스트  */
     function getPatients() {
         const patients = [
-            {patient_id:"100552", patient_name:"이채정", patient_state:"진료 중", receipt_datetime: "2021. 06. 03. 13:10:15"},
-            {patient_id:"100412", patient_name:"조민상", patient_state:"진료 중", receipt_datetime: "2021. 06. 03 13:15:31"},
-            {patient_id:"100732", patient_name:"임도희", patient_state:"대기", receipt_datetime: "2021. 06. 03 13:17:55"},
-            {patient_id:"100212", patient_name:"강병주", patient_state:"대기", receipt_datetime: "2021. 06. 03 13:50:11"},
-            {patient_id:"100002", patient_name:"임꺽정", patient_state:"대기", receipt_datetime: "2021. 06. 03 14:36:31"}
+            {patient_id:"100552", patient_name:"이채정", patient_state:"진료 중", receipt_datetime: "06/03 13:10"},
+            {patient_id:"100412", patient_name:"조민상", patient_state:"검사 중", receipt_datetime: "06/03 13:15"},
+            {patient_id:"100732", patient_name:"임도희", patient_state:"검사 중", receipt_datetime: "06/03 13:17"},
+            {patient_id:"100212", patient_name:"강병주", patient_state:"수납 전", receipt_datetime: "06/03 13:50"},
+            {patient_id:"100002", patient_name:"임꺽정", patient_state:"대기", receipt_datetime: "06/03 14:36"}
         ];
         return patients;
     }
@@ -61,10 +61,9 @@ function Diagnosis (props) {
             {search_id:"1", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C2202", bundle_name:"Total Protein", bundle_specimen:"Urine, 24hrs", bundle_bottle:"UrinePack", bundle_lab:"검사실2"},
             {search_id:"2", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"E6540", bundle_name:"Blood Pressure", bundle_specimen:"", bundle_bottle:"", bundle_lab:"검사실2" },
             {search_id:"3", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C3791", bundle_name:"Na (Sodium)" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
-            {search_id:"4", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C3791", bundle_name:"Na (Sodium)" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
-            {search_id:"5", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C3791", bundle_name:"Na (Sodium)" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
-            {search_id:"6", symptom_name:"고혈압", symptom_code:"BLD05", bundle_code:"C3791", bundle_name:"Na (Sodium)" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
-            {search_id:"7", symptom_name:"당뇨", symptom_code:"ARQ21", bundle_code:"A3791", bundle_name:"PICKE" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"}
+            {search_id:"4", symptom_name:"당뇨", symptom_code:"DBT02", bundle_code:"C3712", bundle_name:"HbA1C", bundle_specimen:"", bundle_bottle:"", bundle_lab:"검사실2" },
+            {search_id:"5", symptom_name:"당뇨", symptom_code:"DBT02", bundle_code:"C3825", bundle_name:"Glucose, 24hrs Urine" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"},
+            {search_id:"6", symptom_name:"당뇨", symptom_code:"DBT02", bundle_code:"C2302", bundle_name:"Microalbumin, 24hrs urine" , bundle_specimen:"Serum", bundle_bottle:"SST(8ml)", bundle_lab:"검사실1"}
         ];
         return symptoms;
     }
@@ -110,14 +109,7 @@ function Diagnosis (props) {
     };
 
     const deleteAll = () => {  //전체 삭제
-        if(selectSymptoms.length === 0){
-            Swal.fire({
-                icon: 'info',
-                title: '삭제 할 증상이 없습니다.',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        }
+        
         const symptomSelect = selectSymptoms.filter(symptom => symptom.search_id !== symptom.search_id);
         setSelectSymptoms([
             ...symptomSelect
@@ -128,18 +120,18 @@ function Diagnosis (props) {
 
     function getOpinion(){
         const opinions = [
-            {receipt_id:2020, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "", receipt_datetime:"2021-06-13", patient_id:"100552", patient_name:"이채정", diagnostic_test_state:"검사 완료", medicines: []},
+            {receipt_id:2020, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "", receipt_datetime:"2021-06-13", patient_id:"100552", patient_name:"이채정", diagnostic_test_state:"", medicines: []},
             {receipt_id:2022, receipt_opinion:"이중인격 의심. 심리 검사 후 재진 필요", receipt_uniqueness: "", receipt_datetime:"2021-06-10", patient_id:"100552", patient_name:"이채정", diagnostic_test_state:"", medicines: []},
-            {receipt_id:2051, receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_uniqueness: "", receipt_datetime:"2021-06-11", patient_id:"100412", patient_name:"조민상", diagnostic_test_state:"검사 완료", medicines: []},
-            {receipt_id:2072, receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_uniqueness: "", receipt_datetime:"2021-06-02", patient_id:"100412", patient_name:"조민상",diagnostic_test_state:"검사 완료", medicines: []},
+            {receipt_id:2051, receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_uniqueness: "", receipt_datetime:"2021-06-11", patient_id:"100412", patient_name:"조민상", diagnostic_test_state:"", medicines: []},
+            {receipt_id:2072, receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_uniqueness: "", receipt_datetime:"2021-06-02", patient_id:"100412", patient_name:"조민상",diagnostic_test_state:"", medicines: []},
             {receipt_id:2042, receipt_opinion:"어디에나 끼는 병 의심심각함", receipt_uniqueness: "",  receipt_datetime:"2021-06-13", patient_id:"100732", patient_name:"임도희",diagnostic_test_state:"", medicine_id:'', medicines: []},
             {receipt_id:2152, receipt_opinion:"형님병 의심", receipt_uniqueness: "",  receipt_datetime:"2021-06-13", patient_id:"100732", patient_name:"임도희",diagnostic_test_state:"", medicines: []},
             {receipt_id:3521, receipt_opinion:"중2병 의심. 심리 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-07", patient_id:"100212", patient_name:"강병주",diagnostic_test_state:"", medicines: []},
-            {receipt_id:7212, receipt_opinion:"사진증 의심... 사진 찍을 때만 옷 입는...", receipt_uniqueness: "",  receipt_datetime:"2021-06-01", patient_id:"100212", patient_name:"강병주", diagnostic_test_state:"검사 완료", medicines: []},
-            {receipt_id:9921, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-23", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"검사 완료", medicines: []},
-            {receipt_id:9429, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-18", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"검사 완료", medicines: []},
-            {receipt_id:5255, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-11", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"검사 완료", medicines: []},
-            {receipt_id:9531, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-18", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"검사 완료", medicines: []}
+            {receipt_id:7212, receipt_opinion:"사진증 의심... 사진 찍을 때만 옷 입는...", receipt_uniqueness: "",  receipt_datetime:"2021-06-01", patient_id:"100212", patient_name:"강병주", diagnostic_test_state:"", medicines: []},
+            {receipt_id:9921, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-23", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []},
+            {receipt_id:9429, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-18", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []},
+            {receipt_id:5255, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-11", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []},
+            {receipt_id:9531, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-18", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []}
            
             
             
@@ -162,7 +154,7 @@ function Diagnosis (props) {
 
                 let flag = true;
                 for(let op of opinions) {
-                    if(op.diagnostic_test_state === '검사 중') {
+                    if(op.diagnostic_test_state === '검사 완료') {
                         if(op.patient_id === event.patient_id){
                             flag = false;
                             Swal.fire({
@@ -192,7 +184,7 @@ function Diagnosis (props) {
                             receipt_datetime: myDateString,
                             patient_id: selectedPatient.patient_id+'',
                             patient_name: selectedPatient.patient_name+'',
-                            diagnostic_test_state:'검사 중',
+                            diagnostic_test_state:'검사 완료',
                             medicines: [],
                             test_flag: testFlag
                         }));
@@ -209,7 +201,7 @@ function Diagnosis (props) {
                             receipt_datetime: myDateString,
                             patient_id: selectedPatient.patient_id+'',
                             patient_name: selectedPatient.patient_name+'',
-                            diagnostic_test_state:'검사 중',
+                            diagnostic_test_state:'검사 완료',
                             medicines: [],
                             test_flag: testFlag
                         }));
@@ -282,18 +274,9 @@ function Diagnosis (props) {
     
 
     const deleteMedicineAll = () => {  //전체 삭제
-        if(medicines.length === 0){
-            Swal.fire({
-                icon: 'info',
-                title: '추가된 약이 없습니다.',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        }
-        else{
             const deleteAll = medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id);
             setMedicines(deleteAll); 
-        }
+       
     };
     const deleteMedicine = (event) => {  // 삭제
         const deleteAll = medicines.filter(medicine => medicine.medicine_id !== event);
@@ -384,6 +367,14 @@ function Diagnosis (props) {
                 setNewReceipt_id(newReceipt_id + 1);
                 closeModal()
             }
+            Swal.fire({
+                icon: 'success',
+                title: '진료 작성이 완료되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
+
+            setMedicines(medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id));
         }
         else{
             if(10 > tempmm){
@@ -421,6 +412,12 @@ function Diagnosis (props) {
                 setNewReceipt_id(newReceipt_id + 1);
                 closeModal()
             }
+            Swal.fire({
+                icon: 'success',
+                title: '진료 작성이 완료되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
         };
     
     }

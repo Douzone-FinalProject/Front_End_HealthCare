@@ -157,7 +157,6 @@ function CreatePatient(props) {
         if(argPatient.patient_name && ssn.ssn1 && ssn.ssn2 && argPatient.patient_sex &&
             phone.phone2 && phone.phone3 && argPatient.patient_address && argPatient.patient_detail_address &&
             argPatient.patient_blood_type !== 'select3') {
-            console.log(argPatient);
             props.handleAdd(argPatient);
             setPatient({
                 patient_name: '',
@@ -216,9 +215,9 @@ function CreatePatient(props) {
             <h5 className="mb-1">신규 환자 생성</h5>
             <div className="row">
                 <div className="col-7">
-                    <InputText name={'patient_name'} val={patient.patient_name} handleChange={handleChange}>이름</InputText>
+                    <InputText name={'patient_name'} val={patient.patient_name} handleChange={handleChange}>{'* '}이름</InputText>
                     <div className="row mt-1">
-                        <div className="col-4 text-right">주민등록번호</div>
+                        <div className="col-4 text-right">{'* '}주민등록번호</div>
                         <div className="col-8">
                             <div className="row">
                                 <div className="col-6 mr-n1"><input type="text" className="w-100" name="ssn1" value={ssn.ssn1} onChange={handleSsnChange}/></div>
@@ -228,7 +227,7 @@ function CreatePatient(props) {
                         </div>
                     </div>
                     <div className="row mt-1 mb-2">
-                        <div className="col-4 text-right">성별</div>
+                        <div className="col-4 text-right">{'* '}성별</div>
                         <div className="col-8">
                             <div className="row">
                                 <div className="col-3">
@@ -247,7 +246,7 @@ function CreatePatient(props) {
                         </div>
                     </div>
                     <div className="row mt-1">
-                        <div className="col-4 text-right">휴대전화</div>
+                        <div className="col-4 text-right">{'* '}휴대전화</div>
                         <div className="col-8">
                             <div className="row">
                                 <div className="col-4 mr-n1">
@@ -268,14 +267,14 @@ function CreatePatient(props) {
                     </div>
                     <div className="row mt-1">
                         <div className="col-4 d-flex justify-content-end">
-                            <Button className={cx("patient-button")} onClick={openAdModal}>주소찾기</Button>
+                        {'* '}<Button className={cx("patient-button", "ml-2")} onClick={openAdModal}>주소찾기</Button>
                         </div>
                         <DaumPost isModal={isModal} closeAdModal={closeAdModal} handleComplete={handleComplete}/>
                         <div className="col-8">
                             <input type="text" className="w-100" name="patient_address" value={patient.patient_address} onChange={handleChange} />
                         </div>
                     </div>
-                    <InputText name={'patient_detail_address'} val={patient.patient_detail_address} handleChange={handleChange}>상세주소</InputText>
+                    <InputText name={'patient_detail_address'} val={patient.patient_detail_address} handleChange={handleChange}>{'* '}상세주소</InputText>
                 </div>
                 <div className={cx("col-5", "patient-rightcontainer", "pt-1")}>
                     <div className="row mt-1">

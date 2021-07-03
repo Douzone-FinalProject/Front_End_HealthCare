@@ -27,7 +27,6 @@ const ReserveUpdateForm = (props) => {
 
   // props 
   const rid = props.reservation_id;
-  // console.log('###rid: ', rid);
 
   useEffect(() => {
     console.log("rid가 마운트 또는 업데이트 후 실행");
@@ -65,6 +64,7 @@ const ReserveUpdateForm = (props) => {
     // 값 초기화 
     setUpdateForm({});
     setStartDate(new Date());
+    props.handleMode();
   };
 
   return (
