@@ -1,16 +1,33 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt, faHospitalUser, faComments } from "@fortawesome/free-solid-svg-icons";
+import { faSignOutAlt, faHospitalUser, faComments, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import React from 'react';
 import { useState } from "react";
 import MessageBox from "./MessageBox";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { removeAuthHeader } from "apis/axiosConfig";
+import { createSetAuthTokenAction, createSetUidAction } from "redux/auth-reducer";
 
 
 function Header(props) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
-    }
+    };
+
+    const globalUid = useSelector((state) => state.authReducer.staff_login_id);
+    const dispatch = useDispatch();
+
+    const handleLogout = (event) => {
+        //요청 헤더에 JWT 토큰 제거
+        removeAuthHeader();
+        //Redux에 인증 내용 제거
+        dispatch(createSetUidAction(""));
+        dispatch(createSetAuthTokenAction(""));
+        //SessionStorage에 인증 내용 제거
+        sessionStorage.removeItem("staff_login_id");
+        sessionStorage.removeItem("authToken");
+    };
 
     return (
         <div>
@@ -28,7 +45,11 @@ function Header(props) {
                             <h6 className="text-white font-weight-bold ml-2">의사</h6>
                         </span>
                         <button className="btn text-white font-weight-bold ml-4" onClick={toggleMenu}><FontAwesomeIcon icon={faComments} className="mr-1"/>Message</button>
-                        <Link to="/login"><button className="btn btn-secondary text-white font-weight-bold ml-2"><FontAwesomeIcon icon={faSignOutAlt} className="mr-1"/>Logout</button></Link>
+                        {globalUid === ""?
+                        <Link to="/login"><button className="btn btn-secondary text-white font-weight-bold ml-2"><FontAwesomeIcon icon={faSignInAlt} className="mr-1"/>Login</button></Link>
+                        :
+                        <Link to="/"><button className="btn btn-secondary text-white font-weight-bold ml-2" onClick={handleLogout}><FontAwesomeIcon icon={faSignOutAlt} className="mr-1"/>Logout</button></Link>
+                        }
                     </div>
                 </div>
             </nav>

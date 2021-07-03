@@ -8,6 +8,8 @@ import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
 import { getReceiptList, getPatientList, insertPatient, getPatientListBySearch} from './db';
 import moment from 'views/Reservation/ReserveCalendar/src/moment-range';
+import { useDispatch, useSelector } from 'react-redux';
+import { createSetReceiptListAction } from 'redux/receipt-reducer'
 
 const cx = classNames.bind(style);
 let lastId2 = 1;
@@ -17,6 +19,8 @@ const Receipt = (props) => {
   const [patient_id, setPatientId] = useState();
   const [receipts, setReceipts] = useState(getReceiptList);
   const [patients, setPatients] = useState(getPatientList);
+  const receiptList = useSelector((state) => state.receiptReducer.receiptList);
+  const dispatch = useDispatch();
 
   // 진료자 리스트에 존재하고 && 대기상태인지 체크 => 버튼 나오게 하기 
   const isWaitState = () =>{
@@ -109,6 +113,7 @@ const Receipt = (props) => {
       receipt_datetime:  moment(new Date()).format('YYYY MM DD HH:mm:ss'),
     });
     setReceipts(newReceipts);
+    dispatch(createSetReceiptListAction(newReceipts));
   };
 
   // 접수 취소 
