@@ -110,7 +110,7 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
       }));
       setWaitingData(changeState(waitingData, resultData, chartId));
       setPatientNames(getLabPatient(resultData, chartId));
-      setChartData1(getChartData());
+      setChartData1(getChartData(waitingData));
       setResultData(barcode(resultData, rows));
     } else {
       Swal.fire(
@@ -128,7 +128,7 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
         return row;
       }));
       setWaitingData(changeState(waitingData, resultData, chartId));
-      setChartData1(getChartData());
+      setChartData1(getChartData(waitingData));
       setResultData(deleteBarcode(resultData, rows));
     } else {
       Swal.fire(
@@ -147,7 +147,7 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
       }))
       setWaitingData(changeState(waitingData, resultData, chartId));
       setPatientNames(getLabPatient(resultData, chartId));
-      setChartData1(getChartData());
+      setChartData1(getChartData(waitingData));
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",

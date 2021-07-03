@@ -178,8 +178,6 @@ export function getLabData(waitType, state) {
 export function changeState(waitingDatas, resultDatas, chartId) {
   let results = [];
   if (resultDatas) {
-    console.log("waitingData", waitingData);
-    console.log("watingDatas", waitingDatas)
     results = waitingDatas.map(wait => {
       if (wait.chart === chartId) {
         let waitCount = 0;
@@ -292,7 +290,7 @@ const lab = [
 ]
 
 // Pie Chart에 나오는 데이터
-export function getChartData() {
+export function getChartData(waitingData) {
   let chartData = [0, 0, 0];
   for (let wait of waitingData) {
     if (wait.state === "검사대기") {
