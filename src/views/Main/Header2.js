@@ -2,10 +2,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faHospitalUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-
+import axios from 'axios';
 
 
 function Header2(props) {
+
     return (
         <div>
             <nav className="navbar bg-dark navbar-dark justify-content-between">

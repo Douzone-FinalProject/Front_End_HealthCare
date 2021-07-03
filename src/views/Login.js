@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import axios from 'axios';
 
 const CustomRadio = withStyles({
   root: {
@@ -16,31 +16,37 @@ const CustomRadio = withStyles({
 
 function Login(props) {
 
-    
-
-
-    const [login, serLogin] = useState({
-        id: "",
-        pw: "",
-        hc:  "",
-        role: ""
+    const [user, setUser] = useState({
+        staff_login_id: "",
+        staff_login_pwd: "",
+        hospital_id:  "",
+        staff_role: ""
     })
 
     const handleChange = (event) => {
-        serLogin({
-            ...login,
+        setUser({
+            ...user,
             [event.target.name]: event.target.value
         })
     };
 
     const handlePage = (event) => {
-        if(login.role === 'doctor') {
+        if(user.staff_role === 'doctor') {
             props.history.push('/diagnosis')
-        } else if(login.role === 'nurse') {
+        } else if(user.staff_role === 'nurse') {
             props.history.push('/receipt')
         } else {
             props.history.push('/teststate')
         }
+    };
+    const login = async () => {
+      try {
+        console.log(user);
+        const response = await axios.post("http://localhost:8080/auth/login", user);
+        console.log(response.data);
+      } catch(error) {
+        console.log(error);
+      } 
     };
 
     return (
@@ -51,13 +57,13 @@ function Login(props) {
             <h2>의료정보시스템</h2>
               <h4>Login</h4>
               <div className={style.idForm}>
-                  <input type="text" name="id" value={login.id}  className={style.id} onChange={handleChange} placeholder="ID"/>
+                  <input type="text" name="staff_login_id" value={user.staff_login_id}  className={style.id} onChange={handleChange} placeholder="ID"/>
               </div>
               <div className={style.passForm}>
-                  <input type="password" name="pw" value={login.pw}  className={style.pw} onChange={handleChange} placeholder="PW"/>
+                  <input type="password" name="staff_login_pwd" value={user.staff_login_pwd}  className={style.pw} onChange={handleChange} placeholder="PW"/>
               </div>
               <div className={style.passForm}>
-                  <input type="text" name="hc" className={style.pw} value={login.hc} onChange={handleChange} placeholder="병원코드"/>
+                  <input type="text" name="hospital_id" className={style.pw} value={user.hospital_id} onChange={handleChange} placeholder="병원코드"/>
               </div>
               
               
@@ -66,10 +72,10 @@ function Login(props) {
                     <FormControlLabel
                             value="doctor"
                             control={ <CustomRadio
-                                checked={login.role === "doctor"}
+                                checked={user.staff_role === "doctor"}
                                 onChange={handleChange}
                                 value ="doctor"
-                                name="role"
+                                name="staff_role"
                                 
                             />}
                             label="의사"
@@ -78,10 +84,10 @@ function Login(props) {
                     <FormControlLabel
                             value="doctor"
                             control={  <CustomRadio
-                                checked={login.role === "nurse"}
+                                checked={user.staff_role === "nurse"}
                                 onChange={handleChange}
                                 value="nurse"
-                                name="role"
+                                name="staff_role"
                                 
                               />}
                             label="간호사"
@@ -90,10 +96,10 @@ function Login(props) {
                     <FormControlLabel
                             value="doctor"
                             control={  <CustomRadio
-                                checked={login.role === "inspector"}
+                                checked={user.staff_role === "inspector"}
                                 onChange={handleChange}
                                 value="inspector"
-                                name="role"
+                                name="staff_role"
                                 
                               />}
                             label="검사자"
@@ -103,7 +109,7 @@ function Login(props) {
                 </RadioGroup>
             </div>
 
-              <button onClick={handlePage} type="button" className={style.btn}>
+              <button onClick={login} type="button" className={style.btn}>
                 LOG IN 
               </button>
              
