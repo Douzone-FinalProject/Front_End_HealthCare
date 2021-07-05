@@ -11,6 +11,7 @@ const cx = classnames.bind(style);
 function MedicineModal(props) {
   const [medicineData, setMedicineData] = useState();
 
+  // 약품 컬럼
   const columns = [
     {
       title: "약품코드",
