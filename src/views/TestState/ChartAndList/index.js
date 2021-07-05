@@ -13,7 +13,7 @@ function ChartAndList({waitingData, setWaitingData, setChartId, patientNames, ch
   return (
     <Card className={cx("card")}>
       <div className={cx("mb-3", "clock")}><Clock format={'YYYY년 MM월 DD일 HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/></div>
-      <ChartSection chartData1={chartData1} setChartData1={setChartData1}/>
+      <ChartSection chartData1={chartData1} setChartData1={setChartData1} waitingData={waitingData}/>
       <div className={cx("teststate-lab")}>
         <LabTable patientNames={patientNames}/>
       </div>

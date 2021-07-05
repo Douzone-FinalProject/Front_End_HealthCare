@@ -8,12 +8,12 @@ import { getChartData, getChartData2 } from "views/TestState/db";
 
 const cx = classNames.bind(style);
 
-function ChartSection({chartData1, setChartData1}, props) {
+function ChartSection({chartData1, setChartData1, waitingData}, props) {
 
   const [chartData2, setChartData2] = useState([]);
 
   useEffect(() => {
-    setChartData1(getChartData())
+    setChartData1(getChartData(waitingData))
   }, [chartData1])
 
   useEffect(() => {

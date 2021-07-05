@@ -5,12 +5,14 @@ import Button from "views/common/Button";
 import { search } from "./db";
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { searchMedicine } from "apis/diagnosis";
 
 const cx = classnames.bind(style);
 
 function MedicineModal(props) {
   const [medicineData, setMedicineData] = useState();
 
+  // 약품 컬럼
   const columns = [
     {
       title: "약품코드",
@@ -18,7 +20,8 @@ function MedicineModal(props) {
     },
     {
       title: "약품명",
-      dataIndex: "medicine_name"
+      dataIndex: "medicine_name", 
+      width: 400
     },
     {
       title: "약품구분",
@@ -30,8 +33,11 @@ function MedicineModal(props) {
     }
   ]
 
-  const searchMedicine = (event) => {
-    setMedicineData(search(event.target.value));
+  // 약품 검색
+  const search = async (event) => {
+    if (event.target.value) {
+      setMedicineData(await searchMedicine(event.target.value));
+    }
   }
 
  
@@ -50,9 +56,9 @@ function MedicineModal(props) {
     },
   }
 
-  useEffect(() => {
-    console.log(data);
-  }, [data])
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data])
   
   return (
     <div className={cx("medicine")}>
@@ -60,14 +66,14 @@ function MedicineModal(props) {
         <Card>
           <div className={cx("d-flex", "justify-content-between", "mb-2")}>
             <div>
-              <input type="text" className={cx("mr-2", "medicine-input")} onChange={searchMedicine}/>
+              <input type="text" className={cx("mr-2", "medicine-input")} onChange={search}/>
             </div>
             <div>
               <Button className={cx("medicine-btn","mr-2")} onClick={() => props.addMedicines(data)}>추가</Button>
               <Button className={cx("medicine-btn")} onClick={props.handleModal}>닫기</Button>
             </div>
           </div>
-          <Table className={cx("ant-th")} columns={columns} dataSource={medicineData} rowKey={medicine => medicine.medicine_id} pagination={false} rowSelection={{...rowSelection}}/>
+          <Table className={cx("ant-th", "ant-tbody")} columns={columns} dataSource={medicineData} rowKey={medicine => medicine.medicine_id} pagination={false} rowSelection={{...rowSelection}} scroll={{ y: 240 }}/>
         </Card>
       </div>    
     </div>
