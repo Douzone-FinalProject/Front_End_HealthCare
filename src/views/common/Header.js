@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt, faHospitalUser, faComments, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { faSignOutAlt, faHospitalUser, faComments, faSignInAlt, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import React from 'react';
 import { useState } from "react";
 import MessageBox from "./MessageBox";
@@ -11,9 +11,15 @@ import { createSetAuthTokenAction, createSetUidAction } from "redux/auth-reducer
 
 function Header(props) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [messageArrived, setMessageArrived] = useState(false);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+        setMessageArrived(false);
     };
+
+    const messageArrivedCheck = () => {
+        setMessageArrived(true);
+    }
 
     const globalUid = useSelector((state) => state.authReducer.staff_login_id);
     const dispatch = useDispatch();
@@ -44,7 +50,10 @@ function Header(props) {
                             </h5>
                             <h6 className="text-white font-weight-bold ml-2">의사</h6>
                         </span>
-                        <button className="btn text-white font-weight-bold ml-4" onClick={toggleMenu}><FontAwesomeIcon icon={faComments} className="mr-1"/>Message</button>
+                        <button className="btn text-white font-weight-bold ml-4 d-flex align-items-center" onClick={toggleMenu}>
+                            {messageArrived ? <div className="text-danger ml-n3"><FontAwesomeIcon icon={faExclamationCircle} className="mr-1"/></div> : <div></div>}
+                            <FontAwesomeIcon icon={faComments} className="mr-1"/>Message
+                        </button>
                         {globalUid === ""?
                         <Link to="/login"><button className="btn btn-secondary text-white font-weight-bold ml-2"><FontAwesomeIcon icon={faSignInAlt} className="mr-1"/>Login</button></Link>
                         :
@@ -56,6 +65,7 @@ function Header(props) {
             <MessageBox
                 isMenuOpen={isMenuOpen}
                 onMenuToggle={toggleMenu}
+                messageArrivedCheck={messageArrivedCheck}
             />
         </div>
     );
