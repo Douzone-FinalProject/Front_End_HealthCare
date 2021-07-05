@@ -11,6 +11,7 @@ import DialMenu from "views/common/DialMenu";
 import { useEffect } from "react";
 import Swal from 'sweetalert2';
 import { useSelector } from "react-redux";
+import { searchSymptomB } from "apis/diagnostic";
 
 const cx = classnames.bind(style);
 
@@ -18,15 +19,15 @@ function Diagnosis (props) {
     /* 환자 리스트  */
     function getPatients() {
         const patients = [
-            {patient_id:"100552", patient_name:"이채정", patient_state:"진료 중", receipt_datetime: "06/03 13:10"},
-            {patient_id:"100412", patient_name:"조민상", patient_state:"검사 중", receipt_datetime: "06/03 13:15"},
-            {patient_id:"100732", patient_name:"임도희", patient_state:"검사 중", receipt_datetime: "06/03 13:17"},
-            {patient_id:"100212", patient_name:"강병주", patient_state:"수납 전", receipt_datetime: "06/03 13:50"},
-            {patient_id:"100002", patient_name:"임꺽정", patient_state:"대기", receipt_datetime: "06/03 14:36"}
+            {patient_id:"100552", patient_name:"이채정", receipt_state:"진료 중", receipt_datetime: "06/03 13:10"},
+            {patient_id:"100412", patient_name:"조민상", receipt_state:"검사 중", receipt_datetime: "06/03 13:15"},
+            {patient_id:"100732", patient_name:"임도희", receipt_state:"검사 중", receipt_datetime: "06/03 13:17"},
+            {patient_id:"100212", patient_name:"강병주", receipt_state:"수납 전", receipt_datetime: "06/03 13:50"},
+            {patient_id:"100002", patient_name:"임꺽정", receipt_state:"대기", receipt_datetime: "06/03 14:36"}
         ];
         return patients;
     }
-    const receiptList = useSelector((state) => state.receiptReducer.receiptList);
+    const receiptList = useSelector((state) => state.receiptReducer.receiptList); // 상태 receipt_state 컬럼명으로 수정하기
     const [patients, setpatients] = useState(getPatients);
     console.log(setpatients)
     const [selectedPatient, setSelectP] = useState({        //설명 할 부분 ---------1
@@ -85,19 +86,28 @@ function Diagnosis (props) {
         })
     };
 
-    const searchSymptom = (symptom_name) => { //검색
-            const symptomInput = symptoms.filter(symptom => symptom.symptom_name === symptom_name);
+    const searchSymptom = async (symptom_name) => { //검색
+        try{
+            const response = await searchSymptomB(symptom_name);
+            console.log(response.data.list);
+            const symptomInput = response.data.list
             setSympTomCopys([
                 ...symptomInput
             ])
+        }
+        catch(error){
+            console.log(error)
+        }
+            // const symptomInput = symptoms.filter(symptom => symptom.symptom_name === symptom_name);
+            
     };
     const selectSymptom = (symptom_name) => { //선택
         if(selectSymptoms.find(symptom => symptom.symptom_name === symptom_name)){  //같은 증상이 이미 들어가 있으면 추가 못 함.
         }   
         else{//추가
-          const symptomSelect = symptoms.filter(symptom => symptom.symptom_name === symptom_name);
+        //   const symptomSelect = symptoms.filter(symptom => symptom.symptom_name === symptom_name);
           setSelectSymptoms(selectSymptoms.concat([
-              ...symptomSelect
+              ...symptomsCopy
           ]));  
         }
             
