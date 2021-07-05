@@ -8,7 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { login } from "apis/auth";
 import { addAuthHeader } from "apis/axiosConfig";
 import { useDispatch } from "react-redux";
-import { createSetAuthTokenAction, createSetUidAction } from "redux/auth-reducer";
+import { createSetAuthTokenAction, createSetUidAction, createSetNameAction, createSetRoleAction } from "redux/auth-reducer";
 
 const CustomRadio = withStyles({
   root: {
@@ -64,9 +64,16 @@ function Login(props) {
           //Redux에 인증 내용 저장
           dispatch(createSetUidAction(response.data.staff_login_id));
           dispatch(createSetAuthTokenAction(response.data.authToken));
+          dispatch(createSetNameAction(response.data.staffName));
+          dispatch(createSetRoleAction(response.data.staffRole));
           //SessionStorage에 인증 내용 저장(브라우저 갱신시 사용)
           sessionStorage.setItem("staff_login_id", response.data.staff_login_id);
           sessionStorage.setItem("authToken", response.data.authToken);
+          sessionStorage.setItem("staff_name", response.data.staffName);
+          sessionStorage.setItem("staff_role", response.data.staffRole);
+
+          //로그인한 이름과 권한 헤더에 보이게 하기
+         
 
           if(role === 'doctor') {
             props.history.push('/diagnosis')

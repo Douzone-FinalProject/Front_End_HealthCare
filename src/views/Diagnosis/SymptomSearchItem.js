@@ -10,8 +10,8 @@ function SymptomSearchItem(props) {
             
         <tr key={props.symptom.search_id}>
             <td>{props.symptom.symptom_name}</td>
-            <td>{props.symptom.symptom_code}</td>
-            <td>{props.symptom.bundle_code}</td>
+            <td>{props.symptom.symptom_id}</td>
+            <td>{props.symptom.bundle_id}</td>
             <td>{props.symptom.bundle_name}</td>
         </tr>
     );

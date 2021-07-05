@@ -65,7 +65,7 @@ function SymptomSearch(props) {
             </MDBTable>     
             <MDBTable scrollY className={cx("table-hover ", "diagnosis-tbb")}>
                 <MDBTableBody>
-                    {props.symptomsCopy.map((symptom) => {
+                    {props.symptomsCopy && props.symptomsCopy.map((symptom) => {
                         return (
                             <SymptomSearchItem key={symptom.search_id} symptom={symptom} />
                         );

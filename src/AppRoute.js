@@ -7,11 +7,13 @@ import TestState from "views/TestState";
 import diagnosis from "views/Diagnosis/index";
 import Main from "views/Main"
 import Guideline from "views/Main/Guideline";
+import Manage from "views/Manage/index";
 
 function AppRoute(props) {
     return(
         <Switch>
             <Route path="/" exact component={Main}/>
+            <Route path="/manage" exact component={Manage}/>
             <Route path="/login" exact component={login}/>
             <Route path="/guideline" exact component={Guideline}/>
             <Route path="/result" component={Result}/>
