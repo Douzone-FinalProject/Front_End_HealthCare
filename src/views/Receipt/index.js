@@ -10,6 +10,7 @@ import { getReceiptList, getPatientList, insertPatient, getPatientListBySearch} 
 import moment from 'views/Reservation/ReserveCalendar/src/moment-range';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSetReceiptListAction } from 'redux/receipt-reducer'
+import { addNewPatient } from 'apis/message';
 
 const cx = classNames.bind(style);
 let lastId2 = 1;
@@ -49,9 +50,13 @@ const Receipt = (props) => {
   };
 
   // 신규 환자 생성 
-  const handleAdd = (patient) => {
-    // DB에 추가 시키기
-    insertPatient(patient);
+  const handleAdd = async (patient) => {
+    try {
+      await addNewPatient(patient);
+    } catch (error) {
+      console.log(error);
+    }
+    insertPatient(patient);   // <- 후에 삭제 필요.
   };
 
   // 환자 영구 삭제 

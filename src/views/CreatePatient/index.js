@@ -37,7 +37,7 @@ function CreatePatient(props) {
         patient_zipcode: '',
         patient_address: '',
         patient_detail_address: '',
-        patient_blood_type: 'select3',
+        patient_blood_type: '',
         patient_max_bp: '',
         patient_min_bp: '',
         patient_pulse: '',
@@ -45,7 +45,7 @@ function CreatePatient(props) {
         patient_weight: '',
         patient_guardian_name: '',
         patient_guardian_phone: '',
-        patient_guardian_relationship: 'select2'
+        patient_guardian_relationship: ''
     });
     const [ssn, setSsn] = useState({
         ssn1: '',
@@ -155,8 +155,7 @@ function CreatePatient(props) {
     //필수 정보가 null이 아니면 저장 후 modal 닫기
     const handleSave = useCallback((argPatient, argProps) => {
         if(argPatient.patient_name && ssn.ssn1 && ssn.ssn2 && argPatient.patient_sex &&
-            phone.phone2 && phone.phone3 && argPatient.patient_address && argPatient.patient_detail_address &&
-            argPatient.patient_blood_type !== 'select3') {
+            phone.phone2 && phone.phone3 && argPatient.patient_address && argPatient.patient_detail_address) {
             props.handleAdd(argPatient);
             setPatient({
                 patient_name: '',
@@ -166,7 +165,7 @@ function CreatePatient(props) {
                 patient_zipcode: '',
                 patient_address: '',
                 patient_detail_address: '',
-                patient_blood_type: 'select3',
+                patient_blood_type: '',
                 patient_max_bp: '',
                 patient_min_bp: '',
                 patient_pulse: '',
@@ -174,7 +173,7 @@ function CreatePatient(props) {
                 patient_weight: '',
                 patient_guardian_name: '',
                 patient_guardian_phone: '',
-                patient_guardian_relationship: 'select2'
+                patient_guardian_relationship: ''
             });
             setSsn({
                 ssn1: '',
@@ -281,7 +280,7 @@ function CreatePatient(props) {
                         <div className="col-4 text-right">혈액형</div>
                         <div className="col-8">
                             <select name="patient_blood_type" className="w-50" value={patient.patient_blood_type} onChange={handleChange}>
-                                <option value="select3" disabled>선택</option>
+                                <option value="" disabled>선택</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
                                 <option value="AB">AB</option>
@@ -337,7 +336,7 @@ function CreatePatient(props) {
                         <div className="col-4 text-right">가족관계</div>
                         <div className="col-8">
                             <select name="patient_guardian_relationship" className="w-25" value={patient.patient_guardian_relationship} onChange={handleChange}>
-                                <option value="select2" disabled>선택</option>
+                                <option value="" disabled>선택</option>
                                 <option value="부">부</option>
                                 <option value="모">모</option>
                                 <option value="자녀">자녀</option>
