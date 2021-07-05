@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import style from './style.module.css';
 import  Button  from "../common/Button";
 import DaumPost from 'views/CreatePatient/DaumPost';
-import { getPatient, getRidByPatient} from './db';
+import { getRidByPatient} from './db';
 import { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +12,7 @@ import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Swal from 'sweetalert2';
+import { getPatientById } from 'apis/receipt';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,9 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
 const cx = classNames.bind(style);
-
 
 const PatientInfo = (props) => {
   const classes = useStyles();
@@ -31,9 +30,19 @@ const PatientInfo = (props) => {
   const [isModal, setModal] = useState(false);
   const [patient, setPatient] = useState({}); 
 
+  // 한 명의 환자 정보 가져오기 
+  const handlePatient = async (patient_id) => {
+    try{
+      const response = await getPatientById(patient_id);
+      setPatient(response.data.patient);
+    }catch(error){
+      console.log(error);
+    }
+  };   
+    
   useEffect(() => {
     if(props.patient_id !== undefined){
-      const newPatient = getPatient(props.patient_id);
+      const newPatient = handlePatient(props.patient_id);
       setPatient(newPatient);
     }
   }, [props.patient_id]);
@@ -53,15 +62,20 @@ const PatientInfo = (props) => {
   function handleReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
     // DB insert 
-    // props.addReceipt(db_patient);
     props.addReceipt(patient);
   }
 
   function cancelReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
     // DB delete 
-    // const rid = getRidByPatient(db_patient.patient_id);
-    const rid = getRidByPatient(patient.patient_id);
+    // receipts : patient.patient_id -> 접수 id
+    let rid = undefined;
+    for(var receipt of props.receipts){
+      if(receipt.patient_id === patient.patient_id){
+        rid = receipt.receipt_id;
+        break;
+      }
+    } 
     props.deleteReceipt(rid);
   }
 
@@ -92,7 +106,8 @@ const PatientInfo = (props) => {
     }
     setPatient({
         ...patient,
-        patient_address: fullAddress
+        patient_address: fullAddress,
+        patient_zipcode: data.zonecode
     });
     closeAdModal();
   }
@@ -108,6 +123,8 @@ const PatientInfo = (props) => {
     })
     props.handleUpdate(patient); // 부모에게 상태 변경 알리기 
   }; 
+
+
 
   // DB 환자 정보 영구 삭제 
   const handleDelete = (e) => {
@@ -127,7 +144,6 @@ const PatientInfo = (props) => {
           'Your file has been deleted.',
           'success'
         )
-
         props.handleDelete(patient.patient_id); // 부모에게 상태 변경 알리기 
         setPatient({});
       }
