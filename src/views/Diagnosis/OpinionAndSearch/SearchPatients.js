@@ -5,6 +5,7 @@ import SearchListItem from "./SearchListItem";
 import { useState } from "react";
 import { MDBTable, MDBTableBody } from 'mdbreact';
 import { Link } from "react-router-dom";
+import { searchPatientIdOpinion, searchDateOpinion } from "apis/diagnostic";
 import Swal from "sweetalert2";
 
 const cx = classnames.bind(style);
@@ -25,17 +26,18 @@ function SearchPatients(props) {
     };
     
 
-    const search  =  (patient_id, receipt_datetime, patient_name) => {
+    const search  = async (patient_id, receipt_datetime, patient_name) => {
         
             if(receipt_datetime){
-                const patientChart = props.opinions.filter(opinion =>  opinion.receipt_datetime === receipt_datetime);
+                const response = await searchDateOpinion(receipt_datetime);
+                const patientChart = response.data.searchDateOpinionList;
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
             if(patient_id){ //차트번호만 입력 할 경우
-                const patientChart = props.opinions.filter(opinion =>  opinion.patient_id === patient_id);
-                console.log([patientChart]);
+                const response = await searchPatientIdOpinion(receipt_datetime);
+                const patientChart = response.data.searchPatientIdOpinionList;
                 setOpinionCopys([
                     ...patientChart
                 ])
