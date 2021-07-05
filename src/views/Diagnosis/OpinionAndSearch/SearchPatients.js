@@ -36,7 +36,7 @@ function SearchPatients(props) {
                 ])
             }
             if(patient_id){ //차트번호만 입력 할 경우
-                const response = await searchPatientIdOpinion(receipt_datetime);
+                const response = await searchPatientIdOpinion(patient_id);
                 const patientChart = response.data.searchPatientIdOpinionList;
                 setOpinionCopys([
                     ...patientChart
