@@ -35,7 +35,7 @@ function DiagnosticCheckList(props) {
             </MDBTable>
             <MDBTable scrollY className={cx("table-hover ", "diagnosis-tbb")}>     
                 <MDBTableBody>
-                     {props.selectSymptoms.map((item) => {
+                     {props.selectSymptoms && props.selectSymptoms.map((item) => {
                                 return (
                                     <DiagnosticCheckListItem key={item.search_id} item={item} deletePrescript={props.deletePrescript}/>
                                 )

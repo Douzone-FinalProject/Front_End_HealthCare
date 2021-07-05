@@ -6,7 +6,7 @@ import MessageBox from "./MessageBox";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeAuthHeader } from "apis/axiosConfig";
-import { createSetAuthTokenAction, createSetUidAction } from "redux/auth-reducer";
+import { createSetAuthTokenAction, createSetUidAction, createSetNameAction, createSetRoleAction} from "redux/auth-reducer";
 
 
 function Header(props) {
@@ -20,8 +20,9 @@ function Header(props) {
     const messageArrivedCheck = () => {
         setMessageArrived(true);
     }
-
     const globalUid = useSelector((state) => state.authReducer.staff_login_id);
+    const globalName = useSelector((state) => state.authReducer.staff_name);
+    const globalRole = useSelector((state) => state.authReducer.staff_role);
     const dispatch = useDispatch();
 
     const handleLogout = (event) => {
@@ -30,9 +31,13 @@ function Header(props) {
         //Redux에 인증 내용 제거
         dispatch(createSetUidAction(""));
         dispatch(createSetAuthTokenAction(""));
+        dispatch(createSetNameAction(""));
+        dispatch(createSetRoleAction(""));
         //SessionStorage에 인증 내용 제거
         sessionStorage.removeItem("staff_login_id");
         sessionStorage.removeItem("authToken");
+        sessionStorage.removeItem("staff_name");
+        sessionStorage.removeItem("staff_role");
     };
 
     return (
@@ -46,9 +51,13 @@ function Header(props) {
                     <div className="d-flex align-items-center">
                         <span className="d-flex align-items-center mr-2 mt-1">
                             <h5 className="text-white font-weight-bold">
-                                <FontAwesomeIcon icon={faHospitalUser} className="mr-2"/>신용권
+                                <FontAwesomeIcon icon={faHospitalUser} className="mr-2"/>{globalName}
                             </h5>
+                            {globalRole === "ROLE_DOCTOR" ?
                             <h6 className="text-white font-weight-bold ml-2">의사</h6>
+                            :
+                            <h6 className="text-white font-weight-bold ml-2">간호사</h6>
+                            }
                         </span>
                         <button className="btn text-white font-weight-bold ml-4 d-flex align-items-center" onClick={toggleMenu}>
                             {messageArrived ? <div className="text-danger ml-n3"><FontAwesomeIcon icon={faExclamationCircle} className="mr-1"/></div> : <div></div>}

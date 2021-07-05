@@ -65,8 +65,8 @@ function UpdateOpinion(props) {
               : 
             <MDBTable scrollY className={cx("table-hover", "modal-medic-width")}>
                 <MDBTableBody>
-                    
-                    {!props.medicines || arr && arr.map((hoho) => {
+                {/* !props.medicines || */}
+                    {arr && arr.map((hoho) => {
                                         return (
                                             <OpinionMedicineListItem  key={hoho.medicine_id} hoho={hoho} />
                                         )
