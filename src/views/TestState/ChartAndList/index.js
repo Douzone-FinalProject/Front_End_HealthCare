@@ -8,7 +8,7 @@ import Clock from 'react-live-clock';
 
 const cx = classNames.bind(style);
 
-function ChartAndList({waitingData, setWaitingData, setChartId, patientNames, chartData1, setChartData1}, props) {
+function ChartAndList({waitingData, setWaitingData, setReceiptId, patientNames, chartData1, setChartData1}, props) {
 
   return (
     <Card className={cx("card")}>
@@ -17,7 +17,7 @@ function ChartAndList({waitingData, setWaitingData, setChartId, patientNames, ch
       <div className={cx("teststate-lab")}>
         <LabTable patientNames={patientNames}/>
       </div>
-      <PatientStateList waitingData={waitingData} setWaitingData={setWaitingData} setChartId={setChartId}/>
+      <PatientStateList waitingData={waitingData} setWaitingData={setWaitingData} setReceiptId={setReceiptId}/>
     </Card>
   );
 }

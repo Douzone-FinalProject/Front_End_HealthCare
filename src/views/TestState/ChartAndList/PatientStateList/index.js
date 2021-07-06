@@ -3,11 +3,11 @@ import classNames from "classnames/bind";
 import { Table } from 'antd';
 import { useState } from "react";
 import { useEffect } from "react";
-import { getLabData } from "views/TestState/db";
+import { getPatientList } from "apis/teststate";
 
 const cx = classNames.bind(style);
 
-function PatientStateList({waitingData, setWaitingData, setChartId}, props) {
+function PatientStateList({waitingData, setWaitingData, setReceiptId}, props) {
 
   const [waitType, setWaitType] = useState("전체");
   const [state, setState] = useState("whole");
@@ -20,27 +20,27 @@ function PatientStateList({waitingData, setWaitingData, setChartId}, props) {
     },
     {
       title: '차트번호',
-      dataIndex: "chart",
+      dataIndex: "patient_id",
       width: 80
     },
     {
       title: '이름',
-      dataIndex: "name",
+      dataIndex: "patient_name",
       width: 70
     },
     {
       title: '성별',
-      dataIndex: "sex",
+      dataIndex: "patient_sex",
       width: 50
     },
     {
       title: '나이',
-      dataIndex: "age",
+      dataIndex: "patient_age",
       width: 50
     },
     {
       title: '상태',
-      dataIndex: "state",
+      dataIndex: "diagnostic_test_state",
       width: 80,
       render: state => {
         let color = (state === "검사대기") ? "rgb(255, 99, 132)" : "rgb(255, 99, 132)";
@@ -57,7 +57,7 @@ function PatientStateList({waitingData, setWaitingData, setChartId}, props) {
   const handlePatient = (data, rowIndex) => {
     return {
       onClick: (event) => { 
-        setChartId(data.chart)
+        setReceiptId(data.receipt_id);
       }
     }
   }
@@ -73,8 +73,11 @@ function PatientStateList({waitingData, setWaitingData, setChartId}, props) {
   }
 
   useEffect(() => {
-    setWaitingData(getLabData(waitType, state));
-  }, [waitType, state])
+    async function fetchAndSetWatitingData() {
+      setWaitingData(await getPatientList(waitType, state));
+    }
+    fetchAndSetWatitingData();
+  }, [waitType, state, setWaitingData])
   return (
     <>
       <div className={cx("d-flex", "justify-content-between", "mt-2", "flex-2")}>
@@ -92,7 +95,7 @@ function PatientStateList({waitingData, setWaitingData, setChartId}, props) {
         </div>
       </div>
       <div className={cx("teststate-table")}>
-        <Table className={cx("ant-th", "ant-tbody")} columns={waitingDataColums} dataSource={waitingData} pagination={false} onRow={handlePatient}/>
+        <Table className={cx("ant-th", "ant-tbody")} columns={waitingDataColums} dataSource={waitingData} pagination={false} rowKey={record => record.patient_id} onRow={handlePatient}/>
       </div>
     </>
   );

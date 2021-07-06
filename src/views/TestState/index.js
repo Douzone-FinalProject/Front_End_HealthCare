@@ -15,10 +15,10 @@ function TestState(props) {
   const [waitingData, setWaitingData] = useState([]);
 
   // 차트 아이디
-  const [chartId, setChartId] = useState();
+  const [receiptId, setReceiptId] = useState();
 
   // TestStateDetail 에 prop
-  const [resultData, setResultData] = useState([]);
+  const [detailData, setDetailData] = useState([]);
 
   // LabTab에 prop
   const [patientNames, setPatientNames] = useState([]);
@@ -31,11 +31,11 @@ function TestState(props) {
         <Header />
           <Row>
             <Col flex={2} className={cx("teststate-frame")}>
-              <ChartAndList waitingData={waitingData} setWaitingData={setWaitingData} setChartId={setChartId} patientNames={patientNames} chartData1={chartData1} setChartData1={setChartData1}/>
+              <ChartAndList waitingData={waitingData} setWaitingData={setWaitingData} setReceiptId={setReceiptId} patientNames={patientNames} chartData1={chartData1} setChartData1={setChartData1}/>
             </Col>
             <Col flex={3} className="m-2">
-              <TestStateDetail chartId={chartId} 
-                              resultData={resultData} setResultData={setResultData} 
+              <TestStateDetail receiptId={receiptId} 
+                              detailData={detailData} setDetailData={setDetailData} 
                               waitingData={waitingData} setWaitingData={setWaitingData} 
                               setPatientNames={setPatientNames} 
                               setChartData1={setChartData1}

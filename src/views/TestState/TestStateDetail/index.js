@@ -8,10 +8,11 @@ import Button from "../Button";
 import { useState } from "react";
 import { useEffect } from 'react';
 import { changeState, getTestStateDetailData, getChartData, getLabPatient, getPatientName, barcode, deleteBarcode } from "views/TestState/db";
+import { getTestStateDetailList, updateStateDetail } from "apis/teststate"; 
 
 const cx = classNames.bind(style);
 
-function TestStateDetail({chartId, resultData, setResultData, waitingData, setWaitingData, setPatientNames, setChartData1}, props) {
+function TestStateDetail({receiptId, detailData, setDetailData, waitingData, setWaitingData, setPatientNames, setChartData1}, props) {
 
   const [patientName, setPatientName] = useState();
   const resultItem = [
@@ -27,27 +28,27 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
     },
     {
       title: "검사명",
-      dataIndex: "prescription_name",
+      dataIndex: "bundle_name",
       width: 300,
     },
     {
       title: "검체명",
-      dataIndex: "specimen",
+      dataIndex: "bundle_specimen",
       width: 120,
     },
     {
       title: "용기",
-      dataIndex: "bottle",
+      dataIndex: "bundle_bottle",
       width: 150,
     },
     {
       title: "바코드",
-      dataIndex: "barcode",
+      dataIndex: "diagnostic_list_barcode",
       width: 150,
     },
     {
       title: "검사실",
-      dataIndex: "lab",
+      dataIndex: "bundle_lab",
       width: 80,
     },
     {
@@ -57,33 +58,37 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
     },
     {
       title: "검사자",
-      dataIndex: "staff",
+      dataIndex: "staff_name",
       width: 80,
     },
     {
       title: "상태",
-      dataIndex: "state",
+      dataIndex: "diagnostic_list_state",
       width: 100,
 
-      render: state => {
-        let color = (state === "검사대기") ? "rgb(255, 99, 132)" : "rgb(255, 99, 132)";
-        if (state === "검사접수") {
+      render: diagnostic_list_state => {
+        let color = (diagnostic_list_state === "검사대기") ? "rgb(255, 99, 132)" : "rgb(255, 99, 132)";
+        if (diagnostic_list_state === "검사접수") {
           color = "rgba(255, 205, 86)"
-        } else if (state === "검사완료") {
+        } else if (diagnostic_list_state === "검사완료") {
           color = "rgb(75, 192, 192)";
           // color = "rgb(54, 162, 235)";
         }
-        return <div style={{color: color}}>{state}</div> 
+        return <div style={{color: color}}>{diagnostic_list_state}</div> 
       }
     }
   ]
   
   const [rows, setRows] = useState([]);
+  const [rowKeys, setRowKeys] = useState([]);
+  const [bundleIds, setBundleIds] = useState([]);
 
   const rowSelection = {  
     onChange: (selectedRowKeys, selectedRows) => {
-      // console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
+      console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
       setRows([...selectedRows])
+      setRowKeys([...selectedRowKeys])
+      setBundleIds(selectedRows.map(row => row.bundle_specimen))
     },
     // onSelect: (record, selected, selectedRows) => {
     //   // console.log(record);
@@ -95,23 +100,27 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
   }
 
   useEffect(() => {
-    if (chartId) {
-      setResultData(getTestStateDetailData(chartId));
-      setPatientName(getPatientName(chartId));
+    if (receiptId) {
+      async function fetchAndSetDetailData() {
+        setDetailData(await getTestStateDetailList(receiptId));
+      }
+      // setPatientName(getPatientName(receiptId));
+      fetchAndSetDetailData();
     }
-  }, [chartId])
-
+  }, [receiptId])
   
-  const handleBarcode =  () => {
-    if (rows.length !== 0) {
-      setRows(rows.map(row => {
-        row.state = "검사접수";
-        return row;
-      }));
-      setWaitingData(changeState(waitingData, resultData, chartId));
-      setPatientNames(getLabPatient(resultData, chartId));
-      setChartData1(getChartData(waitingData));
-      setResultData(barcode(resultData, rows));
+  const handleBarcode = async () => {
+    if (rowKeys.length !== 0) {
+      // setRows(rows.map(row => {
+
+      // }));
+      await updateStateDetail(rowKeys, "검사접수");
+      setDetailData(await getTestStateDetailList(receiptId));
+
+      // setWaitingData(changeState(waitingData, resultData, chartId));
+      // setPatientNames(getLabPatient(resultData, chartId));
+      // setChartData1(getChartData(waitingData));
+      // setResultData(barcode(resultData, rows));
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -121,15 +130,17 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
     }
   }
 
-  const handleCancel = () => {
-    if (rows.length !== 0) {
-      setRows(rows.map(row => {
-        row.state = "검사대기";
-        return row;
-      }));
-      setWaitingData(changeState(waitingData, resultData, chartId));
-      setChartData1(getChartData(waitingData));
-      setResultData(deleteBarcode(resultData, rows));
+  const handleCancel = async () => {
+    if (rowKeys.length !== 0) {
+      // setRows(rows.map(row => {
+      //   row.state = "검사대기";
+      //   return row;
+      // }));
+      await updateStateDetail(rowKeys, "검사대기");
+      setDetailData(await getTestStateDetailList(receiptId));
+      // setWaitingData(changeState(waitingData, resultData, chartId));
+      // setChartData1(getChartData(waitingData));
+      // setResultData(deleteBarcode(resultData, rows));
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -139,15 +150,17 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
     }
   }
 
-  const handleComplete = () => {
-    if (rows.length !== 0) {
-      setRows(rows.map(row => {
-        row.state = "검사완료";
-        return row;
-      }))
-      setWaitingData(changeState(waitingData, resultData, chartId));
-      setPatientNames(getLabPatient(resultData, chartId));
-      setChartData1(getChartData(waitingData));
+  const handleComplete = async () => {
+    if (rowKeys.length !== 0) {
+    //   setRows(rows.map(row => {
+    //     row.state = "검사완료";
+    //     return row;
+    //   }))
+    await updateStateDetail(rowKeys, "검사완료", sessionStorage.getItem("staff_login_id"), bundleIds);
+    setDetailData(await getTestStateDetailList(receiptId));
+      // setWaitingData(changeState(waitingData, resultData, chartId));
+      // setPatientNames(getLabPatient(resultData, chartId));
+      // setChartData1(getChartData(waitingData));
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -160,8 +173,8 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
   const saveExcel = () => {
     // 엑셀저장
     // Json 배열의 내용을 엑셀의 시트로 변환
-    if (resultData.length !== 0) {
-      const ws = xlsx.utils.json_to_sheet(resultData);
+    if (detailData.length !== 0) {
+      const ws = xlsx.utils.json_to_sheet(detailData);
       // {c:/열/, r:/행/}
       ['증상코드', '묶음코드', '검사명', '검체명', '용기', '바코드', '검사실', '진료의', '검사자'].forEach((x, idx) => {
         const cellAdd = xlsx.utils.encode_cell({c: idx, r: 0});
@@ -177,7 +190,7 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
       xlsx.utils.book_append_sheet(wb, ws, "sheet1");
     
       // 파일저장
-      xlsx.writeFile(wb, `${chartId}-${patientName}.xlsx`);
+      xlsx.writeFile(wb, `${receiptId}-${patientName}.xlsx`);
     } else {
       Swal.fire(
         "환자를 선택해주세요!!!",
@@ -200,7 +213,7 @@ function TestStateDetail({chartId, resultData, setResultData, waitingData, setWa
         </div>
       </div>
       <div className={cx("teststate-table")}>
-        <Table className={cx("ant-th", "ant-tbody")} tableLayout="auto" columns={resultItem} dataSource={resultData} pagination={false} rowKey={record => chartId + "-" + record.bundle_id} rowSelection={{...rowSelection}}/>
+        <Table className={cx("ant-th", "ant-tbody")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}}/>
       </div>
     </Card>
   );
