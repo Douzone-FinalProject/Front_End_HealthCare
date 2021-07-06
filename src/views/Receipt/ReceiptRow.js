@@ -12,7 +12,7 @@ const ReceiptRow = (props) => {
     <div style={{height:'100%'}}
         className={cx("table-body","d-flex align-items-center border-bottom ")} 
          onClick={() => {
-            return props.handleClick(props.receipt.patient_id);
+            return props.handleClickReceipt(props.receipt.receipt_id, props.receipt.patient_id);
          }}
     >
         <span width={235} style={{width:"90px"}}>{props.receipt.patient_id}</span>
@@ -23,7 +23,7 @@ const ReceiptRow = (props) => {
           {props.receipt.receipt_state === '대기' && <span style={{color:"orange"}}>{props.receipt.receipt_state}</span>}
           {props.receipt.receipt_state === '진료중' && <span style={{color:"red"}}>{props.receipt.receipt_state}</span>}
           {props.receipt.receipt_state === '검사중' && <span style={{color:"#3BC9DB"}}>{props.receipt.receipt_state}</span>}
-          {props.receipt.receipt_state === '수납전' && <span style={{color:"37b24d"}}>{props.receipt.receipt_state}</span>}
+          {props.receipt.receipt_state === '수납전' && <span style={{color:"#37b24d"}}>{props.receipt.receipt_state}</span>}
           {props.receipt.receipt_state === '완료' && <span style={{color:"black"}}>{props.receipt.receipt_state}</span>}
         </span>
         <span style={{width:"250px"}}>{props.receipt.receipt_datetime}</span>
