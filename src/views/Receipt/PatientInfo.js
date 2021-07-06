@@ -3,7 +3,6 @@ import classNames from 'classnames/bind';
 import style from './style.module.css';
 import  Button  from "../common/Button";
 import DaumPost from 'views/CreatePatient/DaumPost';
-import { getRidByPatient} from './db';
 import { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -161,9 +160,12 @@ const PatientInfo = (props) => {
   const bloodTypes = [
     {value: 'A', label: 'A'},
     {value: 'B', label: 'B'},
-    {value: 'O', label: 'O'},
     {value: 'AB', label: 'AB'},
-
+    {value: 'O', label: 'O'},
+    {value: 'Rh-A', label:'Rh-A'},
+    {value: 'Rh-B', label:'Rh-B'},
+    {value: 'Rh-AB', label:'Rh-AB'},
+    {value: 'Rh-O', label:'Rh-O'},
   ];
 
   return (
