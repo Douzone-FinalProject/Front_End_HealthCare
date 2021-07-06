@@ -26,3 +26,8 @@ export function searchDateOpinion(receipt_datetime) { //환자 id로 소견 검�
     });
     return promise;
 }
+
+export function createRequestTest(rtList) { //환자 id로 소견 검색
+    const promise = axios.post("/diagnostic/createRequestTest", rtList);
+    return promise;
+}

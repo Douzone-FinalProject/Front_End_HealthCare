@@ -11,7 +11,8 @@ import DialMenu from "views/common/DialMenu";
 import { useEffect } from "react";
 import Swal from 'sweetalert2';
 import { useSelector } from "react-redux";
-import { searchSymptomB } from "apis/diagnostic";
+import { searchSymptomB, createRequestTest } from "apis/diagnostic";
+import { getReceiptList } from "apis/receipt";
 
 const cx = classnames.bind(style);
 
@@ -28,16 +29,31 @@ function Diagnosis (props) {
         return patients;
     }
     const receiptList = useSelector((state) => state.receiptReducer.receiptList); // 상태 receipt_state 컬럼명으로 수정하기
-    const [patients, setpatients] = useState(getPatients);
-    console.log(setpatients)
+    const [patients, setpatients] = useState([]);
+
+    const receiptPatients = async() => {
+        try{
+        const response = await getReceiptList();
+        setpatients(response.data.receiptList);
+        }
+        catch(error){
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        receiptPatients();
+    }, [])
+
+
     const [selectedPatient, setSelectP] = useState({        //설명 할 부분 ---------1
         patient_id: "",
         patient_name: "",
         patient_state: "",
+        receipt_id: ""
     });
 
-    const selectPatient = (child_patient_id, child_patient_name, child_patient_state) => {
-        if(child_patient_state !== "진료 중"){
+    const selectPatient = (child_patient_id, child_patient_name, child_patient_state, child_receipt_id) => {
+        if(child_patient_state !== "진료중"){
             Swal.fire({
                 icon: 'info',
                 title: '진료 상태인 환자만 선택 가능합니다.',
@@ -50,7 +66,8 @@ function Diagnosis (props) {
                 ...selectedPatient,
                 patient_id: child_patient_id,
                 patient_name: child_patient_name,
-                patient_state: child_patient_state
+                patient_state: child_patient_state,
+                receipt_id: child_receipt_id
             });
         }
         
@@ -129,43 +146,41 @@ function Diagnosis (props) {
 
     /*검사 요청시 증상 및 소견에 해당 환자의 진료 추가되는 부분*/ 
 
-    function getOpinion(){
-        const opinions = [
-            {receipt_id:2020, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "", receipt_datetime:"2021-06-13", patient_id:"100552", patient_name:"이채정", diagnostic_test_state:"", medicines: []},
-            {receipt_id:2022, receipt_opinion:"이중인격 의심. 심리 검사 후 재진 필요", receipt_uniqueness: "", receipt_datetime:"2021-06-10", patient_id:"100552", patient_name:"이채정", diagnostic_test_state:"", medicines: []},
-            {receipt_id:2051, receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_uniqueness: "", receipt_datetime:"2021-06-11", patient_id:"100412", patient_name:"조민상", diagnostic_test_state:"", medicines: []},
-            {receipt_id:2072, receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_uniqueness: "", receipt_datetime:"2021-06-02", patient_id:"100412", patient_name:"조민상",diagnostic_test_state:"", medicines: []},
-            {receipt_id:2042, receipt_opinion:"어디에나 끼는 병 의심심각함", receipt_uniqueness: "",  receipt_datetime:"2021-06-13", patient_id:"100732", patient_name:"임도희",diagnostic_test_state:"", medicine_id:'', medicines: []},
-            {receipt_id:2152, receipt_opinion:"형님병 의심", receipt_uniqueness: "",  receipt_datetime:"2021-06-13", patient_id:"100732", patient_name:"임도희",diagnostic_test_state:"", medicines: []},
-            {receipt_id:3521, receipt_opinion:"중2병 의심. 심리 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-07", patient_id:"100212", patient_name:"강병주",diagnostic_test_state:"", medicines: []},
-            {receipt_id:7212, receipt_opinion:"사진증 의심... 사진 찍을 때만 옷 입는...", receipt_uniqueness: "",  receipt_datetime:"2021-06-01", patient_id:"100212", patient_name:"강병주", diagnostic_test_state:"", medicines: []},
-            {receipt_id:9921, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-23", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []},
-            {receipt_id:9429, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-18", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []},
-            {receipt_id:5255, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-11", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []},
-            {receipt_id:9531, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-18", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []}
+    // function getOpinion(){
+    //     const opinions = [
+    //         {receipt_id:2020, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "", receipt_datetime:"2021-06-13", patient_id:"100552", patient_name:"이채정", diagnostic_test_state:"", medicines: []},
+    //         {receipt_id:2022, receipt_opinion:"이중인격 의심. 심리 검사 후 재진 필요", receipt_uniqueness: "", receipt_datetime:"2021-06-10", patient_id:"100552", patient_name:"이채정", diagnostic_test_state:"", medicines: []},
+    //         {receipt_id:2051, receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_uniqueness: "", receipt_datetime:"2021-06-11", patient_id:"100412", patient_name:"조민상", diagnostic_test_state:"", medicines: []},
+    //         {receipt_id:2072, receipt_opinion:"정상인거 의심... 더 이상 재진 필요 없음", receipt_uniqueness: "", receipt_datetime:"2021-06-02", patient_id:"100412", patient_name:"조민상",diagnostic_test_state:"", medicines: []},
+    //         {receipt_id:2042, receipt_opinion:"어디에나 끼는 병 의심심각함", receipt_uniqueness: "",  receipt_datetime:"2021-06-13", patient_id:"100732", patient_name:"임도희",diagnostic_test_state:"", medicine_id:'', medicines: []},
+    //         {receipt_id:2152, receipt_opinion:"형님병 의심", receipt_uniqueness: "",  receipt_datetime:"2021-06-13", patient_id:"100732", patient_name:"임도희",diagnostic_test_state:"", medicines: []},
+    //         {receipt_id:3521, receipt_opinion:"중2병 의심. 심리 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-07", patient_id:"100212", patient_name:"강병주",diagnostic_test_state:"", medicines: []},
+    //         {receipt_id:7212, receipt_opinion:"사진증 의심... 사진 찍을 때만 옷 입는...", receipt_uniqueness: "",  receipt_datetime:"2021-06-01", patient_id:"100212", patient_name:"강병주", diagnostic_test_state:"", medicines: []},
+    //         {receipt_id:9921, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-23", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []},
+    //         {receipt_id:9429, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-18", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []},
+    //         {receipt_id:5255, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-11", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []},
+    //         {receipt_id:9531, receipt_opinion:"당뇨 의심. 혈액 검사 후 재진 필요", receipt_uniqueness: "",  receipt_datetime:"2021-06-18", patient_id:"100002", patient_name:"임꺽정", diagnostic_test_state:"", medicines: []}
            
             
             
-        ];
-        return opinions;
-    }
+    //     ];
+    //     return opinions;
+    // }
 
-    const [opinions, setOpinions] = useState(getOpinion);
+    const [opinions, setOpinions] = useState([]);
 
     opinions.sort((a,b) => {return b.receipt_id - a.receipt_id});
     const fatientOpinion = opinions.filter(opinion => opinion.patient_id === selectedPatient.patient_id);
 
-    const [newReceipt_id, setNewReceipt_id] = useState(10000);
+    // const [newReceipt_id, setNewReceipt_id] = useState(10000);
 
     const [testFlag, setTestFlag] = useState(1);
 
-    const testRequest = (event) => { //검사 요청
+    const testRequest = async (event) => { //검사 요청
        
-        
-
                 let flag = true;
                 for(let op of opinions) {
-                    if(op.diagnostic_test_state === '검사 완료') {
+                    if(op.diagnostic_test_state === '검사중') {
                         if(op.patient_id === event.patient_id){
                             flag = false;
                             Swal.fire({
@@ -179,46 +194,49 @@ function Diagnosis (props) {
                 }
 
                 if(selectedPatient.patient_id && flag && selectSymptoms.length !== 0) {
-
-                    let time = new Date();
-                    let yy = time.getFullYear();
-                    let tempmm = time.getMonth() + 1;
-                    let dd = time.getDate();
-
-                    if(10 > tempmm){
-                        let mm = '0'+tempmm;
-                        let myDateString = yy + '-' + mm + '-' + dd;
-                        setOpinions(opinions.concat({
-                            receipt_id: newReceipt_id,
-                            receipt_opinion: '검사 완료 후 소견 작성 필요',
-                            receipt_uniqueness: '',
-                            receipt_datetime: myDateString,
-                            patient_id: selectedPatient.patient_id+'',
-                            patient_name: selectedPatient.patient_name+'',
-                            diagnostic_test_state:'검사 완료',
-                            medicines: [],
-                            test_flag: testFlag
-                        }));
-                        setNewReceipt_id(newReceipt_id + 1);
-                        setTestFlag(testFlag +1);
-                        console.log(opinions)
+                    console.log(selectedPatient.receipt_id);
+                    let rtList=[];
+                    for(let i of symptomsCopy){
+                        rtList.push({search_id: i.search_id, receipt_id: selectedPatient.receipt_id});
                     }
-                    else{
-                        let myDateString = yy + '-' + tempmm + '-' + dd;
-                        setOpinions(opinions.concat({
-                            receipt_id: newReceipt_id,
-                            receipt_opinion: '검사 완료 후 작성 필요',
-                            receipt_uniqueness: '',
-                            receipt_datetime: myDateString,
-                            patient_id: selectedPatient.patient_id+'',
-                            patient_name: selectedPatient.patient_name+'',
-                            diagnostic_test_state:'검사 완료',
-                            medicines: [],
-                            test_flag: testFlag
-                        }));
-                        setNewReceipt_id(newReceipt_id + 1);
-                        setTestFlag(testFlag +1);
-                    }
+
+
+
+                    await createRequestTest(rtList);
+                    console.log(rtList)
+                    const response = await getReceiptList();
+                    setpatients(response.data.receiptList);
+
+
+
+
+                    // let time = new Date();
+                    // let yy = time.getFullYear();
+                    // let tempmm = time.getMonth() + 1;
+                    // let dd = time.getDate();
+
+            
+                        // let mm = '0'+tempmm;
+                        // let myDateString = yy + '-' + mm + '-' + dd;
+
+
+
+                // setOpinions(opinions.concat({
+                //     receipt_id: newReceipt_id,
+                //     receipt_opinion: '검사 완료 후 소견 작성 필요',
+                //     receipt_uniqueness: '',
+                //     receipt_datetime: myDateString,
+                //     patient_id: selectedPatient.patient_id+'',
+                //     patient_name: selectedPatient.patient_name+'',
+                //     diagnostic_test_state:'검사 완료',
+                //     medicines: [],
+                //     test_flag: testFlag
+                // }));
+                // setNewReceipt_id(newReceipt_id + 1);
+                // setTestFlag(testFlag +1);
+                console.log(opinions)
+                    
+                   
                     
                     deleteAll();
                     Swal.fire({
@@ -330,112 +348,112 @@ function Diagnosis (props) {
     }
 
     
-    const reportSuccess = (event) => {
+    // const reportSuccess = (event) => {
         
         
-            let time = new Date();
-            let yy = time.getFullYear();
-            let tempmm = time.getMonth() + 1;
-            let dd = time.getDate();
+    //         let time = new Date();
+    //         let yy = time.getFullYear();
+    //         let tempmm = time.getMonth() + 1;
+    //         let dd = time.getDate();
 
 
-        if(medicines) {
+    //     if(medicines) {
                 
             
-            if(10 > tempmm){
+    //         if(10 > tempmm){
 
-                let mm = '0'+tempmm;
-                let myDateString = yy + '-' + mm + '-' + dd;
+    //             let mm = '0'+tempmm;
+    //             let myDateString = yy + '-' + mm + '-' + dd;
 
-                setOpinions(opinions.concat({
-                    receipt_id: newReceipt_id,
-                    receipt_opinion: report.receipt_opinion,
-                    receipt_uniqueness: report.receipt_uniqueness,
-                    receipt_datetime: myDateString,
-                    patient_id: selectedPatient.patient_id+'',
-                    patient_name: selectedPatient.patient_name+'',
-                    diagnostic_test_state:'',
-                    medicines: [medicines],
-                    test_flag: testFlag
-                }));
-                setNewReceipt_id(newReceipt_id + 1);
-                console.log(opinions)
-                closeModal()
-            }
-            else{
+    //             setOpinions(opinions.concat({
+    //                 receipt_id: newReceipt_id,
+    //                 receipt_opinion: report.receipt_opinion,
+    //                 receipt_uniqueness: report.receipt_uniqueness,
+    //                 receipt_datetime: myDateString,
+    //                 patient_id: selectedPatient.patient_id+'',
+    //                 patient_name: selectedPatient.patient_name+'',
+    //                 diagnostic_test_state:'',
+    //                 medicines: [medicines],
+    //                 test_flag: testFlag
+    //             }));
+    //             setNewReceipt_id(newReceipt_id + 1);
+    //             console.log(opinions)
+    //             closeModal()
+    //         }
+    //         else{
 
-                let myDateString = yy + '-' + tempmm + '-' + dd;
+    //             let myDateString = yy + '-' + tempmm + '-' + dd;
 
-                setOpinions(opinions.concat({
-                    receipt_id: newReceipt_id,
-                    receipt_opinion: report.receipt_opinion,
-                    receipt_uniqueness: report.receipt_uniqueness,
-                    receipt_datetime: myDateString,
-                    patient_id: selectedPatient.patient_id+'',
-                    patient_name: selectedPatient.patient_name+'',
-                    diagnostic_test_state:'',
-                    medicines: [medicines],
-                    test_flag: testFlag
-                }));
-                setNewReceipt_id(newReceipt_id + 1);
-                closeModal()
-            }
-            Swal.fire({
-                icon: 'success',
-                title: '진료 작성이 완료되었습니다.',
-                showConfirmButton: false,
-                timer: 1500
-            })
+    //             setOpinions(opinions.concat({
+    //                 receipt_id: newReceipt_id,
+    //                 receipt_opinion: report.receipt_opinion,
+    //                 receipt_uniqueness: report.receipt_uniqueness,
+    //                 receipt_datetime: myDateString,
+    //                 patient_id: selectedPatient.patient_id+'',
+    //                 patient_name: selectedPatient.patient_name+'',
+    //                 diagnostic_test_state:'',
+    //                 medicines: [medicines],
+    //                 test_flag: testFlag
+    //             }));
+    //             setNewReceipt_id(newReceipt_id + 1);
+    //             closeModal()
+    //         }
+    //         Swal.fire({
+    //             icon: 'success',
+    //             title: '진료 작성이 완료되었습니다.',
+    //             showConfirmButton: false,
+    //             timer: 1500
+    //         })
 
-            setMedicines(medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id));
-        }
-        else{
-            if(10 > tempmm){
+    //         setMedicines(medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id));
+    //     }
+    //     else{
+    //         if(10 > tempmm){
 
-                let mm = '0'+tempmm;
-                let myDateString = yy + '-' + mm + '-' + dd;
+    //             let mm = '0'+tempmm;
+    //             let myDateString = yy + '-' + mm + '-' + dd;
 
-                setOpinions(opinions.concat({
-                    receipt_id: newReceipt_id,
-                    receipt_opinion: report.receipt_opinion,
-                    receipt_uniqueness: report.receipt_uniqueness,
-                    receipt_datetime: myDateString,
-                    patient_id: selectedPatient.patient_id+'',
-                    patient_name: selectedPatient.patient_name+'',
-                    diagnostic_test_state:'',
-                    medicines: [],
-                    test_flag: testFlag
-                }));
-                setNewReceipt_id(newReceipt_id + 1);
-                closeModal()
-            }
-            else{
+    //             setOpinions(opinions.concat({
+    //                 receipt_id: newReceipt_id,
+    //                 receipt_opinion: report.receipt_opinion,
+    //                 receipt_uniqueness: report.receipt_uniqueness,
+    //                 receipt_datetime: myDateString,
+    //                 patient_id: selectedPatient.patient_id+'',
+    //                 patient_name: selectedPatient.patient_name+'',
+    //                 diagnostic_test_state:'',
+    //                 medicines: [],
+    //                 test_flag: testFlag
+    //             }));
+    //             setNewReceipt_id(newReceipt_id + 1);
+    //             closeModal()
+    //         }
+    //         else{
 
-                let myDateString = yy + '-' + tempmm + '-' + dd;
+    //             let myDateString = yy + '-' + tempmm + '-' + dd;
 
-                setOpinions(opinions.concat({
-                    receipt_id: newReceipt_id,
-                    receipt_opinion: report.receipt_opinion,
-                    receipt_uniqueness: report.receipt_uniqueness,
-                    receipt_datetime: myDateString,
-                    patient_id: selectedPatient.patient_id+'',
-                    patient_name: selectedPatient.patient_name+'',
-                    diagnostic_test_state:'',
-                    medicines: [],
-                    test_flag: testFlag
-                }));
-                setNewReceipt_id(newReceipt_id + 1);
-                closeModal()
-            }
-            Swal.fire({
-                icon: 'success',
-                title: '진료 작성이 완료되었습니다.',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        };
+    //             setOpinions(opinions.concat({
+    //                 receipt_id: newReceipt_id,
+    //                 receipt_opinion: report.receipt_opinion,
+    //                 receipt_uniqueness: report.receipt_uniqueness,
+    //                 receipt_datetime: myDateString,
+    //                 patient_id: selectedPatient.patient_id+'',
+    //                 patient_name: selectedPatient.patient_name+'',
+    //                 diagnostic_test_state:'',
+    //                 medicines: [],
+    //                 test_flag: testFlag
+    //             }));
+    //             setNewReceipt_id(newReceipt_id + 1);
+    //             closeModal()
+    //         }
+    //         Swal.fire({
+    //             icon: 'success',
+    //             title: '진료 작성이 완료되었습니다.',
+    //             showConfirmButton: false,
+    //             timer: 1500
+    //         })
+    //     };
     
-    }
+    // }
     
 
     //소견 읽기, 수정
@@ -572,11 +590,11 @@ function Diagnosis (props) {
                       <DiagnosticCheckList selectedPatient={selectedPatient} selectSymptoms={selectSymptoms} setSelectSymptoms={setSelectSymptoms} deletePrescript={deletePrescript} deleteAll={deleteAll} testRequest={testRequest}/>
                 </div>
                 <div className={cx("diagnosis-component-background","diagnosis-opinionAndSearch-Height")}>
-                    <OpinionAndSearch fatientOpinion={fatientOpinion} opinions={opinions} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} reportSuccess={reportSuccess} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} saveMedicine={saveMedicine} />
+                    <OpinionAndSearch fatientOpinion={fatientOpinion} opinions={opinions} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} saveMedicine={saveMedicine} />
                 </div>
                 <DialMenu />
             </div>
-            
+            {/* reportSuccess={reportSuccess} */}
         </div>
         </>
         
