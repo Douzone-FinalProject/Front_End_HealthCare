@@ -5,7 +5,7 @@ import SearchListItem from "./SearchListItem";
 import { useState } from "react";
 import { MDBTable, MDBTableBody } from 'mdbreact';
 import { Link } from "react-router-dom";
-import { searchPatientIdOpinion, searchDateOpinion } from "apis/diagnostic";
+import { searchPatientIdOpinion, searchDateOpinion, searchPatientNameOpinion, searchPatientIdAndDate, searchPatientIdAndName, searchPatientNameAndDate, searchAll } from "apis/diagnostic";
 import Swal from "sweetalert2";
 
 const cx = classnames.bind(style);
@@ -28,40 +28,51 @@ function SearchPatients(props) {
 
     const search  = async (patient_id, receipt_datetime, patient_name) => {
         
-            if(receipt_datetime){
+            if(!patient_id && receipt_datetime && !patient_name){
                 const response = await searchDateOpinion(receipt_datetime);
                 const patientChart = response.data.searchDateOpinionList;
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
-            if(patient_id){ //차트번호만 입력 할 경우
+            else if(patient_id && !receipt_datetime && !patient_name){ //차트번호만 입력 할 경우
                 const response = await searchPatientIdOpinion(patient_id);
                 const patientChart = response.data.searchPatientIdOpinionList;
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
-            if(patient_name){   //이름만 검색 할 경우
-                const patientChart = props.opinions.filter(opinion =>  opinion.patient_name === patient_name);
+            else if(patient_name && !receipt_datetime && !patient_id){   //이름만 검색 할 경우
+                const response = await searchPatientNameOpinion(patient_name);
+                const patientChart = response.data.searchPatientNameOpinionList;
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
-            if(patient_id && receipt_datetime) {   //차트번호와 날짜 입력 할 경우
-                const patientChart = props.opinions.filter(opinion =>  opinion.patient_id === patient_id && opinion.receipt_datetime === receipt_datetime);
+            else if(patient_id && receipt_datetime && !patient_name) {   //차트번호와 날짜 입력 할 경우
+                const response = await searchPatientIdAndDate(patient_id, receipt_datetime);
+                const patientChart = response.data.searchPatientIdAndDateList;
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
-            if(patient_name && patient_id){   //이름하고 차트번호 입력 할 경우
-                const patientChart = props.opinions.filter(opinion =>  opinion.patient_name === patient_name && opinion.patient_id === patient_id);
+            else if(patient_name && patient_id && !receipt_datetime){   //이름하고 차트번호 입력 할 경우
+                const response = await searchPatientIdAndName(patient_name, patient_id);
+                const patientChart = response.data.searchPatientIdAndNameList;
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
-            if(patient_name && receipt_datetime){   //이름하고 차트번호 입력 할 경우
-                const patientChart = props.opinions.filter(opinion =>  opinion.patient_name === patient_name && opinion.receipt_datetime === receipt_datetime);
+            else if(patient_name && receipt_datetime && !patient_id){   //이름하고 날짜 입력 할 경우
+                const response = await searchPatientNameAndDate(patient_name, receipt_datetime);
+                const patientChart = response.data.searchPatientNameAndDateList;
+                setOpinionCopys([
+                    ...patientChart
+                ])
+            }
+            else{
+                const response = await searchAll(patient_id, patient_name, receipt_datetime); //id, 이름, 날짜 3개 입력
+                const patientChart = response.data.searchAllList;
                 setOpinionCopys([
                     ...patientChart
                 ])
