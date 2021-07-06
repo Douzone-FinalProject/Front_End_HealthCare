@@ -4,6 +4,11 @@ export function getPatientList() {
   return axios.get("/receipt/patients");
 }
 
+// 환자 이름 검색 
+export function getPatientListByName(patient_name) {
+  return axios.get("receipt/patients/name/"+patient_name);
+}
+
 export function getPatientById(patient_id) {
   return axios.get("/receipt/patient/"+patient_id);
 }
@@ -31,8 +36,7 @@ export function deleteReceiptById(receipt_id) {
   return axios.delete("/receipt/"+receipt_id);
 }
 
-// 진료 보내기 : 대기 => 진료중 
-export function updateReceipt(patient_id) {
-  console.log('1231111----sd: ', patient_id);
-  return axios.put("/receipt/"+patient_id);
+// receipt_state 변경 
+export function updateReceipt(receipt_id, nextState) {
+  return axios.put("/receipt/"+receipt_id+"/"+nextState);
 }

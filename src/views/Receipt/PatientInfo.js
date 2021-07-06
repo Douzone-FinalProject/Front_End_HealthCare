@@ -3,7 +3,6 @@ import classNames from 'classnames/bind';
 import style from './style.module.css';
 import  Button  from "../common/Button";
 import DaumPost from 'views/CreatePatient/DaumPost';
-import { getRidByPatient} from './db';
 import { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,9 +46,8 @@ const PatientInfo = (props) => {
     }
   }, [props.patient_id]);
 
-  // 해당 환자가 접수리스트에 있는지 없는지 조사 
+  // 해당 환자가 접수리스트에 있는지 없는지 조사 -> 단순히 디비 테이블에 있냐없냐 하면 안됨 
   function isReceipt(){
-    // DB 접수 테이블에 patient_id를 가진 환자가 있다면 트루 
     const db = props.receipts;
     for(var j=0; j < db.length; j++){
       if(db[j].patient_id === patient.patient_id){
@@ -61,14 +59,11 @@ const PatientInfo = (props) => {
 
   function handleReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
-    // DB insert 
     props.addReceipt(patient);
   }
 
   function cancelReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
-    // DB delete 
-    // receipts : patient.patient_id -> 접수 id
     let rid = undefined;
     for(var receipt of props.receipts){
       if(receipt.patient_id === patient.patient_id){
@@ -121,9 +116,8 @@ const PatientInfo = (props) => {
       showConfirmButton: false,
       timer: 1500
     })
-    props.handleUpdate(patient); // 부모에게 상태 변경 알리기 
+    props.handleUpdate(patient);
   }; 
-
 
 
   // DB 환자 정보 영구 삭제 
@@ -144,11 +138,10 @@ const PatientInfo = (props) => {
           'Your file has been deleted.',
           'success'
         )
-        props.handleDelete(patient.patient_id); // 부모에게 상태 변경 알리기 
+        props.handleDelete(patient.patient_id); 
         setPatient({});
       }
     })
-    
   }; 
 
   const relations = [
@@ -161,9 +154,12 @@ const PatientInfo = (props) => {
   const bloodTypes = [
     {value: 'A', label: 'A'},
     {value: 'B', label: 'B'},
-    {value: 'O', label: 'O'},
     {value: 'AB', label: 'AB'},
-
+    {value: 'O', label: 'O'},
+    {value: 'Rh-A', label:'Rh-A'},
+    {value: 'Rh-B', label:'Rh-B'},
+    {value: 'Rh-AB', label:'Rh-AB'},
+    {value: 'Rh-O', label:'Rh-O'},
   ];
 
   return (
@@ -185,7 +181,7 @@ const PatientInfo = (props) => {
       </div>
       {/* form - 환자 정보 읽기, 수정 또는 삭제 기능 */}
       <div className={cx("patient-detail-bottom")}>
-      <form onSubmit={handleUpdate} className={classes.root} noValidate autoComplete="off">
+      <form onSubmit={handleUpdate} className={classes.root} autoComplete="off">
         <div>
           <div>
             <TextField disabled id="standard-required" label="차트번호"  onChange={handleChange}
@@ -197,12 +193,12 @@ const PatientInfo = (props) => {
                   name="patient_ssn"  value={patient.patient_ssn ||''}/>  
           <TextField required label="휴대전화" onChange={handleChange}
                   name="patient_phone" value={patient.patient_phone ||''}/>      
-          <TextField required label="보호자" onChange={handleChange}
+          <TextField label="보호자" onChange={handleChange}
                    name="patient_guardian_name" value={patient.patient_guardian_name ||''}/>   
-          <TextField required label="보호자 휴대전화" onChange={handleChange}
+          <TextField label="보호자 휴대전화" onChange={handleChange}
                    name="patient_guardian_phone" value={patient.patient_guardian_phone ||''}/>   
           <TextField select label="보호자 관계" name="patient_guardian_relationship"
-            value={patient.patient_guardian_relationship ||'select2'} onChange={handleChange} helperText="선택해주세요">
+            value={patient.patient_guardian_relationship ||''} onChange={handleChange} helperText="선택해주세요">
             {relations.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
@@ -263,17 +259,17 @@ const PatientInfo = (props) => {
           </div>
 
           <div className="mt-5">
-            <TextField disabled label="최초진료" value="2021-06-01"/> 
-            <TextField disabled label="최근진료" value="2021-06-03"/> 
+            <TextField disabled label="최초진료" value={patient.firstReceiptDate ||'진료 기록 없음'}/> 
+            <TextField disabled label="최근진료" value={patient.lastReceiptDate ||'진료 기록 없음'}/> 
           </div>
           <TextField disabled label="다음예약" value="2021-06-20"/> 
 
+          {/* 진료자 리스트에 있는 환자는 버튼 안보이게 또는 비활성화  */}
           <div className={cx("form-btn")}>
-                <Button type="button" className={cx("form-btn-1", "custom-btn")} onClick={handleDelete}>영구 삭제</Button>
-                <Button type="submit" className={cx("form-btn-1", "ml-3", "custom-btn")}>저장</Button>
+            <Button type="button" className={cx("form-btn-1", "custom-btn")} onClick={handleDelete}>영구 삭제</Button>
+            <Button type="submit" className={cx("form-btn-1", "ml-3", "custom-btn")}>저장</Button>
           </div>
         </div>
-      
       </form>
       </div>
     </div>
