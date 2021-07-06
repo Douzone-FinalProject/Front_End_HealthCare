@@ -36,8 +36,8 @@ function CreateOpinion(props) {
                     <tr>
                     <th>약품코드</th>
                     <th>약품명</th>
-                    <th style={{width:"20%"}}>단위</th>
-                    <th style={{width:"25%"}}>수량</th>
+                    <th style={{width:"22%"}}>단위</th>
+                    <th style={{width:"22%"}}>수량</th>
                     </tr>
                 </thead>
             </MDBTable>    

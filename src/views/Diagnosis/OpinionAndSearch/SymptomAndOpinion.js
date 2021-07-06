@@ -6,7 +6,7 @@ import OpinionListItem from "./OpinionListItem";
 import { MDBTable, MDBTableBody } from 'mdbreact';
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import React from "react"
 const cx = classnames.bind(style);
 
 function SymptomAndOpinion(props) {
@@ -15,10 +15,18 @@ function SymptomAndOpinion(props) {
         props.changeToSearch(event);
     };
 
+    // let initPatientOpinion;
+    // for(let i of props.fatientOpinion){
+    //     if(i.receipt_opinion === null){
+    //     initPatientOpinion = i
+    //     // console.log(initPatientOpinion)
+    //     }
+        
+    // }
     
     return(
         <>
-        <CreateOpinion modalIsOpen={props.modalIsOpen} closeModal={props.closeModal} medicines={props.medicines} medicineCount={props.medicineCount} handleCount={props.handleCount} quantity={props.quantity} reportOpinion={props.reportOpinion} reportSuccess={props.reportSuccess}/>  
+        <CreateOpinion modalIsOpen={props.modalIsOpen} closeModal={props.closeModal} medicines={props.medicines} medicineCount={props.medicineCount} handleCount={props.handleCount} quantity={props.quantity} reportOpinion={props.reportOpinion} reportSuccess={props.reportSuccess} reportOp={props.reportOp}/>  
         <Button init={true} className={cx("diagnosis-button","diagnosis-opinionAndSearch-buttonFocus", "OpinionAndSearchButton")} >증상 및 소견</Button>
         <Button init2={true} className={cx("diagnosis-button","diagnosis-opinionAndSearch-buttonFocus", "OpinionAndSearchButton")} onClick={changeToSearch} >환자 검색</Button>
         <div className={cx("mt-4")}>
