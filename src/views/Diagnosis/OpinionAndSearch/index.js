@@ -4,6 +4,7 @@ import style from "../Diagnosis.module.css";
 import classnames from "classnames/bind";
 import { useState } from "react";
 import UpdateOpinion from "./UpdateOpinion";
+import React from "react";
 
 const cx = classnames.bind(style);
 
@@ -37,7 +38,7 @@ function OpinionAndSearch(props) {
                 {page.change === "1"?
                     <SymptomAndOpinion fatientOpinion={props.fatientOpinion} medicines={props.medicines}  selectedPatient={props.selectedPatient} handleCount={props.handleCount}  handleT={props.handleT} reportOpinion={props.reportOpinion} reportSuccess={props.reportSuccess} modalIsOpen={props.modalIsOpen} openModal={props.openModal} closeModal={props.closeModal} openOpinion={props.openOpinion} selectOpinion={props.selectOpinion} selectReceipt_id={props.selectReceipt_id} changeToSearch={changeToSearch}/>
                     :
-                    <SearchPatients opinions={props.opinions} selectedPatient={props.selectedPatient} openOpinion={props.openOpinion} selectOpinion2={props.selectOpinion2} selectReceipt_id2={props.selectReceipt_id2} changeToOpinion={changeToOpinion}/>
+                    <SearchPatients selectedPatient={props.selectedPatient} openOpinion={props.openOpinion} selectOpinion2={props.selectOpinion2} selectReceipt_id2={props.selectReceipt_id2} changeToOpinion={changeToOpinion}/>
                 }
             </div>
         </>

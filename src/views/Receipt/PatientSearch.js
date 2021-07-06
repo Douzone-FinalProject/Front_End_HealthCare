@@ -15,6 +15,10 @@ import CreatePatient from 'views/CreatePatient';
 import AddAlarmIcon from '@material-ui/icons/AddAlarm';
 import AddToQueueIcon from '@material-ui/icons/AddToQueue';
 import { Link } from 'react-router-dom';
+import CachedIcon from '@material-ui/icons/Cached';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import Clock from 'react-live-clock';
 
 const cx = classNames.bind(style);
 const useStyles = makeStyles((theme) => ({
@@ -48,20 +52,23 @@ const PatientSearch = (props) => {
 
   const handleChange = (event) => {
     setPatient_name(event.target.value);
-    console.log(patient_name);
   };
 
   // 하나의 행 UI 만들기 
   const rowRenderer = ({index, key, style}) => {
     return (
       <div key={key} style={style}>
-        <PatientRow patient={patients[index]} handleClick={props.handleClick}></PatientRow>
+        <PatientRow patient={patients[index]} handleClickPatient={props.handleClickPatient}></PatientRow>
       </div>
     );
   };
 
   return (
     <div className={cx("left-component-top")}>
+       {/* <div className={cx("mb-3")}> */}
+         {/* <Clock format={'YYYY년 MM월 DD일 HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/> */}
+      {/* </div> */}
+
       {/* 1. 검색할 내용 입력하는 div */}
       <div className={cx("search", "d-flex justify-content-between")}>
         <div>
@@ -73,25 +80,34 @@ const PatientSearch = (props) => {
                <AddAlarmIcon className="mr-2 mb-1"/>예약
             </Button>
           </Link>
+          <span style={{fontSize:"1.1em", color:"#91a7ff"}} className="ml-5">
+              <Clock format={'YYYY-MM-DD ddd HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/> 
+              <span className="ml-4">오늘 예약 0명</span>
+              <span className="ml-4">내일 예약 1명</span>
+          </span>
           <CreatePatient modalIsOpen={modalIsOpen} closeModal={closeModal} handleAdd={props.handleAdd}/>
         </div>
           <Paper component="form" className={classes.root}>
                 <InputBase
                   className={classes.input} name="patient_name" value={patient_name} onChange={handleChange}
-                  placeholder="환자 이름을 검색하세요" 
+                  placeholder="환자 이름을 검색하세요" id="patient_name"
                 />
                 <IconButton type="submit" className={classes.iconButton} aria-label="search"
                   onClick={(e) => {
                     e.preventDefault();
                     props.handleSearch(patient_name);
                   }}
-                >
+                >  
                   <SearchIcon />
                 </IconButton>
                 <Divider className={classes.divider} orientation="vertical" />
                 <IconButton color="primary" className={classes.iconButton} aria-label="전체보기" 
-                        onClick={function(e){e.preventDefault(); props.handleAllSearch();}}>
-                  <ReplyAllIcon />
+                        onClick={function(e){
+                        e.preventDefault(); 
+                        setPatient_name(''); // 검색 초기화 
+                        props.handleAllSearch();
+                }}>
+                  <ClearAllIcon />
                 </IconButton>
           </Paper>
       </div>
@@ -107,11 +123,18 @@ const PatientSearch = (props) => {
               <span className="flex-fill">최근진료날짜</span>
             </div>
             {/* 리스트에서 하나의 행 컴포넌트는 자식으로 따로 만들기 */}
-            <AutoSizer disableHeight>
-                {({width, height}) => {
-                  return <List width={width} height={275} list={patients} rowCount={patients.length} rowHeight={45} rowRenderer={rowRenderer} overscanRowCount={7}></List>
-                }}
-            </AutoSizer>
+            {
+              patients.length > 0 ?
+                  <AutoSizer disableHeight>
+                      {({width, height}) => {
+                        return <List width={width} height={275} list={patients} rowCount={patients.length} rowHeight={45} rowRenderer={rowRenderer} overscanRowCount={7}></List>
+                      }}
+                  </AutoSizer>
+              :
+              <div className="d-flex-row mt-4">
+                <PersonOutlineIcon style={{width: "100%", height: "9em", color:"#868e96"}}/>
+              </div>
+            }
       </div>
     </div>
   );
