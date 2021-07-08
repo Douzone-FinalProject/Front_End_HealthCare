@@ -96,3 +96,28 @@ export function createMedicines(cmlist) { //소견 작성 + 약 처방
     const promise = axios.post("/diagnostic/createMedicines", cmlist);
     return promise;
 }
+
+export function readOpinion(receipt_id) { //소견 읽기
+    const promise = axios.get("/diagnostic/readOpinion", {params: { receipt_id:receipt_id }});
+    return promise;
+}
+
+export function receiptMedicines(receipt_id) { //진료 약품 읽기
+    const promise = axios.get("/diagnostic/receiptMedicines", {params: { receipt_id:receipt_id }});
+    return promise;
+}
+
+export function updateOpinion(handleOpinion) { //소견 수정
+    const promise = axios.put("/diagnostic/updateOpinion", handleOpinion);
+    return promise;
+}
+
+export function updateOpinionOfMedicines(handleMedicines, receipt_id) { //약품 수정
+    const promise = axios.post("/diagnostic/updateOpinionOfMedicines", handleMedicines, {params: {receipt_id:receipt_id}});
+    return promise;
+}
+
+export function updateTestAndReceiptState(receipt_id) { // 검사 소견 수정 완료 후 검사상태 및 진료 상태 변경
+    const promise = axios.put("/diagnostic/updateTestAndReceiptState/"+ receipt_id);
+    return promise;
+}

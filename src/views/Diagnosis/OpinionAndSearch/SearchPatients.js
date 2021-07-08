@@ -25,54 +25,54 @@ function SearchPatients(props) {
         
     };
     
-
+   
     const search  = async (patient_id, receipt_datetime, patient_name) => {
         
             if(!patient_id && receipt_datetime && !patient_name){
                 const response = await searchDateOpinion(receipt_datetime);
-                const patientChart = response.data.searchDateOpinionList;
+                const patientChart = response.data.searchDateOpinionList.filter(opinion => opinion.receipt_opinion !== ""); // 일단 테스트라 null로 바꿔야 함 후에 밑에 다
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
             else if(patient_id && !receipt_datetime && !patient_name){ //차트번호만 입력 할 경우
                 const response = await searchPatientIdOpinion(patient_id);
-                const patientChart = response.data.searchPatientIdOpinionList;
+                const patientChart = response.data.searchPatientIdOpinionList.filter(opinion => opinion.receipt_opinion !== "");
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
             else if(patient_name && !receipt_datetime && !patient_id){   //이름만 검색 할 경우
                 const response = await searchPatientNameOpinion(patient_name);
-                const patientChart = response.data.searchPatientNameOpinionList;
+                const patientChart = response.data.searchPatientNameOpinionList.filter(opinion => opinion.receipt_opinion !== "");
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
             else if(patient_id && receipt_datetime && !patient_name) {   //차트번호와 날짜 입력 할 경우
                 const response = await searchPatientIdAndDate(patient_id, receipt_datetime);
-                const patientChart = response.data.searchPatientIdAndDateList;
+                const patientChart = response.data.searchPatientIdAndDateList.filter(opinion => opinion.receipt_opinion !== "");
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
             else if(patient_name && patient_id && !receipt_datetime){   //이름하고 차트번호 입력 할 경우
                 const response = await searchPatientIdAndName(patient_name, patient_id);
-                const patientChart = response.data.searchPatientIdAndNameList;
+                const patientChart = response.data.searchPatientIdAndNameList.filter(opinion => opinion.receipt_opinion !== "");
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
             else if(patient_name && receipt_datetime && !patient_id){   //이름하고 날짜 입력 할 경우
                 const response = await searchPatientNameAndDate(patient_name, receipt_datetime);
-                const patientChart = response.data.searchPatientNameAndDateList;
+                const patientChart = response.data.searchPatientNameAndDateList.filter(opinion => opinion.receipt_opinion !== "");
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
             else{
                 const response = await searchAll(patient_id, patient_name, receipt_datetime); //id, 이름, 날짜 3개 입력
-                const patientChart = response.data.searchAllList;
+                const patientChart = response.data.searchAllList.filter(opinion => opinion.receipt_opinion !== "");
                 setOpinionCopys([
                     ...patientChart
                 ])
@@ -108,7 +108,7 @@ function SearchPatients(props) {
                     </MDBTableBody>
                 </MDBTable>
             </div>
-            {opinionsCopy.receipt_id || props.selectReceipt_id2.diagnostic_test_state === "검사 완료" ?
+            {opinionsCopy.receipt_id || props.selectReceipt_id2.diagnostic_test_state === "검사완료" || props.selectReceipt_id2.diagnostic_test_state === "처방완료"  ?
                 <>
                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button")} onClick={()=>{search(searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name);}} >검색</Button>
                    <Link className={cx("noneLink","diagnosis-button")} to="/result"><Button>결과 조회</Button></Link>

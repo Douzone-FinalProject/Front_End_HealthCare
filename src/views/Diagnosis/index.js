@@ -10,8 +10,7 @@ import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
 import { useEffect } from "react";
 import Swal from 'sweetalert2';
-import { useSelector } from "react-redux";
-import { searchSymptomB, createRequestTest, fatientOpinions, createOpinion, createMedicines, createRequestTestOpinion } from "apis/diagnostic";
+import { searchSymptomB, createRequestTest, fatientOpinions, createOpinion, createMedicines, readOpinion, receiptMedicines, updateOpinion, updateOpinionOfMedicines, updateTestAndReceiptState } from "apis/diagnostic";
 import { getReceiptList } from "apis/receipt";
 
 const cx = classnames.bind(style);
@@ -39,15 +38,15 @@ function Diagnosis (props) {
     const [selectedPatient, setSelectP] = useState({
         patient_id: "",
         patient_name: "",
-        patient_state: "",
+        receipt_state: "",
         receipt_id: ""
     });
 
     const [fatientOpinion, setFatientOpinion] = useState([]);
     const [reportOp, setReportOp] = useState();
 
-    const selectPatient = async (child_patient_id, child_patient_name, child_patient_state, child_receipt_id) => {
-        if(child_patient_state !== "진료중"){
+    const selectPatient = async (child_patient_id, child_patient_name, child_receipt_state, child_receipt_id) => {
+        if(child_receipt_state !== "진료중"){
             Swal.fire({
                 icon: 'info',
                 title: '진료 상태인 환자만 선택 가능합니다.',
@@ -60,13 +59,13 @@ function Diagnosis (props) {
                 ...selectedPatient,
                 patient_id: child_patient_id,
                 patient_name: child_patient_name,
-                patient_state: child_patient_state,
+                receipt_state: child_receipt_state,
                 receipt_id: child_receipt_id
             });
             const response = await fatientOpinions(child_patient_id);
             setReportOp(response.data.fatientOpinionsList[0]);
 
-            console.log(reportOp);
+            // console.log(reportOp);
 
             const selectPatientChart = response.data.fatientOpinionsList;
             const chartOfNotNull = selectPatientChart.filter(opinion => opinion.receipt_opinion !== "") // 일단 테스트라 null로 바꿔야 함 후에
@@ -144,7 +143,7 @@ function Diagnosis (props) {
 
     
 
-    const testRequest = async (event) => { //검사 요청
+    const testRequest = async (event) => { //검사 요청                          **'검사완료'상태인거는 소견 및 약 처방 후 진료 상태를'수납전'으로 바꾸게 하고 검사 상태를 '처방완료'로 나타내게 하기**
        
                 if(selectedPatient.patient_id && selectSymptoms.length !== 0) {
 
@@ -160,6 +159,10 @@ function Diagnosis (props) {
                     const reReceiptList = await getReceiptList();
                     setpatients(reReceiptList.data.receiptList);
                     deleteAll();
+                    // const [selectedPatient, setSelectP] = useState({
+                    setSelectP({
+                         patient_id: ""
+                    })
 
                     Swal.fire({
                         icon: 'success',
@@ -283,7 +286,7 @@ function Diagnosis (props) {
                 setMedicines(tempMedicines); 
 
                 for(let i of medicines){
-                    cmlist.push({medicine_id: i.medicine_id, medicine_pre_quantity: i.quantity, receipt_id: selectedPatient.receipt_id})
+                    cmlist.push({medicine_id: i.medicine_id, quantity: i.quantity, receipt_id: selectedPatient.receipt_id})
                 }
                 await createMedicines(cmlist);
                 const newOpinion = {...reportOp};
@@ -292,8 +295,6 @@ function Diagnosis (props) {
                 const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);
                 setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
                 deleteMedicineAll();
-                const reReceiptList = await getReceiptList();
-                setpatients(reReceiptList.data.receiptList);
                 closeModal()
 
             }
@@ -311,6 +312,9 @@ function Diagnosis (props) {
                 setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
                 const reReceiptList = await getReceiptList();
                 setpatients(reReceiptList.data.receiptList);
+                setSelectP({
+                    patient_id: ""
+                })
                 closeModal()
         
                 }
@@ -344,6 +348,7 @@ function Diagnosis (props) {
 
 
     const [opp, setOpp] = useState({});
+    const [opmedic, setOpmedic] = useState([]);
 
     function openUpdateModal() {
         setUpdateIsOpen(true);
@@ -353,66 +358,109 @@ function Diagnosis (props) {
         setUpdateIsOpen(false);
     }
     
-    const openOpinion = (event) => {
+    const openOpinion = async (receipt_id) => {
         setUpdateIsOpen(true);
-        if(medicines){
-            handleT();
-            let getOpinion;
-            for(let i of opinions){
-                  if(event === i.receipt_id){
-                    getOpinion = i
-                  }
-            }
-            setOpp(getOpinion);
-        }
-        else{
-            let getOpinion;
-            for(let i of opinions){
-                  if(event === i.receipt_id){
-                    getOpinion = i
-                  }
-            }
-            setOpp(getOpinion);
-        }
         
+            if(medicines.length !== 0){
+                let tempMedicines = medicines;
+                    for (let temp of tempMedicines) {
+                        for (let qt in quantity) {
+                            if(temp.medicine_id === qt) {
+                              temp.quantity = quantity[qt]
+                            }
+                        }
+                    }
+                setMedicines(tempMedicines); 
+                const response2 = await readOpinion(receipt_id);
+                const getOpinion = response2.data.readReceiptOpinion;
+                setOpp(getOpinion)
+                
+            }
+            else{
+                setOpmedic()
+                const response = await receiptMedicines(receipt_id);
+                setOpmedic(response.data.readReceiptMedicines)
+                const response2 = await readOpinion(receipt_id);
+                const getOpinion = response2.data.readReceiptOpinion;
+                setOpp(getOpinion)
+            }
     }
     
+
+
     const updatOpinion = (event) => {
         setOpp({
             ...opp,
             [event.target.name]: event.target.value
         })
+        
     }
 
-    const saveOpinion = (event) => {
+    const saveOpinion = async (diagnostic_test_state) => {
+        try{
+            if(medicines.length === 0){
+                if(diagnostic_test_state === "검사완료"){
+                    const handleOpinion = {...opp};
+                    await updateOpinion(handleOpinion);
+                    await updateTestAndReceiptState(opp.receipt_id);
+                    const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);  //-검사 요청 후 검사 소견에 검사 후 진료 작성 후 실행 시키기(새로 고침 역할)
+                    setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
+                    //검사완료-> 처방완료 and 진료 상태를 '수납전'으로 바꾸기
+                    const reReceiptList = await getReceiptList();
+                    setpatients(reReceiptList.data.receiptList);
+                    Swal.fire({
+                        icon: 'success',
+                        title: '수정이 완료되었습니다.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    closeUpdateModal();
+                    deleteMedicineAll();  
+
+
+                }
+                else{
+                    const handleOpinion = {...opp};
+                    await updateOpinion(handleOpinion);
+                    const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id); 
+                    setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: '수정이 완료되었습니다.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    closeUpdateModal();
+                    deleteMedicineAll();  
+                }
+
+            }
+            else{
+                Swal.fire({
+                    icon: 'info',
+                    title: '약 처방 후 완료해주세요.',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
         
-        
-    for(let i of opinions){
-            
-        if(event === i.receipt_id){
-            i.receipt_opinion = opp.receipt_opinion;
-            i.receipt_uniqueness = opp.receipt_uniqueness;
+        }catch(error){
+            console.log(error)
         }
     }
-    Swal.fire({
-        icon: 'success',
-        title: '수정이 완료되었습니다.',
-        showConfirmButton: false,
-        timer: 1500
-    })
-      closeUpdateModal();
-      deleteMedicineAll();  
-    }
 
-    const saveMedicine = (event) => {
-        
-        for(let i of opinions){
-            
-            if(event === i.receipt_id){
-              i.medicines.push(medicines);
-            }
-            
-      }
+    const saveMedicine = async (receipt_id) => {
+
+        let handleMedicines=[]
+        for(let i of medicines){
+            handleMedicines.push({medicine_id: i.medicine_id, quantity: i.quantity, receipt_id: receipt_id})
+        }
+        await updateOpinionOfMedicines(handleMedicines, receipt_id);
+
+        const response = await receiptMedicines(receipt_id);
+        setOpmedic(response.data.readReceiptMedicines)
+       
        Swal.fire({
         icon: 'success',
         title: '약 처방이 완료되었습니다.',
@@ -465,7 +513,7 @@ function Diagnosis (props) {
                       <DiagnosticCheckList selectedPatient={selectedPatient} selectSymptoms={selectSymptoms} setSelectSymptoms={setSelectSymptoms} deletePrescript={deletePrescript} deleteAll={deleteAll} testRequest={testRequest} />
                 </div>
                 <div className={cx("diagnosis-component-background","diagnosis-opinionAndSearch-Height")}>
-                    <OpinionAndSearch opinions={opinions} fatientOpinion={fatientOpinion} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} saveMedicine={saveMedicine} reportOp={reportOp} reportSuccess={reportSuccess} />
+                    <OpinionAndSearch opmedic={opmedic} opinions={opinions} fatientOpinion={fatientOpinion} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} saveMedicine={saveMedicine} reportOp={reportOp} reportSuccess={reportSuccess} />
                 </div>
                 <DialMenu />
             </div>

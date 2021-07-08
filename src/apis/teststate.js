@@ -15,14 +15,43 @@ export async function getTestStateDetailList(receiptId) {
 }
 
 // testStateDetail
-export async function updateStateDetail(rowKeys, state, staff_login_id, bundleIds) {
+export async function updateStateDetail(rowKeys, state, staff_login_id, bundleSpecimens) {
   console.log(staff_login_id)
   
   const updateData = {
     rowKeys,
     state,
     staff_login_id,
-    bundleIds
+    bundleSpecimens
   }
   await axios.put("/teststate", updateData);
+}
+
+// 왼쪽 chart(stateChart)
+const stateChart = [
+  {
+    "id": "waiting",
+    "label": "검사대기",
+    "value": 297,
+    "color": "rgb(255, 99, 132)"
+  },
+  {
+    "id": "doing",
+    "label": "검사중",
+    "value": 150,
+    "color": "rgb(255, 205, 86)"
+  },
+  {
+    "id": "complete",
+    "label": "검사완료",
+    "value": 275,
+    "color": "rgb(75, 192, 192)"
+  },
+]
+export async function getStateChart() {
+  const stateChartData = await axios.get(`/teststate/statechart`);
+  stateChart[0].value = stateChartData.data[0].waiting;
+  stateChart[1].value = stateChartData.data[0].doing;
+  stateChart[2].value = stateChartData.data[0].complete;
+  return stateChart; 
 }
