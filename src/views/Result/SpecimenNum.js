@@ -21,8 +21,22 @@ function SpecimenNum(props) {
         },
         {
             title: '상태',
-            dataIndex: "receipt_state",
-            width: '15%'
+            dataIndex: "diagnostic_result_state",
+            width: '15%',
+            render(text, record) {
+                let color;
+                if(text==="ⓧ") {
+                    color = "red";
+                } else {
+                    color = "green";
+                }
+                return {
+                    props: {
+                      style: { color }
+                    },
+                    children: <div>{text}</div>
+                };
+            }
         },
         {
             title: '검사일자',
