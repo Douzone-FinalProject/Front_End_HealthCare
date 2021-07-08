@@ -42,6 +42,8 @@ function Header(props) {
         sessionStorage.removeItem("authToken");
         sessionStorage.removeItem("staff_name");
         sessionStorage.removeItem("staff_role");
+        sessionStorage.removeItem("hospital_name");
+        sessionStorage.removeItem("hospital_id");
     };
 
     return (
@@ -49,7 +51,7 @@ function Header(props) {
             <nav className="navbar bg-dark navbar-dark justify-content-between">
                 <div className="d-flex align-items-center">
                     <img src="http://localhost:3000/douzonelogo.png" alt="" height="20"/>
-                    <h4 className="text-white font-weight-bold ml-3 mb-1">더조은병원</h4>
+                    <h4 className="text-white font-weight-bold ml-3 mb-1">{sessionStorage.getItem("hospital_name") || ''}</h4>
                 </div>
                 <div>
                     <div className="d-flex align-items-center">
@@ -80,6 +82,7 @@ function Header(props) {
                 onMenuToggle={toggleMenu}
                 messageArrivedCheck={messageArrivedCheck}
                 openMenu={openMenu}
+                realTimeReceiptList={props.realTimeReceiptList}
             />
         </div>
     );

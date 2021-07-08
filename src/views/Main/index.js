@@ -10,7 +10,7 @@ function Main(props) {
         <div className="bg-white">
             <Header2 />
             <div>
-                <img src="http://localhost:3000/mainimg.jpg" alt="" width="" height="500" className="w-100"/>
+                <img src="http://192.168.3.29:3000/mainimg.jpg" alt="" width="" height="500" className="w-100"/>
             </div>
             <div>
                 <div className="row w-100 mt-5">
