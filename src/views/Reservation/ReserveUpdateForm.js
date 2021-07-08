@@ -1,7 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
-import {getReserveById} from './ReserveCalendar/data';
+// import {getReserveById} from './ReserveCalendar/data';
 import AddAlarmIcon from '@material-ui/icons/AddAlarm';
 import TextField from '@material-ui/core/TextField';
 import DatePicker from 'react-datepicker';
@@ -13,6 +13,7 @@ import {
   Form,
 } from 'react-form-elements';
 import Button from 'views/common/Button';
+import { getReservationById } from 'apis/reservation';
 
 const cx = classNames.bind(style);
 
@@ -28,13 +29,30 @@ const ReserveUpdateForm = (props) => {
   // props 
   const rid = props.reservation_id;
 
+  let reservation = {};
+  const handleReservationLById = async (rid) => {
+    try{
+      const response = await getReservationById(rid);
+      const db = response.data.reservation;
+      reservation = {...db, 
+                    resizable: true, 
+                    range: moment.range(moment(db.reservation_datetime), 
+                          moment(db.reservation_datetime).add(30, 'minutes'))
+      }
+      console.log('reservation: ', reservation);
+      setUpdateForm(reservation);
+
+    }catch(error){
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     console.log("rid가 마운트 또는 업데이트 후 실행");
     if(rid !== undefined) {
-      const reservation = getReserveById(rid);
+      // const reservation = getReserveById(rid);
       // db말고 상태에서 뽑아오기 
-      console.log('#reservation: ', reservation);
-      setUpdateForm(reservation);
+      handleReservationLById(rid);
     }
     return (() => {
       console.log("rid가 언마운트/업데이트 전 실행");

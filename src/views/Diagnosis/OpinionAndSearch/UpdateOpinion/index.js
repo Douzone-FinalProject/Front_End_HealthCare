@@ -41,18 +41,18 @@ function UpdateOpinion(props) {
                 <textarea name="receipt_opinion" value={props.opp.receipt_opinion} className={cx("textArea-font" , "moadl-textArea")} style={{width:"642px",height:"300px",resize:"none"}} onChange={props.updatOpinion}/>
             </div>
             <h4 className="mb-3 mt-3">약품 목록</h4>
-            <MDBTable className={cx("table-hover", "diagnosis-table1", "moadl-textArea")}>
+            <MDBTable className={cx("table-hover", "diagnosis-table1", "modal-medic-width","moadl-textArea")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr>
                     <th>약품코드</th>
                     <th>약품명</th>
-                    <th style={{width:"20%"}}>단위</th>
-                    <th style={{width:"25%"}}>수량</th>
+                    <th style={{width:"22%"}}>단위</th>
+                    <th style={{width:"22%"}}>수량</th>
                     </tr>
                 </thead>
             </MDBTable>   
 
-            {props.opp.test_flag && props.medicines[0] ? //백 할 때는 '검사 완료'로 수정해야 함.
+            {props.medicines[0] ? //백 할 때는 '검사 완료'로 수정해야 함.
               <MDBTable scrollY className={cx("table-hover", "modal-medic-width")}>
                 <MDBTableBody>
                     {props.medicines && props.medicines.map((hoho2) => {
@@ -65,8 +65,7 @@ function UpdateOpinion(props) {
               : 
             <MDBTable scrollY className={cx("table-hover", "modal-medic-width")}>
                 <MDBTableBody>
-                {/* !props.medicines || */}
-                    {arr && arr.map((hoho) => {
+                    {props.opmedic && props.opmedic.map((hoho) => {
                                         return (
                                             <OpinionMedicineListItem  key={hoho.medicine_id} hoho={hoho} />
                                         )
@@ -81,15 +80,15 @@ function UpdateOpinion(props) {
             
                 
                 
-                    {props.opp.test_flag && props.medicines[0] ? //백 할 때는 '검사 완료'로 수정해야 함. props.opp.diagnostic_test_state === "검사 중" props.opp.medicines === null
+                    {props.medicines[0] ? //백 할 때는 '검사 완료'로 수정해야 함. props.opp.diagnostic_test_state === "검사 중" props.opp.medicines === null
                     <div className="d-flex justify-content-lg-end mr-3 mt-2">
                         <Button onClick={()=>{props.saveMedicine(props.opp.receipt_id)}}>약 처방</Button>
-                        <Button className="ml-2" onClick={()=>{props.saveOpinion(props.opp.receipt_id)}}>수정 완료</Button>
+                        <Button className="ml-2" onClick={()=>{props.saveOpinion(props.opp.diagnostic_test_state)}}>수정 완료</Button>
                         <Button className="ml-2" onClick={props.closeUpdateModal}>닫기</Button>
                     </div>
                     :
                     <div className="d-flex justify-content-lg-end mr-3 mt-2">
-                        <Button className="ml-2" onClick={()=>{props.saveOpinion(props.opp.receipt_id)}}>수정 완료</Button>
+                        <Button className="ml-2" onClick={()=>{props.saveOpinion(props.opp.diagnostic_test_state)}}>수정 완료</Button>
                         <Button className="ml-2" onClick={props.closeUpdateModal}>닫기</Button>
                     </div>
                     }
