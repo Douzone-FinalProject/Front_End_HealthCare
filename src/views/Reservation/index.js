@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from './style.module.css';
 import classNames from 'classnames/bind';
 import ReserveCreateForm from './ReserveCreateForm';
@@ -6,7 +6,7 @@ import ReserveCalendar from './ReserveCalendar';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
 import moment from './ReserveCalendar/src/moment-range';
-import { getReserveList } from './ReserveCalendar/data';
+import { getReservations } from 'apis/reservation';
 import ReserveSMS from './ReserveSMS';
 import ReserveUpdateForm from './ReserveUpdateForm';
 
@@ -15,10 +15,31 @@ let lastBno = 10;
 
 const Reservation = (props) => {
   // state
-  const [events, setEvents] = useState(getReserveList);
+  const [events, setEvents] = useState([]);
   const [mode, setMode] = useState('create');
   const [reservation_id, setReservationId] = useState(undefined);
-  
+
+  let reserveList = [];
+  const handleReservationList = async (e) => {
+    try{
+      const response = await getReservations();
+      const dbList = response.data.reservations;
+      for(var reserve of dbList){
+        reserveList.push({...reserve, resizable: true, 
+        range: moment.range(moment(reserve.reservation_datetime), 
+              moment(reserve.reservation_datetime).add(30, 'minutes'))})
+      }
+      setEvents(reserveList);
+    }catch(error){
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleReservationList();
+  }, [events]);
+
+
   // 이벤트 등록 
   const addEvent = (ev) => {
     lastBno++;

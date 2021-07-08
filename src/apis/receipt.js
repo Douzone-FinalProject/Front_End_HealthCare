@@ -6,7 +6,7 @@ export function getPatientList() {
 
 // 환자 이름 검색 
 export function getPatientListByName(patient_name) {
-  return axios.get("receipt/patients/name/"+patient_name);
+  return axios.get("/receipt/patients/name/"+patient_name);
 }
 
 export function getPatientById(patient_id) {

@@ -14,6 +14,11 @@ const ReceiptInfo = (props) => {
   const dbReceiptList = props.receipts;
   const [rid, setRid] = useState();
   const [receiptList, setReceiptList] = useState([]); 
+  const [receiptColor1, setReceiptColor1] = useState("#91a7ff"); 
+  const [receiptColor2, setReceiptColor2] = useState("#91a7ff"); 
+  const [receiptColor3, setReceiptColor3] = useState("#91a7ff"); 
+  const [receiptColor4, setReceiptColor4] = useState("#91a7ff"); 
+  const [receiptColor5, setReceiptColor5] = useState("lightgray"); 
 
   useEffect(() => {
     setReceiptList(props.receipts);
@@ -37,6 +42,37 @@ const ReceiptInfo = (props) => {
 
   const handleState = (e) => {
     const selectState = e.target.getAttribute('value');
+    if(selectState === '대기'){
+      setReceiptColor1("lightgray");
+      setReceiptColor2("#91a7ff");
+      setReceiptColor3("#91a7ff");
+      setReceiptColor4("#91a7ff");
+      setReceiptColor5("#91a7ff");
+    }else if(selectState === '진료중'){
+      setReceiptColor1("#91a7ff");
+      setReceiptColor2("lightgray");
+      setReceiptColor3("#91a7ff");
+      setReceiptColor4("#91a7ff");
+      setReceiptColor5("#91a7ff");
+    }else if(selectState === '검사중'){
+      setReceiptColor1("#91a7ff");
+      setReceiptColor2("#91a7ff");
+      setReceiptColor3("lightgray");
+      setReceiptColor4("#91a7ff");
+      setReceiptColor5("#91a7ff");
+    }else if(selectState === '수납전'){
+      setReceiptColor1("#91a7ff");
+      setReceiptColor2("#91a7ff");
+      setReceiptColor3("#91a7ff");
+      setReceiptColor4("lightgray");
+      setReceiptColor5("#91a7ff");
+    }else if(selectState === '전체'){
+      setReceiptColor1("#91a7ff");
+      setReceiptColor2("#91a7ff");
+      setReceiptColor3("#91a7ff");
+      setReceiptColor4("#91a7ff");
+      setReceiptColor5("lightgray");
+    }
 
     if(selectState !== '전체'){
       const result = dbReceiptList.filter((receipt) => {
@@ -69,12 +105,13 @@ const ReceiptInfo = (props) => {
                 진료자 리스트
               </h5>
             </div>
-            <span style={{fontSize:"1.1em", color:"#91a7ff"}} className="ml-5 mt-1 ">
-              <span style={{color:"orange"}} className="mr-2" value="대기" onClick={handleState}>대기 1명</span>|
-              <span style={{color:"#FF0000"}} className="ml-2 mr-2" value="진료중" onClick={handleState}>진료중 0명</span>|
-              <span style={{color:"#3BC9DB"}} className="ml-2 mr-2" value="검사중" onClick={handleState}>검사중 5명</span>|
-              <span style={{color:"#37B24D"}} className="ml-2 mr-2" value="수납전" onClick={handleState}>수납전 1명</span>|
-              <span style={{color:"#495057"}} className="ml-2 mr-2" value="전체" onClick={handleState}>전체 7명</span>
+            {/*  onClick시에 style={{fontSize:"1.1em", color:"#91a7ff"}}   */}
+            <span style={{fontSize:"1.1em"}} className="ml-5 mt-1 ">
+              <span style={{color: receiptColor5}} className="mr-2" value="전체" onClick={handleState}>전체</span>|
+              <span style={{color: receiptColor1}} className="ml-2 mr-2" value="대기" onClick={handleState}>대기</span>|
+              <span style={{color: receiptColor2}} className="ml-2 mr-2" value="진료중" onClick={handleState}>진료중</span>|
+              <span style={{color: receiptColor3}} className="ml-2 mr-2" value="검사중" onClick={handleState}>검사중</span>|
+              <span style={{color: receiptColor4}} className="ml-2" value="수납전" onClick={handleState}>수납전</span>
             </span>
             <div></div>
         </div>
