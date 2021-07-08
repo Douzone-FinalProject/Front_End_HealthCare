@@ -1,14 +1,12 @@
 import {React, useState, useEffect} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
-// import {getReserveById} from './ReserveCalendar/data';
 import AddAlarmIcon from '@material-ui/icons/AddAlarm';
 import TextField from '@material-ui/core/TextField';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from './ReserveCalendar/src/moment-range';
 import Swal from 'sweetalert2';
-
 import {
   Form,
 } from 'react-form-elements';
@@ -39,7 +37,7 @@ const ReserveUpdateForm = (props) => {
                     range: moment.range(moment(db.reservation_datetime), 
                           moment(db.reservation_datetime).add(30, 'minutes'))
       }
-      console.log('reservation: ', reservation);
+      console.log('ReserveUpdateForm component: ', reservation);
       setUpdateForm(reservation);
 
     }catch(error){
@@ -51,13 +49,11 @@ const ReserveUpdateForm = (props) => {
     console.log("rid가 마운트 또는 업데이트 후 실행");
     if(rid !== undefined) {
       // const reservation = getReserveById(rid);
-      // db말고 상태에서 뽑아오기 
       handleReservationLById(rid);
+    }else{
+      console.log('rid가 undefined');
     }
-    return (() => {
-      console.log("rid가 언마운트/업데이트 전 실행");
-    });
-  },[rid]);
+  },[props.reservation_id]);
 
   const handleChange = (e) => {
     setUpdateForm({
@@ -74,7 +70,7 @@ const ReserveUpdateForm = (props) => {
       timer: 1500
     })
 
-    // DB 수정  
+    // DB 수정 -> 부모로 전달  
     updateForm.reservation_datetime = moment(startDate).format('YYYY-MM-DD HH:mm');
     updateForm.range = moment.range(moment(updateForm.reservation_datetime), moment(updateForm.reservation_datetime).add(30, 'minutes')) 
     props.handleUpdate(updateForm);
