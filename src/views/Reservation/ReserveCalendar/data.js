@@ -1,26 +1,32 @@
+import { getReservationById } from 'apis/reservation';
 import moment from './src/moment-range';
 
-// db에서 불러온 데이터 
-let db_1 = { 
-  reservation_id: '1',
-  reservation_name: '채정리',
-  reservation_phone: '01011123334',
-  reservation_reason: '진단검사',
-  reservation_datetime: '2021-06-30 15:00',
-}
+let reservation = {};
+const handleReservationLById = async (rid) => {
+  try{
+    const response = await getReservationById(rid);
+    const db = response.data.reservation;
+    reservation = {...db, 
+                  resizable: true, 
+                  range: moment.range(moment(db.reservation_datetime), 
+                        moment(db.reservation_datetime).add(30, 'minutes'))
+    }
+    console.log('reservation: ', reservation);
+
+  }catch(error){
+    console.log(error);
+  }
+};
+
+// 해당 아이디의 예약 한 행 뽑아오기 
+export function getReserveById(rid) {
+  handleReservationLById(rid);
+  return reservation;
+};
 
 
-// 달력에 세팅한 데이터 - 너를 디비라고 일단 생각하기 ... dto  
-let reserveList = [
-    { content: '15:00 채정리 진단검사',
-      reservation_id: db_1.reservation_id,
-      reservation_name: db_1.reservation_name,
-      reservation_phone: db_1.reservation_phone,
-      reservation_datetime: db_1.reservation_datetime,
-      reservation_reason: '진단검사',
-      resizable: true,
-      range: moment.range(moment(db_1.reservation_datetime), moment(db_1.reservation_datetime).add(30, 'minutes')) 
-    },
+//------ 나중에 지울 코드 싹다 
+let reserveList1 = [
     { content: '10:00 무좀상 진단검사',
       reservation_id: 2,
       reservation_name: '무좀상',
@@ -89,14 +95,6 @@ let reserveList = [
 
 // 전체 예약 테이블 뽑아오기 
 export function getReserveList() {
-  return reserveList;
+  return reserveList1;
 };
 
-// 해당 아이디의 예약 한 행 뽑아오기 
-export function getReserveById(rid) {
-  for(var i=0; i < reserveList.length; i++){
-    if (reserveList[i].reservation_id === rid){
-      return reserveList[i];
-    }
-  }
-};
