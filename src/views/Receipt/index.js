@@ -6,9 +6,10 @@ import style from './style.module.css';
 import classNames from 'classnames/bind';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
-import { addNewPatient } from 'apis/message';
+import { addNewPatient, sendRedisMessage } from 'apis/message';
 import { getPatientListByName, updateReceipt, getReceiptList, deleteReceiptById, deletePatientById, getPatientList, insertReceipt, updatePatient } from 'apis/receipt';
 import PatientReadOnly from './PatientReadOnly';
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(style);
 
@@ -18,7 +19,11 @@ const Receipt = (props) => {
   const [receipts, setReceipts] = useState([]);
   const [patients, setPatients] = useState([]);
   const [mode, setMode] = useState('update'); // Right Component 
-
+  const globalHospital = useSelector((state) => state.authReducer.hospital_id);
+  const pubMessage = {
+    topic:'/'+globalHospital+'/#',
+    content:'ChangeReceiptState',
+  };
   // 모든 환자 리스트 가져오기 
   const handlePatientList = async (e) => {
     try{
@@ -34,6 +39,7 @@ const Receipt = (props) => {
     try{
       const response = await getReceiptList();
       setReceipts(response.data.receiptList);
+      console.log(globalHospital);
     }catch(error){
       console.log(error);
     }
@@ -64,9 +70,9 @@ const Receipt = (props) => {
   const changeReceiptState = async (rid, nextState) => {
     try {
       await updateReceipt(rid, nextState); 
-      const response = await getReceiptList();
-      setReceipts(response.data.receiptList);
-
+      // const response = await getReceiptList();
+      // setReceipts(response.data.receiptList);
+      await sendRedisMessage(pubMessage);
     } catch (error) {
       console.log(error);
     }
@@ -143,8 +149,9 @@ const Receipt = (props) => {
   const addReceipt = async (db_patient) => { 
     try{
       await insertReceipt(db_patient);
-      const response = await getReceiptList();
-      setReceipts(response.data.receiptList);
+      // const response = await getReceiptList();
+      // setReceipts(response.data.receiptList);
+      await sendRedisMessage(pubMessage);
     }catch(error){
       console.log(error);
     }
@@ -155,16 +162,22 @@ const Receipt = (props) => {
     console.log('rid: ', rid);
     try{
       await deleteReceiptById(rid);
-      const response = await getReceiptList();
-      setReceipts(response.data.receiptList);
+      // const response = await getReceiptList();
+      // setReceipts(response.data.receiptList);
+      await sendRedisMessage(pubMessage);
     }catch(error){
       console.log(error);
     }
   };
 
+  const realTimeReceiptList = async () => {
+    const response = await getReceiptList();
+    setReceipts(response.data.receiptList);
+  }
+
   return (
     <div className={cx("all-component")}>
-      <Header />
+      <Header realTimeReceiptList={realTimeReceiptList}/>
       <div className={cx("menu")}>
       </div>
       <div className={cx("d-flex flex-row ")}>

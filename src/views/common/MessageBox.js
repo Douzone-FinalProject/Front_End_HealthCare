@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
 function MessageBox(props) {
 
     const globalUid = useSelector((state) => state.authReducer.staff_login_id);
+    const globalName = useSelector((state) => state.authReducer.staff_name);
+    const globalHospital = useSelector((state) => state.authReducer.hospital_id);
     const [connected, setConnected] = useState(false);
     const [pubMessage, setPubMessage] = useState({
         topic: 0,
@@ -27,17 +29,17 @@ function MessageBox(props) {
     const changePubTopic = (event) => {
         setPubMessage({
             ...pubMessage,
-            topic: "/" + event.value
+            topic: "/" + globalHospital+ "/" + event.value
         });
     };
 
     let ws = useRef(null);
     const connectWebSocket = () => {
-        ws.current = new WebSocket("ws://localhost:8080/websocket/redis");
+        ws.current = new WebSocket("ws://192.168.3.29:8080/websocket/redis");
         ws.current.onopen = () => {
             console.log("접속 성공");
             setConnected(true);
-            var json = {topic: "/" + globalUid};
+            var json = {topic: "/" + globalHospital+ "/" + globalUid};
             var message = JSON.stringify(json);
             ws.current.send(message);
         };
@@ -52,11 +54,15 @@ function MessageBox(props) {
             var json = event.data;
             var message = JSON.parse(json);  //{topic:xxx, content:yyy}
             console.log(message);
-            props.messageArrivedCheck();
             //setContents((contents) => {return [{message_sender:message.sender, message_content:message.content, message_date:message.datetime}].concat(contents)});
-            const response = await getMessageList(globalUid);
-            setContents(response.data.messageList);
-            props.openMenu();
+            if(message.content === 'ChangeReceiptState') {
+                props.realTimeReceiptList();
+            } else {
+                props.messageArrivedCheck();
+                const response = await getMessageList(globalUid);
+                setContents(response.data.messageList);
+                props.openMenu();
+            }
         };
     };
 
@@ -68,9 +74,9 @@ function MessageBox(props) {
         try{
             var message = {};
             message.message_content = pubMessage.content;
-            message.staff_login_id = pubMessage.topic.substring(1);
+            message.staff_login_id = pubMessage.topic.substring(2+globalHospital.length);
             message.staff_id = 8;   //수정해야함...
-            message.message_sender = globalUid;
+            message.message_sender = globalName;
             await insertMessage(message);
             // var curr = new Date();
             // let hours = curr.getHours(); // 시
@@ -117,7 +123,7 @@ function MessageBox(props) {
         try {
             const response = await getHospitalStaff(staff_login_id);
             for(let staff of response.data.staffList) {
-                options.push({value: staff.staff_login_id, label: staff.staff_login_id});
+                options.push({value: staff.staff_login_id, label: staff.staff_name});
             }
         } catch (error) {
             console.log(error);
