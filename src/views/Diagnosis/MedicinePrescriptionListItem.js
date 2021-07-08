@@ -26,7 +26,7 @@ function MedicinePrescriptionListItem(props) {
             <td>{props.medicine.medicine_id}</td>
             <td>{props.medicine.medicine_name}</td>
             <td>{props.medicine.medicine_unit}</td>
-            <td><input onChange={event=> {props.handleCount(event,props.medicine.medicine_id)}} type="text" name="medicine_pre_quantity" style={{width:"40px"}}/></td>
+            <td><input onChange={event=> {props.handleCount(event,props.medicine.medicine_id)}} type="text" name="quantity" style={{width:"40px"}}/></td>
             
         </tr>
     );

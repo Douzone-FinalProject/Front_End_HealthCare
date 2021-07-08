@@ -14,15 +14,6 @@ function SymptomAndOpinion(props) {
     const changeToSearch = (event) => {
         props.changeToSearch(event);
     };
-
-    // let initPatientOpinion;
-    // for(let i of props.fatientOpinion){
-    //     if(i.receipt_opinion === null){
-    //     initPatientOpinion = i
-    //     // console.log(initPatientOpinion)
-    //     }
-        
-    // }
     
     return(
         <>
@@ -43,19 +34,19 @@ function SymptomAndOpinion(props) {
                         </MDBTableBody>
                     </MDBTable>
                 </div>
-                
-                {props.selectedPatient.patient_id ? 
+                {/* && props.selectedPatient.receipt_state === '진료중' */}
+                {props.selectedPatient.patient_id  ? 
                     <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mb-1")} onClick={props.openModal}>소견 작성</Button>
                     :
                     <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mb-1")} onClick={() =>
                          Swal.fire({
                             icon: 'info',
-                            title: '진료 할 환자를 선택해주세요.',
+                            title: '진료 상태인 환자만 선택 가능합니다.',
                             showConfirmButton: false,
                             timer: 1500
                         })}>소견 작성</Button>
                 }
-                {props.selectReceipt_id.patient_id || props.selectReceipt_id.diagnostic_test_state === "검사 완료" ?
+                {props.selectReceipt_id.patient_id || props.selectReceipt_id.diagnostic_test_state === "검사완료" || props.selectReceipt_id.diagnostic_test_state === "처방완료" ?
                     <Link className={cx("noneLink","diagnosis-button", "mb-1")} to="/result"><Button>결과 조회</Button></Link>
                     :
                     <>
