@@ -5,15 +5,20 @@ import PieChart from "views/TestState/PieChart";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getChartData, getChartData2 } from "views/TestState/db";
+import { getStateChart } from "apis/teststate";
 
 const cx = classNames.bind(style);
 
 function ChartSection({chartData1, setChartData1, waitingData}, props) {
 
+  const [stateChart, setStateChart] = useState([]);
   const [chartData2, setChartData2] = useState([]);
 
   useEffect(() => {
-    setChartData1(getChartData(waitingData))
+    async function fetchAndSetStateChart() {
+      setStateChart(await getStateChart());
+    }
+    fetchAndSetStateChart();
   }, [chartData1])
 
   useEffect(() => {
@@ -23,7 +28,7 @@ function ChartSection({chartData1, setChartData1, waitingData}, props) {
     <>
       <Row>
         <Col flex={1} className={cx("chart")}>
-          <PieChart category={"검사대기"} chartData={chartData1} />
+          <PieChart category={"검사대기"} chartData={stateChart} />
         </Col>
         <Col flex={1} className={cx("chart")}>
           <PieChart category={"검사실인원"} chartData={chartData2} />

@@ -42,8 +42,8 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
       width: 150,
     },
     {
-      title: "바코드",
-      dataIndex: "diagnostic_list_barcode",
+      title: "검체번호",
+      dataIndex: "diagnostic_specimen_number",
       width: 150,
     },
     {
@@ -81,14 +81,14 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
   
   const [rows, setRows] = useState([]);
   const [rowKeys, setRowKeys] = useState([]);
-  const [bundleIds, setBundleIds] = useState([]);
+  const [bundleSpecimens, setBundleSpeciemens] = useState([]);
 
   const rowSelection = {  
     onChange: (selectedRowKeys, selectedRows) => {
       console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
       setRows([...selectedRows])
       setRowKeys([...selectedRowKeys])
-      setBundleIds(selectedRows.map(row => row.bundle_specimen))
+      setBundleSpeciemens(selectedRows.map(row => row.bundle_specimen))
     },
     // onSelect: (record, selected, selectedRows) => {
     //   // console.log(record);
@@ -156,7 +156,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
     //     row.state = "검사완료";
     //     return row;
     //   }))
-    await updateStateDetail(rowKeys, "검사완료", sessionStorage.getItem("staff_login_id"), bundleIds);
+    await updateStateDetail(rowKeys, "검사완료", sessionStorage.getItem("staff_login_id"), bundleSpecimens);
     setDetailData(await getTestStateDetailList(receiptId));
       // setWaitingData(changeState(waitingData, resultData, chartId));
       // setPatientNames(getLabPatient(resultData, chartId));
