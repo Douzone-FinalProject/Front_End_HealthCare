@@ -17,6 +17,7 @@ const Reservation = (props) => {
   const [events, setEvents] = useState([]);
   const [mode, setMode] = useState('create');
   const [reservation_id, setReservationId] = useState(undefined);
+  const [updateForm, setUpdateForm] = useState(); // 예약 수정 컴포넌트 -> 문자 발송 컴포넌트 전달 정보 
 
   let reserveList = [];
   const handleReservationList = async (e) => {
@@ -101,6 +102,11 @@ const Reservation = (props) => {
     setMode('create');
   };
 
+  /* 예약 수정 컴포넌트 -> 문자 발송 컴포넌트로 예약 정보 넘겨주기 */
+  const handleSMS = (updateForm) => {
+    console.log('updateFOrm: ', updateForm);
+    setUpdateForm(updateForm);
+  }
 
   return (
     <>
@@ -125,11 +131,12 @@ const Reservation = (props) => {
                 handleUpdate={handleUpdate}
                 handleDelete={handleDelete}
                 handleMode={handleMode}
+                handleSMS={handleSMS}
               />
             }
            
             {/* 3. 시간대별 예약 상세 리스트 */}
-            <ReserveSMS reservation_id={reservation_id}/>
+            <ReserveSMS updateForm={updateForm}/>
           </div>
         </div>
       </div>

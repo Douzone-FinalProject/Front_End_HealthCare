@@ -48,7 +48,6 @@ const ReserveUpdateForm = (props) => {
   useEffect(() => {
     console.log("rid가 마운트 또는 업데이트 후 실행");
     if(rid !== undefined) {
-      // const reservation = getReserveById(rid);
       handleReservationLById(rid);
     }else{
       console.log('rid가 undefined');
@@ -117,7 +116,7 @@ const ReserveUpdateForm = (props) => {
                 />
                </div> 
             </div>
-                <Button type="button" className={cx("custom-btn", "mr-3")}>SMS 발송</Button>
+                <Button type="button" className={cx("custom-btn", "mr-3")} onClick={() => {props.handleSMS(updateForm)}}>SMS 발송</Button>
                 <Button type="button" className={cx("custom-btn-confirm", "mr-3")}
                     onClick={() => {
 

@@ -13,6 +13,11 @@ export function getPatientById(patient_id) {
   return axios.get("/receipt/patient/"+patient_id);
 }
 
+export function addNewPatient(patient) {
+  const promise = axios.post("/receipt/addPatient", patient);  
+  return promise;
+}
+
 export function deletePatientById(patient_id) {
   return axios.delete("/receipt/patient/"+patient_id);
 }
