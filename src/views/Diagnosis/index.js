@@ -12,6 +12,8 @@ import { useEffect } from "react";
 import Swal from 'sweetalert2';
 import { searchSymptomB, createRequestTest, fatientOpinions, createOpinion, createMedicines, readOpinion, receiptMedicines, updateOpinion, updateOpinionOfMedicines, updateTestAndReceiptState } from "apis/diagnostic";
 import { getReceiptList } from "apis/receipt";
+import { useSelector } from "react-redux";
+import { sendRedisMessage } from "apis/message";
 
 const cx = classnames.bind(style);
 
@@ -21,6 +23,11 @@ function Diagnosis (props) {
     // const receiptList = useSelector((state) => state.receiptReducer.receiptList); // 상태 receipt_state 컬럼명으로 수정하기
     const [patients, setpatients] = useState([]);
 
+    const globalHospital = useSelector((state) => state.authReducer.hospital_id);
+    const pubMessage = {
+        topic:'/'+globalHospital+'/#',
+        content:'ChangeReceiptState',
+    };
     const receiptPatients = async() => {
         try{
         const response = await getReceiptList();
@@ -140,7 +147,10 @@ function Diagnosis (props) {
    
 
     const [opinions, setOpinions] = useState([]);
-
+    const realTimeReceiptList = async () => {
+        const response = await getReceiptList();
+        setpatients(response.data.receiptList);
+    };
     
 
     const testRequest = async (event) => { //검사 요청                          **'검사완료'상태인거는 소견 및 약 처방 후 진료 상태를'수납전'으로 바꾸게 하고 검사 상태를 '처방완료'로 나타내게 하기**
@@ -156,8 +166,9 @@ function Diagnosis (props) {
 
                     const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);
                     setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
-                    const reReceiptList = await getReceiptList();
-                    setpatients(reReceiptList.data.receiptList);
+                    // const reReceiptList = await getReceiptList();
+                    // setpatients(reReceiptList.data.receiptList);
+                    await sendRedisMessage(pubMessage);
                     deleteAll();
                     // const [selectedPatient, setSelectP] = useState({
                     setSelectP({
@@ -492,7 +503,7 @@ function Diagnosis (props) {
     
     return(
         <>
-        <Header />
+        <Header realTimeReceiptList={realTimeReceiptList}/>
         <div className="d-flex flex-column ">
             <div>
                 <div className="d-flex flex-row ml-3 mr-2 mt-2 mb-2">

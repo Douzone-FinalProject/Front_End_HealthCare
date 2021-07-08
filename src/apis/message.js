@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export function sendRedisMessage({topic, content, sender}, datetime) {
-  return axios.get("/message/sendRedisMessage", {params:{topic, content, sender, datetime}});
+export function sendRedisMessage({topic, content}) {
+  return axios.get("/message/sendRedisMessage", {params:{topic, content}});
 }
 
 export function getMessageList(staff_login_id) {
