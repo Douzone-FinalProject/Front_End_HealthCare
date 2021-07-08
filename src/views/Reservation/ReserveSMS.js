@@ -20,14 +20,12 @@ const ReserveSMS = (props) => {
           <MailOutlineIcon style={{fontSize: '1.8em'}} className="mr-1"/>
           문자 발송 
         </div>
-        <Button type="submit" className={cx("custom-btn-confirm", "mr-3")}>전송</Button>
       </div>
       <div className={cx("reserve-form")}>
-        {/* 이름 , 핸드폰번호, 문자메세지 내용 입력  */}
-        <Form
-          name="smsForm"
+        {/* form data : 이름 , 핸드폰번호, 보낼내용 */}
+        <Form id="smsForm" name="smsForm"
           onSubmit={(data) => {
-            console.log('data: ', data);
+            alert('data: ', data);
           }}
         >
           <div className="d-flex-col">
@@ -35,7 +33,7 @@ const ReserveSMS = (props) => {
               <TextField required label="이름" className="mr-5" name="reservation_name" /> <br/>
               <TextField required label="휴대전화" name="reservation_phone" /> <br/>
               <div className="mt-4">
-                <div style={{color: 'gray'}}>예약 날짜</div>
+                {/* <div style={{color: 'gray'}}>예약 날짜 : {updateForm.reservation_datetime || ''}</div> */}
                 {/* <div className="mr-3 font-weight-bold">{updateForm.reservation_datetime || ''}</div> */}
               </div> 
               <TextareaAutosize className="mt-3" required name="message" rowsMin={5} placeholder="보낼 내용 입력" />
@@ -46,6 +44,12 @@ const ReserveSMS = (props) => {
             </div> */}
           </div>
         </Form>
+        <Button type="submit" form="smsForm" className={cx("custom-btn-confirm", "mr-3")}
+          onClick={(data) => {
+            alert('data123: ', data);
+          }
+        }
+          >전송</Button>
       </div>
     </div>
   );
