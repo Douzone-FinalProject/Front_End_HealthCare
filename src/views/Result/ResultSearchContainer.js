@@ -8,7 +8,7 @@ import DianosisNum from "./DianosisNum";
 import SpecimenNum from "./SpecimenNum";
 import Button from "views/common/Button";
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { getDiagnosticData, getReceiptData } from "./data";
+import { getReceiptData, getDiagnosticData } from "apis/result";
 
 const cx = classnames.bind(style);
 
@@ -78,16 +78,23 @@ function ResultSearchContainer(props) {
     }, [date, receipt_datetime]);
 
     //조회 버튼 클릭 시, 검색조건별로 데이터를 가져옴.
-    const handleSearch = useCallback((argPatient_name, argReceipt_datetime) => {
-        setReceiptData(getReceiptData(argPatient_name, argReceipt_datetime));
-        setSpecimenData(getDiagnosticData(argPatient_name, argReceipt_datetime));
+    const handleSearch = useCallback( async (argPatient_name, argReceipt_datetime) => {
+        const response = await getReceiptData(argPatient_name, argReceipt_datetime);
+        setReceiptData(response.data.receiptData);
+        const response2 = await getDiagnosticData(argPatient_name, argReceipt_datetime);
+        setSpecimenData(response2.data.diagnosticData);
     }, []);
 
     //처음 화면에 보여질 때, 기본값인 오늘 기준으로 데이터를 가져옴.
     //receipt_datetime이 바뀔 때마다 데이터를 가져옴.
     useEffect(() => {
-        setReceiptData(getReceiptData('', receipt_datetime));
-        setSpecimenData(getDiagnosticData('', receipt_datetime));
+        const fetchAndSetReceiptData = async () => {
+            const response = await getReceiptData('', receipt_datetime);
+            setReceiptData(response.data.receiptData);
+            const response2 = await getDiagnosticData('', receipt_datetime);
+            setSpecimenData(response2.data.diagnosticData);
+        };
+        fetchAndSetReceiptData();
     }, [receipt_datetime]);
 
     return (

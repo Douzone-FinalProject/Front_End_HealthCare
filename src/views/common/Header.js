@@ -17,9 +17,13 @@ function Header(props) {
         setMessageArrived(false);
     };
 
+    const openMenu = () => {
+        setIsMenuOpen(true);
+    };
+
     const messageArrivedCheck = () => {
         setMessageArrived(true);
-    }
+    };
     const globalUid = useSelector((state) => state.authReducer.staff_login_id);
     const globalName = useSelector((state) => state.authReducer.staff_name);
     const globalRole = useSelector((state) => state.authReducer.staff_role);
@@ -75,6 +79,7 @@ function Header(props) {
                 isMenuOpen={isMenuOpen}
                 onMenuToggle={toggleMenu}
                 messageArrivedCheck={messageArrivedCheck}
+                openMenu={openMenu}
             />
         </div>
     );

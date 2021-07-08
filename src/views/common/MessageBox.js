@@ -56,6 +56,7 @@ function MessageBox(props) {
             //setContents((contents) => {return [{message_sender:message.sender, message_content:message.content, message_date:message.datetime}].concat(contents)});
             const response = await getMessageList(globalUid);
             setContents(response.data.messageList);
+            props.openMenu();
         };
     };
 

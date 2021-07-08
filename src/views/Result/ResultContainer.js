@@ -1,12 +1,13 @@
 import style from "./result.module.css"
 import classnames from "classnames/bind";
 import ResultTopTable from "./ResultTopTable";
-import ResultTable from "./ResultTable";
+import ResultInputTable from "./ResultInputTable";
 import { useState, useEffect, useCallback } from 'react';
 import Button from "views/common/Button";
-import { getSpecimenData } from "./data";
 import { Link } from "react-router-dom";
 import ImgModal from "./ImgModal";
+import ResultTable from "./ResultTable";
+import { getSpecimenData, updateResultDataBySpecimen } from "apis/result";
 
 const cx = classnames.bind(style);
 
@@ -21,20 +22,27 @@ function ResultContainer(props) {
     //결과 테이블에서 행을 클릭하면 발생
     //검체별로 데이터를 우측 상단 테이블에 보여줌
     const handleSpecimen = useCallback((data, rowIndex) => {
-        const specimenData = getSpecimenData(data.diagnostic_specimen_number);
         return {
-          onClick: (event) => {
+          onClick: async (event) => {
+            console.log(data.diagnostic_specimen_number);
+            const response = await getSpecimenData(data.diagnostic_specimen_number);
+            const specimenData = response.data.specimenData;
+            console.log(specimenData);
             setSpecimen(specimenData);
           }
         }
     }, []);
 
     //저장 버튼 클릭 시 실행
-    const handleSave = useCallback((event) => {
-        for(let i in result) {
-            console.log(result[i]);
+    const handleSave = useCallback(async (event) => {
+        if(props.location.pathname === "/result/specimennum") {
+            for(let rst in result) {
+                await updateResultDataBySpecimen(result[rst]);
+            }
+        } else {
+
         }
-    }, [result]);
+    }, [result, props.location.pathname]);
 
     //왼쪽 테이블에서 오는 데이터가 달라졌을 때 실행
     //결과 데이터 상태를 초기화
@@ -46,12 +54,9 @@ function ResultContainer(props) {
     //antd 결과 테이블에서 사용할 컬럼 설정
     const columns = [
         {
-            title: '검사분야',
-            dataIndex: "field",
-        },
-        {
             title: '검사항목명',
             dataIndex: "prescription_name",
+            width: '20%',
         },
         {
             title: '결과',
@@ -89,12 +94,48 @@ function ResultContainer(props) {
                     <input type="text"
                             className="w-100"
                             style={{backgroundColor: '#a5d8ff', border: 'none', height: '40px'}}
-                            value={' '+text}
+                            value={""}
                             onChange={handleFirstChange} />
                     }
                     </div>
                 };
             }
+        },
+        {
+            title: '이전결과',
+            dataIndex: "diagnostic_previous_result",
+        },
+        {
+            title: '이전결과일',
+            dataIndex: "diagnostic_previous_date",
+        },
+        {
+            title: '참고치',
+            dataIndex: "prescription_reference_value",
+            render(text, record) {
+                return {
+                    props: {
+                      style: { background: "#ffec99" }
+                    },
+                    children: <div>{text}</div>
+                };
+            }
+        },
+        {
+            title: '단위',
+            dataIndex: "prescription_unit",
+        }
+    ];
+
+    const columns2 = [
+        {
+            title: '검사항목명',
+            dataIndex: "prescription_name",
+            width: '20%',
+        },
+        {
+            title: '결과',
+            dataIndex: "diagnostic_result",
         },
         {
             title: '이전결과',
@@ -133,7 +174,11 @@ function ResultContainer(props) {
                     <ResultTopTable patientData={props.patientData} specimenData={specimen} />
                 </div>
                 <div className={cx("d-flex justify-content-center", "result-scroll")}>
-                    <ResultTable result={props.result} handleSpecimen={handleSpecimen} columns={columns}/>
+                    {props.resultState === 'ⓧ'? 
+                        <ResultInputTable result={props.result} handleSpecimen={handleSpecimen} columns={columns}/>
+                        :
+                        <ResultTable result={props.result} handleSpecimen={handleSpecimen} columns={columns2}/>
+                    }
                 </div>
             </div>
             <div>
