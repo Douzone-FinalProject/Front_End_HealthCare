@@ -35,7 +35,7 @@ function MessageBox(props) {
 
     let ws = useRef(null);
     const connectWebSocket = () => {
-        ws.current = new WebSocket("ws://192.168.3.29:8080/websocket/redis");
+        ws.current = new WebSocket("ws://localhost:8080/websocket/redis");
         ws.current.onopen = () => {
             console.log("접속 성공");
             setConnected(true);
