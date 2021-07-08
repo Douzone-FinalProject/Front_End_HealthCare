@@ -1,5 +1,5 @@
 function TestAfterMedicineListItem(props) {
-    console.log("TestAfterMedicineListItem 진입");
+    
     return(
         
 
