@@ -23,15 +23,6 @@ const opinionStyles = {
 Modal.setAppElement('body');
 function UpdateOpinion(props) {
     
-    const hait = props.opinions.filter(opinion => opinion.receipt_id === props.opp.receipt_id);
-    let arr;
-    for(let i of hait){
-        for(let z of i.medicines){
-           arr = z
-        }
-    }
-
-
     return(
         
     <>

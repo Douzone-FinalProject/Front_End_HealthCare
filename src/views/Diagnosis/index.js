@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import Swal from 'sweetalert2';
 import { searchSymptomB, createRequestTest, fatientOpinions, createOpinion, createMedicines, readOpinion, receiptMedicines, updateOpinion, updateOpinionOfMedicines, updateTestAndReceiptState } from "apis/diagnostic";
 import { getReceiptList } from "apis/receipt";
+import { useSelector } from "react-redux";
 
 const cx = classnames.bind(style);
 
@@ -137,10 +138,7 @@ function Diagnosis (props) {
 
     /*검사 요청시 증상 및 소견에 해당 환자의 진료 추가되는 부분*/ 
 
-   
-
-    const [opinions, setOpinions] = useState([]);
-
+    const globalName = useSelector((state) => state.authReducer.staff_name);
     
 
     const testRequest = async (event) => { //검사 요청                          **'검사완료'상태인거는 소견 및 약 처방 후 진료 상태를'수납전'으로 바꾸게 하고 검사 상태를 '처방완료'로 나타내게 하기**
@@ -150,7 +148,7 @@ function Diagnosis (props) {
                     //검사 요청시 검사 목록, 진료id insert
                     let rtList=[];
                     for(let i of selectSymptoms){
-                        rtList.push({search_id: i.search_id, receipt_id: selectedPatient.receipt_id});
+                        rtList.push({search_id: i.search_id, receipt_id: selectedPatient.receipt_id, doctor_name: globalName});
                     }
                     await createRequestTest(rtList);
 
@@ -159,7 +157,6 @@ function Diagnosis (props) {
                     const reReceiptList = await getReceiptList();
                     setpatients(reReceiptList.data.receiptList);
                     deleteAll();
-                    // const [selectedPatient, setSelectP] = useState({
                     setSelectP({
                          patient_id: ""
                     })
@@ -488,7 +485,7 @@ function Diagnosis (props) {
     }
     useEffect(() => {
         console.log("증상 선택 및 소견 추가시 재실행")
-    }, [selectSymptoms], [opinions])
+    }, [selectSymptoms])
     
     return(
         <>
@@ -513,7 +510,7 @@ function Diagnosis (props) {
                       <DiagnosticCheckList selectedPatient={selectedPatient} selectSymptoms={selectSymptoms} setSelectSymptoms={setSelectSymptoms} deletePrescript={deletePrescript} deleteAll={deleteAll} testRequest={testRequest} />
                 </div>
                 <div className={cx("diagnosis-component-background","diagnosis-opinionAndSearch-Height")}>
-                    <OpinionAndSearch opmedic={opmedic} opinions={opinions} fatientOpinion={fatientOpinion} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} saveMedicine={saveMedicine} reportOp={reportOp} reportSuccess={reportSuccess} />
+                    <OpinionAndSearch opmedic={opmedic} fatientOpinion={fatientOpinion} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} saveMedicine={saveMedicine} reportOp={reportOp} reportSuccess={reportSuccess} />
                 </div>
                 <DialMenu />
             </div>
