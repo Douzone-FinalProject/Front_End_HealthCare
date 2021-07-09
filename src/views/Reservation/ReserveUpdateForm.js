@@ -10,12 +10,23 @@ import Swal from 'sweetalert2';
 import {
   Form,
 } from 'react-form-elements';
-import Button from 'views/common/Button';
 import { getReservationById } from 'apis/reservation';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
 const cx = classNames.bind(style);
 
+const useStyles = makeStyles((theme) => ({
+  margin: {
+    margin: theme.spacing(1),
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+}));
+
 const ReserveUpdateForm = (props) => {
+  const classes = useStyles();
   // state
   const [updateForm, setUpdateForm] = useState({});
   const [startDate, setStartDate] = useState(new Date());
@@ -86,7 +97,8 @@ const ReserveUpdateForm = (props) => {
         <div>
           <AddAlarmIcon style={{fontSize: '1.8em'}} className="mr-1"/>예약 수정 
         </div>
-        <Button className={cx("custom-btn", "mr-3")} color="#FF6384"
+        <Button 
+          variant="outlined" size="small" color="primary" className={classes.margin}
             onClick={() => {props.handleMode();}}>새로운 예약</Button>
       </div>
       <div className={cx("reserve-form")}>
@@ -101,8 +113,9 @@ const ReserveUpdateForm = (props) => {
                     name="reservation_reason" value={updateForm.reservation_reason || ''}/> 
               <div className="mt-4 mb-3">
                 
-                <div className="mr-3 font-weight-bold">{updateForm.reservation_datetime || ''}</div>
-                <div style={{color: 'gray'}}>예약 날짜</div>
+                <div style={{color: 'gray', fontSize:'13px'}} className="mb-2">예약 날짜
+                  <div className="mr-3 font-weight-bold">{updateForm.reservation_datetime || ''}</div>
+                </div>
                 <DatePicker style={{color: 'gray'}}
                   dateFormat="yyyy-MM-dd HH:mm"
                   showTimeSelect
@@ -116,8 +129,12 @@ const ReserveUpdateForm = (props) => {
                 />
                </div> 
             </div>
-                <Button type="button" className={cx("custom-btn", "mr-3")} onClick={() => {props.handleSMS(updateForm)}}>SMS 발송</Button>
-                <Button type="button" className={cx("custom-btn-confirm", "mr-3")}
+                <Button type="button" 
+                  variant="outlined" size="small" color="primary" className={classes.margin}
+                  onClick={() => {props.handleSMS(updateForm)}}>SMS 발송</Button>
+                <Button
+                  variant="outlined" size="small" color="primary" className={classes.margin}
+                  type="button" 
                     onClick={() => {
 
                       Swal.fire({
@@ -144,7 +161,10 @@ const ReserveUpdateForm = (props) => {
                       })
                     }}
                 >삭제</Button> 
-                <Button type="submit" className={cx("custom-btn-confirm")}>수정</Button>            
+
+                <Button type="submit"
+                        variant="outlined" size="small" color="primary" className={classes.margin}
+                >수정</Button>
           </Form>
         </div>
     </div>

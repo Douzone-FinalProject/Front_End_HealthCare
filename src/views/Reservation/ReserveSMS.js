@@ -6,13 +6,25 @@ import TextField from '@material-ui/core/TextField';
 import {
   Form,
 } from 'react-form-elements';
-import Button from 'views/common/Button';
 import { TextareaAutosize } from '@material-ui/core';
 import { sendMessage } from './CoolSMSAPI';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 const cx = classNames.bind(style);
+const useStyles = makeStyles((theme) => ({
+  margin: {
+    margin: theme.spacing(1),
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+}));
 
 const ReserveSMS = (props) => {
+  const classes = useStyles();
+
   const [updateForm, setUpdateForm] = useState({});
   const [message, setMessage] = useState('');
 
@@ -30,7 +42,7 @@ const ReserveSMS = (props) => {
         ...updateForm,
         [event.target.name]: event.target.value
     });
-    setMessage(event.target.value);
+    setMessage(event.target.message);
   };  
 
   useEffect(() => {
@@ -48,6 +60,10 @@ const ReserveSMS = (props) => {
           <MailOutlineIcon style={{fontSize: '1.8em'}} className="mr-1"/>
           문자 발송 
         </div>
+        {/* 새로고침 아이콘 여기에 두기, onclick시에 값 초기화  */}
+        <AutorenewIcon style={{"fontSize": "1.3em"}} className="mt-2 mr-4"
+          onClick={() => {setUpdateForm({}); setMessage('');}}
+        ></AutorenewIcon>
       </div>
       <div className={cx("reserve-form")}>
         {/* form data : 이름 , 핸드폰번호, 보낼내용 */}
@@ -58,20 +74,22 @@ const ReserveSMS = (props) => {
               <TextField required label="휴대전화" onChange={handleChange} name="reservation_phone" value={updateForm.reservation_phone || ''}/> <br/>
               <div className="mt-4">
                 {/* 이 부분은 예약 수정 컴포넌트에서 SMS 발송 버튼 눌렀을 때만 보여져야함. */}
-                <div style={{color: 'gray'}}>예약 날짜 : {updateForm.reservation_datetime || ''}</div>
+                <div style={{color: 'gray'}}>
+                  {updateForm.reservation_datetime !== undefined && ('예약날짜: '+updateForm.reservation_datetime)}
+                </div>
               </div> 
               <TextareaAutosize className="mt-3" required onChange={handleChange} name="message" value={message} rowsMin={5} placeholder="보낼 내용 입력" />
             </div>
           </div>
-            <Button type="submit" form="smsForm" className={cx("custom-btn-confirm", "mr-3")}
+            <Button type="submit" form="smsForm" 
+            variant="outlined" size="small" color="primary" className={classes.margin}
                     onClick={(e) => {
                       e.preventDefault();
                       const params = {
-                        name: e.target.parentNode.reservation_name.value,
-                        phone: e.target.parentNode.reservation_phone.value,
-                        content: e.target.parentNode.message.value,
+                        name: updateForm.reservation_name,
+                        phone: updateForm.reservation_phone,
+                        content: updateForm.message,
                       };
-                      console.log(e.target.parentNode.reservation_name.value);
                       handleSMS(params);
 
                       // 예약 폼 초기화 
