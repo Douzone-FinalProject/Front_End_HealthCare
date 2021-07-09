@@ -24,6 +24,7 @@ function MessageBox(props) {
           ...pubMessage,
           [event.target.name]: event.target.value
         });
+        console.log(pubMessage.content);
     };
 
     const changePubTopic = (event) => {
@@ -31,11 +32,12 @@ function MessageBox(props) {
             ...pubMessage,
             topic: "/" + globalHospital+ "/" + event.value
         });
+        console.log(pubMessage.topic);
     };
 
     let ws = useRef(null);
     const connectWebSocket = () => {
-        ws.current = new WebSocket("ws://192.168.3.29:8080/websocket/redis");
+        ws.current = new WebSocket("ws://localhost:8080/websocket/redis");
         ws.current.onopen = () => {
             console.log("접속 성공");
             setConnected(true);
@@ -84,6 +86,7 @@ function MessageBox(props) {
             // curr.setDate(curr.getDate());
             // var date = curr.toISOString().substr(0,10);
             // var datetime = date + " " + hours + ":" + minutes;
+            pubMessage.content = "SendMessage";
             await sendRedisMessage(pubMessage);
             setPubMessage({
                 ...pubMessage,
