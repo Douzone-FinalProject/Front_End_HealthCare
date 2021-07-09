@@ -30,6 +30,16 @@ export function getSpecimenData(diagnostic_specimen_number) {
   return promise;
 }
 
+export function insertResultData(receipt_id) {
+  const promise = axios.post("/result/insertResultData", receipt_id);
+  return promise;
+}
+
+export function insertResultDataByNew(receipt_id) {
+  const promise = axios.post("/result/insertResultDataByNew", receipt_id);
+  return promise;
+}
+
 export function updateResultDataBySpecimen(result) {
   const promise = axios.put("/result/updateResultDataBySpecimen", result);
   return promise;
