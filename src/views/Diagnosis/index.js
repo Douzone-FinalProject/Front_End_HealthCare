@@ -12,15 +12,23 @@ import { useEffect } from "react";
 import Swal from 'sweetalert2';
 import { searchSymptomB, createRequestTest, fatientOpinions, createOpinion, createMedicines, readOpinion, receiptMedicines, updateOpinion, updateOpinionOfMedicines, updateTestAndReceiptState } from "apis/diagnostic";
 import { getReceiptList } from "apis/receipt";
+import { useSelector } from "react-redux";
+import { sendRedisMessage } from "apis/message";
+
 
 const cx = classnames.bind(style);
 
 function Diagnosis (props) {
     /* 환자 리스트  */
    
-    // const receiptList = useSelector((state) => state.receiptReducer.receiptList); // 상태 receipt_state 컬럼명으로 수정하기
     const [patients, setpatients] = useState([]);
 
+    const globalHospital = useSelector((state) => state.authReducer.hospital_id);
+    const pubMessage = {
+        topic:'/'+globalHospital+'/#',
+        content:'ChangeReceiptState',
+    };
+    
     const receiptPatients = async() => {
         try{
         const response = await getReceiptList();
@@ -68,7 +76,7 @@ function Diagnosis (props) {
             // console.log(reportOp);
 
             const selectPatientChart = response.data.fatientOpinionsList;
-            const chartOfNotNull = selectPatientChart.filter(opinion => opinion.receipt_opinion !== "") // 일단 테스트라 null로 바꿔야 함 후에
+            const chartOfNotNull = selectPatientChart.filter(opinion => opinion.receipt_opinion !== null) // 일단 테스트라 null로 바꿔야 함 후에
            
             setFatientOpinion([
                 ...chartOfNotNull
@@ -110,19 +118,67 @@ function Diagnosis (props) {
             
             
     };
+   
     const selectSymptom = (symptom_name) => { //선택
-        if(selectSymptoms.find(symptom => symptom.symptom_name === symptom_name)){  //같은 증상이 이미 들어가 있으면 추가 못 함.
-        }   
-        else{//추가
-          setSelectSymptoms(selectSymptoms.concat([
-              ...symptomsCopy
-          ]));  
-        }
+       
+        for(let i of symptomsCopy){
+           
+            if(i.search_id !== selectSymptoms.map(x => x.search_id)){
+                // console.log("같은게 없을시 추가 ")
+                
+                setSelectSymptoms(selectSymptoms.concat([
+                    ...symptomsCopy
+                ]));  
+                const selectAfterDelete = symptomsCopy.filter(symptom => symptom.search_id !== symptom.search_id);
+                setSympTomCopys([
+                    ...selectAfterDelete
+                ])
+            }
             
+
+        for(let z of selectSymptoms){
+                
+            if(i.search_id === z.search_id){
+
+                
+                setSelectSymptoms(selectSymptoms.concat([
+                        
+                ]));  
+                Swal.fire({
+                    icon: 'error',
+                    title: '중복된 요청이 존재합니다.',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+
+            else if(z.search_id !== z.search_id){
+                // console.log("같은게 없을시2")
+                    setSelectSymptoms(selectSymptoms.concat([
+                        ...symptomsCopy
+                    ]));  
+                    const selectAfterDelete = symptomsCopy.filter(symptom => symptom.search_id !== symptom.search_id);
+                    setSympTomCopys([
+                        ...selectAfterDelete
+                    ])
+                    
+                }
+            }
+        }
+        
+     
     };
+    
     const deletePrescript = (search_id) => {  // 삭제
         const symptomSelect = selectSymptoms.filter(symptom => symptom.search_id !== search_id);
         setSelectSymptoms([
+            ...symptomSelect
+        ]);  
+    };
+
+    const deleteBeforePrescript = (search_id) => {  // 증상 검색 리스트에서의 삭제
+        const symptomSelect = symptomsCopy.filter(symptom => symptom.search_id !== search_id);
+        setSympTomCopys([
             ...symptomSelect
         ]);  
     };
@@ -137,11 +193,8 @@ function Diagnosis (props) {
 
     /*검사 요청시 증상 및 소견에 해당 환자의 진료 추가되는 부분*/ 
 
-   
 
-    const [opinions, setOpinions] = useState([]);
-
-    
+    const globalName = useSelector((state) => state.authReducer.staff_name);
 
     const testRequest = async (event) => { //검사 요청                          **'검사완료'상태인거는 소견 및 약 처방 후 진료 상태를'수납전'으로 바꾸게 하고 검사 상태를 '처방완료'로 나타내게 하기**
        
@@ -150,16 +203,16 @@ function Diagnosis (props) {
                     //검사 요청시 검사 목록, 진료id insert
                     let rtList=[];
                     for(let i of selectSymptoms){
-                        rtList.push({search_id: i.search_id, receipt_id: selectedPatient.receipt_id});
+                        rtList.push({search_id: i.search_id, receipt_id: selectedPatient.receipt_id, doctor_name: globalName});
                     }
                     await createRequestTest(rtList);
 
                     const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);
                     setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
-                    const reReceiptList = await getReceiptList();
-                    setpatients(reReceiptList.data.receiptList);
+                    // const reReceiptList = await getReceiptList();
+                    // setpatients(reReceiptList.data.receiptList);
+                    await sendRedisMessage(pubMessage);
                     deleteAll();
-                    // const [selectedPatient, setSelectP] = useState({
                     setSelectP({
                          patient_id: ""
                     })
@@ -184,21 +237,32 @@ function Diagnosis (props) {
    
     const addMedicines =  (data) => {    //약품 '추가'한 목록을 상태에 저장
         setIsModalVisible(!isModalVisible);
-        
-        if(data.filter(x => medicines.includes(x)).length === 0) {
-            setMedicines(
-                medicines.concat(data)
-            )
-            
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: '중복된 약이 존재합니다.',
-                showConfirmButton: false,
-                timer: 1500
-            })
+        for(let i of data){
+            if(i.medicine_id !== medicines.map(x => x.medicine_id)){
+                // console.log("같은게 없을시 추가 ")
+                setMedicines(medicines.concat([
+                    ...data
+                ]));  
+            }
+        for(let z of medicines){
+            if(i.medicine_id === z.medicine_id){
+                setMedicines(medicines.concat([       
+                ]));  
+                Swal.fire({
+                    icon: 'error',
+                    title: '중복된 약이 존재합니다.',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+            else if(z.medicine_id !== z.medicine_id){
+                // console.log("같은게 없을시2")
+                    setMedicines(medicines.concat([
+                        ...data
+                    ]));    
+                }
+            }
         }
-
     };
    
     
@@ -247,15 +311,20 @@ function Diagnosis (props) {
     const [modalIsOpen, setIsOpen] = useState(false);
 
     function openModal() {
-        setIsOpen(true);
-        if(!medicines){
-            
-        }
-        else{
-            handleT();
-        }
-        
-        
+        handleT();
+            if(medicines.some(z => z.quantity === null) || medicines.some(z => z.quantity === '')|| medicines.some(z => z.quantity == 0)){
+                Swal.fire({
+                    icon: 'error',
+                    title: '약 수량을 입력해주세요.',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+            else {
+                
+                setIsOpen(true);
+                
+            }
     }
 
     function closeModal() {
@@ -292,8 +361,10 @@ function Diagnosis (props) {
                 const newOpinion = {...reportOp};
                 await createOpinion(newOpinion);
 
+                await sendRedisMessage(pubMessage);
                 const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);
                 setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
+                
                 deleteMedicineAll();
                 closeModal()
 
@@ -308,10 +379,10 @@ function Diagnosis (props) {
             try{
                 const newOpinion = {...reportOp};
                 await createOpinion(newOpinion);
+                await sendRedisMessage(pubMessage);
                 const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);
                 setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
-                const reReceiptList = await getReceiptList();
-                setpatients(reReceiptList.data.receiptList);
+                
                 setSelectP({
                     patient_id: ""
                 })
@@ -359,24 +430,31 @@ function Diagnosis (props) {
     }
     
     const openOpinion = async (receipt_id) => {
-        setUpdateIsOpen(true);
         
             if(medicines.length !== 0){
-                let tempMedicines = medicines;
-                    for (let temp of tempMedicines) {
-                        for (let qt in quantity) {
-                            if(temp.medicine_id === qt) {
-                              temp.quantity = quantity[qt]
-                            }
-                        }
-                    }
-                setMedicines(tempMedicines); 
-                const response2 = await readOpinion(receipt_id);
-                const getOpinion = response2.data.readReceiptOpinion;
-                setOpp(getOpinion)
+                handleT();
+                if(medicines.some(z => z.quantity === null) || medicines.some(z => z.quantity === '')|| medicines.some(z => z.quantity == 0)){
+                    Swal.fire({
+                        icon: 'error',
+                        title: '약 수량을 입력해주세요.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+                else {
+                    setUpdateIsOpen(true);
+                    const response2 = await readOpinion(receipt_id);
+                    const getOpinion = response2.data.readReceiptOpinion;
+                    setOpp(getOpinion)
+                }
+
+
+
+                
                 
             }
             else{
+                setUpdateIsOpen(true);
                 setOpmedic()
                 const response = await receiptMedicines(receipt_id);
                 setOpmedic(response.data.readReceiptMedicines)
@@ -406,8 +484,7 @@ function Diagnosis (props) {
                     const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);  //-검사 요청 후 검사 소견에 검사 후 진료 작성 후 실행 시키기(새로 고침 역할)
                     setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
                     //검사완료-> 처방완료 and 진료 상태를 '수납전'으로 바꾸기
-                    const reReceiptList = await getReceiptList();
-                    setpatients(reReceiptList.data.receiptList);
+                    await sendRedisMessage(pubMessage);
                     Swal.fire({
                         icon: 'success',
                         title: '수정이 완료되었습니다.',
@@ -486,13 +563,19 @@ function Diagnosis (props) {
             diagnostic_test_state: event2
         });
     }
-    useEffect(() => {
-        console.log("증상 선택 및 소견 추가시 재실행")
-    }, [selectSymptoms], [opinions])
+
+    const realTimeReceiptList = async () => {
+        const response = await getReceiptList();
+        setpatients(response.data.receiptList);
+    };
+
+    // useEffect(() => {
+    //     console.log("증상 선택 및 소견 추가시 재실행")
+    // }, [selectSymptoms])
     
     return(
         <>
-        <Header />
+        <Header realTimeReceiptList={realTimeReceiptList}/>
         <div className="d-flex flex-column ">
             <div>
                 <div className="d-flex flex-row ml-3 mr-2 mt-2 mb-2">
@@ -500,7 +583,7 @@ function Diagnosis (props) {
                       <PatientList selectedPatient={selectedPatient} patients={patients} selectPatient={selectPatient}/>
                     </div>
                     <div className={cx("diagnosis-component-background", "diagnosis-symptom-widthAndHeight", "mr-3")}>
-                      <SymptomSearch selectedPatient={selectedPatient} symptomsCopy={symptomsCopy} search={search} handleChange={handleChange} searchSymptom={searchSymptom} selectSymptom={selectSymptom}/>
+                      <SymptomSearch deleteBeforePrescript={deleteBeforePrescript} selectedPatient={selectedPatient} symptomsCopy={symptomsCopy} search={search} handleChange={handleChange} searchSymptom={searchSymptom} selectSymptom={selectSymptom}/>
                     </div>
                     <div className={cx("diagnosis-component-background", "diagnosis-medicine-widthAndHeight")}>
                       <MedicinePrescriptionList isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} medicines={medicines} handleModal={handleModal} addMedicines={addMedicines} deleteMedicineAll={deleteMedicineAll} deleteMedicine={deleteMedicine} handleCount={handleCount} />
@@ -513,7 +596,7 @@ function Diagnosis (props) {
                       <DiagnosticCheckList selectedPatient={selectedPatient} selectSymptoms={selectSymptoms} setSelectSymptoms={setSelectSymptoms} deletePrescript={deletePrescript} deleteAll={deleteAll} testRequest={testRequest} />
                 </div>
                 <div className={cx("diagnosis-component-background","diagnosis-opinionAndSearch-Height")}>
-                    <OpinionAndSearch opmedic={opmedic} opinions={opinions} fatientOpinion={fatientOpinion} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} saveMedicine={saveMedicine} reportOp={reportOp} reportSuccess={reportSuccess} />
+                    <OpinionAndSearch opmedic={opmedic} fatientOpinion={fatientOpinion} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} saveMedicine={saveMedicine} reportOp={reportOp} reportSuccess={reportSuccess} />
                 </div>
                 <DialMenu />
             </div>

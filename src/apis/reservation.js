@@ -24,3 +24,6 @@ export function updateReservation(reservation) {
   return axios.put("/reserve", reservation);
 }
 
+export function checkPatientExist(){
+  return axios.get();
+}

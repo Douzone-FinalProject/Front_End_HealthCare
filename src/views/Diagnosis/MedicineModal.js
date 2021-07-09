@@ -56,9 +56,9 @@ function MedicineModal(props) {
     },
   }
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data])
+  useEffect(() => {
+    console.log(data);
+  }, [data])
   
   return (
     <div className={cx("medicine")}>

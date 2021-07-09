@@ -6,18 +6,18 @@ import ReserveCalendar from './ReserveCalendar';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
 import moment from './ReserveCalendar/src/moment-range';
-import { getReservations } from 'apis/reservation';
+import { deleteReservationById, getReservations, insertReservation, updateReservation } from 'apis/reservation';
 import ReserveSMS from './ReserveSMS';
 import ReserveUpdateForm from './ReserveUpdateForm';
 
 const cx = classNames.bind(style);
-let lastBno = 10;
 
 const Reservation = (props) => {
   // state
   const [events, setEvents] = useState([]);
   const [mode, setMode] = useState('create');
   const [reservation_id, setReservationId] = useState(undefined);
+  const [updateForm, setUpdateForm] = useState(); // 예약 수정 컴포넌트 -> 문자 발송 컴포넌트 전달 정보 
 
   let reserveList = [];
   const handleReservationList = async (e) => {
@@ -26,6 +26,7 @@ const Reservation = (props) => {
       const dbList = response.data.reservations;
       for(var reserve of dbList){
         reserveList.push({...reserve, resizable: true, 
+        content: reserve.reservation_name + ' ' + reserve.reservation_phone.substring(7, 11),
         range: moment.range(moment(reserve.reservation_datetime), 
               moment(reserve.reservation_datetime).add(30, 'minutes'))})
       }
@@ -40,57 +41,72 @@ const Reservation = (props) => {
   }, [events]);
 
 
-  // 이벤트 등록 
-  const addEvent = (ev) => {
-    lastBno++;
-    console.log(ev.reservation_datetime);
-    const newEvent = {
-      content: ev.reservation_datetime.slice(-5) +' '+ev.reservation_name +' '+ ev.reservation_reason,
-      reservation_id: lastBno,
-      reservation_name: ev.reservation_name,
-      reservation_phone: ev.reservation_phone,
-      reservation_datetime: ev.reservation_datetime,
-      reservation_reason: ev.reservation_reason,
-      resizable: true,
-      range: moment.range(moment(ev.reservation_datetime), moment(ev.reservation_datetime).add(30, 'minutes')) 
-    };
-
-    // DB 작업 
-    const newEvents = events.concat(newEvent);
-    setEvents(newEvents);
+  // DB Insert
+  const addEvent = async (ev) => {
+    try {
+      await insertReservation(ev);
+      const response = await getReservations();
+      const dbList = response.data.reservations;
+      for(var reserve of dbList){
+        reserveList.push({...reserve, resizable: true, 
+        content: reserve.reservation_name + ' ' + reserve.reservation_phone.substring(7, 11),
+        range: moment.range(moment(reserve.reservation_datetime), 
+              moment(reserve.reservation_datetime).add(30, 'minutes'))})
+      }
+      setEvents(reserveList);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-
    /* 자식인 모달창으로 보낼 함수 , 모달창에서 수정이 일어나면 여기서 리스트 상태를 바꿔주기 */
-   const handleClick = (ev) => {
-    setReservationId(ev);
-    console.log('ev: ', ev);
+   const handleClick = (rid) => {
+    setReservationId(rid);
     setMode('update');
   };
 
-  const handleUpdate = (updateForm) => {
-    const newEvents = Array.from(events);
-    const row = events.find(row => {return row.reservation_id === updateForm.reservation_id;});
-    row.reservation_name = updateForm.reservation_name;
-    row.reservation_phone = updateForm.reservation_phone;
-    row.reservation_reason = updateForm.reservation_reason;
-    row.reservation_datetime = updateForm.reservation_datetime;
-    row.reservation_reason = updateForm.reservation_reason;
-    row.content = updateForm.reservation_datetime.slice(-5) + ' ' + updateForm.reservation_name + ' ' + updateForm.reservation_reason;
-    setEvents(newEvents);
+  // DB Update
+  const handleUpdate = async (updateForm) => {
+    try{
+      await updateReservation(updateForm);
+      const response = await getReservations();
+      const dbList = response.data.reservations;
+      for(var reserve of dbList){
+        reserveList.push({...reserve, resizable: true, 
+        content: reserve.reservation_name + ' ' + reserve.reservation_phone.substring(7, 11),
+        range: moment.range(moment(reserve.reservation_datetime), 
+              moment(reserve.reservation_datetime).add(30, 'minutes'))})
+      }
+      setEvents(reserveList);
+    }catch(e){
+      console.log(e);
+    }
+    
   };
 
-  const handleDelete = (rid) => {
-    const newEvents = Array.from(events);
-    const index = newEvents.findIndex(reserve => reserve.reservation_id === rid);
-    newEvents.splice(index, 1);
-    setEvents(newEvents);
+  // DB Delete
+  const handleDelete = async (rid) => {
+    await deleteReservationById(rid);
+    const response = await getReservations();
+    const dbList = response.data.reservations;
+    for(var reserve of dbList){
+      reserveList.push({...reserve, resizable: true, 
+      range: moment.range(moment(reserve.reservation_datetime), 
+            moment(reserve.reservation_datetime).add(30, 'minutes'))})
+    }
+    setEvents(reserveList);
   }
 
   /* 자식으로 mode 바꾸는 함수 보내기  */
   const handleMode = () => {
     setMode('create');
   };
+
+  /* 예약 수정 컴포넌트 -> 문자 발송 컴포넌트로 예약 정보 넘겨주기 */
+  const handleSMS = (updateForm) => {
+    console.log('updateFOrm: ', updateForm);
+    setUpdateForm(updateForm);
+  }
 
   return (
     <>
@@ -115,11 +131,12 @@ const Reservation = (props) => {
                 handleUpdate={handleUpdate}
                 handleDelete={handleDelete}
                 handleMode={handleMode}
+                handleSMS={handleSMS}
               />
             }
            
             {/* 3. 시간대별 예약 상세 리스트 */}
-            <ReserveSMS reservation_id={reservation_id}/>
+            <ReserveSMS updateForm={updateForm}/>
           </div>
         </div>
       </div>

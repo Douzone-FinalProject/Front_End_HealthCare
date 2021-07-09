@@ -12,10 +12,6 @@ function SpecimenNum(props) {
             dataIndex: "diagnostic_specimen_number",
         },
         {
-            title: '환자번호',
-            dataIndex: "patient_id",
-        },
-        {
             title: '성명',
             dataIndex: "patient_name",
         },

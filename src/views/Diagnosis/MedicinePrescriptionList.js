@@ -4,7 +4,8 @@ import Button from "../common/Button";
 import { MDBTable, MDBTableBody } from 'mdbreact';
 import MedicineModal from "./MedicineModal";
 import MedicinePrescriptionListItem from "./MedicinePrescriptionListItem";
-
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 const cx = classnames.bind(style);
 
 function MedicinePrescriptionList(props) {

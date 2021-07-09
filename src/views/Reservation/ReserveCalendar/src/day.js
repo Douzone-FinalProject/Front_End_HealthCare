@@ -62,7 +62,7 @@ export default class Day extends React.Component {
 
 
     renderEvents() {
-        // content - 예약 내역 들어가는 공간 
+        // content - 예약 내역 들어가는 공간 , 보여지는 내용 !!! 
         const asMonth = this.props.layout.isDisplayingAsMonth;
         const singleDayEvents = [];
         const allDayEvents    = [];
@@ -74,11 +74,7 @@ export default class Day extends React.Component {
                     day={this.props.day}
                     parent={this}
                     // 부모에게 props로 받은 이벤트함수에 파라미터로 이벤트 아이디를 넘겨줌 
-                    onClick={
-                        (e) => {
-                            this.props.onEventClick(duration.event.attributes.reservation_id);
-                        }
-                    }
+                    onClick={(rid) => {this.props.onEventClick(rid);}}
                 />
             );
             (duration.event.isSingleDay() ? singleDayEvents : allDayEvents).push(event);

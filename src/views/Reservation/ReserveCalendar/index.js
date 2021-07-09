@@ -59,12 +59,9 @@ class ReserveCalendar extends React.Component {
     onEventResize(ev, event) {}
 
     /* 예약 수정, 삭제 할 수 있는 컴포넌트 뜨게 하기 => 부모의 mode 상태 바꾸기  */
-    onEventClick(ev, event) {
-        console.log('-----------123121231여기 들어왔냐 클릭시에 ㅅㅂ');
-        this.props.handleClick(ev);
+    onEventClick(rid) {
+        this.props.handleClick(rid); // 여기서는 rid를 꼭 넘겨줘야 한다!!!!!!!---- 
     }
-
-    
 
     render() {
         return (

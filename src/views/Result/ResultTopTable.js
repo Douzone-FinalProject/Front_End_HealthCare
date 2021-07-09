@@ -16,7 +16,7 @@ function ResultTopTable(props) {
                     <td className={cx("result-toptablecol")} width='100'>채혈일시</td>
                     <td width='150' style={{backgroundColor: '#f8f9fa'}}>{props.patientData.blood_datetime}</td>
                     <td className={cx("result-toptablecol2")} width='100'>검체번호</td>
-                    <td width='150' style={{backgroundColor: '#f8f9fa'}}>{props.specimenData.diagnostic_specimen_number}</td>
+                    <td width='150' style={{backgroundColor: '#f8f9fa'}}>{props.specimenData.diagnostic_specimen_number||''}</td>
                     <td className={cx("result-toptablecol2")} width='100'>의사명</td>
                     <td width='150' style={{backgroundColor: '#f8f9fa'}}>{props.specimenData.doctor}</td>
                 </tr>

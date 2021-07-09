@@ -11,7 +11,7 @@ import { createStore } from 'redux';
 import rootReducer from 'redux/root-reducer';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import { addAuthHeader } from "apis/axiosConfig";
-import { createSetAuthTokenAction, createSetUidAction, createSetNameAction, createSetRoleAction} from 'redux/auth-reducer';
+import { createSetAuthTokenAction, createSetUidAction, createSetNameAction, createSetRoleAction, createSetHospitalAction} from 'redux/auth-reducer';
 
 const store = createStore(rootReducer, composeWithDevTools());
 
@@ -19,7 +19,8 @@ const store = createStore(rootReducer, composeWithDevTools());
 store.dispatch(createSetUidAction(sessionStorage.getItem("staff_login_id") || ""));
 store.dispatch(createSetAuthTokenAction(sessionStorage.getItem("authToken") || ""))
 store.dispatch(createSetNameAction(sessionStorage.getItem("staff_name") || ""));
-store.dispatch(createSetRoleAction(sessionStorage.getItem("staff_role") || ""));;
+store.dispatch(createSetRoleAction(sessionStorage.getItem("staff_role") || ""));
+store.dispatch(createSetHospitalAction(sessionStorage.getItem("hospital_id") || ""));
 
 //Axios에 인증 헤더 추가
 if(sessionStorage.getItem("authToken")) {
