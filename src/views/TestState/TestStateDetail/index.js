@@ -1,4 +1,5 @@
-// import { CSVLink, CSVDownload } from "react-csv";
+import React, { useRef } from "react";
+import Webcam from "react-webcam"; 
 import xlsx from 'xlsx';
 import style from "views/TestState/teststate.module.css";
 import classNames from "classnames/bind"
@@ -7,14 +8,15 @@ import { Card, Table } from 'antd';
 import Button from "../Button";
 import { useState } from "react";
 import { useEffect } from 'react';
-import { changeState, getTestStateDetailData, getChartData, getLabPatient, getPatientName, barcode, deleteBarcode } from "views/TestState/db";
-import { getTestStateDetailList, updateStateDetail } from "apis/teststate"; 
+import { getTestStateDetailList, updateStateDetail, updateReceiptState } from "apis/teststate"; 
+import CameraModal from "./CameraModal";
 
 const cx = classNames.bind(style);
 
 function TestStateDetail({receiptId, detailData, setDetailData, waitingData, setWaitingData, setPatientNames, setChartData1}, props) {
 
   const [patientName, setPatientName] = useState();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const resultItem = [
     {
       title: "증상코드",
@@ -82,7 +84,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
   const [rows, setRows] = useState([]);
   const [rowKeys, setRowKeys] = useState([]);
   const [bundleSpecimens, setBundleSpeciemens] = useState([]);
-
+  const [complete, setComplete] = useState('false');
   const rowSelection = {  
     onChange: (selectedRowKeys, selectedRows) => {
       console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
@@ -99,6 +101,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
     // },
   }
 
+  
   useEffect(() => {
     if (receiptId) {
       async function fetchAndSetDetailData() {
@@ -108,19 +111,31 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
       fetchAndSetDetailData();
     }
   }, [receiptId])
+
+  useEffect(() => {
+    let completeCount = 0;
+    for (let detail of detailData) {
+      if (detail.diagnostic_list_state === "검사완료") {
+        console.log(detail)
+        completeCount++;
+      }
+    }
+    if (detailData.length !== 0 && detailData.length === completeCount) {
+      console.log(detailData.length)
+      setComplete('true');
+    } else {
+      setComplete('false');
+    }
+  }, [detailData])
+  
   
   const handleBarcode = async () => {
     if (rowKeys.length !== 0) {
-      // setRows(rows.map(row => {
-
-      // }));
-      await updateStateDetail(rowKeys, "검사접수");
+      await updateStateDetail(rowKeys, "검사접수", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
       setDetailData(await getTestStateDetailList(receiptId));
-
-      // setWaitingData(changeState(waitingData, resultData, chartId));
-      // setPatientNames(getLabPatient(resultData, chartId));
-      // setChartData1(getChartData(waitingData));
-      // setResultData(barcode(resultData, rows));
+      if (rows[0].bundle_specimen === "") {
+        setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
+      }
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -132,15 +147,8 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
 
   const handleCancel = async () => {
     if (rowKeys.length !== 0) {
-      // setRows(rows.map(row => {
-      //   row.state = "검사대기";
-      //   return row;
-      // }));
-      await updateStateDetail(rowKeys, "검사대기");
+      await updateStateDetail(rowKeys, "검사대기", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
       setDetailData(await getTestStateDetailList(receiptId));
-      // setWaitingData(changeState(waitingData, resultData, chartId));
-      // setChartData1(getChartData(waitingData));
-      // setResultData(deleteBarcode(resultData, rows));
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -152,15 +160,8 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
 
   const handleComplete = async () => {
     if (rowKeys.length !== 0) {
-    //   setRows(rows.map(row => {
-    //     row.state = "검사완료";
-    //     return row;
-    //   }))
-    await updateStateDetail(rowKeys, "검사완료", sessionStorage.getItem("staff_login_id"), bundleSpecimens);
+    await updateStateDetail(rowKeys, "검사완료", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
     setDetailData(await getTestStateDetailList(receiptId));
-      // setWaitingData(changeState(waitingData, resultData, chartId));
-      // setPatientNames(getLabPatient(resultData, chartId));
-      // setChartData1(getChartData(waitingData));
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -201,11 +202,29 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
 
   }
 
+  const handleReceiptState = async (event) => {
+    await updateReceiptState(event.target.value, receiptId);
+  }
+
+  const handleModal = () => { //모달 창 열기, 닫기      
+    setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
+  }
+
   return (
     <Card className={cx("card")}>
       <div className={cx("d-flex", "justify-content-between")}>
         <div className={cx("teststate-patient")}><span><strong>{patientName}</strong></span>님: 진단 검사 상세</div>
         <div className="d-flex">
+          {complete === 'true' ?
+          (
+          <>
+          <Button color={'#ffd43b'} onClick={handleReceiptState} value="수납전">집으로</Button>
+          <Button color={'#69db7c'} onClick={handleReceiptState} value="대기">의사로</Button>
+          </>
+          )
+          :
+          <></>
+          }
           <Button color={'rgb(255, 99, 132)'} onClick={handleBarcode}>바코드 출력</Button>
           <Button color={'rgb(255, 159, 64)'} onClick={handleCancel}>접수 취소</Button>
           <Button color={'rgb(54, 162, 235)'} onClick={handleComplete}>검사 완료</Button>
@@ -215,6 +234,9 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
       <div className={cx("teststate-table")}>
         <Table className={cx("ant-th", "ant-tbody")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}}/>
       </div>
+      {
+        isModalVisible && (<CameraModal handleModal={handleModal} receiptId={receiptId}/>)
+      }
     </Card>
   );
 }
