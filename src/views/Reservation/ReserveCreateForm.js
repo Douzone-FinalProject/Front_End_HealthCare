@@ -3,7 +3,6 @@ import classNames from 'classnames/bind';
 import style from './style.module.css';
 import TextField from '@material-ui/core/TextField';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-// import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import AddAlarmIcon from '@material-ui/icons/AddAlarm';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
@@ -12,11 +11,23 @@ import Swal from 'sweetalert2';
 import {
   Form,
 } from 'react-form-elements';
-import Button from 'views/common/Button';
+import { checkPatientExist } from 'apis/reservation';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
 const cx = classNames.bind(style);
+const useStyles = makeStyles((theme) => ({
+  margin: {
+    margin: theme.spacing(1),
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+}));
 
 const ReserveCreateForm = (props) => {
+  const classes = useStyles();
+
   // state
   const [startDate, setStartDate] = useState(new Date());
   const [createForm, setCreateForm] = useState({
@@ -39,7 +50,7 @@ const ReserveCreateForm = (props) => {
   const handleSubmit = (e) => {
     Swal.fire({
       icon: 'success',
-      title: createForm.reservation_name + '님 에약이 등록되었습니다.',
+      title: createForm.reservation_name + '님 예약이 정상적으로 등록되었습니다.',
       showConfirmButton: false,
       timer: 1500
     })
@@ -59,6 +70,15 @@ const ReserveCreateForm = (props) => {
     setStartDate(new Date());
   };
 
+  /* 기존환자 유무 판단 */
+  const handleExistPatient = async () => {
+    // 아이디와 번호로  Patient 테이블에서 존재하는지 확인 -> 존재하면 patient_id로 연결 
+    // 서버로 호출 
+    const response = await checkPatientExist();
+    console.log(response.data);
+  };
+
+
   return (
     <div className={cx("right-component-top")}>
       <div className={cx("form-subject")}>
@@ -74,6 +94,8 @@ const ReserveCreateForm = (props) => {
               <CheckCircleOutlineIcon className="mt-3 ml-3" style={{fontSize: '2em'}}
                 onClick={() => {
                   console.log('click button - 기존/신규 환자 구분하기');
+                  // 아이디 중복 검사 처럼 만들 예정  patient_id와 연결 , 이 버튼을 안누르면 create 못함. 아이콘 변화 
+                  handleExistPatient();
                 }}
               />
               
@@ -90,7 +112,9 @@ const ReserveCreateForm = (props) => {
                 />
               </div> 
               <div className="d-flex justify-content-end">
-                <Button type="submit" className={cx("custom-btn-confirm")}>등록</Button>
+                <Button type="submit" 
+                 variant="outlined" size="small" color="primary" className={classes.margin}
+                >등록</Button>
               </div>
         </Form>
       </div>

@@ -6,8 +6,8 @@ import style from './style.module.css';
 import classNames from 'classnames/bind';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
-import { addNewPatient, sendRedisMessage } from 'apis/message';
-import { getPatientListByName, updateReceipt, getReceiptList, deleteReceiptById, deletePatientById, getPatientList, insertReceipt, updatePatient } from 'apis/receipt';
+import { sendRedisMessage } from 'apis/message';
+import { getPatientListByName, updateReceipt, getReceiptList, deleteReceiptById, deletePatientById, getPatientList, insertReceipt, updatePatient, addNewPatient } from 'apis/receipt';
 import PatientReadOnly from './PatientReadOnly';
 import { useSelector } from 'react-redux';
 
@@ -39,7 +39,6 @@ const Receipt = (props) => {
     try{
       const response = await getReceiptList();
       setReceipts(response.data.receiptList);
-      console.log(globalHospital);
     }catch(error){
       console.log(error);
     }
@@ -96,7 +95,8 @@ const Receipt = (props) => {
   const handleAdd = async (patient) => {
     try {
       await addNewPatient(patient);
-      const response = await getPatientList();
+      console.log('12322: ', patient.patient_name);
+      const response = await getPatientListByName(patient.patient_name);
       setPatients(response.data.patientList);
     } catch (error) {
       console.log(error);
