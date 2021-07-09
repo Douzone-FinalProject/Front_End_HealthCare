@@ -12,18 +12,29 @@ function Result(props) {
     const [SpecimenIndex, setSpecimenIndex] = useState();
     const [patient, setPatient] = useState({});
     const [resultState, setResultState] = useState();
+    const [flag, setFlag] = useState({
+        receipt: true,
+        specimen: false,
+    });
     //결과 테이블에 보여줄 데이터
     //행을 클릭 시, 오른쪽 테이블에 값이 나옴.
     //진단번호와 검체번호에 따라 값을 다르게 출력.
     const handleResult = useCallback((data, rowIndex) => {
         return {
           onClick: async (event) => {
-            console.log(data.receipt_result_state);
-            console.log(data.diagnostic_result_state);
+            console.log(data.receipt_id);
             if(data.diagnostic_result_state) {
                 setResultState(data.diagnostic_result_state);
+                setFlag({
+                    receipt: false,
+                    specimen: true
+                });
             } else {
                 setResultState(data.receipt_result_state);
+                setFlag({
+                    receipt: true,
+                    specimen: false
+                });
             }
             let resultData;
             if(props.location.pathname === "/result/specimennum") {
@@ -56,7 +67,7 @@ function Result(props) {
             <Header />
             <div className="d-flex">
                 <ResultSearchContainer props={props} handleResult={handleResult} ReceiptIndex={ReceiptIndex} SpecimenIndex={SpecimenIndex} />
-                <ResultContainer result={result} patientData={patient} resultState={resultState} location={props.location}/>
+                <ResultContainer result={result} patientData={patient} resultState={resultState} flag={flag}/>
             </div>
             <DialMenu />
         </>
