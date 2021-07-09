@@ -5,6 +5,7 @@ function PatientListItem(props) {
     };
     
     return(
+                    
                 <tr key={props.patient.patient_id} onClick={() => {selectPatient(props.patient.patient_id, props.patient.patient_name, props.patient.receipt_state, props.patient.receipt_id)}}>
                     <td>{props.patient.patient_id}</td>
                     <td>{props.patient.patient_name}</td>
