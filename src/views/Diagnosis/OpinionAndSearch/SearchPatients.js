@@ -37,42 +37,42 @@ function SearchPatients(props) {
             }
             else if(patient_id && !receipt_datetime && !patient_name){ //차트번호만 입력 할 경우
                 const response = await searchPatientIdOpinion(patient_id);
-                const patientChart = response.data.searchPatientIdOpinionList.filter(opinion => opinion.receipt_opinion !== "");
+                const patientChart = response.data.searchPatientIdOpinionList.filter(opinion => opinion.receipt_opinion !== null);
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
             else if(patient_name && !receipt_datetime && !patient_id){   //이름만 검색 할 경우
                 const response = await searchPatientNameOpinion(patient_name);
-                const patientChart = response.data.searchPatientNameOpinionList.filter(opinion => opinion.receipt_opinion !== "");
+                const patientChart = response.data.searchPatientNameOpinionList.filter(opinion => opinion.receipt_opinion !== null);
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
             else if(patient_id && receipt_datetime && !patient_name) {   //차트번호와 날짜 입력 할 경우
                 const response = await searchPatientIdAndDate(patient_id, receipt_datetime);
-                const patientChart = response.data.searchPatientIdAndDateList.filter(opinion => opinion.receipt_opinion !== "");
+                const patientChart = response.data.searchPatientIdAndDateList.filter(opinion => opinion.receipt_opinion !== null);
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
             else if(patient_name && patient_id && !receipt_datetime){   //이름하고 차트번호 입력 할 경우
                 const response = await searchPatientIdAndName(patient_name, patient_id);
-                const patientChart = response.data.searchPatientIdAndNameList.filter(opinion => opinion.receipt_opinion !== "");
+                const patientChart = response.data.searchPatientIdAndNameList.filter(opinion => opinion.receipt_opinion !== null);
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
             else if(patient_name && receipt_datetime && !patient_id){   //이름하고 날짜 입력 할 경우
                 const response = await searchPatientNameAndDate(patient_name, receipt_datetime);
-                const patientChart = response.data.searchPatientNameAndDateList.filter(opinion => opinion.receipt_opinion !== "");
+                const patientChart = response.data.searchPatientNameAndDateList.filter(opinion => opinion.receipt_opinion !== null);
                 setOpinionCopys([
                     ...patientChart
                 ])
             }
             else{
                 const response = await searchAll(patient_id, patient_name, receipt_datetime); //id, 이름, 날짜 3개 입력
-                const patientChart = response.data.searchAllList.filter(opinion => opinion.receipt_opinion !== "");
+                const patientChart = response.data.searchAllList.filter(opinion => opinion.receipt_opinion !== null);
                 setOpinionCopys([
                     ...patientChart
                 ])
