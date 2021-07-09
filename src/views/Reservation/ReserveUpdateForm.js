@@ -1,23 +1,32 @@
 import {React, useState, useEffect} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
-// import {getReserveById} from './ReserveCalendar/data';
 import AddAlarmIcon from '@material-ui/icons/AddAlarm';
 import TextField from '@material-ui/core/TextField';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from './ReserveCalendar/src/moment-range';
 import Swal from 'sweetalert2';
-
 import {
   Form,
 } from 'react-form-elements';
-import Button from 'views/common/Button';
 import { getReservationById } from 'apis/reservation';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
 const cx = classNames.bind(style);
 
+const useStyles = makeStyles((theme) => ({
+  margin: {
+    margin: theme.spacing(1),
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+}));
+
 const ReserveUpdateForm = (props) => {
+  const classes = useStyles();
   // state
   const [updateForm, setUpdateForm] = useState({});
   const [startDate, setStartDate] = useState(new Date());
@@ -39,7 +48,7 @@ const ReserveUpdateForm = (props) => {
                     range: moment.range(moment(db.reservation_datetime), 
                           moment(db.reservation_datetime).add(30, 'minutes'))
       }
-      console.log('reservation: ', reservation);
+      console.log('ReserveUpdateForm component: ', reservation);
       setUpdateForm(reservation);
 
     }catch(error){
@@ -50,14 +59,11 @@ const ReserveUpdateForm = (props) => {
   useEffect(() => {
     console.log("rid가 마운트 또는 업데이트 후 실행");
     if(rid !== undefined) {
-      // const reservation = getReserveById(rid);
-      // db말고 상태에서 뽑아오기 
       handleReservationLById(rid);
+    }else{
+      console.log('rid가 undefined');
     }
-    return (() => {
-      console.log("rid가 언마운트/업데이트 전 실행");
-    });
-  },[rid]);
+  },[props.reservation_id]);
 
   const handleChange = (e) => {
     setUpdateForm({
@@ -74,7 +80,7 @@ const ReserveUpdateForm = (props) => {
       timer: 1500
     })
 
-    // DB 수정  
+    // DB 수정 -> 부모로 전달  
     updateForm.reservation_datetime = moment(startDate).format('YYYY-MM-DD HH:mm');
     updateForm.range = moment.range(moment(updateForm.reservation_datetime), moment(updateForm.reservation_datetime).add(30, 'minutes')) 
     props.handleUpdate(updateForm);
@@ -91,7 +97,8 @@ const ReserveUpdateForm = (props) => {
         <div>
           <AddAlarmIcon style={{fontSize: '1.8em'}} className="mr-1"/>예약 수정 
         </div>
-        <Button className={cx("custom-btn", "mr-3")} color="#FF6384"
+        <Button 
+          variant="outlined" size="small" color="primary" className={classes.margin}
             onClick={() => {props.handleMode();}}>새로운 예약</Button>
       </div>
       <div className={cx("reserve-form")}>
@@ -106,8 +113,9 @@ const ReserveUpdateForm = (props) => {
                     name="reservation_reason" value={updateForm.reservation_reason || ''}/> 
               <div className="mt-4 mb-3">
                 
-                <div className="mr-3 font-weight-bold">{updateForm.reservation_datetime || ''}</div>
-                <div style={{color: 'gray'}}>예약 날짜</div>
+                <div style={{color: 'gray', fontSize:'13px'}} className="mb-2">예약 날짜
+                  <div className="mr-3 font-weight-bold">{updateForm.reservation_datetime || ''}</div>
+                </div>
                 <DatePicker style={{color: 'gray'}}
                   dateFormat="yyyy-MM-dd HH:mm"
                   showTimeSelect
@@ -121,8 +129,12 @@ const ReserveUpdateForm = (props) => {
                 />
                </div> 
             </div>
-                <Button type="button" className={cx("custom-btn", "mr-3")}>SMS 발송</Button>
-                <Button type="button" className={cx("custom-btn-confirm", "mr-3")}
+                <Button type="button" 
+                  variant="outlined" size="small" color="primary" className={classes.margin}
+                  onClick={() => {props.handleSMS(updateForm)}}>SMS 발송</Button>
+                <Button
+                  variant="outlined" size="small" color="primary" className={classes.margin}
+                  type="button" 
                     onClick={() => {
 
                       Swal.fire({
@@ -149,7 +161,10 @@ const ReserveUpdateForm = (props) => {
                       })
                     }}
                 >삭제</Button> 
-                <Button type="submit" className={cx("custom-btn-confirm")}>수정</Button>            
+
+                <Button type="submit"
+                        variant="outlined" size="small" color="primary" className={classes.margin}
+                >수정</Button>
           </Form>
         </div>
     </div>

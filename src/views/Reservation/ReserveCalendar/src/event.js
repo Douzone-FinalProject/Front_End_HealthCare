@@ -22,13 +22,17 @@ export default class Event extends React.Component {
         }
     }
 
-    onClick(ev) {
+    onClick(e) {
+        e.preventDefault();
+        const rid = this.props.duration.event.attributes.reservation_id;
+
         // event 달력에서 클릭했을 때 색깔 변경
-        ev.currentTarget.className= "evbody evbody_visited";
-        
+        e.currentTarget.className= "evbody evbody_visited";
         if (!this.props.onClick) { return; }
-        this.props.onClick(ev, this.props.duration.event);
-        ev.stopPropagation();
+
+        this.props.onClick(rid);
+       
+        e.stopPropagation();
         this.setState({
             isClicked: true,
         });
