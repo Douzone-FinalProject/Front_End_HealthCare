@@ -28,21 +28,26 @@ function ResultContainer(props) {
             const response = await getSpecimenData(data.diagnostic_specimen_number);
             const specimenData = response.data.specimenData;
             console.log(specimenData);
-            setSpecimen(specimenData);
+            setSpecimen(specimenData||0);
           }
         }
     }, []);
 
     //저장 버튼 클릭 시 실행
     const handleSave = useCallback(async (event) => {
-        if(props.location.pathname === "/result/specimennum") {
+        if(props.flag.specimen) {
+            let resultInfo = {};
+            let resultArray = [];
             for(let rst in result) {
-                await updateResultDataBySpecimen(result[rst]);
+                resultArray.push({diagnostic_result: result[rst], diagnostic_results_id: rst});
             }
+            resultInfo.result = resultArray;
+            console.log(specimen);
+            await updateResultDataBySpecimen(resultInfo);
         } else {
 
         }
-    }, [result, props.location.pathname]);
+    }, [result, props.flag.specimen]);
 
     //왼쪽 테이블에서 오는 데이터가 달라졌을 때 실행
     //결과 데이터 상태를 초기화
@@ -65,17 +70,17 @@ function ResultContainer(props) {
                 const handleFirstChange = (event) => {
                     setResult({
                         ...result,
-                        [record.key]: event.target.value
+                        [record.diagnostic_results_id]: event.target.value
                     })
                     setFlag({
                         ...flag,
-                        [record.key]: true
+                        [record.diagnostic_results_id]: true
                     })
                 };
                 const handleChange = (event) => {
                     setResult({
                         ...result,
-                        [record.key]: event.target.value
+                        [record.diagnostic_results_id]: event.target.value
                     })
                 };
                 return {
@@ -84,11 +89,11 @@ function ResultContainer(props) {
                     },
                     children: 
                     <div>
-                    {flag[record.key] ?
+                    {flag[record.diagnostic_results_id] ?
                     <input type="text"
                             className="w-100"
                             style={{backgroundColor: '#a5d8ff', border: 'none', height: '40px'}}
-                            value={result[record.key]}
+                            value={result[record.diagnostic_results_id]}
                             onChange={handleChange} />
                     :
                     <input type="text"

@@ -56,6 +56,7 @@ function SymptomSearch(props) {
             <MDBTable className={cx("diagnosis-tbh")}>
                 <thead  className={cx("diagnosis-table-header")}>
                     <tr> 
+                    <th style={{width:"50px"}}></th>
                     <th>증상명칭</th>
                     <th>증상코드</th>
                     <th>묶음코드</th>
@@ -67,7 +68,7 @@ function SymptomSearch(props) {
                 <MDBTableBody>
                     {props.symptomsCopy && props.symptomsCopy.map((symptom) => {
                         return (
-                            <SymptomSearchItem key={symptom.search_id} symptom={symptom} />
+                            <SymptomSearchItem key={symptom.search_id} symptom={symptom} deleteBeforePrescript={props.deleteBeforePrescript} />
                         );
                     })}
                 </MDBTableBody>
