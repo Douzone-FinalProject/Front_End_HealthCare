@@ -47,3 +47,56 @@ export function updateStaff(nowStaff) { // 비번o 수정
     const promise = axios.put("/manage/updateStaff", nowStaff);
     return promise;
 }
+
+//혈액형 수
+export function aCount() { 
+    const promise = axios.get("/manage/aCount");
+    return promise;
+}
+
+export function bCount() { 
+    const promise = axios.get("/manage/bCount");
+    return promise;
+}
+
+export function abCount() { 
+    const promise = axios.get("/manage/abCount");
+    return promise;
+}
+
+export function oCount() { 
+    const promise = axios.get("/manage/oCount");
+    return promise;
+}
+
+export function rh_aCount() { 
+    const promise = axios.get("/manage/rh_aCount");
+    return promise;
+}
+
+export function rh_bCount() { 
+    const promise = axios.get("/manage/rh_bCount");
+    return promise;
+}
+
+export function rh_abCount() { 
+    const promise = axios.get("/manage/rh_abCount");
+    return promise;
+}
+
+export function rh_oCount() { 
+    const promise = axios.get("/manage/rh_oCount");
+    return promise;
+}
+
+//직원, 비활성화 수
+
+export function staffCount() { 
+    const promise = axios.get("/manage/staffCount");
+    return promise;
+}
+
+export function disableStaffCount() { 
+    const promise = axios.get("/manage/disableStaffCount");
+    return promise;
+}
