@@ -12,17 +12,16 @@ function CameraModal(props) {
   const webcamRef = useRef(null);
   const capture = useCallback(
     async () => {
-      const imgSrc = webcamRef.current.getScreenshot();
-      console.log(imgSrc)
-      const files = Array.of(imgSrc);
-      const formData = new FormData();
-      formData.append("receiptId", props.receiptId)
-      files.forEach((file, i) => {
-        formData.append("img", file);
-      });
-      // await uploadImg(formData);
+      const base64 = webcamRef.current.getScreenshot();
+      console.log(props.patientName)
+      const imgData = {
+        base64,
+        filename: props.patientName,
+        receiptId: props.receiptId 
+      }
+      await uploadImg(imgData);
     },
-    [props.receiptId]
+    [webcamRef]
   );
   return (
     <div className={cx("camera")}>
