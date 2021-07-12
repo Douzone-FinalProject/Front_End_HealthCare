@@ -18,11 +18,20 @@ const ReceiptInfo = (props) => {
   const [receiptColor2, setReceiptColor2] = useState("#91a7ff"); 
   const [receiptColor3, setReceiptColor3] = useState("#91a7ff"); 
   const [receiptColor4, setReceiptColor4] = useState("#91a7ff"); 
-  const [receiptColor5, setReceiptColor5] = useState("lightgray"); 
+  const [receiptColor5, setReceiptColor5] = useState("lightgray");
+  const [selectState, setSelectState] = useState("전체");
 
   useEffect(() => {
+    if(selectState === "전체") {
     setReceiptList(props.receipts);
-  }, [props.receipts]);
+    } else {
+      const result = props.receipts.filter((receipt) => {
+        return receipt.receipt_state === selectState
+      });
+      // 필터링한 리스트로 상태 변경 
+      setReceiptList(result);
+    }
+  }, [props.receipts, selectState]);
 
   // 1. 의사 진료 보내기 
   const sendDiagnosis = (rid) => {
@@ -41,32 +50,33 @@ const ReceiptInfo = (props) => {
   };
 
   const handleState = (e) => {
-    const selectState = e.target.getAttribute('value');
-    if(selectState === '대기'){
+    
+    setSelectState(e.target.getAttribute('value'));
+    if(e.target.getAttribute('value') === '대기'){
       setReceiptColor1("lightgray");
       setReceiptColor2("#91a7ff");
       setReceiptColor3("#91a7ff");
       setReceiptColor4("#91a7ff");
       setReceiptColor5("#91a7ff");
-    }else if(selectState === '진료중'){
+    }else if(e.target.getAttribute('value') === '진료중'){
       setReceiptColor1("#91a7ff");
       setReceiptColor2("lightgray");
       setReceiptColor3("#91a7ff");
       setReceiptColor4("#91a7ff");
       setReceiptColor5("#91a7ff");
-    }else if(selectState === '검사중'){
+    }else if(e.target.getAttribute('value') === '검사중'){
       setReceiptColor1("#91a7ff");
       setReceiptColor2("#91a7ff");
       setReceiptColor3("lightgray");
       setReceiptColor4("#91a7ff");
       setReceiptColor5("#91a7ff");
-    }else if(selectState === '수납전'){
+    }else if(e.target.getAttribute('value') === '수납전'){
       setReceiptColor1("#91a7ff");
       setReceiptColor2("#91a7ff");
       setReceiptColor3("#91a7ff");
       setReceiptColor4("lightgray");
       setReceiptColor5("#91a7ff");
-    }else if(selectState === '전체'){
+    }else if(e.target.getAttribute('value') === '전체'){
       setReceiptColor1("#91a7ff");
       setReceiptColor2("#91a7ff");
       setReceiptColor3("#91a7ff");
@@ -74,9 +84,9 @@ const ReceiptInfo = (props) => {
       setReceiptColor5("lightgray");
     }
 
-    if(selectState !== '전체'){
+    if(e.target.getAttribute('value') !== '전체'){
       const result = dbReceiptList.filter((receipt) => {
-        return receipt.receipt_state === selectState;
+        return receipt.receipt_state === e.target.getAttribute('value');
       });
       // 필터링한 리스트로 상태 변경 
       setReceiptList(result);
