@@ -75,7 +75,7 @@ const ReserveUpdateForm = (props) => {
   const handleUpdate = (e) => {
     Swal.fire({
       icon: 'success',
-      title: updateForm.reservation_name + '님 에약이 수정되었습니다.',
+      title: updateForm.reservation_name + '님 예약이 수정되었습니다.',
       showConfirmButton: false,
       timer: 1500
     })
@@ -104,10 +104,10 @@ const ReserveUpdateForm = (props) => {
       <div className={cx("reserve-form")}>
           <Form name="updateForm" onSubmit={handleUpdate}>
             <div>
-              <TextField required label="이름" className="mr-5" name="reservation_name" 
-                      onChange={handleChange} value={updateForm.reservation_name || ''}/> 
-              <TextField required label="휴대전화" name="reservation_phone" 
-                      onChange={handleChange} value={updateForm.reservation_phone || ''}/> 
+              <TextField disabled label="이름" className="mr-5" name="reservation_name" 
+                        value={updateForm.reservation_name || ''}/> 
+              <TextField disabled label="휴대전화" name="reservation_phone" 
+                        value={updateForm.reservation_phone || ''}/> 
 
               <TextField required label="내원사유"  onChange={handleChange}
                     name="reservation_reason" value={updateForm.reservation_reason || ''}/> 
