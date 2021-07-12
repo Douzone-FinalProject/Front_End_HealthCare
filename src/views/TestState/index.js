@@ -27,7 +27,7 @@ function TestState(props) {
 
   const realTimeReceiptList = async () => {
     console.log("realTimeReceiptList");
-  }
+  };
   return (
     <>
       <div className={cx("whole-frame")}>
