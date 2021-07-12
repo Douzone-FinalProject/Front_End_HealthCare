@@ -2,7 +2,9 @@ import {React, useState} from 'react';
 import classNames from 'classnames/bind';
 import style from './style.module.css';
 import TextField from '@material-ui/core/TextField';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import AddAlarmIcon from '@material-ui/icons/AddAlarm';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
@@ -34,8 +36,10 @@ const ReserveCreateForm = (props) => {
     reservation_name: '',
     reservation_phone: '',
     reservation_reason: '',
+    patient_id: ''
   });
-  
+  const [checkIcon, setCheckIcon] = useState(false); // 기존 환자 체크 여부 , 결과에 상관없이 체크를 햇으면 true로 하기 
+
   const handleChange = (e) => {
     setCreateForm({
       ...createForm,
@@ -66,6 +70,7 @@ const ReserveCreateForm = (props) => {
       reservation_name: '',
       reservation_phone: '',
       reservation_reason: '',
+      patient_id: ''
     });
     setStartDate(new Date());
   };
@@ -73,33 +78,67 @@ const ReserveCreateForm = (props) => {
   /* 기존환자 유무 판단 */
   const handleExistPatient = async () => {
     // 아이디와 번호로  Patient 테이블에서 존재하는지 확인 -> 존재하면 patient_id로 연결 
-    // 서버로 호출 
-    const response = await checkPatientExist();
-    console.log(response.data);
+    const response = await checkPatientExist(createForm.reservation_name, createForm.reservation_phone); 
+    setCreateForm({
+      ...createForm,
+      patient_id: response.data.patient_id
+    })
+    setCheckIcon(true);
   };
 
 
   return (
     <div className={cx("right-component-top")}>
-      <div className={cx("form-subject")}>
-        <AddAlarmIcon style={{fontSize: '1.8em'}} className="mr-1"/>
-          새로운 예약
+      <div className={cx("form-subject", "d-flex justify-content-between")}>
+        <div>
+          <AddAlarmIcon style={{fontSize: '1.8em'}} className="mr-1"/>
+            새로운 예약
+        </div>
+      {/* 새로고침 아이콘 여기에 두기, onclick시에 값 초기화  */}
+      <AutorenewIcon style={{"fontSize": "1.3em"}} className="mt-2 mr-4"
+          onClick={() => {setStartDate(new Date()); setCheckIcon(false);
+                          setCreateForm({
+                            reservation_name: '',
+                            reservation_phone: '',
+                            reservation_reason: '',
+                            patient_id: ''
+                          });}}
+        ></AutorenewIcon>
       </div>
       <div className={cx("reserve-form")}>
         <Form
           name="createForm" 
           onSubmit={handleSubmit}>
-              <TextField required label="이름" className="mr-5" name="reservation_name" value={createForm.reservation_name} onChange={handleChange}/> 
-              <TextField required label="휴대전화" name="reservation_phone" value={createForm.reservation_phone} onChange={handleChange}/> 
-              <CheckCircleOutlineIcon className="mt-3 ml-3" style={{fontSize: '2em'}}
-                onClick={() => {
-                  console.log('click button - 기존/신규 환자 구분하기');
-                  // 아이디 중복 검사 처럼 만들 예정  patient_id와 연결 , 이 버튼을 안누르면 create 못함. 아이콘 변화 
-                  handleExistPatient();
-                }}
-              />
-              
-              <TextField required label="내원사유" name="reservation_reason" value={createForm.reservation_reason} onChange={handleChange}/> 
+              {
+                checkIcon?
+                  (
+                    createForm.patient_id !== null? 
+                      <div className="">
+                        <TextField disabled label="이름" className="mr-5" name="reservation_name" value={createForm.reservation_name}/> 
+                        <TextField disabled label="휴대전화" name="reservation_phone" value={createForm.reservation_phone}/> 
+                        <CheckBoxIcon className="mt-3 ml-3" style={{fontSize: '2em'}}/>
+                        <span style={{fontSize:"15px",color:"blue"}}>기존환자</span> 
+                      </div>
+                    :
+                      <div className="">
+                        <TextField disabled label="이름" className="mr-5" name="reservation_name" value={createForm.reservation_name}/> 
+                        <TextField disabled label="휴대전화" name="reservation_phone" value={createForm.reservation_phone}/> 
+                        <CheckBoxIcon className="mt-3 ml-3" style={{fontSize: '2em'}}/>
+                        <span style={{fontSize:"15px",color:"red"}}>신규환자</span> 
+                      </div>
+                  )
+                :
+                  <div className="">
+                    <TextField required label="이름" className="mr-5" name="reservation_name" value={createForm.reservation_name} onChange={handleChange}/> 
+                    <TextField required label="휴대전화" name="reservation_phone" value={createForm.reservation_phone} onChange={handleChange}/> 
+                    <CheckBoxOutlineBlankIcon className="mt-3 ml-3" style={{fontSize: '2em'}}
+                      onClick={() => {handleExistPatient();}}/>
+                      <span style={{fontSize:"15px",color:"gray"}}>신규환자</span>
+                  </div>
+              }
+              <div className="">
+                <TextField required label="내원사유" name="reservation_reason" value={createForm.reservation_reason} onChange={handleChange}/> 
+              </div>
               <div className="mt-4 mb-3">
                 <div style={{color: 'gray'}}>예약 날짜</div>
                 <DatePicker style={{color: 'gray'}}

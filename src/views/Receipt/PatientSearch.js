@@ -63,10 +63,6 @@ const PatientSearch = (props) => {
 
   return (
     <div className={cx("left-component-top")}>
-       {/* <div className={cx("mb-3")}> */}
-         {/* <Clock format={'YYYY년 MM월 DD일 HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/> */}
-      {/* </div> */}
-
       {/* 1. 검색할 내용 입력하는 div */}
       <div className={cx("search", "d-flex justify-content-between")}>
         <div>
@@ -80,8 +76,6 @@ const PatientSearch = (props) => {
           </Link>
           <span style={{fontSize:"1.1em", color:"#91a7ff"}} className="ml-5">
               <Clock format={'YYYY-MM-DD ddd HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/> 
-              <span className="ml-4">오늘 예약 0명</span>
-              <span className="ml-4">내일 예약 1명</span>
           </span>
           <CreatePatient modalIsOpen={modalIsOpen} closeModal={closeModal} handleAdd={props.handleAdd}/>
         </div>

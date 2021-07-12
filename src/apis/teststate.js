@@ -62,6 +62,41 @@ export async function updateReceiptState(state, receiptId) {
   await axios.put(`/teststate/receiptstate`, updateData)
 }
 
-export async function uploadImg(formData) {
-  await axios.post(`/testate/img`, formData, {headers: {"Content-Type": "multipart/form-data"}})
+export async function uploadImg(imgData) {
+  await axios.post(`/teststate/img`, imgData)
+}
+
+export async function getPatientName(receiptId) {
+  const patientName = await axios.get(`/teststate/patientname/${receiptId}`)
+  return patientName.data;
+}
+
+const lab = [
+  {
+    "id": "lab1",
+    "label": "검사실1",
+    "value": 0,
+    "color": "rgb(255, 159, 64)"
+  },
+  {
+    "id": "lab2",
+    "label": "검사실2",
+    "value": 0,
+    "color": "rgb(54, 162, 235)"
+  },
+  {
+    "id": "lab3",
+    "label": "검사실3",
+    "value": 0,
+    "color": "rgb(153, 102, 255)"
+  },
+]
+
+export async function getLabChart() {
+  const labChartData = await axios.get(`teststate/labchart`);
+  console.log(labChartData)
+  lab[0].value = labChartData.data[0].lab1;
+  lab[1].value = labChartData.data[0].lab2;
+  lab[2].value = labChartData.data[0].lab3;
+  return lab; 
 }

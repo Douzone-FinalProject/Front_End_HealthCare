@@ -8,7 +8,7 @@ import { Card, Table } from 'antd';
 import Button from "../Button";
 import { useState } from "react";
 import { useEffect } from 'react';
-import { getTestStateDetailList, updateStateDetail, updateReceiptState } from "apis/teststate"; 
+import { getTestStateDetailList, updateStateDetail, updateReceiptState, getPatientName } from "apis/teststate"; 
 import CameraModal from "./CameraModal";
 import { getCheckPreviousResult, insertResultData, insertResultDataByNew } from "apis/result";
 
@@ -106,6 +106,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
   useEffect(() => {
     if (receiptId) {
       async function fetchAndSetDetailData() {
+        setPatientName(await getPatientName(receiptId));
         setDetailData(await getTestStateDetailList(receiptId));
       }
       // setPatientName(getPatientName(receiptId));
@@ -134,7 +135,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
     if (rowKeys.length !== 0) {
       await updateStateDetail(rowKeys, "검사접수", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
       setDetailData(await getTestStateDetailList(receiptId));
-      if (rows[0].bundle_specimen === "") {
+      if (rows[0].bundle_name === "MRI" || rows[0].bundle_name === "CT") {
         setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
       }
     } else {
@@ -244,7 +245,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
         <Table className={cx("ant-th", "ant-tbody")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}}/>
       </div>
       {
-        isModalVisible && (<CameraModal handleModal={handleModal} receiptId={receiptId}/>)
+        isModalVisible && (<CameraModal handleModal={handleModal} receiptId={receiptId} patientName={patientName}/>)
       }
     </Card>
   );
