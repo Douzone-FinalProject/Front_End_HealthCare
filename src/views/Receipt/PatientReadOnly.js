@@ -9,6 +9,7 @@ import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { getPatientById } from 'apis/receipt';
+import { getNextReservation } from 'apis/reservation';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +25,19 @@ const PatientReadOnly = (props) => {
   const classes = useStyles();
   // state 
   const [patient, setPatient] = useState({}); 
+  const [nextReservation, setNextReservation] = useState('');
+
+  // 다음 예약 날짜 
+  const handleNextReservation = async () => {
+    const response = await getNextReservation(props.patient_id); // 서버 통신
+    if(response.data.reservation === null){
+      console.log('예약 일정이 없습니다.');
+      setNextReservation('');
+    }else{
+      const datetime = response.data.reservation.reservation_datetime;
+      setNextReservation(datetime);
+    }
+  }
 
   // 한 명의 환자 정보 가져오기 
   const handlePatient = async (patient_id) => {
@@ -39,6 +53,7 @@ const PatientReadOnly = (props) => {
     if(props.patient_id !== undefined){
       const newPatient = handlePatient(props.patient_id);
       setPatient(newPatient);
+      handleNextReservation();
     }
   }, [props.patient_id]);
 
@@ -148,6 +163,7 @@ const PatientReadOnly = (props) => {
             <TextField disabled label="최초진료" value={patient.firstReceiptDate ||'진료 기록 없음'}/> 
             <TextField disabled label="최근진료" value={patient.lastReceiptDate ||'진료 기록 없음'}/> 
           </div>
+          {nextReservation !== '' && <TextField disabled label="다음예약" value={nextReservation}/> }
         </div>
       </form>
       </div>
