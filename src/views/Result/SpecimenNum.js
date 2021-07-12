@@ -54,7 +54,12 @@ function SpecimenNum(props) {
         pagination={false}
         scroll={{ y: '60vh' }}
         onRow={props.handleResult}
-        rowClassName={(record, index) => (index === props.index ? cx("result-color") : '')} />
+        rowClassName={(record, index) => (index === props.index ? cx("result-color") : '')}
+        loading={{
+            spinning: props.loading,
+            indicator: <div className="spinner-border text-secondary" role="status">
+                       </div>
+        }} />
     );
 }
 

@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useEffect } from 'react';
 import { getTestStateDetailList, updateStateDetail, updateReceiptState, getPatientName } from "apis/teststate"; 
 import CameraModal from "./CameraModal";
+import { getCheckPreviousResult, insertResultData, insertResultDataByNew } from "apis/result";
 
 const cx = classNames.bind(style);
 
@@ -204,7 +205,15 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
   }
 
   const handleReceiptState = async (event) => {
+    console.log(receiptId);
     await updateReceiptState(event.target.value, receiptId);
+    const response = await getCheckPreviousResult(receiptId);
+    console.log(response.data.PrevResultData);
+    if(response.data.PrevResultData.length === 0 ) {
+      await insertResultDataByNew({receipt_id: receiptId});
+    } else {
+      await insertResultData({receipt_id: receiptId});
+    }
   }
 
   const handleModal = () => { //모달 창 열기, 닫기      

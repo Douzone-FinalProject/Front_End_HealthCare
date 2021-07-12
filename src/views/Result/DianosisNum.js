@@ -52,13 +52,19 @@ function DianosisNum(props) {
     const searchData = props.receiptData;
 
     return (
-        <Table className={cx("result-toptablecol")}
-               columns={columns}
-               dataSource={searchData}
-               pagination={false}
-               scroll={{ y: '60vh' }}
-               onRow={props.handleResult}
-               rowClassName={(record, index) => (index === props.index ? cx("result-color") : '')} />
+        <Table
+        className={cx("result-toptablecol")}
+        columns={columns}
+        dataSource={searchData}
+        pagination={false}
+        scroll={{ y: '60vh' }}
+        onRow={props.handleResult}
+        rowClassName={(record, index) => (index === props.index ? cx("result-color") : '')}
+        loading={{
+            spinning: props.loading,
+            indicator: <div className="spinner-border text-secondary" role="status">
+                        </div>
+        }} />
     );
 }
 

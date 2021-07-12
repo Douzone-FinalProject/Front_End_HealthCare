@@ -25,10 +25,13 @@ function TestState(props) {
 
   const [chartData1, setChartData1] = useState([]);
 
+  const realTimeReceiptList = async () => {
+    console.log("realTimeReceiptList");
+  }
   return (
     <>
       <div className={cx("whole-frame")}>
-        <Header />
+        <Header realTimeReceiptList={realTimeReceiptList}/>
           <Row>
             <Col flex={2} className={cx("teststate-frame")}>
               <ChartAndList waitingData={waitingData} setWaitingData={setWaitingData} setReceiptId={setReceiptId} patientNames={patientNames} chartData1={chartData1} setChartData1={setChartData1}/>
