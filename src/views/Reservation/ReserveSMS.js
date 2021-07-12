@@ -11,6 +11,7 @@ import { sendMessage } from './CoolSMSAPI';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import Swal from 'sweetalert2';
 
 const cx = classNames.bind(style);
 const useStyles = makeStyles((theme) => ({
@@ -85,17 +86,35 @@ const ReserveSMS = (props) => {
             variant="outlined" size="small" color="primary" className={classes.margin}
                     onClick={(e) => {
                       e.preventDefault();
-                      const params = {
-                        name: updateForm.reservation_name,
-                        phone: updateForm.reservation_phone,
-                        content: updateForm.message,
-                      };
-                      handleSMS(params);
-
-                      // 예약 폼 초기화 
-                      setUpdateForm({});
-                      // message 초기화 
-                      setMessage('');
+                      
+                      Swal.fire({
+                        title: '해당 번호로 문자를 보냅니다.',
+                        text: updateForm.reservatㅌion_phone,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, send it!'
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          Swal.fire(
+                            '문자를 발송하였습니다!',
+                            'Your Message has been sended.',
+                            'success'
+                          )
+                          const params = {
+                            name: updateForm.reservation_name,
+                            phone: updateForm.reservation_phone,
+                            content: updateForm.message,
+                          };
+                          handleSMS(params);
+    
+                          // 예약 폼 초기화 
+                          setUpdateForm({});
+                          // message 초기화 
+                          setMessage('');
+                        }
+                      })
                     }}
             >전송</Button>
         </Form>

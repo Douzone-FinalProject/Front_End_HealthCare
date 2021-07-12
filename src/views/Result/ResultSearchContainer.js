@@ -19,7 +19,7 @@ function ResultSearchContainer(props) {
         curr.setDate(curr.getDate());
         return curr.toISOString().substr(0,10);
     }, []);
-
+    const [loading, setLoading] = useState(false);
     //검색을 하기 위한 상태
     const [patient_name, setPatient_name] = useState('');
     const [receipt_datetime, setReceipt_datetime] = useState(date);
@@ -89,13 +89,22 @@ function ResultSearchContainer(props) {
     //receipt_datetime이 바뀔 때마다 데이터를 가져옴.
     useEffect(() => {
         const fetchAndSetReceiptData = async () => {
-            const response = await getReceiptData('', receipt_datetime);
-            setReceiptData(response.data.receiptData);
-            const response2 = await getDiagnosticData('', receipt_datetime);
-            setSpecimenData(response2.data.diagnosticData);
+            setLoading(true);
+            try {
+                const response = await getReceiptData('', receipt_datetime);
+                setReceiptData(response.data.receiptData);
+                const response2 = await getDiagnosticData('', receipt_datetime);
+                setSpecimenData(response2.data.diagnosticData);
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setLoading(false);
+            }
+            
         };
+        console.log(props.saveResult);
         fetchAndSetReceiptData();
-    }, [receipt_datetime]);
+    }, [receipt_datetime, props.saveResult]);
 
     return (
         <div className={cx("result-container")}>
@@ -132,8 +141,8 @@ function ResultSearchContainer(props) {
             </div>
             <div className={cx("result-lefttable")}>
                 <Switch>
-                    <Route path={`${props.props.match.url}`} exact render={() => <DianosisNum receiptData={receiptData} handleResult={props.handleResult} index={props.ReceiptIndex} />}/>
-                    <Route path={`${props.props.match.url}/specimennum`} exact render={() => <SpecimenNum specimenData={specimenData} handleResult={props.handleResult} index={props.SpecimenIndex} />}/>
+                    <Route path={`${props.props.match.url}`} exact render={() => <DianosisNum receiptData={receiptData} handleResult={props.handleResult} index={props.ReceiptIndex} loading={loading} />}/>
+                    <Route path={`${props.props.match.url}/specimennum`} exact render={() => <SpecimenNum specimenData={specimenData} handleResult={props.handleResult} index={props.SpecimenIndex} loading={loading} />}/>
                 </Switch>
             </div>
         </div>
