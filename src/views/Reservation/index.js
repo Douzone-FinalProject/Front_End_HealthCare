@@ -38,8 +38,7 @@ const Reservation = (props) => {
 
   useEffect(() => {
     handleReservationList();
-  }, [events]);
-
+  }, []);
 
   // DB Insert
   const addEvent = async (ev) => {

@@ -12,7 +12,7 @@ const cx = classNames.bind(style);
 const ReceiptInfo = (props) => {
   // state
   const dbReceiptList = props.receipts;
-  const [rid, setRid] = useState();
+  const [rid, setRid] = useState(props.receipt_id);
   const [receiptList, setReceiptList] = useState([]); 
   const [receiptColor1, setReceiptColor1] = useState("#91a7ff"); 
   const [receiptColor2, setReceiptColor2] = useState("#91a7ff"); 
@@ -25,18 +25,21 @@ const ReceiptInfo = (props) => {
   }, [props.receipts]);
 
   // 1. 의사 진료 보내기 
-  const sendDiagnosis = (rid) => {
-    props.changeReceiptState(rid, '진료중');
+  const sendDiagnosis = () => {
+    console.log('----rid: ', props.receipt_id);
+    props.changeReceiptState(props.receipt_id, '진료중');
   }
 
   // 2. 수납 전 => 수납 완료 
-  const sendPayComplete = (rid) => {
-    props.changeReceiptState(rid, '완료');
+  const sendPayComplete = () => {
+    props.changeReceiptState(props.receipt_id, '완료');
   }
 
   const handleClickReceipt = (rid, pid) => {
     // receipt_id 받아서 rid 상태 업데이트 
+    console.log('클릭햇을때 rid: ', rid);
     setRid(rid);
+    props.handleReceiptId(rid);  //props.receipt_id의 상태를 바꿔야함
     props.handleClickReceipt(pid);
   };
 
@@ -121,7 +124,7 @@ const ReceiptInfo = (props) => {
             props.isWaitState() 
               &&
             <Button type="submit" className={cx("mr-1", "custom-btn-send")} color="#FF9F40" 
-                    onClick={() => {return sendDiagnosis(rid)}}>
+                    onClick={() => {return sendDiagnosis()}}>
               <span>{props.patient_id}번 환자 진료 보내기</span>
             </Button>    
           }
@@ -129,7 +132,7 @@ const ReceiptInfo = (props) => {
             props.isPayState() 
               &&
             <Button type="submit" className={cx("mr-1", "custom-btn-send")} color="#37b24d" 
-                    onClick={() => {return sendPayComplete(rid)}}>
+                    onClick={() => {return sendPayComplete()}}>
               <span>{props.patient_id}번 환자 수납 하기</span>
             </Button>    
           }

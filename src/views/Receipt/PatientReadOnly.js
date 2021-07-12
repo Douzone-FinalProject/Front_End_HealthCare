@@ -42,16 +42,16 @@ const PatientReadOnly = (props) => {
     }
   }, [props.patient_id]);
 
-  // 해당 환자가 접수리스트에 있는지 없는지 조사 
-  function isReceipt(){
-    // DB 접수 테이블에 patient_id를 가진 환자가 있다면 트루 
+  function isWaitState(){
     const db = props.receipts;
     for(var j=0; j < db.length; j++){
       if(db[j].patient_id === patient.patient_id){
-        return true;
+        if(db[j].receipt_state === '대기'){
+          return true;
+        }
       }
     }
-    return false; // 접수리스트에 없음 
+    return false;
   }
 
   function cancelReceipt(e){ // 접수 -> 접수취소, <대기 중일때만 접수취소 가능> 
@@ -73,8 +73,10 @@ const PatientReadOnly = (props) => {
           {
            (props.patient_id !== undefined )
            &&
-            <Button type="submit" className={cx("mr-4", "custom-btn")}
-                color="#FF6384" onClick={cancelReceipt}>접수 취소</Button>  
+           ( isWaitState() &&
+            (<Button type="submit" className={cx("mr-4", "custom-btn")}
+                  color="#FF6384" onClick={cancelReceipt}>접수 취소</Button>)
+           )
           }
       </div>
       {/* form - 환자 정보 읽기, 수정 또는 삭제 기능 */}

@@ -57,6 +57,19 @@ const PatientInfo = (props) => {
     return false; // 접수리스트에 없음 
   }
 
+  function isWaitState(){
+    const db = props.receipts;
+    for(var j=0; j < db.length; j++){
+      if(db[j].patient_id === patient.patient_id){
+        if(db[j].receipt_state === '대기'){
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+
   function handleReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
     props.addReceipt(patient);
@@ -171,8 +184,11 @@ const PatientInfo = (props) => {
            props.patient_id !== undefined
            &&
            (isReceipt()?
-            <Button type="submit" className={cx("mr-4", "custom-btn")}
-                color="#FF6384" onClick={cancelReceipt}>접수 취소</Button>
+              ( // 대기 상태이어야함 - patient.patient_id 인 환자가 대기 상태여야 함 
+                isWaitState() &&
+                (<Button type="submit" className={cx("mr-4", "custom-btn")}
+                      color="#FF6384" onClick={cancelReceipt}>접수 취소</Button>)
+              )
               :
             <Button type="submit" className={cx("mr-4", "custom-btn")}
                 color="#FF6384" onClick={handleReceipt}>접수</Button>

@@ -16,6 +16,7 @@ const cx = classNames.bind(style);
 const Receipt = (props) => {
   // state 
   const [patient_id, setPatientId] = useState();
+  const [receipt_id, setReceiptId] = useState();
   const [receipts, setReceipts] = useState([]);
   const [patients, setPatients] = useState([]);
   const [mode, setMode] = useState('update'); // Right Component 
@@ -24,14 +25,9 @@ const Receipt = (props) => {
     topic:'/'+globalHospital+'/#',
     content:'ChangeReceiptState',
   };
-  // 모든 환자 리스트 가져오기 
-  const handlePatientList = async (e) => {
-    try{
-      const response = await getPatientList();
-      setPatients(response.data.patientList);
-    }catch(error){
-      console.log(error);
-    }
+  
+  const handleReceiptId = (rid) => {
+    setReceiptId(rid);
   };
 
   // 모든 접수 리스트 가져오기 
@@ -69,9 +65,7 @@ const Receipt = (props) => {
   const changeReceiptState = async (rid, nextState) => {
     try {
       await updateReceipt(rid, nextState); 
-      // const response = await getReceiptList();
-      // setReceipts(response.data.receiptList);
-      await sendRedisMessage(pubMessage);
+      await sendRedisMessage(pubMessage); // 실시간 
     } catch (error) {
       console.log(error);
     }
@@ -148,10 +142,16 @@ const Receipt = (props) => {
   // DB 접수 
   const addReceipt = async (db_patient) => { 
     try{
-      await insertReceipt(db_patient);
-      // const response = await getReceiptList();
-      // setReceipts(response.data.receiptList);
-      await sendRedisMessage(pubMessage);
+      const response = await insertReceipt(db_patient); // receipt_id를 반환하기 
+       /* 접수버튼을 누르면 changeMode update -> readonly form... */
+       const receipt_id = response.data.receipt_id;
+       console.log('########여기에 진짜로 나와야대: ', receipt_id);
+       setPatientId(db_patient.patient_id);
+       setMode('readonly');
+       setReceiptId(receipt_id);
+
+      await sendRedisMessage(pubMessage); // 실시간 pubMessage 
+
     }catch(error){
       console.log(error);
     }
@@ -159,12 +159,10 @@ const Receipt = (props) => {
 
   // DB 접수 취소 
   const deleteReceipt = async (rid) => {
-    console.log('rid: ', rid);
     try{
       await deleteReceiptById(rid);
-      // const response = await getReceiptList();
-      // setReceipts(response.data.receiptList);
-      await sendRedisMessage(pubMessage);
+      await sendRedisMessage(pubMessage); // 실시간 pubMessage 
+      setMode('update');
     }catch(error){
       console.log(error);
     }
@@ -187,7 +185,8 @@ const Receipt = (props) => {
             <PatientSearch handleClickPatient={handleClickPatient} patients={patients} handleAdd={handleAdd} handleSearch={handleSearch} handleAllSearch={handleAllSearch}/>
           {/* 진료자 리스트 컴포넌트 */}
             <ReceiptInfo handleClickReceipt={handleClickReceipt} isWaitState={isWaitState} isPayState={isPayState}
-                  changeReceiptState={changeReceiptState} receipts={receipts} patient_id={patient_id} />
+                  changeReceiptState={changeReceiptState} receipts={receipts} patient_id={patient_id} 
+                  receipt_id={receipt_id}  handleReceiptId={handleReceiptId}/>
         </div>
         {/* 우측 - 환자 상세 정보 컴포넌트 */}
           <div className={cx("right-component")}>
