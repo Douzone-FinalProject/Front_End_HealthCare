@@ -491,6 +491,7 @@ function Diagnosis (props) {
                         showConfirmButton: false,
                         timer: 1500
                     })
+                    setOpinionCopys([]);
                     closeUpdateModal();
                     deleteMedicineAll();  
 
@@ -508,6 +509,7 @@ function Diagnosis (props) {
                         showConfirmButton: false,
                         timer: 1500
                     })
+                    setOpinionCopys([]);
                     closeUpdateModal();
                     deleteMedicineAll();  
                 }
@@ -569,9 +571,11 @@ function Diagnosis (props) {
         setpatients(response.data.receiptList);
     };
 
-    // useEffect(() => {
-    //     console.log("증상 선택 및 소견 추가시 재실행")
-    // }, [selectSymptoms])
+    const [opinionsCopy, setOpinionCopys] = useState([]);
+
+    useEffect(() => {
+        console.log("증상 선택 및 소견 추가시 재실행")
+    }, [opinionsCopy])
     
     return(
         <>
@@ -596,7 +600,7 @@ function Diagnosis (props) {
                       <DiagnosticCheckList selectedPatient={selectedPatient} selectSymptoms={selectSymptoms} setSelectSymptoms={setSelectSymptoms} deletePrescript={deletePrescript} deleteAll={deleteAll} testRequest={testRequest} />
                 </div>
                 <div className={cx("diagnosis-component-background","diagnosis-opinionAndSearch-Height")}>
-                    <OpinionAndSearch opmedic={opmedic} fatientOpinion={fatientOpinion} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} saveMedicine={saveMedicine} reportOp={reportOp} reportSuccess={reportSuccess} />
+                    <OpinionAndSearch opinionsCopy={opinionsCopy} setOpinionCopys={setOpinionCopys} opmedic={opmedic} fatientOpinion={fatientOpinion} medicines={medicines} selectedPatient={selectedPatient} handleCount={handleCount} quantity={quantity} handleT={handleT} reportOpinion={reportOpinion} modalIsOpen={modalIsOpen} openModal={openModal} closeModal={closeModal} updateIsOpen={updateIsOpen} openUpdateModal={openUpdateModal} closeUpdateModal={closeUpdateModal} openOpinion={openOpinion} selectOpinion={selectOpinion} selectReceipt_id={selectReceipt_id}  selectOpinion2={selectOpinion2} selectReceipt_id2={selectReceipt_id2} opp={opp} updatOpinion={updatOpinion} saveOpinion={saveOpinion} saveMedicine={saveMedicine} reportOp={reportOp} reportSuccess={reportSuccess} />
                 </div>
                 <DialMenu />
             </div>

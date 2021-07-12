@@ -31,7 +31,7 @@ function PatientList(props) {
                 <MDBTableBody>
                 {props.patients.map((patient) => {
                         return (
-                            <PatientListItem key={patient.patient_id} patient={patient} selectPatient={selectPatient} />
+                            <PatientListItem key={patient.patient_id} patient={patient} selectPatient={selectPatient} selectedPatient={props.selectedPatient} />
                         );
                     })}
                 </MDBTableBody>    
