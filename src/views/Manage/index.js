@@ -23,7 +23,6 @@ const cx = classnames.bind(style);
 function Manage(props) {
 
     const globalHospital = useSelector((state) => state.authReducer.hospital_id);
-    // console.log(globalHospital)
     const [staffs, setStaffs] = useState([]);
     const [receiptCount2, setReceiptCount2] = useState();
     const [testCount2, setTestCount2] = useState();
@@ -57,7 +56,12 @@ function Manage(props) {
    
     const [isModal, setModal] = useState(false);
     const [nowStaff, setNowStaff] = useState({});
-
+    const [phone, setPhone] = useState({
+        phone1: '',
+        phone2: '',
+        phone3: ''
+      })
+    
     function openCreateEmployee() {
         setModal(true);
     }
@@ -69,6 +73,8 @@ function Manage(props) {
     const [updateIsOpen, setUpdateIsOpen] = useState(false);
 
     function closeUpdateModal() {
+        setPhone({});
+        setNowStaff({});
         setUpdateIsOpen(false);
     }
 
@@ -76,7 +82,44 @@ function Manage(props) {
         setUpdateIsOpen(true);
         const response = await readStaff(staff_id);
         setNowStaff(response.data.staffInfo)
+        setPhone({
+            ...phone,
+            phone1: response.data.staffInfo.staff_phone.slice(0,3),
+            phone2: response.data.staffInfo.staff_phone.slice(3,7),
+            phone3: response.data.staffInfo.staff_phone.slice(7,11)
+        })
     }
+    const updateNameAndIdChange = (event) => {
+        setNowStaff({
+            ...nowStaff,
+            [event.target.name]: event.target.value,
+        })
+    }
+    const updatePhoneChange = (event) => {
+        console.log(event.target.name)
+        console.log(event.target.value)
+        setPhone({
+            ...phone,
+            [event.target.name]: event.target.value,
+        })
+        if(event.target.name === 'phone1') {
+            setNowStaff({
+                ...nowStaff,
+                staff_phone: event.target.value + phone.phone2 + phone.phone3
+            })
+        } else if(event.target.name === 'phone2') {
+            setNowStaff({
+                ...nowStaff,
+                staff_phone: phone.phone1 + event.target.value + phone.phone3
+            })
+        } else if(event.target.name === 'phone3') {
+            setNowStaff({
+                ...nowStaff,
+                staff_phone: phone.phone1 + phone.phone2 + event.target.value
+            })
+        }
+    };
+
     const DeleteSuccess = async () => {
         try{
             await deleteStaf(nowStaff.staff_id);
@@ -120,7 +163,7 @@ function Manage(props) {
     useEffect(() => {
         getStaffList()
         getInfoCount()
-        //진료 검사 약처방 수 넣기
+        
     }, [])
     
 
@@ -130,7 +173,7 @@ function Manage(props) {
         
         <Header/>
         <CreateEmployee isModal={isModal} closeModal={closeModal} getStaffList={getStaffList} staffs={staffs} />
-        <UpdateEmployee updateIsOpen={updateIsOpen} closeUpdateModal={closeUpdateModal} nowStaff={nowStaff} deleteStaff={deleteStaff} />
+        <UpdateEmployee getStaffList={getStaffList} updateNameAndIdChange={updateNameAndIdChange} updatePhoneChange={updatePhoneChange} phone={phone} updateIsOpen={updateIsOpen} closeUpdateModal={closeUpdateModal} nowStaff={nowStaff} setNowStaff={setNowStaff} deleteStaff={deleteStaff} />
          <div className="mt-5">
              <div>
              <h2 className="mb-4 ml-5" >관리 페이지</h2>

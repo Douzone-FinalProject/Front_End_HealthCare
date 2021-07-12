@@ -37,3 +37,13 @@ export function medicinePresCount() {
     const promise = axios.get("/manage/medicinePresCount");
     return promise;
 }
+
+export function updateStaffNoPw(nowStaff) { // 비번x 수정
+    const promise = axios.put("/manage/updateStaffNoPw", nowStaff);
+    return promise;
+}
+
+export function updateStaff(nowStaff) { // 비번o 수정
+    const promise = axios.put("/manage/updateStaff", nowStaff);
+    return promise;
+}
