@@ -25,6 +25,11 @@ export function getPatientData(receipt_id) {
   return promise;
 }
 
+export function getPatientDataBySpecimen(diagnostic_specimen_number) {
+  const promise = axios.get("/result/getPatientDataBySpecimen", {params:{diagnostic_specimen_number}});
+  return promise;
+}
+
 export function getSpecimenData(diagnostic_specimen_number) {
   const promise = axios.get("/result/getSpecimenData", {params:{diagnostic_specimen_number}});
   return promise;
@@ -42,5 +47,15 @@ export function insertResultDataByNew(receipt_id) {
 
 export function updateResultDataBySpecimen(result) {
   const promise = axios.put("/result/updateResultDataBySpecimen", result);
+  return promise;
+}
+
+export function updateResultDataByReceipt(result) {
+  const promise = axios.put("/result/updateResultDataByReceipt", result);
+  return promise;
+}
+
+export function getCheckPreviousResult(receipt_id) {
+  const promise = axios.get("/result/getCheckPreviousResult", {params:{receipt_id}});
   return promise;
 }

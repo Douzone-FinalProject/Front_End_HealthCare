@@ -18,7 +18,7 @@ function ResultTopTable(props) {
                     <td className={cx("result-toptablecol2")} width='100'>검체번호</td>
                     <td width='150' style={{backgroundColor: '#f8f9fa'}}>{props.specimenData.diagnostic_specimen_number||''}</td>
                     <td className={cx("result-toptablecol2")} width='100'>의사명</td>
-                    <td width='150' style={{backgroundColor: '#f8f9fa'}}>{props.specimenData.doctor}</td>
+                    <td width='150' style={{backgroundColor: '#f8f9fa'}}>{props.specimenData.doctor_name}</td>
                 </tr>
                 <tr>
                     <td className={cx("result-toptablecol")}>생년월일</td>
