@@ -3,7 +3,7 @@ import ResultContainer from "./ResultContainer";
 import { useState, useCallback } from "react";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
-import { getResultDataByReceipt, getResultDataBySpecimen, getPatientData, getReceiptData, getDiagnosticData, getPatientDataBySpecimen } from "apis/result";
+import { getResultDataByReceipt, getResultDataBySpecimen, getPatientData, getReceiptData, getDiagnosticData, getPatientDataBySpecimen, getImagePath } from "apis/result";
 
 function Result(props) {
     //결과 테이블 데이터, 결과 테이블 인덱스, 환자 정보 데이터 상태
@@ -12,6 +12,7 @@ function Result(props) {
     const [SpecimenIndex, setSpecimenIndex] = useState();
     const [patient, setPatient] = useState({});
     const [resultState, setResultState] = useState();
+    const [imgArray, setImgArray] = useState([]);
     const [flag, setFlag] = useState({
         receipt: true,
         specimen: false,
@@ -61,7 +62,9 @@ function Result(props) {
             } else {
                 setReciptIndex(rowIndex);
             }
-            
+            const res = await getImagePath(data.receipt_id);
+            const ImgArrayData = res.data.pathData;
+            setImgArray(ImgArrayData);
           }
         }
     }, [props.location.pathname]);
@@ -74,7 +77,7 @@ function Result(props) {
             <Header realTimeReceiptList={realTimeReceiptList}/>
             <div className="d-flex">
                 <ResultSearchContainer props={props} handleResult={handleResult} ReceiptIndex={ReceiptIndex} SpecimenIndex={SpecimenIndex} saveResult={saveResult} />
-                <ResultContainer props={props} result={result} patientData={patient} resultState={resultState} setResultState={setResultState} flag={flag} saveResult={saveResult} setSaveResult={setSaveResult}/>
+                <ResultContainer props={props} result={result} patientData={patient} resultState={resultState} setResultState={setResultState} flag={flag} saveResult={saveResult} setSaveResult={setSaveResult} imgArray={imgArray}/>
             </div>
             <DialMenu />
         </>

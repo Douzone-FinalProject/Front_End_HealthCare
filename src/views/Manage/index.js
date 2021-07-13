@@ -7,7 +7,7 @@ import DialMenu from "views/common/DialMenu";
 import PieChart from "./PieChart";
 import PieChart2 from "./PieChart2";
 import PieChart3 from "./PieChart3";
-import { staffList, readStaff, deleteStaf, receiptCount, testCount, medicinePresCount } from "apis/manage";
+import { staffList, readStaff, deleteStaf, receiptCount, testCount, medicinePresCount, aCount, bCount, abCount, oCount, rh_aCount, rh_bCount, rh_abCount, rh_oCount, staffCount, disableStaffCount } from "apis/manage";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import StaffListItem from "./StaffListItem";
@@ -23,11 +23,20 @@ const cx = classnames.bind(style);
 function Manage(props) {
 
     const globalHospital = useSelector((state) => state.authReducer.hospital_id);
-    // console.log(globalHospital)
     const [staffs, setStaffs] = useState([]);
     const [receiptCount2, setReceiptCount2] = useState();
     const [testCount2, setTestCount2] = useState();
     const [medicinePres2, setMedicinePres2] = useState();
+    const [aTypeBlood, setATypeBlood] = useState();
+    const [bTypeBlood, setBTypeBlood] = useState();
+    const [abTypeBlood, setABTypeBlood] = useState();
+    const [oTypeBlood, setOTypeBlood] = useState();
+    const [rh_aTypeBlood, setRH_ATypeBlood] = useState();
+    const [rh_bTypeBlood, setRH_BTypeBlood] = useState();
+    const [rh_abTypeBlood, setRH_ABTypeBlood] = useState();
+    const [rh_oTypeBlood, setRH_OTypeBlood] = useState();
+    const [staffCounts, setStaffCounts] = useState();
+    const [disableStaffCounts, setDisableStaffCounts] = useState();
     const getStaffList =  async () => {
         try{
            
@@ -54,10 +63,56 @@ function Manage(props) {
             console.log(error)
         }
     };
+
+    const getBloodCount =  async () => {
+        try{
+            const response = await aCount();
+            const response2 = await bCount();
+            const response3 = await abCount();
+            const response4 = await oCount();
+            const response5 = await rh_aCount();
+            const response6 = await rh_bCount();
+            const response7 = await rh_abCount();
+            const response8 = await rh_oCount();
+
+            setATypeBlood(response.data.acount);
+            setBTypeBlood(response2.data.bcount);
+            setABTypeBlood(response3.data.abcount);
+            setOTypeBlood(response4.data.ocount);
+            setRH_ATypeBlood(response5.data.rh_acount);
+            setRH_BTypeBlood(response6.data.rh_bcount);
+            setRH_ABTypeBlood(response7.data.rh_abcount);
+            setRH_OTypeBlood(response8.data.rh_ocount);
+
+        }
+        catch(error){
+            console.log(error)
+        }
+    };
+
+    const getStaffCount =  async () => {
+        try{
+            const response = await staffCount();
+            const response2 = await disableStaffCount();
+            
+            setStaffCounts(response.data.staffcount);
+            setDisableStaffCounts(response2.data.disablestaffcount);
+            
+
+        }
+        catch(error){
+            console.log(error)
+        }
+    };
    
     const [isModal, setModal] = useState(false);
     const [nowStaff, setNowStaff] = useState({});
-
+    const [phone, setPhone] = useState({
+        phone1: '',
+        phone2: '',
+        phone3: ''
+      })
+    
     function openCreateEmployee() {
         setModal(true);
     }
@@ -69,6 +124,8 @@ function Manage(props) {
     const [updateIsOpen, setUpdateIsOpen] = useState(false);
 
     function closeUpdateModal() {
+        setPhone({});
+        setNowStaff({});
         setUpdateIsOpen(false);
     }
 
@@ -76,7 +133,44 @@ function Manage(props) {
         setUpdateIsOpen(true);
         const response = await readStaff(staff_id);
         setNowStaff(response.data.staffInfo)
+        setPhone({
+            ...phone,
+            phone1: response.data.staffInfo.staff_phone.slice(0,3),
+            phone2: response.data.staffInfo.staff_phone.slice(3,7),
+            phone3: response.data.staffInfo.staff_phone.slice(7,11)
+        })
     }
+    const updateNameAndIdChange = (event) => {
+        setNowStaff({
+            ...nowStaff,
+            [event.target.name]: event.target.value,
+        })
+    }
+    const updatePhoneChange = (event) => {
+        console.log(event.target.name)
+        console.log(event.target.value)
+        setPhone({
+            ...phone,
+            [event.target.name]: event.target.value,
+        })
+        if(event.target.name === 'phone1') {
+            setNowStaff({
+                ...nowStaff,
+                staff_phone: event.target.value + phone.phone2 + phone.phone3
+            })
+        } else if(event.target.name === 'phone2') {
+            setNowStaff({
+                ...nowStaff,
+                staff_phone: phone.phone1 + event.target.value + phone.phone3
+            })
+        } else if(event.target.name === 'phone3') {
+            setNowStaff({
+                ...nowStaff,
+                staff_phone: phone.phone1 + phone.phone2 + event.target.value
+            })
+        }
+    };
+
     const DeleteSuccess = async () => {
         try{
             await deleteStaf(nowStaff.staff_id);
@@ -120,7 +214,8 @@ function Manage(props) {
     useEffect(() => {
         getStaffList()
         getInfoCount()
-        //진료 검사 약처방 수 넣기
+        getBloodCount()
+        getStaffCount()
     }, [])
     
 
@@ -130,18 +225,20 @@ function Manage(props) {
         
         <Header/>
         <CreateEmployee isModal={isModal} closeModal={closeModal} getStaffList={getStaffList} staffs={staffs} />
-        <UpdateEmployee updateIsOpen={updateIsOpen} closeUpdateModal={closeUpdateModal} nowStaff={nowStaff} deleteStaff={deleteStaff} />
+        <UpdateEmployee getStaffList={getStaffList} updateNameAndIdChange={updateNameAndIdChange} updatePhoneChange={updatePhoneChange} phone={phone} updateIsOpen={updateIsOpen} closeUpdateModal={closeUpdateModal} nowStaff={nowStaff} setNowStaff={setNowStaff} deleteStaff={deleteStaff} />
          <div className="mt-5">
+         <div className="mb-3"><Clock className={cx("timeInterval")} format={'MM 월 DD 일  HH시 mm분 ss초'} ticking={true} timezone={'Asia/Seoul'}/></div>
              <div>
              <h2 className="mb-4 ml-5" >관리 페이지</h2>
-             <Clock className={cx("timeInterval")} format={'MM 월 DD 일  HH시 mm분 ss초'} ticking={true} timezone={'Asia/Seoul'}/> 
+             
              </div>    
             
-            <div className={cx("d-flex flex-row", "ssip", "mb-5")}>
-            <div><PieChart receiptCount2={receiptCount2} testCount2={testCount2} medicinePres2={medicinePres2} /></div> <div className={cx("ssip")}><PieChart3 /></div><div className={cx("ssip")}><PieChart2 /></div>
-            
+            <div className={cx("d-flex flex-row", "ssip")}>
+            <div><PieChart receiptCount2={receiptCount2} testCount2={testCount2} medicinePres2={medicinePres2} /></div>
+            <div className={cx("ssip")}><PieChart3 aTypeBlood={aTypeBlood} bTypeBlood={bTypeBlood} abTypeBlood={abTypeBlood} oTypeBlood={oTypeBlood} rh_aTypeBlood={rh_aTypeBlood} rh_bTypeBlood={rh_bTypeBlood} rh_abTypeBlood={rh_abTypeBlood} rh_oTypeBlood={rh_oTypeBlood} /></div>
+            <div className={cx("ssip")}><PieChart2 staffCounts={staffCounts} disableStaffCounts={disableStaffCounts}  /></div>
             </div>
-            <Button className={cx("ssip2", "mb-2 mt-5")} onClick={openCreateEmployee} ><PersonAddIcon /> 직원 생성 </Button>
+            <Button className={cx("ssip2", "mb-1 mt-5")} onClick={openCreateEmployee} ><PersonAddIcon /> 직원 생성 </Button>
             <MDBTable scrollY className={cx("table table-hover", "diagnosis-tbh", "mt-3")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr> 
@@ -163,7 +260,6 @@ function Manage(props) {
                 })}
                 </MDBTableBody>    
             </MDBTable>
-            
         </div>
         <DialMenu/>
         </>

@@ -18,28 +18,14 @@ const customStyles = {
 
 Modal.setAppElement('body');
 function ImgModal(props) {
-    const images = [
-        {
-            original: 'http://localhost:3000/mri1.jpg',
-            thumbnail: 'http://localhost:3000/mri1.jpg',
+    const images = [];
+    for(let img of props.imgArray) {
+        images.push({
+            original: "http://localhost:8080/image?path="+img.diagnostic_img,
+            thumbnail: "http://localhost:8080/image?path="+img.diagnostic_img,
             originalHeight: 700,
-        },
-        {
-            original: 'http://localhost:3000/mri1.jpg',
-            thumbnail: 'http://localhost:3000/mri1.jpg',
-            originalHeight: 700,
-        },
-        {
-            original: 'http://localhost:3000/mri2.png',
-            thumbnail: 'http://localhost:3000/mri2.png',
-            originalHeight: 700,
-        },
-        {
-            original: 'http://localhost:3000/mri2.png',
-            thumbnail: 'http://localhost:3000/mri2.png',
-            originalHeight: 700,
-        },
-    ];
+        });
+    }
 
     return (
         <Modal
@@ -48,7 +34,7 @@ function ImgModal(props) {
             contentLabel="Create Patient Modal"
             style={customStyles}
         >
-            <ImageGallery items={images} thumbnailPosition="top" startIndex={0} showBullets={true}/>
+            <ImageGallery items={images} thumbnailPosition="top" startIndex={props.imgIndex} showBullets={true}/>
         </Modal>
     );
 }

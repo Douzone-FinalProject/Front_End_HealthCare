@@ -12,61 +12,74 @@ const cx = classNames.bind(style);
 const ReceiptInfo = (props) => {
   // state
   const dbReceiptList = props.receipts;
-  const [rid, setRid] = useState();
+  const [rid, setRid] = useState(props.receipt_id);
   const [receiptList, setReceiptList] = useState([]); 
   const [receiptColor1, setReceiptColor1] = useState("#91a7ff"); 
   const [receiptColor2, setReceiptColor2] = useState("#91a7ff"); 
   const [receiptColor3, setReceiptColor3] = useState("#91a7ff"); 
   const [receiptColor4, setReceiptColor4] = useState("#91a7ff"); 
-  const [receiptColor5, setReceiptColor5] = useState("lightgray"); 
+  const [receiptColor5, setReceiptColor5] = useState("lightgray");
+  const [selectState, setSelectState] = useState("전체");
 
   useEffect(() => {
+    if(selectState === "전체") {
     setReceiptList(props.receipts);
-  }, [props.receipts]);
+    } else {
+      const result = props.receipts.filter((receipt) => {
+        return receipt.receipt_state === selectState
+      });
+      // 필터링한 리스트로 상태 변경 
+      setReceiptList(result);
+    }
+  }, [props.receipts, selectState]);
 
   // 1. 의사 진료 보내기 
-  const sendDiagnosis = (rid) => {
-    props.changeReceiptState(rid, '진료중');
+  const sendDiagnosis = () => {
+    console.log('----rid: ', props.receipt_id);
+    props.changeReceiptState(props.receipt_id, '진료중');
   }
 
   // 2. 수납 전 => 수납 완료 
-  const sendPayComplete = (rid) => {
-    props.changeReceiptState(rid, '완료');
+  const sendPayComplete = () => {
+    props.changeReceiptState(props.receipt_id, '완료');
   }
 
   const handleClickReceipt = (rid, pid) => {
     // receipt_id 받아서 rid 상태 업데이트 
+    console.log('클릭햇을때 rid: ', rid);
     setRid(rid);
+    props.handleReceiptId(rid);  //props.receipt_id의 상태를 바꿔야함
     props.handleClickReceipt(pid);
   };
 
   const handleState = (e) => {
-    const selectState = e.target.getAttribute('value');
-    if(selectState === '대기'){
+    
+    setSelectState(e.target.getAttribute('value'));
+    if(e.target.getAttribute('value') === '대기'){
       setReceiptColor1("lightgray");
       setReceiptColor2("#91a7ff");
       setReceiptColor3("#91a7ff");
       setReceiptColor4("#91a7ff");
       setReceiptColor5("#91a7ff");
-    }else if(selectState === '진료중'){
+    }else if(e.target.getAttribute('value') === '진료중'){
       setReceiptColor1("#91a7ff");
       setReceiptColor2("lightgray");
       setReceiptColor3("#91a7ff");
       setReceiptColor4("#91a7ff");
       setReceiptColor5("#91a7ff");
-    }else if(selectState === '검사중'){
+    }else if(e.target.getAttribute('value') === '검사중'){
       setReceiptColor1("#91a7ff");
       setReceiptColor2("#91a7ff");
       setReceiptColor3("lightgray");
       setReceiptColor4("#91a7ff");
       setReceiptColor5("#91a7ff");
-    }else if(selectState === '수납전'){
+    }else if(e.target.getAttribute('value') === '수납전'){
       setReceiptColor1("#91a7ff");
       setReceiptColor2("#91a7ff");
       setReceiptColor3("#91a7ff");
       setReceiptColor4("lightgray");
       setReceiptColor5("#91a7ff");
-    }else if(selectState === '전체'){
+    }else if(e.target.getAttribute('value') === '전체'){
       setReceiptColor1("#91a7ff");
       setReceiptColor2("#91a7ff");
       setReceiptColor3("#91a7ff");
@@ -74,9 +87,9 @@ const ReceiptInfo = (props) => {
       setReceiptColor5("lightgray");
     }
 
-    if(selectState !== '전체'){
+    if(e.target.getAttribute('value') !== '전체'){
       const result = dbReceiptList.filter((receipt) => {
-        return receipt.receipt_state === selectState;
+        return receipt.receipt_state === e.target.getAttribute('value');
       });
       // 필터링한 리스트로 상태 변경 
       setReceiptList(result);
@@ -121,7 +134,7 @@ const ReceiptInfo = (props) => {
             props.isWaitState() 
               &&
             <Button type="submit" className={cx("mr-1", "custom-btn-send")} color="#FF9F40" 
-                    onClick={() => {return sendDiagnosis(rid)}}>
+                    onClick={() => {return sendDiagnosis()}}>
               <span>{props.patient_id}번 환자 진료 보내기</span>
             </Button>    
           }
@@ -129,7 +142,7 @@ const ReceiptInfo = (props) => {
             props.isPayState() 
               &&
             <Button type="submit" className={cx("mr-1", "custom-btn-send")} color="#37b24d" 
-                    onClick={() => {return sendPayComplete(rid)}}>
+                    onClick={() => {return sendPayComplete()}}>
               <span>{props.patient_id}번 환자 수납 하기</span>
             </Button>    
           }

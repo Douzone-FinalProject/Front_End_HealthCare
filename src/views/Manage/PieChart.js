@@ -16,7 +16,7 @@ function PieChart(props) {
   let receipt = props.receiptCount2;
   let test = props.testCount2;
   let medicinePres = props.medicinePres2;
-  // console.log(dd)
+  
   const data = {
     
   

@@ -29,10 +29,9 @@ Modal.setAppElement('body');
 function CreateEmployee(props) {
     const globalHospital = useSelector((state) => state.authReducer.hospital_id);
 
-    const [staffId, setStaffId] = useState(10);
+    
 
     const [employee, setEmployee] = useState({
-        staff_id: staffId,
         staff_name: '',
         staff_phone: '',
         staff_login_id: '',
@@ -95,11 +94,12 @@ function CreateEmployee(props) {
                 })
             }
             else{
+
                 addEmployee(argEmployee);
-                setStaffId(staffId + 1);
+                console.log(argEmployee)
                 setValues({...values, password: ''})
                 setEmployee({
-                    staff_id: '',
+                    ...employee,
                     staff_name: '',
                     staff_phone: '',
                     staff_login_id: '',
@@ -135,7 +135,6 @@ function CreateEmployee(props) {
         
         try{
                 console.log("생성")
-                console.log(employee.staff_login_id)
                 await addNewEmployee(employee);
                 props.getStaffList();
             
