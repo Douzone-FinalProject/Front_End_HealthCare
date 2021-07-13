@@ -59,3 +59,8 @@ export function getCheckPreviousResult(receipt_id) {
   const promise = axios.get("/result/getCheckPreviousResult", {params:{receipt_id}});
   return promise;
 }
+
+export function getImagePath(receipt_id) {
+  const promise = axios.get("/result/getImagePath", {params:{receipt_id}});
+  return promise;
+}
