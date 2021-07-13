@@ -30,19 +30,19 @@ const stateChart = [
   {
     "id": "waiting",
     "label": "검사대기",
-    "value": 297,
+    "value": 0,
     "color": "rgb(255, 99, 132)"
   },
   {
     "id": "doing",
     "label": "검사중",
-    "value": 150,
+    "value": 0,
     "color": "rgb(255, 205, 86)"
   },
   {
     "id": "complete",
     "label": "검사완료",
-    "value": 275,
+    "value": 0,
     "color": "rgb(75, 192, 192)"
   },
 ]

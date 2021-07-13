@@ -7,10 +7,9 @@ import { getPatientList } from "apis/teststate";
 
 const cx = classNames.bind(style);
 
-function PatientStateList({waitingData, setWaitingData, setReceiptId}, props) {
+function PatientStateList({waitingData, setWaitingData, setReceiptId, waitType, state, setWaitType, setState}, props) {
 
-  const [waitType, setWaitType] = useState("전체");
-  const [state, setState] = useState("whole");
+
 
   const waitingDataColums = [
     {
