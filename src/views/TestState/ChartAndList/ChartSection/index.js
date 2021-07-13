@@ -8,10 +8,8 @@ import { getLabChart, getStateChart } from "apis/teststate";
 
 const cx = classNames.bind(style);
 
-function ChartSection({chartData1, setChartData1, waitingData}, props) {
+function ChartSection({stateChart, setStateChart, labChart, setLabChart}, props) {
 
-  const [stateChart, setStateChart] = useState([]);
-  const [labChart, setLabChart] = useState([]);
 
   useEffect(() => {
     async function fetchAndSetStateChart() {
