@@ -3,28 +3,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import Select from 'react-select'
 import { useCallback, useEffect, useRef, useState } from "react";
-import { sendRedisMessage, getMessageList, insertMessage, getHospitalStaff, deleteMessage } from "apis/message";
+import { sendRedisMessage, getMessageList, insertMessage, getHospitalStaff, deleteMessage, getChatList, getStaffId, getStaffLoginId } from "apis/message";
 import { useSelector } from "react-redux";
 import Swal from 'sweetalert2';
+import MessageModal from "./MessageModal";
 
 function MessageBox(props) {
 
     const globalUid = useSelector((state) => state.authReducer.staff_login_id);
     const globalName = useSelector((state) => state.authReducer.staff_name);
     const globalHospital = useSelector((state) => state.authReducer.hospital_id);
+    const [isModal, setModal] = useState(false);
     const [connected, setConnected] = useState(false);
     const [pubMessage, setPubMessage] = useState({
         topic: 0,
         content: '',
     });
     const [contents, setContents] = useState([]);
+    const [content, setContent] = useState({});
 
     const changePubMessage = (event) => {
         setPubMessage({
           ...pubMessage,
           [event.target.name]: event.target.value
         });
-        console.log(pubMessage.content);
     };
 
     const changePubTopic = (event) => {
@@ -64,6 +66,9 @@ function MessageBox(props) {
                 const response = await getMessageList(globalUid);
                 setContents(response.data.messageList);
                 props.openMenu();
+                if(Object.keys(content).length !== 0) {
+                    getChattingList(content);
+                }
             }
         };
     };
@@ -77,15 +82,10 @@ function MessageBox(props) {
             var message = {};
             message.message_content = pubMessage.content;
             message.staff_login_id = pubMessage.topic.substring(2+globalHospital.length);
-            message.staff_id = 8;   //수정해야함...
+            const res = await getStaffId(globalUid)
+            message.staff_id = res.data.staffId;
             message.message_sender = globalName;
             await insertMessage(message);
-            // var curr = new Date();
-            // let hours = curr.getHours(); // 시
-            // let minutes = curr.getMinutes();  // 분
-            // curr.setDate(curr.getDate());
-            // var date = curr.toISOString().substr(0,10);
-            // var datetime = date + " " + hours + ":" + minutes;
             pubMessage.content = "SendMessage";
             await sendRedisMessage(pubMessage);
             setPubMessage({
@@ -97,7 +97,10 @@ function MessageBox(props) {
                 title: '메시지가 전송되었습니다.',
                 showConfirmButton: false,
                 timer: 500
-            })
+            });
+            if(Object.keys(content).length !== 0) {
+                getChattingList(content);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -111,7 +114,7 @@ function MessageBox(props) {
             disconnectWebSocket();
             console.log("메시지 언마운트");
         });
-    }, []);
+    }, [content]);
 
     const getMessage = async (globalUid) => {
         try {
@@ -138,10 +141,10 @@ function MessageBox(props) {
         getHospitalStaffList(globalUid);
     }, [globalUid, getHospitalStaffList]);
 
-    const handleMessageDelete = async (content) => {
-        console.log(content);
+    const handleMessageDelete = async (cont) => {
+        console.log(cont);
         try{
-            console.log(content);
+            console.log(cont);
             Swal.fire({
               title: '메시지를 삭제하시겠습니까?',
               icon: 'warning',
@@ -152,20 +155,50 @@ function MessageBox(props) {
               cancelButtonText: '취소'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    await deleteMessage(content.message_id);
+                    await deleteMessage(cont.message_id);
                     Swal.fire({
                         title: '삭제되었습니다.',
                         icon: 'success',
                         confirmButtonText: '확인'
-                    })
-                    const response = await getMessageList(globalUid);
-                    setContents(response.data.messageList);
+                    });
+                    const resp = await getStaffLoginId(content.staff_id)
+                    getChattingList(content);
+                    await sendRedisMessage({
+                        topic: "/"+globalHospital+"/"+resp.data.staffLoginId,
+                        content: "sendMessage"
+                    });
                 }
             })
         } catch (error) {
             console.log(error);
         }
-    }; 
+    };
+
+    const openMessageModal = useCallback(async (content) => {
+        console.log(content)
+        setContent(content);
+        getChattingList(content);
+        const resp = await getStaffLoginId(content.staff_id);
+        setPubMessage({
+            ...pubMessage,
+            topic: "/" + globalHospital+ "/" + resp.data.staffLoginId
+        });
+        setModal(true);
+    }, [globalHospital, pubMessage]);
+    const closeMessageModal = useCallback(() => {
+        setModal(false);
+    }, []);
+
+    const [chatting, setChatting] = useState([]);
+    const getChattingList = async (content) => {
+        try {
+            console.log(content);
+            const response = await getChatList(content.staff_id, content.staff_login_id);
+            setChatting(response.data.chatList);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <div className={`sidebar-menu${props.isMenuOpen === true ? ' open' : ''}`}>
@@ -193,19 +226,32 @@ function MessageBox(props) {
             <hr className="bg-white mt-4 mb-3"/>
             <div>
                 <div className="text-white ml-3">메시지 내용</div>
-                {contents.map((content, index) => 
-                <div key={index} className="d-flex justify-content-center" onClick={()=>handleMessageDelete(content)}>
-                    <div className="receivebox pb-2 mb-2">
-                        <div className="d-flex justify-content-lg-between mt-2">
-                            <div className="ml-2"><FontAwesomeIcon icon={faUserCircle} className="mr-2"/>{content.message_sender}</div>
-                            <div>{content.message_date}</div>
+                <div style={{overflowY:"auto", height:"450px"}}>
+                    {contents.map((content, index) => 
+                    <div key={index} className="d-flex justify-content-center" onClick={()=>openMessageModal(content)}>
+                        <div className="receivebox pb-2 mb-2">
+                            <div className="d-flex justify-content-lg-between mt-2">
+                                <div className="ml-2"><FontAwesomeIcon icon={faUserCircle} className="mr-2"/>{content.message_sender}</div>
+                                <div>{content.message_date}</div>
+                            </div>
+                            <hr className="mt-1 mb-1"/>
+                            <div className="ml-2">{content.message_content}</div>
                         </div>
-                        <hr className="mt-1 mb-1"/>
-                        <div className="ml-2">{content.message_content}</div>
-                    </div>
-                </div>)
-                }
+                    </div>)
+                    }
+                </div>
             </div>
+            <MessageModal
+                isModal={isModal}
+                closeModal={closeMessageModal}
+                content={content}
+                handleMessageDelete={handleMessageDelete}
+                chatting={chatting}
+                getChattingList={getChattingList}
+                pubMessage={pubMessage}
+                changePubMessage={changePubMessage}
+                changePubTopic={changePubTopic}
+                publishTopic={publishTopic} />
         </div>
     );
 }

@@ -12,6 +12,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Swal from 'sweetalert2';
 import { getPatientById } from 'apis/receipt';
+import { getNextReservation } from 'apis/reservation';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +29,7 @@ const PatientInfo = (props) => {
   // state 
   const [isModal, setModal] = useState(false);
   const [patient, setPatient] = useState({}); 
+  const [nextReservation, setNextReservation] = useState('');
 
   // 한 명의 환자 정보 가져오기 
   const handlePatient = async (patient_id) => {
@@ -38,11 +40,24 @@ const PatientInfo = (props) => {
       console.log(error);
     }
   };   
-    
+  
+  // 다음 예약 날짜 
+  const handleNextReservation = async () => {
+    const response = await getNextReservation(props.patient_id); // 서버 통신
+    if(response.data.reservation === null){
+      console.log('예약 일정이 없습니다.');
+      setNextReservation('');
+    }else{
+      const datetime = response.data.reservation.reservation_datetime;
+      setNextReservation(datetime);
+    }
+  }
+
   useEffect(() => {
     if(props.patient_id !== undefined){
       const newPatient = handlePatient(props.patient_id);
       setPatient(newPatient);
+      handleNextReservation();
     }
   }, [props.patient_id]);
 
@@ -56,6 +71,19 @@ const PatientInfo = (props) => {
     }
     return false; // 접수리스트에 없음 
   }
+
+  function isWaitState(){
+    const db = props.receipts;
+    for(var j=0; j < db.length; j++){
+      if(db[j].patient_id === patient.patient_id){
+        if(db[j].receipt_state === '대기'){
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
 
   function handleReceipt(e){ // 접수취소 -> 접수 
     e.preventDefault(); 
@@ -171,8 +199,11 @@ const PatientInfo = (props) => {
            props.patient_id !== undefined
            &&
            (isReceipt()?
-            <Button type="submit" className={cx("mr-4", "custom-btn")}
-                color="#FF6384" onClick={cancelReceipt}>접수 취소</Button>
+              ( // 대기 상태이어야함 - patient.patient_id 인 환자가 대기 상태여야 함 
+                isWaitState() &&
+                (<Button type="submit" className={cx("mr-4", "custom-btn")}
+                      color="#FF6384" onClick={cancelReceipt}>접수 취소</Button>)
+              )
               :
             <Button type="submit" className={cx("mr-4", "custom-btn")}
                 color="#FF6384" onClick={handleReceipt}>접수</Button>
@@ -262,7 +293,8 @@ const PatientInfo = (props) => {
             <TextField disabled label="최초진료" value={patient.firstReceiptDate ||'진료 기록 없음'}/> 
             <TextField disabled label="최근진료" value={patient.lastReceiptDate ||'진료 기록 없음'}/> 
           </div>
-          <TextField disabled label="다음예약" value="2021-06-20"/> 
+          {/* 다음 예약이 있으면 뜨고 없으면 안보이기 */}
+          {nextReservation !== '' && <TextField disabled label="다음예약" value={nextReservation}/> }
 
           {/* 진료자 리스트에 있는 환자는 버튼 안보이게 또는 비활성화  */}
           <div className={cx("form-btn")}>

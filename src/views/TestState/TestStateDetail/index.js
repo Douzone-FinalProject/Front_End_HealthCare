@@ -1,24 +1,24 @@
-import React, { useRef } from "react";
-import Webcam from "react-webcam"; 
-import xlsx from 'xlsx';
+ import xlsx from 'xlsx';
 import style from "views/TestState/teststate.module.css";
 import classNames from "classnames/bind"
 import Swal from 'sweetalert2';
 import { Card, Table } from 'antd';
 import Button from "../Button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEffect } from 'react';
 import { getTestStateDetailList, updateStateDetail, updateReceiptState, getPatientName } from "apis/teststate"; 
 import CameraModal from "./CameraModal";
 import { getCheckPreviousResult, insertResultData, insertResultDataByNew } from "apis/result";
+import { sendRedisMessage } from 'apis/message';
+import { Message } from '@material-ui/icons';
 
 const cx = classNames.bind(style);
 
-function TestStateDetail({receiptId, detailData, setDetailData, waitingData, setWaitingData, setPatientNames, setChartData1}, props) {
+function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, props) {
 
   const [patientName, setPatientName] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const resultItem = [
+    const resultItem = [
     {
       title: "증상코드",
       dataIndex: "symptom_id",
@@ -86,9 +86,10 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
   const [rowKeys, setRowKeys] = useState([]);
   const [bundleSpecimens, setBundleSpeciemens] = useState([]);
   const [complete, setComplete] = useState('false');
-  const rowSelection = {  
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
+
+    const rowSelection = {  
+      onChange: (selectedRowKeys, selectedRows) => {
+      // console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
       setRows([...selectedRows])
       setRowKeys([...selectedRowKeys])
       setBundleSpeciemens(selectedRows.map(row => row.bundle_specimen))
@@ -101,10 +102,10 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
     //   // console.log(selected, selectedRows, changeRows);
     // },
   }
-
   
   useEffect(() => {
     if (receiptId) {
+      console.log("2")
       async function fetchAndSetDetailData() {
         setPatientName(await getPatientName(receiptId));
         setDetailData(await getTestStateDetailList(receiptId));
@@ -118,12 +119,10 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
     let completeCount = 0;
     for (let detail of detailData) {
       if (detail.diagnostic_list_state === "검사완료") {
-        console.log(detail)
         completeCount++;
       }
     }
     if (detailData.length !== 0 && detailData.length === completeCount) {
-      console.log(detailData.length)
       setComplete('true');
     } else {
       setComplete('false');
@@ -134,7 +133,8 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
   const handleBarcode = async () => {
     if (rowKeys.length !== 0) {
       await updateStateDetail(rowKeys, "검사접수", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
-      setDetailData(await getTestStateDetailList(receiptId));
+      // setDetailData(await getTestStateDetailList(receiptId));
+      await sendRedisMessage(pubMessage);
       if (rows[0].bundle_name === "MRI" || rows[0].bundle_name === "CT") {
         setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
       }
@@ -150,7 +150,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
   const handleCancel = async () => {
     if (rowKeys.length !== 0) {
       await updateStateDetail(rowKeys, "검사대기", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
-      setDetailData(await getTestStateDetailList(receiptId));
+      await sendRedisMessage(pubMessage);
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -163,7 +163,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
   const handleComplete = async () => {
     if (rowKeys.length !== 0) {
     await updateStateDetail(rowKeys, "검사완료", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
-    setDetailData(await getTestStateDetailList(receiptId));
+    await sendRedisMessage(pubMessage);
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -214,11 +214,16 @@ function TestStateDetail({receiptId, detailData, setDetailData, waitingData, set
     } else {
       await insertResultData({receipt_id: receiptId});
     }
+    await sendRedisMessage({
+      topic:'/'+ sessionStorage.getItem("hospital_id") +'/#',
+      content:'ChangeReceiptState',
+    });
   }
 
   const handleModal = () => { //모달 창 열기, 닫기      
     setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
   }
+
 
   return (
     <Card className={cx("card")}>

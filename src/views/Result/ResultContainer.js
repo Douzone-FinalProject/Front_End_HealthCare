@@ -209,10 +209,13 @@ function ResultContainer(props) {
         }
     ];
 
+    const [imgIndex, setImgIndex] = useState(0);
     const [modalIsOpen, setIsOpen] = useState(false);
-    function openModal() { setIsOpen(true); }
+    function openModal(index) {
+        setIsOpen(true);
+        setImgIndex(index);
+    }
     function closeModal() { setIsOpen(false); }
-
     return (
         <div className={cx("result-secondcontainer")}>
             <div className={cx("result-height")}>
@@ -229,17 +232,17 @@ function ResultContainer(props) {
             </div>
             <div>
                 <div className="d-flex justify-content-center">
-                    {props.result.length ?
-                    <div className={cx("result-imgbox")} onClick={openModal}>
-                        <img src="http://localhost:3000/mri1.jpg" alt="" height="100%"/>
-                        <img src="http://localhost:3000/mri1.jpg" alt="" height="100%"/>
-                        <img src="http://localhost:3000/mri2.png" alt="" height="100%"/>
-                        <img src="http://localhost:3000/mri2.png" alt="" height="100%"/>
-                    </div>
-                    :<div className={cx("result-imgbox")}></div>
+                    
+                    <div className={cx("result-imgbox")}>
+                    {props.imgArray.map((arr, index) => {
+                        return (
+                            <img key={arr.diagnostic_img_id} src={"http://localhost:8080/image?path="+arr.diagnostic_img} alt="" height="100%" onClick={() => openModal(index)} />
+                        )
+                    })
                     }
+                    </div>
                 </div>
-                <ImgModal modalIsOpen={modalIsOpen} closeModal={closeModal} />
+                <ImgModal modalIsOpen={modalIsOpen} closeModal={closeModal} imgArray={props.imgArray} imgIndex={imgIndex} />
             </div>
             <div>
                 <div className="d-flex justify-content-center">

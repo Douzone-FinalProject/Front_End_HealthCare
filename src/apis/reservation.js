@@ -27,3 +27,8 @@ export function updateReservation(reservation) {
 export function checkPatientExist(name, phone){
   return axios.get("/reserve/checkPatient/"+name+"/"+phone);
 }
+
+// 다음 예약 
+export function getNextReservation(patient_id){
+  return axios.get("/reserve/next/"+patient_id);
+}
