@@ -18,5 +18,20 @@ export function getHospitalStaff(staff_login_id) {
 }
 
 export function deleteMessage(message_id) {
-  return axios.delete("/message/" + message_id);
+  return axios.put("/message/" + message_id);
+}
+
+export function getChatList(staff_id, staff_login_id) {
+  const promise = axios.get("/message/getChatList", {params:{staff_id, staff_login_id}});
+  return promise;
+}
+
+export function getStaffId(staff_login_id) {
+  const promise = axios.get("/message/getStaffId", {params:{staff_login_id}});
+  return promise;
+}
+
+export function getStaffLoginId(staff_id) {
+  const promise = axios.get("/message/getStaffLoginId", {params:{staff_id}});
+  return promise;
 }
