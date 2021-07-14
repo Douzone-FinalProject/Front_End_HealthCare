@@ -3,6 +3,7 @@ import style from './style.module.css';
 import classNames from 'classnames/bind';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 import {
   Form,
 } from 'react-form-elements';
@@ -28,6 +29,7 @@ const ReserveSMS = (props) => {
 
   const [updateForm, setUpdateForm] = useState({});
   const [message, setMessage] = useState('');
+  const [format, setFormat] = useState('USD');
 
   const handleSMS = async (params) => {
     try{
@@ -44,6 +46,7 @@ const ReserveSMS = (props) => {
         [event.target.name]: event.target.value
     });
     setMessage(event.target.message);
+    setFormat(event.target.value);
   };  
 
   useEffect(() => {
@@ -53,6 +56,25 @@ const ReserveSMS = (props) => {
       console.log('updateForm undefined');
     }
   }, [props.updateForm]);
+
+  const formatlist = [
+    {
+      value: 'USD',
+      label: '예약 확인',
+    },
+    {
+      value: 'EUR',
+      label: '위치 안내',
+    },
+    {
+      value: 'BTC',
+      label: '휴일 안내',
+    },
+    {
+      value: 'JPY',
+      label: '테스트',
+    },
+  ];
 
   return (
     <div className={cx("right-component-bottom")}>
@@ -66,21 +88,40 @@ const ReserveSMS = (props) => {
           onClick={() => {setUpdateForm({}); setMessage('');}}
         ></AutorenewIcon>
       </div>
-      <div className={cx("reserve-form")}>
+      <div className={cx("reserve-form-bottom")}>
         {/* form data : 이름 , 핸드폰번호, 보낼내용 */}
         <Form id="smsForm" name="smsForm" onSubmit={(e) => {console.log('형식상 필요한 함수')}}>
           <div className="d-flex-col">
             <div>
               <TextField required label="이름" className="mr-5" onChange={handleChange} name="reservation_name" value={updateForm.reservation_name || ''}/> <br/>
               <TextField required label="휴대전화" onChange={handleChange} name="reservation_phone" value={updateForm.reservation_phone || ''}/> <br/>
-              <div className="mt-4">
+              <div className="mt-2 mb-2">
                 {/* 이 부분은 예약 수정 컴포넌트에서 SMS 발송 버튼 눌렀을 때만 보여져야함. */}
                 <div style={{color: 'gray'}}>
                   {updateForm.reservation_datetime !== undefined && ('예약날짜: '+updateForm.reservation_datetime)}
                 </div>
               </div> 
-              <TextareaAutosize className="mt-3" required onChange={handleChange} name="message" value={message} rowsMin={5} placeholder="보낼 내용 입력" />
+              {/* select  */}
+              <div className="d-flex-row">
+                <TextField
+                  className="d-flex"
+                  id="standard-select-currency"
+                  select
+                  label="내용 형식"
+                  value={format}
+                  onChange={handleChange}
+                  helperText="간편하게 문자를 작성하세요."
+                >
+                  {formatlist.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField> 
+                <TextareaAutosize className="d-flex mt-3" required onChange={handleChange} name="message" value={message} rowsMin={5} placeholder="보낼 내용 입력" />
+              </div>
             </div>
+            
           </div>
             <Button type="submit" form="smsForm" 
             variant="outlined" size="small" color="primary" className={classes.margin}
