@@ -22,7 +22,7 @@ function AppRoute(props) {
             <Route path="/login" exact component={login}/>
             <Route path="/guideline" exact component={Guideline}/>
             <Route path="/result" component={Result}/>
-            <Route path="/teststate" exact component={TestState}></Route>
+            <Route path="/teststate" exact component={TestState}/>
             <Route path="/diagnosis" component={diagnosis}/>
             <Route path="/receipt" component={Receipt}/>
             <Route path="/reserve" component={Reservation}/>
