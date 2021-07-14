@@ -38,10 +38,10 @@ function Main(props) {
                         <hr/>
                         <div className="row">
                             <div className="col-10">
-                            <Link to="/guideline"><div className="d-flex align-items-center"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>환자가 자주 묻는 질문 및 답변</h5></div></Link>
-                            <Link to="/guideline"><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈용기 채혈순서</h5></div></Link>
-                            <Link to="/guideline"><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>혈액배양 검체 채취</h5></div></Link>
-                            <Link to="/guideline"><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈시 부작용</h5></div></Link>
+                            <Link to="/guideline?id=1"><div className="d-flex align-items-center"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>환자가 자주 묻는 질문 및 답변</h5></div></Link>
+                            <Link to="/guideline?id=2"><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈용기 채혈순서</h5></div></Link>
+                            <Link to="/guideline?id=3"><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>혈액배양 검체 채취</h5></div></Link>
+                            <Link to="/guideline?id=4"><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈시 부작용</h5></div></Link>
                             </div>
                             <div className="col-2">
                                 <div className="d-flex align-items-center"><h6>06-25</h6></div>

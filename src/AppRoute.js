@@ -16,7 +16,7 @@ function AppRoute(props) {
     return(
         <Switch>
             
-            {globalAuthToken === "" && <Redirect to="/"/>}
+            {/* {globalAuthToken === "" && <Redirect to="/"/>} */}
             <Route path="/" exact component={Main}/>
             <Route path="/manage" exact component={Manage}/>
             <Route path="/login" exact component={login}/>

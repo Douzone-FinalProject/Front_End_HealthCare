@@ -236,7 +236,7 @@ function ResultContainer(props) {
                     <div className={cx("result-imgbox")}>
                     {props.imgArray.map((arr, index) => {
                         return (
-                            <img key={arr.diagnostic_img_id} src={"http://localhost:8080/image?path="+arr.diagnostic_img} alt="" height="100%" onClick={() => openModal(index)} />
+                            <img key={arr.diagnostic_img_id} src={arr.diagnostic_img} alt="" height="100%" onClick={() => openModal(index)} />
                         )
                     })
                     }
