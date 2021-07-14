@@ -227,7 +227,7 @@ function Manage(props) {
         <CreateEmployee isModal={isModal} closeModal={closeModal} getStaffList={getStaffList} staffs={staffs} />
         <UpdateEmployee getStaffList={getStaffList} updateNameAndIdChange={updateNameAndIdChange} updatePhoneChange={updatePhoneChange} phone={phone} updateIsOpen={updateIsOpen} closeUpdateModal={closeUpdateModal} nowStaff={nowStaff} setNowStaff={setNowStaff} deleteStaff={deleteStaff} />
          <div className="mt-5">
-         <div className="mb-3"><Clock className={cx("timeInterval")} format={'MM 월 DD 일  HH시 mm분 ss초'} ticking={true} timezone={'Asia/Seoul'}/></div>
+         <div className="mb-3"><Clock className={cx("timeInterval")} format={'MM월 DD일  HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/></div>
              <div>
              <h2 className="mb-4 ml-5" >관리 페이지</h2>
              
