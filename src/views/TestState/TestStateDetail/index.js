@@ -56,7 +56,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, pro
     },
     {
       title: "진료의",
-      dataIndex: "doctor",
+      dataIndex: "doctor_name",
       width: 80,
     },
     {
@@ -89,7 +89,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, pro
 
     const rowSelection = {  
       onChange: (selectedRowKeys, selectedRows) => {
-      // console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
+      console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
       setRows([...selectedRows])
       setRowKeys([...selectedRowKeys])
       setBundleSpeciemens(selectedRows.map(row => row.bundle_specimen))
@@ -134,7 +134,13 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, pro
     if (rowKeys.length !== 0) {
       await updateStateDetail(rowKeys, "검사접수", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
       // setDetailData(await getTestStateDetailList(receiptId));
-      await sendRedisMessage(pubMessage);
+      await sendRedisMessage({
+        ...pubMessage,
+        content: {
+          lab: rows[0].bundle_lab,
+          patientName
+        }
+      });
       if (rows[0].bundle_name === "MRI" || rows[0].bundle_name === "CT") {
         setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
       }
