@@ -6,14 +6,21 @@ import OpinionListItem from "./OpinionListItem";
 import { MDBTable, MDBTableBody } from 'mdbreact';
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import React from "react"
+import React, { useState } from "react"
 const cx = classnames.bind(style);
 
 function SymptomAndOpinion(props) {
     
+    const [selectReceipt, setSelectReceipt] = useState()
+
     const changeToSearch = (event) => {
         props.changeToSearch(event);
     };
+
+    const selectOpinion = (event1, event2) => {
+        setSelectReceipt(event1);
+        props.selectOpinion(event1, event2);
+    }
     
     return(
         <>
@@ -28,7 +35,7 @@ function SymptomAndOpinion(props) {
                         <MDBTableBody> 
                         {props.fatientOpinion.map((opinion) => {
                                 return (
-                                    <OpinionListItem key={opinion.receipt_id} opinion={opinion} openOpinion={props.openOpinion} selectOpinion={props.selectOpinion} />
+                                    <OpinionListItem key={opinion.receipt_id} opinion={opinion} openOpinion={props.openOpinion} selectOpinion={selectOpinion} />
                                 )
                             })}
                         </MDBTableBody>
@@ -47,7 +54,7 @@ function SymptomAndOpinion(props) {
                         })}>소견 작성</Button>
                 }
                 {props.selectReceipt_id.patient_id || props.selectReceipt_id.diagnostic_test_state === "검사완료" || props.selectReceipt_id.diagnostic_test_state === "처방완료" ?
-                    <Link className={cx("noneLink","diagnosis-button", "mb-1")} to="/result"><Button>결과 조회</Button></Link>
+                    <Link className={cx("noneLink","diagnosis-button", "mb-1")} to={"/result?receipt_id=" + selectReceipt}><Button>결과 조회</Button></Link>
                     :
                     <>
                     </>

@@ -20,7 +20,8 @@ export async function updateStateDetail(rowKeys, state, staff_login_id, bundleSp
     state,
     staff_login_id,
     bundleSpecimens,
-    receiptId
+    receiptId,
+    staffName: sessionStorage.getItem("staff_name")
   }
   await axios.put("/teststate", updateData);
 }

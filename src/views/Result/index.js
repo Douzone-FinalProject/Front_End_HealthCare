@@ -3,9 +3,14 @@ import ResultContainer from "./ResultContainer";
 import { useState, useCallback } from "react";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
+import qs from "qs";
 import { getResultDataByReceipt, getResultDataBySpecimen, getPatientData, getReceiptData, getDiagnosticData, getPatientDataBySpecimen, getImagePath } from "apis/result";
 
+
 function Result(props) {
+    const queryString = qs.parse(props.location.search, {ignoreQueryPrefix:true});
+    const receipt_id2 = parseInt(queryString.receipt_id);
+    console.log(receipt_id2)
     //결과 테이블 데이터, 결과 테이블 인덱스, 환자 정보 데이터 상태
     const [result, setResult] = useState([]);
     const [ReceiptIndex, setReciptIndex] = useState();

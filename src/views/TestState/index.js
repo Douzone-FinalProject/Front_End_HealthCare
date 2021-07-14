@@ -22,7 +22,7 @@ function TestState(props) {
   const [detailData, setDetailData] = useState([]);
 
   // LabTab에 prop
-  const [patientNames, setPatientNames] = useState([]);
+  const [labTable, setLabTable] = useState();
 
   const [waitType, setWaitType] = useState("전체");
   const [state, setState] = useState("whole");
@@ -61,8 +61,9 @@ function TestState(props) {
       console.log("teststatedetail 메시지 수신");
       let json = event.data;
       let message = JSON.parse(json);
-      console.log(message);
-      
+      if (message.content !== "testStateDetail change") {
+        setLabTable(JSON.parse(message.content));
+      }
       if (receiptId) {
         setDetailData(await getTestStateDetailList(receiptId));
       }
@@ -95,7 +96,7 @@ function TestState(props) {
           <Row>
             <Col flex={2} className={cx("teststate-frame")}>
               <ChartAndList waitingData={waitingData} setWaitingData={setWaitingData} 
-                            setReceiptId={setReceiptId} patientNames={patientNames} 
+                            setReceiptId={setReceiptId} labTable={labTable} 
                             waitType={waitType} state={state} setWaitType={setWaitType} setState={setState} 
                             stateChart={stateChart} setStateChart={setStateChart}
                             labChart={labChart} setLabChart={setLabChart}/>
@@ -103,8 +104,7 @@ function TestState(props) {
             <Col flex={3} className="m-2">
               <TestStateDetail receiptId={receiptId} 
                               detailData={detailData} setDetailData={setDetailData} 
-                              waitingData={waitingData} setWaitingData={setWaitingData} 
-                              setPatientNames={setPatientNames}
+                              waitingData={waitingData} setWaitingData={setWaitingData}
                               pubMessage={pubMessage} 
                               />
             </Col>
