@@ -64,3 +64,13 @@ export function getImagePath(receipt_id) {
   const promise = axios.get("/result/getImagePath", {params:{receipt_id}});
   return promise;
 }
+
+export function getReceiptDataByRecieptId(receipt_id) {
+  const promise = axios.get("/result/getReceiptDataByRecieptId", {params:{receipt_id}});
+  return promise;
+}
+
+export function getDiagnosticDataByReceiptId(receipt_id) {
+  const promise = axios.get("/result/getDiagnosticDataByReceiptId", {params:{receipt_id}});
+  return promise;
+}

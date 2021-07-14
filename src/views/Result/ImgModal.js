@@ -21,8 +21,8 @@ function ImgModal(props) {
     const images = [];
     for(let img of props.imgArray) {
         images.push({
-            original: "http://localhost:8080/image?path="+img.diagnostic_img,
-            thumbnail: "http://localhost:8080/image?path="+img.diagnostic_img,
+            original: img.diagnostic_img,
+            thumbnail: img.diagnostic_img,
             originalHeight: 700,
         });
     }

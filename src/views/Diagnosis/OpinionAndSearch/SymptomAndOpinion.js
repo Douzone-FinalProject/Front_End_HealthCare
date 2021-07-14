@@ -54,7 +54,7 @@ function SymptomAndOpinion(props) {
                         })}>소견 작성</Button>
                 }
                 {props.selectReceipt_id.patient_id || props.selectReceipt_id.diagnostic_test_state === "검사완료" || props.selectReceipt_id.diagnostic_test_state === "처방완료" ?
-                    <Link className={cx("noneLink","diagnosis-button", "mb-1")} to={"/result?receipt_id=" + selectReceipt}><Button>결과 조회</Button></Link>
+                    <Link className={cx("noneLink","diagnosis-button", "mb-1")} to={{pathname:"/result", state: {receiptId2: selectReceipt}}}><Button>결과 조회</Button></Link>
                     :
                     <>
                     </>
