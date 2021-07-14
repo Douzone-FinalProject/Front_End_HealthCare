@@ -26,7 +26,8 @@
   padding: 0.1em;
   background-color: #dee2e6;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  height: 26em;
+  /* height: 26em; */
+  height: 24.3em;
 }
 
 .form-subject{
@@ -40,9 +41,16 @@
   background-color: #f8f9fa;
   border-radius: 5px;
   padding: 1.2em;
-  margin: 0.8em;
-  margin-top: 1.2em;
-  height: 80%;
+  margin: 0.4em;
+  height: 30vh;
+}
+
+.reserve-form-bottom{
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 1.2em;
+  margin: 0.4em;
+  height: 37vh;
 }
 
 .right-component-bottom{
@@ -51,7 +59,8 @@
   border-radius: 7px;
   padding: 0.1em;
   background-color: #dee2e6;
-  height: 27.6em;
+  /* height: 27.6em; */
+  height: 29.2em;
 }
 
 Button.custom-btn{
