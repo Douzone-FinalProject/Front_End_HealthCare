@@ -11,6 +11,8 @@ const cx = classnames.bind(style);
 
 function SearchPatients(props) {
     
+    const [selectReceipt, setSelectReceipt] = useState()
+
     const [searchChart, setSearchChart] = useState({
         patient_id: '',
         receipt_datetime: '',
@@ -23,6 +25,11 @@ function SearchPatients(props) {
         })
         
     };
+
+    const selectOpinion2 = (event1, event2) => {
+        setSelectReceipt(event1)
+        props.selectOpinion2(event1, event2);
+    }
     
    
     const search  = async (patient_id, receipt_datetime, patient_name) => {
@@ -105,7 +112,7 @@ function SearchPatients(props) {
                     <MDBTableBody>
                     {props.opinionsCopy.map((opinion) => {
                             return (
-                                <SearchListItem key={opinion.receipt_id} opinion={opinion} selectOpinion2={props.selectOpinion2} openOpinion={props.openOpinion} />
+                                <SearchListItem key={opinion.receipt_id} opinion={opinion} selectOpinion2={selectOpinion2} openOpinion={props.openOpinion} />
                             );
                         })}
                     </MDBTableBody>
@@ -114,7 +121,7 @@ function SearchPatients(props) {
             {props.opinionsCopy.receipt_id || props.selectReceipt_id2.diagnostic_test_state === "검사완료" || props.selectReceipt_id2.diagnostic_test_state === "처방완료"  ?
                 <>
                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button")} onClick={()=>{search(searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name);}} >검색</Button>
-                   <Link className={cx("noneLink","diagnosis-button")} to="/result"><Button>결과 조회</Button></Link>
+                   <Link className={cx("noneLink","diagnosis-button")} to={"/result?receipt_id=" + selectReceipt}><Button>결과 조회</Button></Link>
                 </>    
             :
                 <>
