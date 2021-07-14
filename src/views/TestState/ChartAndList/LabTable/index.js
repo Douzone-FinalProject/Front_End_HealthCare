@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 
 const cx = classNames.bind(style);
 
-function LabTable({ patientNames }, props) {
+function LabTable({ labTable }, props) {
   const lab = ["검사실1", "검사실2", "검사실3"];
   return (
     <>
@@ -14,10 +14,28 @@ function LabTable({ patientNames }, props) {
           </tr>
         </thead>
         <tbody className="text-center">
-          <tr> 
-            <td>{patientNames[0]}</td>
-            <td>{patientNames[1]}</td>
-            <td>{patientNames[2]}</td>
+          <tr>
+            {/* {lab.map((index, item) => {
+
+            })} */}
+            {labTable && labTable.lab === "검사실1"
+            ?
+            <td>{labTable.patientName}</td>
+            :
+            <td></td>
+            }
+            {labTable && labTable.lab === "검사실2"
+            ?
+            <td>{labTable.patientName}</td>
+            :
+            <td></td>
+            }            
+            {labTable && labTable.lab === "검사실3"
+            ?
+            <td>{labTable.patientName}</td>
+            :
+            <td></td>
+            }
           </tr>
         </tbody>
       </table>

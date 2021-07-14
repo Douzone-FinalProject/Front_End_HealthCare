@@ -41,14 +41,17 @@ function PatientStateList({waitingData, setWaitingData, setReceiptId, waitType, 
       title: '상태',
       dataIndex: "diagnostic_test_state",
       width: 80,
-      render: state => {
-        let color = (state === "검사대기") ? "rgb(255, 99, 132)" : "rgb(255, 99, 132)";
-        if (state === "검사중") {
+      render: diagnostic_test_state => {
+        let color = (diagnostic_test_state === "검사대기") ? "rgb(255, 99, 132)" : "rgb(255, 99, 132)";
+        if (diagnostic_test_state === "검사중") {
           color = "rgba(255, 205, 86)"
-        } else if (state === "검사완료") {
+        } else if (diagnostic_test_state === "검사완료") {
           color = "rgb(75, 192, 192)";
+        } else if (diagnostic_test_state === "처방완료") {
+          color = "rgb(75, 192, 192)";
+          diagnostic_test_state = "검사완료"
         }
-        return <div style={{color: color}}>{state}</div> 
+        return <div style={{color: color}}>{diagnostic_test_state}</div> 
       }
     }
   ]

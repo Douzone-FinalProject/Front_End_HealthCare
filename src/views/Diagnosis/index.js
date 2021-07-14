@@ -14,6 +14,9 @@ import { searchSymptomB, createRequestTest, fatientOpinions, createOpinion, crea
 import { getReceiptList } from "apis/receipt";
 import { useSelector } from "react-redux";
 import { sendRedisMessage } from "apis/message";
+import Page403 from "views/common/Page403";
+import { Redirect, Route } from "react-router-dom";
+// import { Link, Route } from "react-router-dom";
 
 
 const cx = classnames.bind(style);
@@ -35,6 +38,7 @@ function Diagnosis (props) {
         setpatients(response.data.receiptList);
         }
         catch(error){
+            
             console.log(error);
         }
     };
@@ -113,7 +117,8 @@ function Diagnosis (props) {
             ])
         }
         catch(error){
-            console.log(error)
+            props.history.push("/page403");
+            console.log("############"+error)
         }
             
             
