@@ -152,7 +152,8 @@ function SearchPatients(props) {
             {props.opinionsCopy.receipt_id || props.selectReceipt_id2.diagnostic_test_state === "검사완료" || props.selectReceipt_id2.diagnostic_test_state === "처방완료"  ?
                 <>
                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mt-3")} onClick={()=>{search(searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name)}} >검색</Button>
-                   <Link className={cx("noneLink")} to={"/result?receipt_id=" + selectReceipt}><Button className={cx("mt-3")}>결과 조회</Button></Link>
+                   <Link className={cx("noneLink")} to={{pathname:"/result", state: {receiptId2: selectReceipt}}}><Button className={cx("mt-3")}>결과 조회</Button></Link>
+
                 </>    
             :
                 <>
