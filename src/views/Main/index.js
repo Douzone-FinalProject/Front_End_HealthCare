@@ -5,8 +5,16 @@ import Footer from "./Footer";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
 import { useSelector } from "react-redux";
+import { useState } from "react";
+import NoticeModal from "./NoticeModal";
+
 function Main(props) {
     const globalUid = useSelector((state) => state.authReducer.staff_login_id);
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [notice, setNotice] = useState(0);
+    function openModal(ntc) { setIsOpen(true); setNotice(ntc); }
+    function closeModal() { setIsOpen(false); }
+
     return (
         <div className="bg-white">
             <Header />
@@ -21,10 +29,10 @@ function Main(props) {
                         <hr/>
                         <div className="row">
                             <div className="col-10">
-                                <div className="d-flex align-items-center"><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>이용 관련 불편사항을 들려주세요</h5></div>
-                                <div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>새로운 사이트를 오픈하였습니다.</h5></div>
-                                <div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>수정 사항이 있어 알려드립니다.</h5></div>
-                                <div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>뉴스 & 공지사항</h5></div>
+                                <div className="d-flex align-items-center" onClick={()=>openModal(1)}><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>이용 관련 불편사항을 들려주세요</h5></div>
+                                <div className="d-flex align-items-center mt-2" onClick={()=>openModal(2)}><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>새로운 사이트를 오픈하였습니다.</h5></div>
+                                <div className="d-flex align-items-center mt-2" onClick={()=>openModal(3)}><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>수정 사항이 있어 알려드립니다.</h5></div>
+                                <div className="d-flex align-items-center mt-2" onClick={()=>openModal(4)}><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>뉴스 & 공지사항</h5></div>
                             </div>
                             <div className="col-2">
                                 <div className="d-flex align-items-center"><h6>06-25</h6></div>
@@ -34,6 +42,7 @@ function Main(props) {
                             </div>
                         </div>
                     </div>
+                    <NoticeModal modalIsOpen={modalIsOpen} closeModal={closeModal} notice={notice}/>
                     <div className="col-4">
                     <div><h3>검사의뢰지침</h3></div>
                         <hr/>

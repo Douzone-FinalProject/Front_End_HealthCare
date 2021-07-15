@@ -53,7 +53,8 @@ function PatientStateList({waitingData, setWaitingData, setReceiptId, waitType, 
         }
         return <div style={{color: color}}>{diagnostic_test_state}</div> 
       }
-    }
+    },
+    
   ]
 
   const handlePatient = (data, rowIndex) => {
@@ -97,7 +98,7 @@ function PatientStateList({waitingData, setWaitingData, setReceiptId, waitType, 
         </div>
       </div>
       <div className={cx("teststate-table")}>
-        <Table className={cx("ant-th", "ant-tbody")} columns={waitingDataColums} dataSource={waitingData} pagination={false} rowKey={record => record.patient_id} onRow={handlePatient}/>
+        <Table className={cx("ant-th", "ant-tbody")} columns={waitingDataColums} dataSource={waitingData} pagination={false} rowKey={record => record.patient_id} onRow={handlePatient} scroll={{y: 300}}/>
       </div>
     </>
   );
