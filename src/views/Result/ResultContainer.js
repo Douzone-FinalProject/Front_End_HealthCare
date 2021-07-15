@@ -9,6 +9,7 @@ import ImgModal from "./ImgModal";
 import ResultTable from "./ResultTable";
 import { getSpecimenData, updateResultDataBySpecimen, updateResultDataByReceipt } from "apis/result";
 import Swal from 'sweetalert2';
+import xlsx from 'xlsx';
 
 const cx = classnames.bind(style);
 
@@ -218,6 +219,41 @@ function ResultContainer(props) {
         setImgIndex(index);
     }
     function closeModal() { setIsOpen(false); }
+
+    const saveExcel = () => {
+        // 엑셀저장
+        // Json 배열의 내용을 엑셀의 시트로 변환
+        const ws = xlsx.utils.json_to_sheet(props.result, {header:['prescription_name', 'diagnostic_result', 'diagnostic_previous_result', 'diagnostic_previous_date', 'prescription_reference_value', 'prescription_unit','diagnostic_specimen_number','bundle_specimen','symptom_name']});
+        // {c:/열/, r:/행/}
+        ['검사항목명', '결과', '이전결과', '이전결과일', '참고치', '단위','검체번호','검체명','증상명'].forEach((x, idx) => {
+            const cellAdd = xlsx.utils.encode_cell({c: idx, r: 0});
+            ws[cellAdd].v = x
+        });
+    
+        // 열 숨기기
+        ws['!cols'] = [];
+        ws['!cols'][0] = { width: 30 };
+        ws['!cols'][3] = { width: 20 };
+        ws['!cols'][6] = { width: 20 };
+        ws['!cols'][7] = { width: 15 };
+        ws['!cols'][8] = { width: 20 };
+        ws['!cols'][9] = { hidden: true };
+        ws['!cols'][10] = { hidden: true };
+        ws['!cols'][11] = { hidden: true };
+        ws['!cols'][12] = { hidden: true };
+        ws['!cols'][13] = { hidden: true };
+        ws['!cols'][14] = { hidden: true };
+        ws['!cols'][15] = { hidden: true };
+        ws['!cols'][16] = { hidden: true };
+
+        // 워크북 객체를 생성, 워크시트를 묶어주는 부분
+        const wb = xlsx.utils.book_new();
+        xlsx.utils.book_append_sheet(wb, ws, "sheet1");
+    
+        // 파일저장
+        xlsx.writeFile(wb, `${props.patientData.receipt_datetime}-${props.patientData.patient_name}.xlsx`);
+    }
+
     return (
         <div className={cx("result-secondcontainer")}>
             <div className={cx("result-height")}>
@@ -252,7 +288,12 @@ function ResultContainer(props) {
                         {props.resultState === 'ⓧ'? 
                             <Button className={cx("result-button")} onClick={handleSave}>저장</Button>
                             :
-                            <></>
+                            <div></div>
+                        }
+                        {props.resultState === 'ⓞ'?
+                            <Button className={cx("result-button")} onClick={saveExcel}>엑셀 저장</Button>
+                            :
+                            <div></div>
                         }
                         <Link to="/diagnosis"><Button className={cx("result-button", "ml-2")}>뒤로</Button></Link>
                     </div>
