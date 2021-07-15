@@ -1,13 +1,13 @@
 import Footer from "./Footer";
-import Header2 from "./Header2";
 import qs from "qs";
+import Header from "views/common/Header";
 function Guideline(props) {
     const queryString = qs.parse(props.location.search, {ignoreQueryPrefix:true});
     const id = parseInt(queryString.id);
     if(id === 1) {
         return (
 <div>
-    <Header2 />
+    <Header />
     <pre className="ml-5 mt-5">
     1) Q : 같은 피검사인데 왜 여러 용기에 뽑나요?<br/>
 A : 검사항목에 따라 용기에 들어가는 첨가제가 달라집니다. 적절한 첨가제가 포함된 용기에 충분한 양만큼 채혈해야 검사가 이루어집니다.<br/>
@@ -65,7 +65,7 @@ A : 오전 7부터 소변을 모으고자 한다면, 오전 7시에 소변을 �
     } else if (id === 2) {
         return (
             <div>
-            <Header2 />
+            <Header />
             <img src="http://localhost:3000/bloodbottle.PNG" alt="" width="" height="" className="w-100"/>
             <Footer />
             </div>
@@ -73,7 +73,7 @@ A : 오전 7부터 소변을 모으고자 한다면, 오전 7시에 소변을 �
     } else if(id === 3) {
         return (
             <div>
-            <Header2 />
+            <Header />
             <div className="d-flex justify-content-center">
             <img src="http://localhost:3000/specimen.PNG" alt="" width="" height="" className="w-75"/>
             </div>
@@ -84,7 +84,7 @@ A : 오전 7부터 소변을 모으고자 한다면, 오전 7시에 소변을 �
     else {
         return (
             <div>
-            <Header2 />
+            <Header />
             <pre className="ml-5 mt-5">
             1) 잘못된 채혈로 인한 검사결과 영향<br/>
 <br/>

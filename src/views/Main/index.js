@@ -1,14 +1,15 @@
-import Header2 from "./Header2";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faDesktop, faHeadset } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
+import Header from "views/common/Header";
 
 function Main(props) {
 
     return (
         <div className="bg-white">
-            <Header2 />
+            <Header />
             <div>
                 <img src="http://localhost:3000/mainimg.jpg" alt="" width="" height="500" className="w-100"/>
             </div>
