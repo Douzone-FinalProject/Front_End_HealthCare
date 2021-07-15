@@ -87,6 +87,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   const [bundleSpecimens, setBundleSpeciemens] = useState([]);
   const [complete, setComplete] = useState('false');
 
+  const [bundleLab, setBundleLab] = useState();
   const rowSelection = {  
     onChange: (selectedRowKeys, selectedRows) => {
     // console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
@@ -98,11 +99,13 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   //   disabled: record.bundle_lab !== waitType && waitType !== "전체",
   //   bundle_lab: record.bundle_lab
   // }),
+
+   
   getCheckboxProps: (record) => {
     if (waitType === "전체") {
       console.log("2", record)
       return ({
-        disabled: record.bundle_lab !== record.compareLab
+        disabled: bundleLab && record.bundle_lab !== bundleLab
       })
     } else {
       return ({
@@ -113,10 +116,10 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   },
   onSelect: (record, selected, selectedRows, nativeEvent) => {
     if (selected) {
-      record = {
-        ...record,
-        compareLab: selectedRows[0].bundle_lab
-      }
+      setBundleLab(selectedRows[0].bundle_lab);
+      rowSelection.getCheckboxProps(record)
+    } else {
+      setBundleLab("");
       rowSelection.getCheckboxProps(record)
     }
   }
