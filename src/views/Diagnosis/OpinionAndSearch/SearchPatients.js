@@ -10,6 +10,11 @@ import { searchPatientIdOpinion, searchDateOpinion, searchPatientNameOpinion, se
 const cx = classnames.bind(style);
 
 function SearchPatients(props) {
+
+    const changeToOpinion = (event) => {
+        props.changeToOpinion(event);
+        
+    };
     
     const [selectReceipt, setSelectReceipt] = useState()
 
@@ -86,11 +91,26 @@ function SearchPatients(props) {
     
     };
 
+    const nameEnter = (e, patient_id, receipt_datetime, patient_name) => {
+        if(e.key === 'Enter'){
+            search(patient_id, receipt_datetime, patient_name);
+        }
+    }
+
+    const idEnter = (e, patient_id, receipt_datetime, patient_name) => {
+        if(e.key === 'Enter'){
+            search(patient_id, receipt_datetime, patient_name);
+        }
+    }
+
+    const dateEnter = (e, patient_id, receipt_datetime, patient_name) => {
+        if(e.key === 'Enter'){
+            search(patient_id, receipt_datetime, patient_name);
+        }
+    }
+
    
-    const changeToOpinion = (event) => {
-        props.changeToOpinion(event);
-        
-    };
+   
   
     useEffect(() => {
         console.log("환자 검색 창 수정 후 ")
@@ -101,18 +121,29 @@ function SearchPatients(props) {
         <Button init2={true} className={cx("diagnosis-button","diagnosis-opinionAndSearch-buttonFocus", "OpinionAndSearchButton")} onClick={changeToOpinion} >증상 및 소견</Button>
         <Button init={true}  className={cx("diagnosis-button","diagnosis-opinionAndSearch-buttonFocus", "OpinionAndSearchButton")} >환자 검색</Button>
         <div className="mt-4">
-        
-            <h4 className={cx("diagnosis-opinionAndSearch-title","mb-3")}>환자 검색</h4>
-            <input className={cx("ml-3 mr-2", "diagnosis-searchPatients-input")} type="text" name="patient_name" onChange={handleSearch} placeholder="이름"/>
-            <input className={cx("mb-1 mr-2", "diagnosis-searchPatients-input")} name="patient_id" type="text" placeholder="차트번호" onChange={handleSearch}/>
-            <input type="date" name="receipt_datetime" onChange={handleSearch}/>
-
+            <div className="d-flex flex-row mb-3">
+                <h4 className={cx("diagnosis-opinionAndSearch-title","mb-3")}>환자 검색</h4>
+                <input className={cx("mr-2", "diagnosis-searchPatients-input", "diagnosis-searchPatients-first-input")} type="text" name="patient_name" onKeyPress={(e)=>{nameEnter(e,searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name)}} onChange={handleSearch} placeholder="이름"/>
+                <input className={cx("mr-2", "diagnosis-searchPatients-input")} name="patient_id" type="text" onKeyPress={(e)=>{idEnter(e,searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name)}} placeholder="차트번호" onChange={handleSearch}/>
+                <input className={cx("diagnosis-searchPatients-input")} type="date" name="receipt_datetime" onKeyPress={(e)=>{dateEnter(e,searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name)}} onChange={handleSearch}/>
+            </div>
             <div className={cx("diagnosis-opinionAndSearch-tabaleHeight2")}>
+            <MDBTable scrollY className={cx("table", "diagnosis-tbh")}>
+                <thead className={cx("diagnosis-table-header")}>
+                    <tr> 
+                    <th>접수번호</th>
+                    <th>차트번호</th>
+                    <th>소견내용</th>
+                    <th>검사상태</th>
+                    <th>날짜</th>
+                    </tr>
+                </thead>
+                </MDBTable>
                 <MDBTable scrollY className={cx("diagnosis-table", "diagnosis-opinionAndSearch-tableInterval","table-hover")}>
                     <MDBTableBody>
                     {props.opinionsCopy.map((opinion) => {
                             return (
-                                <SearchListItem key={opinion.receipt_id} opinion={opinion} selectOpinion2={selectOpinion2} openOpinion={props.openOpinion} />
+                                <SearchListItem key={opinion.receipt_id} opinion={opinion} selectOpinion2={selectOpinion2} openOpinion={props.openOpinion} selectReceipt_id2={props.selectReceipt_id2} />
                             );
                         })}
                     </MDBTableBody>
@@ -120,12 +151,12 @@ function SearchPatients(props) {
             </div>
             {props.opinionsCopy.receipt_id || props.selectReceipt_id2.diagnostic_test_state === "검사완료" || props.selectReceipt_id2.diagnostic_test_state === "처방완료"  ?
                 <>
-                   <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button")} onClick={()=>{search(searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name);}} >검색</Button>
-                   <Link className={cx("noneLink","diagnosis-button")} to={"/result?receipt_id=" + selectReceipt}><Button>결과 조회</Button></Link>
+                   <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mt-3")} onClick={()=>{search(searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name)}} >검색</Button>
+                   <Link className={cx("noneLink","diagnosis-opinionAndSearch-button")} to={"/result?receipt_id=" + selectReceipt}><Button className={cx("mt-3")}>결과 조회</Button></Link>
                 </>    
             :
                 <>
-                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button")} onClick={()=>{search(searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name);}} >검색</Button>
+                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mt-3")} onClick={()=>{search(searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name)}} >검색</Button>
                 </>    
             }
             

@@ -9,7 +9,7 @@ import { login } from "apis/auth";
 import { addAuthHeader } from "apis/axiosConfig";
 import { useDispatch } from "react-redux";
 import { createSetAuthTokenAction, createSetUidAction, createSetNameAction, createSetRoleAction, createSetHospitalAction } from "redux/auth-reducer";
-
+// import AppRoute from '../AppRoute';
 const CustomRadio = withStyles({
   root: {
     color: "#748ffc",
@@ -101,7 +101,7 @@ function Login(props) {
     return (
         
         <div className={style.loginbackGround}>
-            
+            {/* <AppRoute role={role} /> */}
           <form className={style.loginForm}>
             <h2>의료정보시스템</h2>
               <h4>Login</h4>

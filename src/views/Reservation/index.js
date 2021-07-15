@@ -90,6 +90,7 @@ const Reservation = (props) => {
     const dbList = response.data.reservations;
     for(var reserve of dbList){
       reserveList.push({...reserve, resizable: true, 
+      content: reserve.reservation_name + ' ' + reserve.reservation_phone.substring(7, 11),
       range: moment.range(moment(reserve.reservation_datetime), 
             moment(reserve.reservation_datetime).add(30, 'minutes'))})
     }
@@ -107,9 +108,13 @@ const Reservation = (props) => {
     setUpdateForm(updateForm);
   }
 
+  const realTimeReceiptList = async () => {
+    console.log("realTimeReceiptList");
+  }
+
   return (
     <>
-      <Header />
+      <Header realTimeReceiptList={realTimeReceiptList} />
       <div className={cx("d-flex flex-row", "parent-component")}>
         {/* 좌측  */}
         <div className={cx("left-component")}>

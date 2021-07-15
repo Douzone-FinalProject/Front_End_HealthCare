@@ -145,7 +145,7 @@ export default class Layout {
 
     hourRange() {
         // 시간 범위 -------------
-        const range = [9, 19];
+        const range = [8, 19];
         Array.from(this.range.by('days')).forEach((day) => {
             this.forDay(day).forEach((duration) => {
                 range[0] = Math.min(duration.event.start.hour(), range[0]);

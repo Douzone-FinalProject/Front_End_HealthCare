@@ -66,6 +66,9 @@ export default class Day extends React.Component {
         const asMonth = this.props.layout.isDisplayingAsMonth;
         const singleDayEvents = [];
         const allDayEvents    = [];
+        // { day.format('ddd') === 'Sun' || day.format('ddd') === 'Sat'?
+        //     'dd': '123'
+        // }
         this.props.layout.forDay(this.props.day).forEach((duration) => {
             const event = (    
                 <Event

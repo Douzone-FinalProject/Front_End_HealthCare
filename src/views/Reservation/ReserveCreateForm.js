@@ -16,6 +16,9 @@ import {
 import { checkPatientExist } from 'apis/reservation';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import setHours from 'date-fns/setHours'
+import setMinutes from 'date-fns/setMinutes'
+import { TrainRounded } from '@material-ui/icons';
 
 const cx = classNames.bind(style);
 const useStyles = makeStyles((theme) => ({
@@ -32,13 +35,13 @@ const ReserveCreateForm = (props) => {
 
   // state
   const [startDate, setStartDate] = useState(new Date());
+  const [checkIcon, setCheckIcon] = useState(false); // 기존 환자 체크 여부, 결과에 상관없이 체크를 햇으면 true로 하기 
   const [createForm, setCreateForm] = useState({
     reservation_name: '',
     reservation_phone: '',
     reservation_reason: '',
     patient_id: ''
   });
-  const [checkIcon, setCheckIcon] = useState(false); // 기존 환자 체크 여부 , 결과에 상관없이 체크를 햇으면 true로 하기 
 
   const handleChange = (e) => {
     setCreateForm({
@@ -48,42 +51,79 @@ const ReserveCreateForm = (props) => {
   };
 
   let handleColor = (time) => {
-    return time.getHours() > 8 && time.getHours() < 19? "text-success" : "text-error";
+    return (time.getHours()>7 && time.getHours() < 19 && time.getHours() !== 12)? "text-success" : "text-error";
   };
 
   const handleSubmit = (e) => {
-    Swal.fire({
-      icon: 'success',
-      title: createForm.reservation_name + '님 예약이 정상적으로 등록되었습니다.',
-      showConfirmButton: false,
-      timer: 1500
-    })
+    const week = moment(startDate).format('ddd');
+    // const time = moment(startDate).format('HH:mm');
+    let available = true;
+    if(week === 'Sun'){
+      available = false;
+    }
+    
+    // 예약 가능 시간대 flag === true 
+    if(available){
+      // 체크박스 required 체크 하기 
+      if(checkIcon === false){
+        Swal.fire({
+          icon: 'warning',
+          title: '체크박스를 클릭하세요!! \n 방문여부를 확인해야합니다.',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }else{
+        Swal.fire({
+          icon: 'success',
+          title: createForm.reservation_name + '님 예약이 정상적으로 등록되었습니다.',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        props.addEvent({
+          ...createForm,
+          reservation_datetime: moment(startDate).format('YYYY-MM-DD HH:mm'),
+          range: moment.range(moment(startDate), moment(startDate).add(30, 'minutes')),
 
-    props.addEvent({
-      ...createForm,
-      reservation_datetime: moment(startDate).format('YYYY-MM-DD HH:mm'),
-      range: moment.range(moment(startDate), moment(startDate).add(30, 'minutes')),
-  
-    });
-  
-    setCreateForm({
-      reservation_name: '',
-      reservation_phone: '',
-      reservation_reason: '',
-      patient_id: ''
-    });
-    setStartDate(new Date());
+        });
+        setCreateForm({
+          reservation_name: '',
+          reservation_phone: '',
+          reservation_reason: '',
+          patient_id: ''
+        });
+        setStartDate(new Date());
+        setCheckIcon(false);
+      }
+    }else{
+      Swal.fire({
+        icon: 'warning',
+        title: '예약 불가능합니다.',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    }
+   
   };
 
   /* 기존환자 유무 판단 */
   const handleExistPatient = async () => {
-    // 아이디와 번호로  Patient 테이블에서 존재하는지 확인 -> 존재하면 patient_id로 연결 
-    const response = await checkPatientExist(createForm.reservation_name, createForm.reservation_phone); 
-    setCreateForm({
-      ...createForm,
-      patient_id: response.data.patient_id
-    })
-    setCheckIcon(true);
+    if(createForm.reservation_name === '' || createForm.reservation_phone === ''){
+      Swal.fire({
+        icon: 'warning',
+        title: '이름과 휴대전화를 먼저 입력하세요.',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    }else{
+      // 아이디와 번호로  Patient 테이블에서 존재하는지 확인 -> 존재하면 patient_id로 연결 
+      const response = await checkPatientExist(createForm.reservation_name, createForm.reservation_phone); 
+      setCreateForm({
+        ...createForm,
+        patient_id: response.data.patient_id
+      })
+      setCheckIcon(true);
+    }
+
   };
 
 
@@ -103,6 +143,7 @@ const ReserveCreateForm = (props) => {
                             reservation_reason: '',
                             patient_id: ''
                           });}}
+                          
         ></AutorenewIcon>
       </div>
       <div className={cx("reserve-form")}>
@@ -131,9 +172,12 @@ const ReserveCreateForm = (props) => {
                   <div className="">
                     <TextField required label="이름" className="mr-5" name="reservation_name" value={createForm.reservation_name} onChange={handleChange}/> 
                     <TextField required label="휴대전화" name="reservation_phone" value={createForm.reservation_phone} onChange={handleChange}/> 
+                    {/* 1. 체크박스 눌렀을때 이미 이름, 휴대전화 미리 입력해야 함 
+                        2. 등록 버튼 눌렀을 때 필수로 체크 해놔야함 
+                    */}
                     <CheckBoxOutlineBlankIcon className="mt-3 ml-3" style={{fontSize: '2em'}}
-                      onClick={() => {handleExistPatient();}}/>
-                      <span style={{fontSize:"15px",color:"gray"}}>신규환자</span>
+                      onClick={() => {handleExistPatient();}}/> 
+                    <span style={{fontSize:"15px",color:"gray"}}>신규환자</span> 
                   </div>
               }
               <div className="">
@@ -144,7 +188,15 @@ const ReserveCreateForm = (props) => {
                 <DatePicker style={{color: 'gray'}}
                   dateFormat="yyyy-MM-dd HH:mm"
                   showTimeSelect
+                  timeIntervals={30}
                   name="reservation_datetime" 
+                  // 이미 예약이 잡혀있는 시간대는 제외해야함 
+                  // excludeTimes={[
+                  //   setHours(setMinutes('2021-07-14', 0), 17),
+                  //   setHours(setMinutes(new Date(), 30), 18),
+                  //   setHours(setMinutes(new Date(), 30), 19),
+                  //   setHours(setMinutes(new Date(), 30), 17),
+                  // ]}
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   timeClassName={handleColor}

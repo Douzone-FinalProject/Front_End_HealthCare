@@ -7,7 +7,7 @@ import DialMenu from "views/common/DialMenu";
 import PieChart from "./PieChart";
 import PieChart2 from "./PieChart2";
 import PieChart3 from "./PieChart3";
-import { staffList, readStaff, deleteStaf, receiptCount, testCount, medicinePresCount, aCount, bCount, abCount, oCount, rh_aCount, rh_bCount, rh_abCount, rh_oCount, staffCount, disableStaffCount } from "apis/manage";
+import { staffList, readStaff, deleteStaf, receiptCount, testCount, medicinePresCount, bloodCount, staffCount, disableStaffCount } from "apis/manage";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import StaffListItem from "./StaffListItem";
@@ -66,23 +66,16 @@ function Manage(props) {
 
     const getBloodCount =  async () => {
         try{
-            const response = await aCount();
-            const response2 = await bCount();
-            const response3 = await abCount();
-            const response4 = await oCount();
-            const response5 = await rh_aCount();
-            const response6 = await rh_bCount();
-            const response7 = await rh_abCount();
-            const response8 = await rh_oCount();
-
+            const response = await bloodCount();
+            
             setATypeBlood(response.data.acount);
-            setBTypeBlood(response2.data.bcount);
-            setABTypeBlood(response3.data.abcount);
-            setOTypeBlood(response4.data.ocount);
-            setRH_ATypeBlood(response5.data.rh_acount);
-            setRH_BTypeBlood(response6.data.rh_bcount);
-            setRH_ABTypeBlood(response7.data.rh_abcount);
-            setRH_OTypeBlood(response8.data.rh_ocount);
+            setBTypeBlood(response.data.bcount);
+            setABTypeBlood(response.data.abcount);
+            setOTypeBlood(response.data.ocount);
+            setRH_ATypeBlood(response.data.rh_acount);
+            setRH_BTypeBlood(response.data.rh_bcount);
+            setRH_ABTypeBlood(response.data.rh_abcount);
+            setRH_OTypeBlood(response.data.rh_ocount);
 
         }
         catch(error){
@@ -212,18 +205,20 @@ function Manage(props) {
     }
 
     useEffect(() => {
+        getBloodCount()
         getStaffList()
         getInfoCount()
-        getBloodCount()
         getStaffCount()
     }, [])
     
-
+    const realTimeReceiptList = async () => {
+        console.log("realTimeReceiptList");
+    }
 
     return (
         <>
         
-        <Header/>
+        <Header realTimeReceiptList={realTimeReceiptList}/>
         <CreateEmployee isModal={isModal} closeModal={closeModal} getStaffList={getStaffList} staffs={staffs} />
         <UpdateEmployee getStaffList={getStaffList} updateNameAndIdChange={updateNameAndIdChange} updatePhoneChange={updatePhoneChange} phone={phone} updateIsOpen={updateIsOpen} closeUpdateModal={closeUpdateModal} nowStaff={nowStaff} setNowStaff={setNowStaff} deleteStaff={deleteStaff} />
          <div className="mt-5">

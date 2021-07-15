@@ -73,16 +73,29 @@ export default class Dayz extends React.Component {
     renderDays() {
         // 진짜 달력 부분
         // Day는 하루 의미 (month에서 한칸)
-        return this.days.map((day, index) => (
-            <Day
-                key={day.format('YYYYMMDD')}
-                day={day}
-                position={index}
-                layout={this.layout}
-                handlers={this.props.dayEventHandlers}
-                onEventClick={this.props.onEventClick}
-            />
-        ));
+        return this.days.map((day, index) => {
+            let result = undefined;
+            if(day.format('ddd') === 'Sun' || day.format('ddd') === 'Sat'){
+                result = <Day
+                    key={day.format('YYYYMMDD')}
+                    day={day}
+                    position={index}
+                    layout={this.layout}
+                    handlers={this.props.dayEventHandlers}
+                    onEventClick={this.props.onEventClick}
+                    />;
+            }else{
+                result = <Day
+                    key={day.format('YYYYMMDD')}
+                    day={day}
+                    position={index}
+                    layout={this.layout}
+                    handlers={this.props.dayEventHandlers}
+                    onEventClick={this.props.onEventClick}
+                    />;
+            }
+            return result;
+        });
     }
 
     render() {
