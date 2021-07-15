@@ -93,22 +93,22 @@ function TestState(props) {
     <>
       <div className={cx("whole-frame")}>
         <Header realTimeReceiptList={realTimeReceiptList}/>
-          <Row>
-            <Col flex={2} className={cx("teststate-frame")}>
-              <ChartAndList waitingData={waitingData} setWaitingData={setWaitingData} 
-                            setReceiptId={setReceiptId} labTable={labTable} 
-                            waitType={waitType} state={state} setWaitType={setWaitType} setState={setState} 
-                            stateChart={stateChart} setStateChart={setStateChart}
-                            labChart={labChart} setLabChart={setLabChart}/>
-            </Col>
-            <Col flex={3} className="m-2">
-              <TestStateDetail receiptId={receiptId} 
-                              detailData={detailData} setDetailData={setDetailData} 
-                              waitingData={waitingData} setWaitingData={setWaitingData}
-                              pubMessage={pubMessage} waitType={waitType} state={state}
-                              />
-            </Col>
-          </Row>
+        <Row>
+          <Col span={7} className={cx("teststate-frame", "flex-width")}>
+            <ChartAndList waitingData={waitingData} setWaitingData={setWaitingData} 
+                          setReceiptId={setReceiptId} labTable={labTable} 
+                          waitType={waitType} state={state} setWaitType={setWaitType} setState={setState} 
+                          stateChart={stateChart} setStateChart={setStateChart}
+                          labChart={labChart} setLabChart={setLabChart}/>
+          </Col>
+          <Col span={17} className={cx("flex-width")}>
+            <TestStateDetail receiptId={receiptId} 
+                            detailData={detailData} setDetailData={setDetailData} 
+                            waitingData={waitingData} setWaitingData={setWaitingData}
+                            pubMessage={pubMessage} waitType={waitType} state={state}
+                            />
+          </Col>
+        </Row>
         <DialMenu />
       </div>
     </>
