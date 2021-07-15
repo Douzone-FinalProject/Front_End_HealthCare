@@ -26,7 +26,6 @@ export default class YLabels extends React.Component {
         const day = moment().startOf('hour');
         return this.hours.map(hour => 
             <div key={hour} className="hour">
-
             {hour === 12? 
                 <div key={hour} className="hour hour12">
                     {day.hour(hour).format(this.props.timeFormat)}

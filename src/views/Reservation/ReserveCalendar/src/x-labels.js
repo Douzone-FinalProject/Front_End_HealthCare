@@ -50,8 +50,7 @@ export default class XLabels extends React.Component {
                     this.days.map(day => 
                         // 달력의 날짜 부분 #####
                         <div key={day.format('YYYYMMDD')} className="day-label">
-                            {/* { day.format('ddd') === 'Sun' || day.format('ddd') === 'Sat'?
-                            } */}
+
                             {
                             day.format('YYYYMMDD') === today?
                                 <div key={day.format('YYYYMMDD')} className="day-label day-label-today">
