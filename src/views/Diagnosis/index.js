@@ -14,8 +14,8 @@ import { searchSymptomB, createRequestTest, fatientOpinions, createOpinion, crea
 import { getReceiptList } from "apis/receipt";
 import { useSelector } from "react-redux";
 import { sendRedisMessage } from "apis/message";
-import Page403 from "views/common/Page403";
-import { Redirect, Route } from "react-router-dom";
+// import Page403 from "views/common/Page403";
+// import { Redirect, Route } from "react-router-dom";
 // import { Link, Route } from "react-router-dom";
 
 
@@ -119,10 +119,14 @@ function Diagnosis (props) {
         catch(error){
             props.history.push("/page403");
             console.log("############"+error)
-        }
-            
-            
+        }     
     };
+
+    const symptomEnter = (e, symptom_name) => {
+        if(e.key === 'Enter'){
+            searchSymptom(symptom_name);
+        }
+    }
    
     const selectSymptom = (symptom_name) => { //선택
        
@@ -592,7 +596,7 @@ function Diagnosis (props) {
                       <PatientList selectedPatient={selectedPatient} patients={patients} selectPatient={selectPatient}/>
                     </div>
                     <div className={cx("diagnosis-component-background", "diagnosis-symptom-widthAndHeight", "mr-3")}>
-                      <SymptomSearch deleteBeforePrescript={deleteBeforePrescript} selectedPatient={selectedPatient} symptomsCopy={symptomsCopy} search={search} handleChange={handleChange} searchSymptom={searchSymptom} selectSymptom={selectSymptom}/>
+                      <SymptomSearch symptomEnter={symptomEnter} deleteBeforePrescript={deleteBeforePrescript} selectedPatient={selectedPatient} symptomsCopy={symptomsCopy} search={search} handleChange={handleChange} searchSymptom={searchSymptom} selectSymptom={selectSymptom}/>
                     </div>
                     <div className={cx("diagnosis-component-background", "diagnosis-medicine-widthAndHeight")}>
                       <MedicinePrescriptionList isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} medicines={medicines} handleModal={handleModal} addMedicines={addMedicines} deleteMedicineAll={deleteMedicineAll} deleteMedicine={deleteMedicine} handleCount={handleCount} />
