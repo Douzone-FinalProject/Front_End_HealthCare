@@ -105,7 +105,7 @@ function TestState(props) {
               <TestStateDetail receiptId={receiptId} 
                               detailData={detailData} setDetailData={setDetailData} 
                               waitingData={waitingData} setWaitingData={setWaitingData}
-                              pubMessage={pubMessage} 
+                              pubMessage={pubMessage} waitType={waitType} state={state}
                               />
             </Col>
           </Row>

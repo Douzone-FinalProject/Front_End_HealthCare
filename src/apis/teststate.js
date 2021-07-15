@@ -95,9 +95,13 @@ const lab = [
 
 export async function getLabChart() {
   const labChartData = await axios.get(`teststate/labchart`);
-  console.log(labChartData)
   lab[0].value = labChartData.data[0].lab1;
   lab[1].value = labChartData.data[0].lab2;
   lab[2].value = labChartData.data[0].lab3;
   return lab; 
+}
+
+export async function getReceiptState(receiptId) {
+  const receiptState = await axios.get(`/teststate/receiptstate/${receiptId}`);
+  return receiptState.data;
 }
