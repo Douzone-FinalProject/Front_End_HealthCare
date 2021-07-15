@@ -126,7 +126,12 @@ const PatientReadOnly = (props) => {
             <TextField disabled label="혈액형"  name="patient_blood_type" value={patient.patient_blood_type ||''}/>
             <TextField disabled label="맥박" name="patient_pulse" value={patient.patient_pulse ||''}/>    
           </div>
-
+          <div className="m-1" style={{fontSize:"1.2em", color:"red"}}>
+              {(patient.patient_pulse === '' || patient.patient_pulse === 0 || patient.patient_pulse === undefined)? ''
+                :(patient.patient_pulse < 50 ? '**서맥입니다.'
+                 :( patient.patient_pulse < 100 ? <span style={{color:"blue"}}>'**정상맥박 입니다.'</span> :'**빈맥입니다.')
+                )}
+          </div>
           <div className="d-flex">
             <div className="ml-1 d-flex-col">
               <Input
@@ -157,6 +162,22 @@ const PatientReadOnly = (props) => {
               />
               <FormHelperText>최저혈압</FormHelperText>
             </div>
+          </div>
+          <div className="m-1" style={{fontSize:"1.2em", color:"red"}}>
+              {( patient.patient_max_bp !== '' && patient.patient_max_bp !== 0 &&
+                  patient.patient_min_bp !== '' && patient.patient_min_bp !== 0) 
+                &&
+                ((patient.patient_max_bp <= 90 && patient.patient_min_bp < 60) ? '**저혈압 기준수치'
+                  :
+                  ((patient.patient_max_bp < 120 && patient.patient_min_bp < 80)?<span style={{color:'blue'}}>'**혈압 정상수치'</span>
+                      :
+                    ((patient.patient_max_bp > 140 && patient.patient_min_bp > 90)?'**고혈압 기준수치'
+                        :
+                      ((patient.patient_max_bp >= 120 && patient.patient_min_bp >= 80) ? '**고혈압 주의단계'
+                          :
+                          ((patient.patient_max_bp <= 90 && patient.patient_min_bp < 60) ? '**저혈압 기준수치':'')
+                      )
+                )))}
           </div>
 
           <div className="mt-5">

@@ -7,13 +7,9 @@ import { Link } from 'react-router-dom';
 import style from '../style.module.css';
 import classNames from 'classnames/bind';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
-import Divider from '@material-ui/core/Divider';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
-import { makeStyles } from '@material-ui/core/styles';
+import PersonIcon from '@material-ui/icons/Person';
+import Modal from "react-modal";
+import SearchReservation from './SearchReservation';
 
 require('./demo.scss');
 
@@ -27,7 +23,7 @@ const custom_style = {
     borderRadius: '7px',
 };
 
-
+Modal.setAppElement('body');
 class ReserveCalendar extends React.Component {
     constructor(props) {
         super(props);
@@ -41,10 +37,10 @@ class ReserveCalendar extends React.Component {
             display: 'week',
             // 디비에서 가져온 예약 리스트도 상태로 가지고 있음 
             events: new Dayz.EventsCollection(this.props.events),
-            patient_name: ''
+            patient_name: '',
+            modalIsOpen: false
         };
     }
-
 
     // 달력에서 문자열 길이만큼 보여주기 
     textLengthOverCut(txt, len, lastTxt) {
@@ -77,60 +73,46 @@ class ReserveCalendar extends React.Component {
         this.props.handleClick(rid); // 여기서는 rid를 꼭 넘겨줘야 한다!!!!!!!---- 
     }
 
-    render() {
-        const classes = makeStyles((theme) => ({
-            root: {
-              padding: '2px 4px',
-              display: 'flex',
-              alignItems: 'center',
-              width: 400,
-            },
-            input: {
-              marginLeft: theme.spacing(1),
-              flex: 1,
-            },
-            iconButton: {
-              padding: 10,
-            },
-          }));
+    // modal 열고 닫기 
+    openModal = (e) => {
+        e.preventDefault();
+        this.setState({modalIsOpen:true});
+    }
 
-      
+    closeModal = () => {
+        this.setState({modalIsOpen:false});
+    }
+
+    render() {
+        const customStyles = {
+            content: {
+                width: '750px',
+                height: '430px',
+                top: '50%',
+                left: '44%',
+                right: 'auto',
+                bottom: 'auto',
+                marginRight: '-50%',
+                transform: 'translate(-50%, -50%)',
+            },
+        };
 
         return (
             <div className="dayz-test-wrapper" style={custom_style}>
                 <div className="d-flex justify-content-between">
-                    <Link to="/receipt">
-                        <Button className={cx("ml-3", "custom-btn")} color="rgb(153, 102, 255)">
-                            <ArrowBackIcon/> 접수
+                    <div>
+                        <Link to="/receipt">
+                            <Button className={cx("ml-3", "custom-btn")} color="rgb(153, 102, 255)">
+                                <ArrowBackIcon/> 접수
+                            </Button>
+                        </Link>
+                        <Button className={cx("ml-3", "custom-btn")} color="#f59f00" 
+                            onClick={this.openModal}>
+                            <PersonIcon/> 검색
                         </Button>
-                    </Link>
-
-                    <Paper component="form" className={cx("classes.root", "d-flex")} >
-                        <InputBase
-                            style={{"width": "15em"}}
-                            className={classes.input} name="patient_name" 
-                            // value
-                            onChange={this.handleChange}
-                            placeholder="  환자 이름을 검색하세요" id="patient_name"
-                        />
-                            <IconButton type="submit" className={classes.iconButton} aria-label="search"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                // props.handleSearch(patient_name);
-                            }}
-                            >  
-                            <SearchIcon />
-                            </IconButton>
-                            <Divider className={classes.divider} orientation="vertical" />
-                            <IconButton color="primary" className={classes.iconButton} aria-label="전체보기" 
-                                    onClick={function(e){
-                                    e.preventDefault(); 
-                                    // setPatient_name(''); // 검색 초기화 
-                                    // props.handleAllSearch();
-                            }}>
-                            <ClearAllIcon />
-                            </IconButton>
-                    </Paper>
+                        <SearchReservation handleClick={this.props.handleClick} modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal} />
+                        
+                    </div>
                     <DateTime className="mb-2" label="" name="myDate" 
                             onChange={(e) => {this.setState({ date: moment(e.target.value)});}}/>
                 </div>
