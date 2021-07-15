@@ -51,8 +51,7 @@ table {
 /* 세로축 스크롤바 길이 */
 /* 가로축 스크롤바 길이 */
 ::-webkit-scrollbar {
-   width:2px;  
-   
+   width: 2px;  
  } 
  
  ::-webkit-scrollbar-track-piece {

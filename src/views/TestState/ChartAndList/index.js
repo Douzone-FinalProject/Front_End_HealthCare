@@ -11,15 +11,17 @@ const cx = classNames.bind(style);
 function ChartAndList({waitingData, setWaitingData, setReceiptId, labTable, waitType, state, setWaitType, setState, stateChart, setStateChart, labChart, setLabChart}, props) {
 
   return (
-    <Card className={cx("card")}>
-      <div className={cx("mb-3", "clock")}><Clock format={'YYYY년 MM월 DD일 HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/></div>
-      <ChartSection waitingData={waitingData} stateChart={stateChart} setStateChart={setStateChart}
-                            labChart={labChart} setLabChart={setLabChart}/>
-      <div className={cx("teststate-lab")}>
-        <LabTable labTable={labTable}/>
-      </div>
-      <PatientStateList waitingData={waitingData} setWaitingData={setWaitingData} setReceiptId={setReceiptId} waitType={waitType} state={state} setWaitType={setWaitType} setState={setState}/>
-    </Card>
+    <div className={cx("flex-width")}>
+      <Card className={cx("card")}>
+        <div className={cx("mb-3", "clock")}><Clock format={'YYYY년 MM월 DD일 HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/></div>
+        <ChartSection waitingData={waitingData} stateChart={stateChart} setStateChart={setStateChart}
+                              labChart={labChart} setLabChart={setLabChart}/>
+        <div className={cx("teststate-lab")}>
+          <LabTable labTable={labTable}/>
+        </div>
+        <PatientStateList waitingData={waitingData} setWaitingData={setWaitingData} setReceiptId={setReceiptId} waitType={waitType} state={state} setWaitType={setWaitType} setState={setState}/>
+      </Card>
+    </div>
   );
 }
 

@@ -22,12 +22,12 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     {
       title: "증상코드",
       dataIndex: "symptom_id",
-      width: 80,
+      width: 90,
     },
     {
       title: "묶음코드",
       dataIndex: "bundle_id",
-      width: 80,
+      width: 90,
     },
     {
       title: "검사명",
@@ -67,7 +67,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     {
       title: "상태",
       dataIndex: "diagnostic_list_state",
-      width: 100,
+      width: 90,
 
       render: diagnostic_list_state => {
         let color = (diagnostic_list_state === "검사대기") ? "rgb(255, 99, 132)" : "rgb(255, 99, 132)";
@@ -94,13 +94,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     setRows([...selectedRows])
     setRowKeys([...selectedRowKeys])
     setBundleSpeciemens(selectedRows.map(row => row.bundle_specimen))
-  },
-  // getCheckboxProps: (record) => ({
-  //   disabled: record.bundle_lab !== waitType && waitType !== "전체",
-  //   bundle_lab: record.bundle_lab
-  // }),
-
-   
+  },   
   getCheckboxProps: (record) => {
     if (waitType === "전체") {
       console.log("2", record)
@@ -260,33 +254,35 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   }
 
   return (
-    <Card className={cx("card")}>
-      <div className={cx("d-flex", "justify-content-between")}>
-        <div className={cx("teststate-patient")}><span><strong>{patientName}</strong></span>님: 진단 검사 상세<strong className={cx("text-primary")}>({receiptState})</strong></div>
-        <div className="d-flex">
-          {complete === 'true' ?
-          (
-          <>
-          <Button color={'#ffd43b'} onClick={handleReceiptState} value="수납전">집으로</Button>
-          <Button color={'#69db7c'} onClick={handleReceiptState} value="대기">의사로</Button>
-          </>
-          )
-          :
-          <></>
-          }
-          <Button color={'rgb(255, 99, 132)'}  className={cx(receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전" ? 'd-none' : "")} onClick={handleBarcode} >바코드 출력</Button>
-          <Button color={'rgb(255, 159, 64)'} className={cx(receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전" ? 'd-none' : "")} onClick={handleCancel}>접수 취소</Button>
-          <Button color={'rgb(54, 162, 235)'} className={cx(receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전" ? 'd-none' : "")} onClick={handleComplete}>검사 완료</Button>
-          <Button color={'rgb(153, 102, 255)'} onClick={saveExcel}>엑셀 저장</Button>
+    <div className={cx("flex-width")}>
+      <Card className={cx("card")}>
+        <div className={cx("d-flex", "justify-content-between")}>
+          <div className={cx("teststate-patient")}><span><strong>{patientName}</strong></span>님: 진단 검사 상세<strong className={cx("text-primary")}>({receiptState})</strong></div>
+          <div className="d-flex">
+            {complete === 'true' ?
+            (
+            <>
+            <Button color={'#ffd43b'} onClick={handleReceiptState} value="수납전">집으로</Button>
+            <Button color={'#69db7c'} onClick={handleReceiptState} value="대기">의사로</Button>
+            </>
+            )
+            :
+            <></>
+            }
+            <Button color={'rgb(255, 99, 132)'}  className={cx(receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전" ? 'd-none' : "")} onClick={handleBarcode} >바코드 출력</Button>
+            <Button color={'rgb(255, 159, 64)'} className={cx(receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전" ? 'd-none' : "")} onClick={handleCancel}>접수 취소</Button>
+            <Button color={'rgb(54, 162, 235)'} className={cx(receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전" ? 'd-none' : "")} onClick={handleComplete}>검사 완료</Button>
+            <Button color={'rgb(153, 102, 255)'} onClick={saveExcel}>엑셀 저장</Button>
+          </div>
         </div>
-      </div>
-      <div className={cx("teststate-table")}>
-        <Table className={cx("ant-th", "ant-tbody", "test-state-detail")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}} scroll={{x: 0, y: 720}}/>
-      </div>
-      {
-        isModalVisible && (<CameraModal handleModal={handleModal} receiptId={receiptId} patientName={patientName}/>)
-      }
-    </Card>
+        <div className={cx("teststate-table")}>
+          <Table className={cx("ant-th", "ant-tbody", "test-state-detail")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}} scroll={{y: 720}}/>
+        </div>
+        {
+          isModalVisible && (<CameraModal handleModal={handleModal} receiptId={receiptId} patientName={patientName}/>)
+        }
+      </Card>
+    </div>
   );
 }
 
