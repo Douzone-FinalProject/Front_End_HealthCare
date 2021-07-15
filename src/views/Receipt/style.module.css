@@ -1,3 +1,9 @@
+.bmi-result {
+  text-align: center;
+  font-weight: bold;
+  font-size: 2em;
+}
+
 .title{
   margin-left: 1.2em;
   margin-top: 0.7em;
