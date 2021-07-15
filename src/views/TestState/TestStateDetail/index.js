@@ -6,18 +6,18 @@ import { Card, Table } from 'antd';
 import Button from "../Button";
 import { useRef, useState } from "react";
 import { useEffect } from 'react';
-import { getTestStateDetailList, updateStateDetail, updateReceiptState, getPatientName } from "apis/teststate"; 
+import { getTestStateDetailList, updateStateDetail, updateReceiptState, getPatientName, getReceiptState } from "apis/teststate"; 
 import CameraModal from "./CameraModal";
 import { getCheckPreviousResult, insertResultData, insertResultDataByNew } from "apis/result";
 import { sendRedisMessage } from 'apis/message';
-import { Message } from '@material-ui/icons';
 
 const cx = classNames.bind(style);
 
-function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, props) {
+function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, waitType, state}, props) {
 
   const [patientName, setPatientName] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [receiptState, setReceiptState] = useState();
     const resultItem = [
     {
       title: "증상코드",
@@ -87,30 +87,48 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, pro
   const [bundleSpecimens, setBundleSpeciemens] = useState([]);
   const [complete, setComplete] = useState('false');
 
-    const rowSelection = {  
-      onChange: (selectedRowKeys, selectedRows) => {
-      console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
-      setRows([...selectedRows])
-      setRowKeys([...selectedRowKeys])
-      setBundleSpeciemens(selectedRows.map(row => row.bundle_specimen))
-    },
-    // onSelect: (record, selected, selectedRows) => {
-    //   // console.log(record);
-    //   // console.log(record, selected, selectedRows);
-    // },
-    // onSelectAll: (selected, selectedRows, changeRows) => {
-    //   // console.log(selected, selectedRows, changeRows);
-    // },
+  const rowSelection = {  
+    onChange: (selectedRowKeys, selectedRows) => {
+    // console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
+    setRows([...selectedRows])
+    setRowKeys([...selectedRowKeys])
+    setBundleSpeciemens(selectedRows.map(row => row.bundle_specimen))
+  },
+  // getCheckboxProps: (record) => ({
+  //   disabled: record.bundle_lab !== waitType && waitType !== "전체",
+  //   bundle_lab: record.bundle_lab
+  // }),
+  getCheckboxProps: (record) => {
+    if (waitType === "전체") {
+      console.log("2", record)
+      return ({
+        disabled: record.bundle_lab !== record.compareLab
+      })
+    } else {
+      return ({
+        disabled: record.bundle_lab !== waitType,
+        bundle_lab: record.bundle_lab
+      })
+    }
+  },
+  onSelect: (record, selected, selectedRows, nativeEvent) => {
+    if (selected) {
+      record = {
+        ...record,
+        compareLab: selectedRows[0].bundle_lab
+      }
+      rowSelection.getCheckboxProps(record)
+    }
   }
-  
+}
+
   useEffect(() => {
     if (receiptId) {
-      console.log("2")
       async function fetchAndSetDetailData() {
         setPatientName(await getPatientName(receiptId));
         setDetailData(await getTestStateDetailList(receiptId));
+        setReceiptState(await getReceiptState(receiptId));
       }
-      // setPatientName(getPatientName(receiptId));
       fetchAndSetDetailData();
     }
   }, [receiptId])
@@ -133,7 +151,6 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, pro
   const handleBarcode = async () => {
     if (rowKeys.length !== 0) {
       await updateStateDetail(rowKeys, "검사접수", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
-      // setDetailData(await getTestStateDetailList(receiptId));
       await sendRedisMessage({
         ...pubMessage,
         content: {
@@ -144,6 +161,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, pro
       if (rows[0].bundle_name === "MRI" || rows[0].bundle_name === "CT") {
         setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
       }
+      Swal.fire('검사 접수를 하였습니다.')
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -157,6 +175,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, pro
     if (rowKeys.length !== 0) {
       await updateStateDetail(rowKeys, "검사대기", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
       await sendRedisMessage(pubMessage);
+      Swal.fire('검사 취소를 하였습니다.')
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -170,6 +189,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, pro
     if (rowKeys.length !== 0) {
     await updateStateDetail(rowKeys, "검사완료", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
     await sendRedisMessage(pubMessage);
+    Swal.fire('검사 완료를 하였습니다.')
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -210,11 +230,11 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, pro
 
   }
 
+  
   const handleReceiptState = async (event) => {
-    console.log(receiptId);
     await updateReceiptState(event.target.value, receiptId);
+    setReceiptState(await getReceiptState(receiptId));
     const response = await getCheckPreviousResult(receiptId);
-    console.log(response.data.PrevResultData);
     if(response.data.PrevResultData.length === 0 ) {
       await insertResultDataByNew({receipt_id: receiptId});
     } else {
@@ -224,12 +244,17 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, pro
       topic:'/'+ sessionStorage.getItem("hospital_id") +'/#',
       content:'ChangeReceiptState',
     });
+
+    if (event.target.value === "수납전") {
+      Swal.fire('수납전')
+    } else if (event.target.value === "대기") {
+      Swal.fire('대기')
+    }
   }
 
   const handleModal = () => { //모달 창 열기, 닫기      
     setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
   }
-
 
   return (
     <Card className={cx("card")}>
@@ -239,21 +264,21 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage}, pro
           {complete === 'true' ?
           (
           <>
-          <Button color={'#ffd43b'} onClick={handleReceiptState} value="수납전">집으로</Button>
-          <Button color={'#69db7c'} onClick={handleReceiptState} value="대기">의사로</Button>
+          <Button color={'#ffd43b'} onClick={handleReceiptState} value="수납전" {...(receiptState === "수납전" || receiptState === "대기" ? {disabled : true}: {})}>집으로</Button>
+          <Button color={'#69db7c'} onClick={handleReceiptState} value="대기" {...(receiptState === "수납전" || receiptState === "대기" ? {disabled : true}: {})}>의사로</Button>
           </>
           )
           :
           <></>
           }
-          <Button color={'rgb(255, 99, 132)'} onClick={handleBarcode}>바코드 출력</Button>
-          <Button color={'rgb(255, 159, 64)'} onClick={handleCancel}>접수 취소</Button>
-          <Button color={'rgb(54, 162, 235)'} onClick={handleComplete}>검사 완료</Button>
+          <Button color={'rgb(255, 99, 132)'}  className={cx(state === "검사완료" ? 'd-none' : "")} onClick={handleBarcode} >바코드 출력</Button>
+          <Button color={'rgb(255, 159, 64)'} className={cx(state === "검사완료" ? 'd-none' : "")} onClick={handleCancel}>접수 취소</Button>
+          <Button color={'rgb(54, 162, 235)'} className={cx(state === "검사완료" ? 'd-none' : "")} onClick={handleComplete}>검사 완료</Button>
           <Button color={'rgb(153, 102, 255)'} onClick={saveExcel}>엑셀 저장</Button>
         </div>
       </div>
       <div className={cx("teststate-table")}>
-        <Table className={cx("ant-th", "ant-tbody")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}}/>
+        <Table className={cx("ant-th", "ant-tbody", "test-state-detail")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}}/>
       </div>
       {
         isModalVisible && (<CameraModal handleModal={handleModal} receiptId={receiptId} patientName={patientName}/>)
