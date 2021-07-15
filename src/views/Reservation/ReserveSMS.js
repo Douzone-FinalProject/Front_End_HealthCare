@@ -29,7 +29,7 @@ const ReserveSMS = (props) => {
 
   const [updateForm, setUpdateForm] = useState({});
   const [message, setMessage] = useState('');
-  const [format, setFormat] = useState('USD');
+  const [format, setFormat] = useState('');
 
   const handleSMS = async (params) => {
     try{
@@ -47,11 +47,25 @@ const ReserveSMS = (props) => {
     });
     setMessage(event.target.message);
     setFormat(event.target.value);
+    if(event.target.value === 'confirm'){
+      if(updateForm.reservation_name !== undefined){
+        setMessage('[더조은병원]\n'+updateForm.reservation_name+'님 '+updateForm.reservation_datetime+'예약 완료되었습니다.');
+      }else{
+        setMessage('[더조은병원]\n 000 환자 000 예약 완료되었습니다.');
+      }
+    }else if(event.target.value === 'position'){
+      setMessage("[더조은병원]\n 중대로 135 서관 12층입니다. 지하에 주차 가능합니다. (1시간 무료) \n감사합니다");
+
+    }else if(event.target.value === 'holiday'){
+      setMessage('[더조은병원]\n 00월 00일은 병원 휴관입니다. 더 좋은 진료를 위해 항상 노력하겠습니다.\n감사합니다');
+    }
   };  
 
   useEffect(() => {
     if(props.updateForm !== undefined){
       setUpdateForm(props.updateForm);
+      setMessage('');
+      setFormat('');
     }else{
       console.log('updateForm undefined');
     }
@@ -59,20 +73,16 @@ const ReserveSMS = (props) => {
 
   const formatlist = [
     {
-      value: 'USD',
+      value: 'confirm',
       label: '예약 확인',
     },
     {
-      value: 'EUR',
+      value: 'position',
       label: '위치 안내',
     },
     {
-      value: 'BTC',
-      label: '휴일 안내',
-    },
-    {
-      value: 'JPY',
-      label: '테스트',
+      value: 'holiday',
+      label: '휴관 안내',
     },
   ];
 
@@ -85,7 +95,7 @@ const ReserveSMS = (props) => {
         </div>
         {/* 새로고침 아이콘 여기에 두기, onclick시에 값 초기화  */}
         <AutorenewIcon style={{"fontSize": "1.3em"}} className="mt-2 mr-4"
-          onClick={() => {setUpdateForm({}); setMessage('');}}
+          onClick={() => {setUpdateForm({}); setMessage(''); setFormat('');}}
         ></AutorenewIcon>
       </div>
       <div className={cx("reserve-form-bottom")}>
@@ -152,8 +162,8 @@ const ReserveSMS = (props) => {
     
                           // 예약 폼 초기화 
                           setUpdateForm({});
-                          // message 초기화 
                           setMessage('');
+                          setFormat('');
                         }
                       })
                     }}

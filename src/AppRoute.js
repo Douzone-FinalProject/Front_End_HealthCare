@@ -16,9 +16,7 @@ import PublicRoute from 'views/common/PublicRoute';
 function AppRoute(props) {
     const globalAuthToken = useSelector((state) => state.authReducer.authToken);
     return(
-        
         <Switch>
-            
             {globalAuthToken ?
             <>
                  <PublicRoute  path="/" exact component={Main}/>
@@ -37,7 +35,6 @@ function AppRoute(props) {
                 <PublicRoute path="/" exact component={Main}/>
                 <PublicRoute restricted path="/login" exact component={login}/>
             </>
-            
         }
         </Switch>
     );

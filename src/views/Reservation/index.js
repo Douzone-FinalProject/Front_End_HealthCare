@@ -90,6 +90,7 @@ const Reservation = (props) => {
     const dbList = response.data.reservations;
     for(var reserve of dbList){
       reserveList.push({...reserve, resizable: true, 
+      content: reserve.reservation_name + ' ' + reserve.reservation_phone.substring(7, 11),
       range: moment.range(moment(reserve.reservation_datetime), 
             moment(reserve.reservation_datetime).add(30, 'minutes'))})
     }
