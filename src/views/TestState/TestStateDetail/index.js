@@ -105,11 +105,11 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     if (waitType === "전체") {
       console.log("2", record)
       return ({
-        disabled: bundleLab && record.bundle_lab !== bundleLab
+        disabled: (bundleLab && record.bundle_lab !== bundleLab) || receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전"
       })
     } else {
       return ({
-        disabled: record.bundle_lab !== waitType,
+        disabled: record.bundle_lab !== waitType || receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전",
         bundle_lab: record.bundle_lab
       })
     }
@@ -262,26 +262,26 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   return (
     <Card className={cx("card")}>
       <div className={cx("d-flex", "justify-content-between")}>
-        <div className={cx("teststate-patient")}><span><strong>{patientName}</strong></span>님: 진단 검사 상세</div>
+        <div className={cx("teststate-patient")}><span><strong>{patientName}</strong></span>님: 진단 검사 상세<strong className={cx("text-primary")}>({receiptState})</strong></div>
         <div className="d-flex">
           {complete === 'true' ?
           (
           <>
-          <Button color={'#ffd43b'} onClick={handleReceiptState} value="수납전" {...(receiptState === "수납전" || receiptState === "대기" ? {disabled : true}: {})}>집으로</Button>
-          <Button color={'#69db7c'} onClick={handleReceiptState} value="대기" {...(receiptState === "수납전" || receiptState === "대기" ? {disabled : true}: {})}>의사로</Button>
+          <Button color={'#ffd43b'} onClick={handleReceiptState} value="수납전">집으로</Button>
+          <Button color={'#69db7c'} onClick={handleReceiptState} value="대기">의사로</Button>
           </>
           )
           :
           <></>
           }
-          <Button color={'rgb(255, 99, 132)'}  className={cx(state === "검사완료" ? 'd-none' : "")} onClick={handleBarcode} >바코드 출력</Button>
-          <Button color={'rgb(255, 159, 64)'} className={cx(state === "검사완료" ? 'd-none' : "")} onClick={handleCancel}>접수 취소</Button>
-          <Button color={'rgb(54, 162, 235)'} className={cx(state === "검사완료" ? 'd-none' : "")} onClick={handleComplete}>검사 완료</Button>
+          <Button color={'rgb(255, 99, 132)'}  className={cx(receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전" ? 'd-none' : "")} onClick={handleBarcode} >바코드 출력</Button>
+          <Button color={'rgb(255, 159, 64)'} className={cx(receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전" ? 'd-none' : "")} onClick={handleCancel}>접수 취소</Button>
+          <Button color={'rgb(54, 162, 235)'} className={cx(receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전" ? 'd-none' : "")} onClick={handleComplete}>검사 완료</Button>
           <Button color={'rgb(153, 102, 255)'} onClick={saveExcel}>엑셀 저장</Button>
         </div>
       </div>
       <div className={cx("teststate-table")}>
-        <Table className={cx("ant-th", "ant-tbody", "test-state-detail")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}}/>
+        <Table className={cx("ant-th", "ant-tbody", "test-state-detail")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}} scroll={{x: 0, y: 720}}/>
       </div>
       {
         isModalVisible && (<CameraModal handleModal={handleModal} receiptId={receiptId} patientName={patientName}/>)
