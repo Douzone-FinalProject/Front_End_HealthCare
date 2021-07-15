@@ -24,12 +24,65 @@ const useStyles = makeStyles((theme) => ({
 }));
 const cx = classNames.bind(style);
 
+function BmiDisplay(props){
+  return (
+    <div className={"bmi-result alert " + props.alertClass}>
+      <div>{ props.bmi || '--.-' }</div>
+      <div>{ props.label }</div>
+    </div> 
+  )
+}
+
 const PatientInfo = (props) => {
   const classes = useStyles();
   // state 
   const [isModal, setModal] = useState(false);
   const [patient, setPatient] = useState({}); 
   const [nextReservation, setNextReservation] = useState('');
+
+  // #-------BMI-------#
+  const calculateBMI = () => {
+    if (patient.patient_weight && patient.patient_height){
+      var height = patient.patient_height;
+      let weight = patient.patient_weight;
+      var bmi = weight / (height * height) * 10000;
+      console.log(height + '-' + weight + '-' + bmi);
+      return bmi;
+    }
+  }
+
+  const getBMIResults = (bmi) => {
+    let bmiResults = {
+      label: '',
+      alertClass: '',
+    };
+    
+    if (bmi < 18.5){
+      bmiResults.label = '저체중';
+      bmiResults.alertClass = 'alert-danger';
+    } 
+    else if (bmi <= 24.9) {
+      bmiResults.label = '정상체중';
+      bmiResults.alertClass = 'alert-success';
+    }
+    else if (bmi <= 29.9){
+      bmiResults.label = '경도비만';
+      bmiResults.alertClass = 'alert-warning';
+    }
+    else if (bmi >= 30) {
+      bmiResults.label = '중등도비반';
+      bmiResults.alertClass = 'alert-danger';
+    } else {
+      bmiResults.label = 'BMI';
+      bmiResults.alertClass = 'alert-primary';
+    }
+
+    return bmiResults;
+  }
+
+  // BMI 
+  let bmi = calculateBMI();
+  let results = getBMIResults(bmi);
 
   // 한 명의 환자 정보 가져오기 
   const handlePatient = async (patient_id) => {
@@ -190,6 +243,8 @@ const PatientInfo = (props) => {
     {value: 'Rh-O', label:'Rh-O'},
   ];
 
+ 
+
   return (
     <div className={cx("patient-detail")}>
       <div className={cx("patient-detail-top", "d-flex justify-content-between")}>
@@ -259,7 +314,7 @@ const PatientInfo = (props) => {
           <div className="m-1" style={{fontSize:"1.2em", color:"red"}}>
               {(patient.patient_pulse === 0 || patient.patient_pulse === '' || patient.patient_pulse === undefined)? ''
                 :(patient.patient_pulse < 50 ? '**서맥입니다.'
-                 :( patient.patient_pulse < 100 ? <span style={{color:"blue"}}>'**정상맥박 입니다.'</span> :'**빈맥입니다.')
+                 :( patient.patient_pulse < 100 ? <span style={{color:"blue"}}>**정상맥박 입니다</span> :'**빈맥입니다.')
                 )}
           </div>
           <div className="d-flex">
@@ -278,6 +333,7 @@ const PatientInfo = (props) => {
             </div>
           </div>
           <div className="m-1" style={{fontSize:"1.2em", color:"blue"}}>
+            <BmiDisplay bmi={bmi} label={results.label} alertClass={results.alertClass} />
           </div>
 
           <div className="d-flex">
