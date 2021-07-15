@@ -37,7 +37,7 @@ function TestState(props) {
   // websocket + redis
   const [connected, setConnected] = useState(false);
   const [pubMessage, setPubMessage] = useState({
-    topic: "/" + sessionStorage.getItem("hospital_id"),
+    topic: "/" + sessionStorage.getItem("hospital_id") + "/",
     content: 'testStateDetail change',
   });
 
@@ -47,7 +47,7 @@ function TestState(props) {
     ws.current.onopen = () => {
       console.log("teststatedetail 접속 성공");
       setConnected(true);
-      let json = {topic: "/" + sessionStorage.getItem("hospital_id")};
+      let json = {topic: "/" + sessionStorage.getItem("hospital_id") +"/"};
       let message = JSON.stringify(json);
       ws.current.send(message);
     };
@@ -61,10 +61,10 @@ function TestState(props) {
       console.log("teststatedetail 메시지 수신");
       let json = event.data;
       let message = JSON.parse(json);
-      if (message.content !== "testStateDetail change") {
+      if (message.content !== "testStateDetail change" && message.content !== 'ChangeReceiptState') {
         setLabTable(JSON.parse(message.content));
       }
-      if (receiptId) {
+      if (receiptId && message.content !== 'ChangeReceiptState') {
         setDetailData(await getTestStateDetailList(receiptId));
       }
       setStateChart(await getStateChart()); 

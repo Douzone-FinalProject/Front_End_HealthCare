@@ -21,7 +21,6 @@ function AppRoute(props) {
             
             {globalAuthToken ?
             <>
-            {/* <Redirect to="/"/>  */}
                  <PublicRoute  path="/" exact component={Main}/>
                  <PrivateRoute path="/manage" exact component={Manage}/>
                  <PrivateRoute path="/guideline" exact component={Guideline}/>

@@ -10,20 +10,11 @@ import { createSetAuthTokenAction, createSetUidAction, createSetNameAction, crea
 
 
 function Header(props) {
+    //메뉴를 열고 닫는 상태
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    //메시지가 도착했는지 알려주는 상태
     const [messageArrived, setMessageArrived] = useState(false);
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-        setMessageArrived(false);
-    };
-
-    const openMenu = () => {
-        setIsMenuOpen(true);
-    };
-
-    const messageArrivedCheck = () => {
-        setMessageArrived(true);
-    };
+    //전역 상태 Redux로부터 불러오기
     const globalUid = useSelector((state) => state.authReducer.staff_login_id);
     const globalName = useSelector((state) => state.authReducer.staff_name);
     const globalRole = useSelector((state) => state.authReducer.staff_role);
@@ -44,6 +35,19 @@ function Header(props) {
         sessionStorage.removeItem("staff_role");
         sessionStorage.removeItem("hospital_name");
         sessionStorage.removeItem("hospital_id");
+    };
+
+    //메뉴를 열고 닫기
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+        setMessageArrived(false);
+    };
+    const openMenu = () => {
+        setIsMenuOpen(true);
+    };
+    //메시지 도착 상태 변경
+    const messageArrivedCheck = () => {
+        setMessageArrived(true);
     };
 
     return (

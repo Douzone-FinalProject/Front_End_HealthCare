@@ -211,12 +211,14 @@ function Manage(props) {
         getStaffCount()
     }, [])
     
-
+    const realTimeReceiptList = async () => {
+        console.log("realTimeReceiptList");
+    }
 
     return (
         <>
         
-        <Header/>
+        <Header realTimeReceiptList={realTimeReceiptList}/>
         <CreateEmployee isModal={isModal} closeModal={closeModal} getStaffList={getStaffList} staffs={staffs} />
         <UpdateEmployee getStaffList={getStaffList} updateNameAndIdChange={updateNameAndIdChange} updatePhoneChange={updatePhoneChange} phone={phone} updateIsOpen={updateIsOpen} closeUpdateModal={closeUpdateModal} nowStaff={nowStaff} setNowStaff={setNowStaff} deleteStaff={deleteStaff} />
          <div className="mt-5">
