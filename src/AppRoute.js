@@ -16,27 +16,28 @@ import PublicRoute from 'views/common/PublicRoute';
 function AppRoute(props) {
     const globalAuthToken = useSelector((state) => state.authReducer.authToken);
     return(
-        <Switch>
+        <>
             {globalAuthToken ?
-            <>
-                 <PublicRoute  path="/" exact component={Main}/>
-                 <PrivateRoute path="/manage" exact component={Manage}/>
-                 <PrivateRoute path="/guideline" exact component={Guideline}/>
-                 <PrivateRoute path="/result" component={Result}/>
-                 <PrivateRoute path="/teststate" exact component={TestState}/>
-                 <PrivateRoute path="/diagnosis" component={diagnosis}/>
-                 <PrivateRoute path="/receipt" component={Receipt}/>
-                 <PrivateRoute path="/reserve" component={Reservation}/>
-                 <PrivateRoute path="/page403" component={Page403}/>
-                 <Route component={Page403}/>
-                 </>
+            <Switch>
+                <PublicRoute  path="/" exact component={Main}/>
+                <PrivateRoute path="/manage" exact component={Manage}/>
+                <PrivateRoute path="/guideline" exact component={Guideline}/>
+                <PrivateRoute path="/result" component={Result}/>
+                <PrivateRoute path="/teststate" exact component={TestState}/>
+                <PrivateRoute path="/diagnosis" component={diagnosis}/>
+                <PrivateRoute path="/receipt" component={Receipt}/>
+                <PrivateRoute path="/reserve" component={Reservation}/>
+                <PrivateRoute path="/page403" component={Page403}/>
+                <Redirect to="/"/>
+            </Switch>
             :    
-            <>
+            <Switch>
                 <PublicRoute path="/" exact component={Main}/>
                 <PublicRoute restricted path="/login" exact component={login}/>
-            </>
+                <Redirect to="/login"/>
+            </Switch>
         }
-        </Switch>
+        </>
     );
 }
 
