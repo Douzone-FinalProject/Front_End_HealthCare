@@ -27,8 +27,7 @@ const cx = classNames.bind(style);
 function BmiDisplay(props){
   return (
     <div className={"bmi-result alert " + props.alertClass}>
-      <div>{ props.bmi || '--.-' }</div>
-      <div>{ props.label }</div>
+      <div>{ props.bmi || '--.-' } { props.label }</div>
     </div> 
   )
 }
