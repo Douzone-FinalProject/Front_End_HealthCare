@@ -45,6 +45,7 @@ function Manage(props) {
 
         }
         catch(error){
+            props.history.push("/page403");
             console.log(error)
         }
     };
@@ -217,15 +218,15 @@ function Manage(props) {
 
     return (
         <>
-        
-        <Header realTimeReceiptList={realTimeReceiptList}/>
         <CreateEmployee isModal={isModal} closeModal={closeModal} getStaffList={getStaffList} staffs={staffs} />
         <UpdateEmployee getStaffList={getStaffList} updateNameAndIdChange={updateNameAndIdChange} updatePhoneChange={updatePhoneChange} phone={phone} updateIsOpen={updateIsOpen} closeUpdateModal={closeUpdateModal} nowStaff={nowStaff} setNowStaff={setNowStaff} deleteStaff={deleteStaff} />
+        <Header realTimeReceiptList={realTimeReceiptList}/>
+      
          <div className="mt-5">
+
          <div className="mb-3"><Clock className={cx("timeInterval")} format={'MM월 DD일  HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/></div>
              <div>
              <h2 className="mb-4 ml-5" >관리 페이지</h2>
-             
              </div>    
             
             <div className={cx("d-flex flex-row", "ssip")}>

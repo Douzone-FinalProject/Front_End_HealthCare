@@ -14,10 +14,6 @@ import { searchSymptomB, createRequestTest, fatientOpinions, createOpinion, crea
 import { getReceiptList } from "apis/receipt";
 import { useSelector } from "react-redux";
 import { sendRedisMessage } from "apis/message";
-// import Page403 from "views/common/Page403";
-// import { Redirect, Route } from "react-router-dom";
-// import { Link, Route } from "react-router-dom";
-
 
 const cx = classnames.bind(style);
 
@@ -117,8 +113,8 @@ function Diagnosis (props) {
             ])
         }
         catch(error){
-            props.history.push("/page403");
-            console.log("############"+error)
+            console.log(error);
+
         }     
     };
 
@@ -206,33 +202,37 @@ function Diagnosis (props) {
     const globalName = useSelector((state) => state.authReducer.staff_name);
 
     const testRequest = async (event) => { //검사 요청                          **'검사완료'상태인거는 소견 및 약 처방 후 진료 상태를'수납전'으로 바꾸게 하고 검사 상태를 '처방완료'로 나타내게 하기**
-       
-                if(selectedPatient.patient_id && selectSymptoms.length !== 0) {
+                try{
+                    if(selectedPatient.patient_id && selectSymptoms.length !== 0) {
+                        //검사 요청시 검사 목록, 진료id insert
+                        let rtList=[];
+                        for(let i of selectSymptoms){
+                            rtList.push({search_id: i.search_id, receipt_id: selectedPatient.receipt_id, doctor_name: globalName});
+                        }
+                        await createRequestTest(rtList);
 
-                    //검사 요청시 검사 목록, 진료id insert
-                    let rtList=[];
-                    for(let i of selectSymptoms){
-                        rtList.push({search_id: i.search_id, receipt_id: selectedPatient.receipt_id, doctor_name: globalName});
+                        const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);
+                        setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
+                        // const reReceiptList = await getReceiptList();
+                        // setpatients(reReceiptList.data.receiptList);
+                        await sendRedisMessage(pubMessage);
+                        deleteAll();
+                        setSelectP({
+                            patient_id: ""
+                        })
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: '검사 요청을 완료하였습니다.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
-                    await createRequestTest(rtList);
-
-                    const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);
-                    setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
-                    // const reReceiptList = await getReceiptList();
-                    // setpatients(reReceiptList.data.receiptList);
-                    await sendRedisMessage(pubMessage);
-                    deleteAll();
-                    setSelectP({
-                         patient_id: ""
-                    })
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: '검사 요청을 완료하였습니다.',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
                 }
+                catch(error){
+                    props.history.push("/page403");
+                }
+
                
     }; 
      
@@ -376,9 +376,16 @@ function Diagnosis (props) {
                 
                 deleteMedicineAll();
                 closeModal()
+                Swal.fire({
+                    icon: 'success',
+                    title: '진료 작성이 완료되었습니다.',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
 
             }
             catch(error){
+                props.history.push("/page403");
                 console.log(error);
             }
         }
@@ -396,19 +403,21 @@ function Diagnosis (props) {
                     patient_id: ""
                 })
                 closeModal()
+                Swal.fire({
+                    icon: 'success',
+                    title: '진료 작성이 완료되었습니다.',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
         
                 }
                 catch(error){
+                    props.history.push("/page403");
                     console.log(error);
                 }
         }
 
-        Swal.fire({
-            icon: 'success',
-            title: '진료 작성이 완료되었습니다.',
-            showConfirmButton: false,
-            timer: 1500
-        })
+        
                 
     }
 
@@ -486,6 +495,7 @@ function Diagnosis (props) {
     const saveOpinion = async (diagnostic_test_state) => {
         try{
             if(medicines.length === 0){
+                // && diagnostic_test_state === null
                 if(diagnostic_test_state === "검사완료"){
                     const handleOpinion = {...opp};
                     await updateOpinion(handleOpinion);
@@ -534,12 +544,13 @@ function Diagnosis (props) {
             }
         
         }catch(error){
+            props.history.push("/page403");
             console.log(error)
         }
     }
 
     const saveMedicine = async (receipt_id) => {
-
+        try{
         let handleMedicines=[]
         for(let i of medicines){
             handleMedicines.push({medicine_id: i.medicine_id, quantity: i.quantity, receipt_id: receipt_id})
@@ -558,6 +569,11 @@ function Diagnosis (props) {
        
        setMedicines(medicines && medicines.filter(medicine => medicine.medicine_id !== medicine.medicine_id)); 
     }
+    catch(error){
+        props.history.push("/page403");
+    }
+    }
+
     
     
     const selectOpinion = (event1, event2) => {

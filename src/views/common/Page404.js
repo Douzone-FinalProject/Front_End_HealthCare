@@ -1,6 +1,7 @@
 import Footer from "../Main/Footer";
 import  Button  from "../common/Button";
-function Page403(props) {
+function Page404(props) {
+
     const toMain = () =>{
         props.history.push("/");
     }
@@ -16,9 +17,10 @@ function Page403(props) {
         </div>
         <div className="d-flex flex-row" style={{width:"100%", height:"100%", backgroundColor:"white"}} >
             <div style={{marginLeft:"10%", marginTop:"4%"}}>
-                <h2 style={{marginBottom:"9%"}}>죄송합니다. 접근 권한이 없습니다.</h2>
-                <h4>작업하시려는 기능에 대해 권한이 없습니다,</h4>
-                <h4 style={{marginBottom:"6%"}}>로그인 하신 계정이 기능의 권한에 대해 맞는 계정이신지 확인해주시기 바랍니다.</h4>
+                <h2 style={{marginBottom:"9%"}}>죄송합니다. 요청하신 페이지를 찾을 수 없습니다.</h2>
+                <h4>방문하시려는 페이지의 주소가 잘못 입력되었거나,</h4>
+                <h4>페이지의 주소가 변경 혹은 삭제되어 요청하신 페이지를 찾을 수 없습니다.</h4>
+                <h4 style={{marginBottom:"6%"}}>입력하신 주소가 정확한지 다시 한번 확인해 주시기 바랍니다.</h4>
                 <h3 style={{marginBottom:"3.5%"}}>감사합니다.</h3>
                 <Button onClick={toMain} style={{width:"200px", marginRight:"2%", marginBottom:"5%"}}>메인으로</Button>
                 <Button onClick={toBefore} style={{width:"200px"}}>이전으로</Button>
@@ -31,4 +33,4 @@ function Page403(props) {
     );
 }
 
-export default Page403;
+export default Page404;

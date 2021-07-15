@@ -1,12 +1,12 @@
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faDesktop, faHeadset } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "views/common/Header";
-
+import DialMenu from "views/common/DialMenu";
+import { useSelector } from "react-redux";
 function Main(props) {
-
+    const globalUid = useSelector((state) => state.authReducer.staff_login_id);
     return (
         <div className="bg-white">
             <Header />
@@ -68,6 +68,7 @@ function Main(props) {
                 </div>
             </div>
             <Footer />
+            {globalUid ? <DialMenu /> : <></>}  
         </div>
     );
 }

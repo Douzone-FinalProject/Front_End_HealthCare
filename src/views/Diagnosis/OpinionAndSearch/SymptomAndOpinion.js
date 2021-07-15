@@ -54,28 +54,34 @@ function SymptomAndOpinion(props) {
                         </MDBTableBody>
                     </MDBTable>
                 </div>
+                <div className="d-flex flex-row">
                 {/* && props.selectedPatient.receipt_state === '진료중' */}
-                {props.selectedPatient.patient_id  ? 
-                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mt-2")} onClick={props.openModal}>소견 작성</Button>
-                    :
-                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mt-2")} onClick={() =>
-                         Swal.fire({
-                            icon: 'info',
-                            title: '진료 상태인 환자만 선택 가능합니다.',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })}>소견 작성</Button>
-                }
-                {props.selectReceipt_id.patient_id || props.selectReceipt_id.diagnostic_test_state === "검사완료" || props.selectReceipt_id.diagnostic_test_state === "처방완료" ?
-                    <Link className={cx("noneLink","diagnosis-opinionAndSearch-button", "mt-2")} to={{pathname:"/result", state: {receiptId2: selectReceipt}}}><Button>결과 조회</Button></Link>
-                    :
-                    <>
-                    </>
-                }
-                    
-                    
+                
+                    <div>
+                    {props.selectedPatient.patient_id  ? 
+                        <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button")} onClick={props.openModal}>소견 작성</Button>
+                        :
+                        <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button")} onClick={() =>
+                            Swal.fire({
+                                icon: 'info',
+                                title: '진료 상태인 환자만 선택 가능합니다.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })}>소견 작성</Button>
+                    }
+                    </div>
+                    <div>
+                    {props.selectReceipt_id.patient_id || props.selectReceipt_id.diagnostic_test_state === "검사완료" || props.selectReceipt_id.diagnostic_test_state === "처방완료" ?
+                        <Link className={cx("noneLink","diagnosis-opinionAndSearch-button")} to={{pathname:"/result", state: {receiptId2: selectReceipt}}}><Button>결과 조회</Button></Link>
+                        :
+                        <>
+                        </>
+                    }
+                    </div>
+                  
                 
         </div>
+        </div>  
         </>
     );
 }

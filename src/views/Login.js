@@ -9,7 +9,8 @@ import { login } from "apis/auth";
 import { addAuthHeader } from "apis/axiosConfig";
 import { useDispatch } from "react-redux";
 import { createSetAuthTokenAction, createSetUidAction, createSetNameAction, createSetRoleAction, createSetHospitalAction } from "redux/auth-reducer";
-// import AppRoute from '../AppRoute';
+import { Link } from "react-router-dom";
+
 const CustomRadio = withStyles({
   root: {
     color: "#748ffc",
@@ -101,10 +102,11 @@ function Login(props) {
     return (
         
         <div className={style.loginbackGround}>
-            {/* <AppRoute role={role} /> */}
           <form className={style.loginForm}>
-            <h2>의료정보시스템</h2>
-              <h4>Login</h4>
+          
+          <Link to="/"><img src="http://localhost:3000/douzone_mark.PNG" width="240px" height="45px" style={{marginTop:"7%", marginBottom:"7%"}} alt=""/></Link>
+          
+            <h3>의료정보시스템</h3>
               <div className={style.idForm}>
                   <input type="text" name="staff_login_id" value={user.staff_login_id}  className={style.id} onChange={handleChange} placeholder="ID"/>
               </div>
