@@ -98,7 +98,7 @@ function Header(props) {
                     </div>
                 </div>
             </nav>
-          
+            {globalUid ?
             <MessageBox
                 isMenuOpen={isMenuOpen}
                 onMenuToggle={toggleMenu}
@@ -106,6 +106,10 @@ function Header(props) {
                 openMenu={openMenu}
                 realTimeReceiptList={props.realTimeReceiptList}
                 />
+                :
+                <>
+                </>
+            }
         </div>
        
         

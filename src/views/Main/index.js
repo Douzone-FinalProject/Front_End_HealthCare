@@ -1,13 +1,15 @@
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faDesktop, faHeadset } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "views/common/Header";
+import DialMenu from "views/common/DialMenu";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 import NoticeModal from "./NoticeModal";
 
 function Main(props) {
+    const globalUid = useSelector((state) => state.authReducer.staff_login_id);
     const [modalIsOpen, setIsOpen] = useState(false);
     const [notice, setNotice] = useState(0);
     function openModal(ntc) { setIsOpen(true); setNotice(ntc); }
@@ -75,6 +77,7 @@ function Main(props) {
                 </div>
             </div>
             <Footer />
+            {globalUid ? <DialMenu /> : <></>}  
         </div>
     );
 }
