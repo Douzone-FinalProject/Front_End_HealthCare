@@ -495,7 +495,6 @@ function Diagnosis (props) {
     const saveOpinion = async (diagnostic_test_state) => {
         try{
             if(medicines.length === 0){
-                // && diagnostic_test_state === null
                 if(diagnostic_test_state === "검사완료"){
                     const handleOpinion = {...opp};
                     await updateOpinion(handleOpinion);

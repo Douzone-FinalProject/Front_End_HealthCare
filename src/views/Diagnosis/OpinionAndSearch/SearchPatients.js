@@ -131,11 +131,11 @@ function SearchPatients(props) {
             <MDBTable scrollY className={cx("table", "diagnosis-tbh")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr> 
-                    <th>접수번호</th>
+                    <th style={{width:"23%"}}>접수번호</th>
                     <th>차트번호</th>
                     <th>소견내용</th>
-                    <th>검사상태</th>
-                    <th>날짜</th>
+                    <th style={{width:"15.3%"}}>검사상태</th>
+                    <th style={{width:"22%"}}>날짜</th>
                     </tr>
                 </thead>
                 </MDBTable>
@@ -152,7 +152,7 @@ function SearchPatients(props) {
             {props.opinionsCopy.receipt_id || props.selectReceipt_id2.diagnostic_test_state === "검사완료" || props.selectReceipt_id2.diagnostic_test_state === "처방완료"  ?
                 <>
                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mt-3")} onClick={()=>{search(searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name)}} >검색</Button>
-                   <Link className={cx("noneLink","diagnosis-opinionAndSearch-button")} to={"/result?receipt_id=" + selectReceipt}><Button className={cx("mt-3")}>결과 조회</Button></Link>
+                   <Link className={cx("noneLink")} to={"/result?receipt_id=" + selectReceipt}><Button className={cx("mt-3")}>결과 조회</Button></Link>
                 </>    
             :
                 <>
