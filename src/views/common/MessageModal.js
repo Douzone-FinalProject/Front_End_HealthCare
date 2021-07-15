@@ -2,8 +2,7 @@ import "views/common/main.scss";
 import Modal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useMemo, useState } from "react";
-import { getChatList } from "apis/message";
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import ScrollToBottom from 'react-scroll-to-bottom';
 
@@ -30,6 +29,7 @@ function MessageModal(props) {
         curr.setDate(curr.getDate());
         return curr.toISOString().substr(0,10);
     }, []);
+    //날짜가 달라질 때마다 채팅 기록에 날짜를 보여줌.
     let checkDate = date;
     return (
         <Modal isOpen={props.isModal}
@@ -46,12 +46,14 @@ function MessageModal(props) {
                         if(content.message_sender === globalName) {
                             if(content.message_content === "삭제된 메시지입니다.") {
                                 return (
-                                    <div key={index} className="d-flex justify-content-end">
+                                    <div key={index}>
                                         <div>
                                             <div className="d-flex justify-content-center mt-2 text-white"
-                                                 style={{backgroundColor:"gray", marginLeft:"150px", marginRight:"150px", borderRadius:"8px"}}>
+                                                style={{backgroundColor:"gray", marginLeft:"150px", marginRight:"150px", borderRadius:"8px"}}>
                                                     {content.message_date.substring(0, 10)}
                                             </div>
+                                        </div>
+                                        <div className="d-flex justify-content-end">
                                             <div className="d-flex align-items-center mt-2">
                                                 <div>{content.message_date.substring(11)}</div>
                                                 <div className="ml-2 bg-white mr-2" style={{borderRadius: "4px", padding:"5px"}}>{content.message_content}</div>
@@ -61,12 +63,14 @@ function MessageModal(props) {
                                 )
                             } else {
                                 return (
-                                    <div key={index} className="d-flex justify-content-end">
+                                    <div key={index}>
                                         <div>
-                                        <div className="d-flex justify-content-center mt-2 text-white"
-                                             style={{backgroundColor:"gray", marginLeft:"150px", marginRight:"150px", borderRadius:"8px"}}>
-                                                {content.message_date.substring(0, 10)}
+                                            <div className="d-flex justify-content-center mt-2 text-white"
+                                                style={{backgroundColor:"gray", marginLeft:"150px", marginRight:"150px", borderRadius:"8px"}}>
+                                                    {content.message_date.substring(0, 10)}
+                                            </div>
                                         </div>
+                                        <div className="d-flex justify-content-end">
                                             <div className="d-flex align-items-center mt-2">
                                                 <FontAwesomeIcon icon={faTrashAlt} className="mr-2" onClick={()=>props.handleMessageDelete(content)} />
                                                 <div>{content.message_date.substring(11)}</div>

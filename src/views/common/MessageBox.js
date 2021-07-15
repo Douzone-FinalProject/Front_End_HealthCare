@@ -10,33 +10,52 @@ import MessageModal from "./MessageModal";
 
 function MessageBox(props) {
 
+    //전역 상태 Redux로부터 불러오기
     const globalUid = useSelector((state) => state.authReducer.staff_login_id);
     const globalName = useSelector((state) => state.authReducer.staff_name);
     const globalHospital = useSelector((state) => state.authReducer.hospital_id);
+    //메시지 모달을 열고 닫는 상태
     const [isModal, setModal] = useState(false);
-    const [connected, setConnected] = useState(false);
+    //redis 연결 상태
+    const [, setConnected] = useState(false);
+    //redis에 보낼 메시지 상태
     const [pubMessage, setPubMessage] = useState({
         topic: 0,
         content: '',
     });
+    const [pubMessage2, setPubMessage2] = useState({
+        topic: 0,
+        content: '',
+    });
+    //메시지 내용을 담는 상태
     const [contents, setContents] = useState([]);
     const [content, setContent] = useState({});
+    const [label, setLabel] = useState('');
+    //채팅 기록을 담는 상태
+    const [chatting, setChatting] = useState([]);
 
+    //메시지 상태 변경
     const changePubMessage = (event) => {
         setPubMessage({
           ...pubMessage,
           [event.target.name]: event.target.value
         });
     };
-
+    const changePubMessage2 = (event) => {
+        setPubMessage2({
+          ...pubMessage2,
+          [event.target.name]: event.target.value
+        });
+    };
     const changePubTopic = (event) => {
+        setLabel(event.label);
         setPubMessage({
             ...pubMessage,
             topic: "/" + globalHospital+ "/" + event.value
         });
-        console.log(pubMessage.topic);
     };
 
+    //Redis
     let ws = useRef(null);
     const connectWebSocket = () => {
         ws.current = new WebSocket("ws://localhost:8080/websocket/redis");
@@ -72,11 +91,11 @@ function MessageBox(props) {
             }
         };
     };
-
+    //Redis 접속 끊겼을 때
     const disconnectWebSocket = () => {
         ws.current.close();
     };
-
+    //Redis 메시지 전송 및 DB저장
     const publishTopic = async () => {
         try{
             var message = {};
@@ -105,7 +124,36 @@ function MessageBox(props) {
             console.log(error);
         }
     };
+    const publishTopic2 = async () => {
+        try{
+            var message = {};
+            message.message_content = pubMessage2.content;
+            message.staff_login_id = pubMessage2.topic.substring(2+globalHospital.length);
+            const res = await getStaffId(globalUid)
+            message.staff_id = res.data.staffId;
+            message.message_sender = globalName;
+            await insertMessage(message);
+            pubMessage2.content = "SendMessage";
+            await sendRedisMessage(pubMessage2);
+            setPubMessage2({
+                ...pubMessage2,
+                content: ''
+            });
+            Swal.fire({
+                icon: 'success',
+                title: '메시지가 전송되었습니다.',
+                showConfirmButton: false,
+                timer: 500
+            });
+            if(Object.keys(content).length !== 0) {
+                getChattingList(content);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
+    //처음 마운트 되었을 때, 메시지를 누른 경우 Redis 접속
     useEffect(() => {
         connectWebSocket();
         console.log("메시지 마운트");
@@ -116,6 +164,7 @@ function MessageBox(props) {
         });
     }, [content]);
 
+    //로그인한 아이디로 메시지 내용 불러오기
     const getMessage = async (globalUid) => {
         try {
             const response = await getMessageList(globalUid);
@@ -124,6 +173,7 @@ function MessageBox(props) {
             console.log(error);
         }
     };
+    //받는 사람 리스트를 병원 기준으로 불러오기
     const [options, ] = useState([])
     const getHospitalStaffList = useCallback( async (staff_login_id) => {
         try {
@@ -136,11 +186,13 @@ function MessageBox(props) {
         }
     }, [options]);
     
+    //처음 마운트될 때, 메시지 내용과 받는사람 리스트 불러오기
     useEffect(() => {
         getMessage(globalUid);
         getHospitalStaffList(globalUid);
     }, [globalUid, getHospitalStaffList]);
 
+    //삭제할 때 이벤트
     const handleMessageDelete = async (cont) => {
         console.log(cont);
         try{
@@ -174,22 +226,44 @@ function MessageBox(props) {
         }
     };
 
+    //메시지 내용 클릭 시, 메시지 기록 모달을 열고 닫음
     const openMessageModal = useCallback(async (content) => {
         console.log(content)
         setContent(content);
         getChattingList(content);
         const resp = await getStaffLoginId(content.staff_id);
-        setPubMessage({
-            ...pubMessage,
+        setPubMessage2({
+            ...pubMessage2,
             topic: "/" + globalHospital+ "/" + resp.data.staffLoginId
         });
         setModal(true);
-    }, [globalHospital, pubMessage]);
+    }, [globalHospital, pubMessage2]);
     const closeMessageModal = useCallback(() => {
         setModal(false);
     }, []);
 
-    const [chatting, setChatting] = useState([]);
+    const openMessageModalByButton = useCallback(async () => {
+        try {
+            const res = await getStaffId(pubMessage.topic.substring(2+globalHospital.length))
+            const response = await getChatList(res.data.staffId, globalUid);
+            setContent({
+                ...content,
+                staff_id: res.data.staffId,
+                message_sender: label,
+                staff_login_id: globalUid
+            });
+            setChatting(response.data.chatList);
+            setPubMessage2({
+                ...pubMessage2,
+                topic: "/" + globalHospital+ "/" + pubMessage.topic.substring(2+globalHospital.length)
+            });
+            setModal(true);
+        } catch (error) {
+            console.log(error);
+        }
+    }, [globalHospital, globalUid, pubMessage, pubMessage2, content, label]);
+
+    //채팅 기록 불러오기
     const getChattingList = async (content) => {
         try {
             console.log(content);
@@ -220,7 +294,13 @@ function MessageBox(props) {
                             value={options.find(op => {return op.value === pubMessage.topic})}
                             onChange={(value) => {changePubTopic(value)}}/>
                     </div>
-                    <button className="btn btn-sm btn-secondary mr-2" onClick={publishTopic}>전송</button>
+                    <div>
+                        {pubMessage.topic ?
+                        <button className="btn btn-sm btn-primary mr-2 h-100" onClick={openMessageModalByButton}>채팅</button>
+                        :
+                        <div></div>}
+                        <button className="btn btn-sm btn-secondary mr-2 h-100" onClick={publishTopic}>전송</button>
+                    </div>
                 </div>
             </div>
             <hr className="bg-white mt-4 mb-3"/>
@@ -248,10 +328,10 @@ function MessageBox(props) {
                 handleMessageDelete={handleMessageDelete}
                 chatting={chatting}
                 getChattingList={getChattingList}
-                pubMessage={pubMessage}
-                changePubMessage={changePubMessage}
+                pubMessage={pubMessage2}
+                changePubMessage={changePubMessage2}
                 changePubTopic={changePubTopic}
-                publishTopic={publishTopic} />
+                publishTopic={publishTopic2} />
         </div>
     );
 }

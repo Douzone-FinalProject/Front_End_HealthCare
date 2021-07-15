@@ -2,9 +2,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faHospitalUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-import axios from 'axios';
-
-
 function Header2(props) {
 
     return (
@@ -12,7 +9,7 @@ function Header2(props) {
             <nav className="navbar bg-dark navbar-dark justify-content-between">
                 <div className="d-flex align-items-center">
                     <img src="http://localhost:3000/douzonelogo.png" alt="" height="20"/>
-                    <h4 className="text-white font-weight-bold ml-3 mb-1">더조은병원</h4>
+                    <h4 className="text-white font-weight-bold ml-3 mb-1">의료정보시스템</h4>
                 </div>
                 <div>
                     <div className="d-flex align-items-center">
