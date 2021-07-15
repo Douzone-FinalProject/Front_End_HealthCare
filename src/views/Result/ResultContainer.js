@@ -19,7 +19,9 @@ function ResultContainer(props) {
     const [result, setResult] = useState({});
     //결과 테이블에서 결과 input을 사용하기 위한 flag 상태
     const [flag, setFlag] = useState({});
-
+    //이미지 모달에 사용할 상태
+    const [imgIndex, setImgIndex] = useState(0);
+    const [modalIsOpen, setIsOpen] = useState(false);
     //결과 테이블에서 행을 클릭하면 발생
     //검체별로 데이터를 우측 상단 테이블에 보여줌
     const handleSpecimen = useCallback((data, rowIndex) => {
@@ -35,6 +37,7 @@ function ResultContainer(props) {
     }, []);
 
     //저장 버튼 클릭 시 실행
+    //왼쪽 컨테이너의 상태도 바뀌어야함.
     const handleSave = useCallback(async (event) => {
         Swal.fire({
             title: '저장하시겠습니까?',
@@ -75,7 +78,7 @@ function ResultContainer(props) {
             }
         });
         console.log(props.saveResult)
-        props.props.history.push("/result");
+        //props.props.history.push("/result");
     }, [result, props]);
 
     //왼쪽 테이블에서 오는 데이터가 달라졌을 때 실행
@@ -209,8 +212,7 @@ function ResultContainer(props) {
         }
     ];
 
-    const [imgIndex, setImgIndex] = useState(0);
-    const [modalIsOpen, setIsOpen] = useState(false);
+    //이미지 갤러리 모달을 열고 닫게 함.
     function openModal(index) {
         setIsOpen(true);
         setImgIndex(index);

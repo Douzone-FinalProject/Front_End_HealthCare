@@ -19,6 +19,7 @@ function ResultSearchContainer(props) {
         curr.setDate(curr.getDate());
         return curr.toISOString().substr(0,10);
     }, []);
+    //스피너를 위한 상태
     const [loading, setLoading] = useState(false);
     //검색을 하기 위한 상태
     const [patient_name, setPatient_name] = useState('');
@@ -88,6 +89,7 @@ function ResultSearchContainer(props) {
 
     //처음 화면에 보여질 때, 기본값인 오늘 기준으로 데이터를 가져옴.
     //receipt_datetime이 바뀔 때마다 데이터를 가져옴.
+    //진료 페이지에서 넘어온 receipt_id가 있다면, receipt_id로 데이터를 가져옴.
     useEffect(() => {
         const fetchAndSetReceiptData = async () => {
             setLoading(true);
