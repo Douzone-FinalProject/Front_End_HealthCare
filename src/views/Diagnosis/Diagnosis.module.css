@@ -67,6 +67,7 @@
 .diagnosis-symptom-input{
     width: 60%;
     height: 40px;
+    border-radius: 5px;
 }
 /*--------------------진단 검사 목록 컴포넌트----------------*/
 /*진단 검사 목록 컴포넌트 높이*/
@@ -119,13 +120,16 @@
     
 }
 /*--------------------증상 및 소견, 환자 검색 컴포넌트----------------*/
-/* .diagnosis-opinionAndSearch-widthAndHeight{  
-    width: 700px;
-    height: 480px;
-} */
+
 .diagnosis-opinionAndSearch-title{
     margin-left: 2%;
 }
+
+.diagnosis-opinionAndSearch-optitle{
+    margin-left: 12%;
+    margin-bottom: 10%;
+}
+
 .diagnosis-opinionAndSearch-date{
     margin-left: 74.8%;
 }
@@ -161,10 +165,12 @@
     text-align: center;
 }
 .diagnosis-opinionAndSearch-tabaleHeight{
+    margin-top: 4.5%;
     height: 268px;
 }
 .diagnosis-opinionAndSearch-tabaleHeight2{
-    height: 258px;
+    margin-top: 0.5%;
+    height: 260px;
 }
 .diagnosis-opinion-tabaleinterval{
     margin-bottom: 40px;
@@ -179,9 +185,18 @@
     height: 460px;
     margin-right: 16px;
 }
+
+.diagnosis-opinionAndSearch-bottom{ 
+    margin-bottom: 15%;
+}
 /*-------------------환자 검색 컴포넌트---------------------------*/
 .diagnosis-searchPatients-input{
     width: 140px;
+    border-radius: 5px;
+}
+
+.diagnosis-searchPatients-first-input{
+    margin-left: 22%;
 }
 
 .textArea-font{

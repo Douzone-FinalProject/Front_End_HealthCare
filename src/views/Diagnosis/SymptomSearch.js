@@ -49,7 +49,7 @@ function SymptomSearch(props) {
         <div className="mt-4">
 
             <h4 className="mb-4 ml-4">증상 검색</h4>
-            <input className={cx("diagnosis-symptom-input","ml-4 mb-2")} type="text" name="symptom_name" onChange={handleChange} placeholder="증상을 검색하시오."/>
+            <input className={cx("diagnosis-symptom-input","ml-4 mb-2")} type="text" name="symptom_name" onKeyPress={(e)=>{props.symptomEnter(e,props.search.symptom_name)}} onChange={handleChange} placeholder="증상을 검색하시오."/>
             <Button className={cx("symptomButton")} onClick={()=>{searchSymptom(props.search.symptom_name)}}>검색</Button>
             <Button className="ml-2" onClick={()=>{selectSymptom(props.search.symptom_name)}}>선택</Button>
 

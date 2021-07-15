@@ -49,43 +49,8 @@ export function updateStaff(nowStaff) { // 비번o 수정
 }
 
 //혈액형 수
-export function aCount() { 
-    const promise = axios.get("/manage/aCount");
-    return promise;
-}
-
-export function bCount() { 
-    const promise = axios.get("/manage/bCount");
-    return promise;
-}
-
-export function abCount() { 
-    const promise = axios.get("/manage/abCount");
-    return promise;
-}
-
-export function oCount() { 
-    const promise = axios.get("/manage/oCount");
-    return promise;
-}
-
-export function rh_aCount() { 
-    const promise = axios.get("/manage/rh_aCount");
-    return promise;
-}
-
-export function rh_bCount() { 
-    const promise = axios.get("/manage/rh_bCount");
-    return promise;
-}
-
-export function rh_abCount() { 
-    const promise = axios.get("/manage/rh_abCount");
-    return promise;
-}
-
-export function rh_oCount() { 
-    const promise = axios.get("/manage/rh_oCount");
+export function bloodCount() { 
+    const promise = axios.get("/manage/bloodCount");
     return promise;
 }
 

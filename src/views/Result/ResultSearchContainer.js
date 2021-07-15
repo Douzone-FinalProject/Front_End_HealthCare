@@ -8,7 +8,7 @@ import DianosisNum from "./DianosisNum";
 import SpecimenNum from "./SpecimenNum";
 import Button from "views/common/Button";
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { getReceiptData, getDiagnosticData } from "apis/result";
+import { getReceiptData, getDiagnosticData, getReceiptDataByRecieptId, getDiagnosticDataByReceiptId } from "apis/result";
 
 const cx = classnames.bind(style);
 
@@ -19,6 +19,7 @@ function ResultSearchContainer(props) {
         curr.setDate(curr.getDate());
         return curr.toISOString().substr(0,10);
     }, []);
+    //스피너를 위한 상태
     const [loading, setLoading] = useState(false);
     //검색을 하기 위한 상태
     const [patient_name, setPatient_name] = useState('');
@@ -79,6 +80,7 @@ function ResultSearchContainer(props) {
 
     //조회 버튼 클릭 시, 검색조건별로 데이터를 가져옴.
     const handleSearch = useCallback( async (argPatient_name, argReceipt_datetime) => {
+        sessionStorage.removeItem("receipt_id2");
         const response = await getReceiptData(argPatient_name, argReceipt_datetime);
         setReceiptData(response.data.receiptData);
         const response2 = await getDiagnosticData(argPatient_name, argReceipt_datetime);
@@ -87,6 +89,7 @@ function ResultSearchContainer(props) {
 
     //처음 화면에 보여질 때, 기본값인 오늘 기준으로 데이터를 가져옴.
     //receipt_datetime이 바뀔 때마다 데이터를 가져옴.
+    //진료 페이지에서 넘어온 receipt_id가 있다면, receipt_id로 데이터를 가져옴.
     useEffect(() => {
         const fetchAndSetReceiptData = async () => {
             setLoading(true);
@@ -100,11 +103,27 @@ function ResultSearchContainer(props) {
             } finally {
                 setLoading(false);
             }
-            
         };
-        console.log(props.saveResult);
-        fetchAndSetReceiptData();
-    }, [receipt_datetime, props.saveResult]);
+        const fetchAndSetReceiptDataByReceiptId = async () => {
+            setLoading(true);
+            try {
+                const response = await getReceiptDataByRecieptId(sessionStorage.getItem("receipt_id2"));
+                setReceiptData(response.data.receiptData);
+                const response2 = await getDiagnosticDataByReceiptId(sessionStorage.getItem("receipt_id2"));
+                setSpecimenData(response2.data.diagnosticData);
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setLoading(false);
+            }
+        }
+        console.log(sessionStorage.getItem("receipt_id2"));
+        if(sessionStorage.getItem("receipt_id2")) {
+            fetchAndSetReceiptDataByReceiptId();
+        } else {
+            fetchAndSetReceiptData();
+        }
+    }, [receipt_datetime, props.saveResult, props.receipt_id2]);
 
     return (
         <div className={cx("result-container")}>

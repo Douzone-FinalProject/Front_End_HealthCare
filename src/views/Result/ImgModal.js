@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import "react-image-gallery/styles/scss/image-gallery.scss";
 import ImageGallery from "react-image-gallery";
 
-//신규 환자 생성 modal 스타일 설정
+//이미지 modal 스타일 설정
 const customStyles = {
     content: {
         width: '650px',
@@ -18,11 +18,12 @@ const customStyles = {
 
 Modal.setAppElement('body');
 function ImgModal(props) {
+    //이미지갤러리에 들어갈 이미지 설정
     const images = [];
     for(let img of props.imgArray) {
         images.push({
-            original: "http://localhost:8080/image?path="+img.diagnostic_img,
-            thumbnail: "http://localhost:8080/image?path="+img.diagnostic_img,
+            original: img.diagnostic_img,
+            thumbnail: img.diagnostic_img,
             originalHeight: 700,
         });
     }

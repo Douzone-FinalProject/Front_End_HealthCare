@@ -108,9 +108,13 @@ const Reservation = (props) => {
     setUpdateForm(updateForm);
   }
 
+  const realTimeReceiptList = async () => {
+    console.log("realTimeReceiptList");
+  }
+
   return (
     <>
-      <Header />
+      <Header realTimeReceiptList={realTimeReceiptList} />
       <div className={cx("d-flex flex-row", "parent-component")}>
         {/* 좌측  */}
         <div className={cx("left-component")}>

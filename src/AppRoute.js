@@ -1,4 +1,4 @@
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Switch, Redirect, Route } from "react-router-dom";
 import login from "views/Login";
 import Result from "views/Result";
 import Receipt from "views/Receipt";
@@ -10,25 +10,32 @@ import Guideline from "views/Main/Guideline";
 import Manage from "views/Manage/index";
 import Page403 from "views/common/Page403";
 import { useSelector } from "react-redux";
+import PrivateRoute from 'views/common/PrivateRoute';
+import PublicRoute from 'views/common/PublicRoute';
 
 function AppRoute(props) {
     const globalAuthToken = useSelector((state) => state.authReducer.authToken);
     return(
         <Switch>
-            
-            {/* {globalAuthToken === "" && <Redirect to="/"/>} */}
-            <Route path="/" exact component={Main}/>
-            <Route path="/manage" exact component={Manage}/>
-            <Route path="/login" exact component={login}/>
-            <Route path="/guideline" exact component={Guideline}/>
-            <Route path="/result" component={Result}/>
-            <Route path="/teststate" exact component={TestState}></Route>
-            <Route path="/diagnosis" component={diagnosis}/>
-            <Route path="/receipt" component={Receipt}/>
-            <Route path="/reserve" component={Reservation}/>
-
-            <Route path="/page403" component={Page403}/>
-           
+            {globalAuthToken ?
+            <>
+                 <PublicRoute  path="/" exact component={Main}/>
+                 <PrivateRoute path="/manage" exact component={Manage}/>
+                 <PrivateRoute path="/guideline" exact component={Guideline}/>
+                 <PrivateRoute path="/result" component={Result}/>
+                 <PrivateRoute path="/teststate" exact component={TestState}/>
+                 <PrivateRoute path="/diagnosis" component={diagnosis}/>
+                 <PrivateRoute path="/receipt" component={Receipt}/>
+                 <PrivateRoute path="/reserve" component={Reservation}/>
+                 <PrivateRoute path="/page403" component={Page403}/>
+                 <Route component={Page403}/>
+                 </>
+            :    
+            <>
+                <PublicRoute path="/" exact component={Main}/>
+                <PublicRoute restricted path="/login" exact component={login}/>
+            </>
+        }
         </Switch>
     );
 }

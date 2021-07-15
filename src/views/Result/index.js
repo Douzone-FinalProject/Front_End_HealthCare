@@ -3,15 +3,15 @@ import ResultContainer from "./ResultContainer";
 import { useState, useCallback } from "react";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
-import qs from "qs";
-import { getResultDataByReceipt, getResultDataBySpecimen, getPatientData, getReceiptData, getDiagnosticData, getPatientDataBySpecimen, getImagePath } from "apis/result";
-
+import { getResultDataByReceipt, getResultDataBySpecimen, getPatientData, getPatientDataBySpecimen, getImagePath } from "apis/result";
 
 function Result(props) {
-    const queryString = qs.parse(props.location.search, {ignoreQueryPrefix:true});
-    const receipt_id2 = parseInt(queryString.receipt_id);
-    console.log(receipt_id2)
-    //결과 테이블 데이터, 결과 테이블 인덱스, 환자 정보 데이터 상태
+    //진료 페이지에서 넘겨준 receipt_id가 있다면 저장
+    if(typeof props.history.location.state == "undefined") {
+    } else {
+        sessionStorage.setItem("receipt_id2", props.history.location.state.receiptId2);
+    }
+    //결과 테이블 데이터, 결과 테이블 인덱스, 환자 정보 데이터, 이미지 배열 데이터 상태
     const [result, setResult] = useState([]);
     const [ReceiptIndex, setReciptIndex] = useState();
     const [SpecimenIndex, setSpecimenIndex] = useState();
@@ -23,9 +23,11 @@ function Result(props) {
         specimen: false,
     });
     const [saveResult, setSaveResult] = useState(false);
+
     //결과 테이블에 보여줄 데이터
     //행을 클릭 시, 오른쪽 테이블에 값이 나옴.
     //진단번호와 검체번호에 따라 값을 다르게 출력.
+    //진단에 해당하는 이미지가 있다면 불러옴.
     const handleResult = useCallback((data, rowIndex) => {
         return {
           onClick: async (event) => {
@@ -69,6 +71,7 @@ function Result(props) {
             }
             const res = await getImagePath(data.receipt_id);
             const ImgArrayData = res.data.pathData;
+            console.log(ImgArrayData);
             setImgArray(ImgArrayData);
           }
         }

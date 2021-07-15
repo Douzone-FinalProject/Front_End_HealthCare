@@ -28,14 +28,27 @@ function SymptomAndOpinion(props) {
         <Button init={true} className={cx("diagnosis-button","diagnosis-opinionAndSearch-buttonFocus", "OpinionAndSearchButton")} >증상 및 소견</Button>
         <Button init2={true} className={cx("diagnosis-button","diagnosis-opinionAndSearch-buttonFocus", "OpinionAndSearchButton")} onClick={changeToSearch} >환자 검색</Button>
         <div className={cx("mt-4")}>
-            <h4 className={cx("diagnosis-opinionAndSearch-title","mb-3")}>증상 및 소견</h4>
-            <div className={cx("diagnosis-opinion-tabaleinterval")}></div>
+        {/* diagnosis-opinionAndSearch-title */}
+                <div className="ml-3">
+                    <h4>증상 및 소견</h4>
+                </div>
                 <div className={cx("diagnosis-opinionAndSearch-tabaleHeight")}>
+                <MDBTable scrollY className={cx("table", "diagnosis-tbh")}>
+                <thead className={cx("diagnosis-table-header")}>
+                    <tr> 
+                    <th>접수번호</th>
+                    <th>차트번호</th>
+                    <th>소견내용</th>
+                    <th>검사상태</th>
+                    <th>날짜</th>
+                    </tr>
+                </thead>
+                </MDBTable>
                     <MDBTable scrollY className={cx("diagnosis-table", "diagnosis-opinionAndSearch-tableInterval", "table-hover")}>
                         <MDBTableBody> 
                         {props.fatientOpinion.map((opinion) => {
                                 return (
-                                    <OpinionListItem key={opinion.receipt_id} opinion={opinion} openOpinion={props.openOpinion} selectOpinion={selectOpinion} />
+                                    <OpinionListItem key={opinion.receipt_id} opinion={opinion} openOpinion={props.openOpinion} selectOpinion={selectOpinion} selectReceipt_id={props.selectReceipt_id} />
                                 )
                             })}
                         </MDBTableBody>
@@ -43,9 +56,9 @@ function SymptomAndOpinion(props) {
                 </div>
                 {/* && props.selectedPatient.receipt_state === '진료중' */}
                 {props.selectedPatient.patient_id  ? 
-                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mb-1")} onClick={props.openModal}>소견 작성</Button>
+                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mt-2")} onClick={props.openModal}>소견 작성</Button>
                     :
-                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mb-1")} onClick={() =>
+                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mt-2")} onClick={() =>
                          Swal.fire({
                             icon: 'info',
                             title: '진료 상태인 환자만 선택 가능합니다.',
@@ -54,7 +67,7 @@ function SymptomAndOpinion(props) {
                         })}>소견 작성</Button>
                 }
                 {props.selectReceipt_id.patient_id || props.selectReceipt_id.diagnostic_test_state === "검사완료" || props.selectReceipt_id.diagnostic_test_state === "처방완료" ?
-                    <Link className={cx("noneLink","diagnosis-button", "mb-1")} to={"/result?receipt_id=" + selectReceipt}><Button>결과 조회</Button></Link>
+                    <Link className={cx("noneLink","diagnosis-opinionAndSearch-button", "mt-2")} to={{pathname:"/result", state: {receiptId2: selectReceipt}}}><Button>결과 조회</Button></Link>
                     :
                     <>
                     </>
