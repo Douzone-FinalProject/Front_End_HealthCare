@@ -65,3 +65,12 @@ export function disableStaffCount() {
     const promise = axios.get("/manage/disableStaffCount");
     return promise;
 }
+export function getSearchStaffList(nameId, globalHospital) { //이름 and 날짜로 검색
+    const promise = axios.get("/manage/getSearchStaffList",{
+        params: {
+            nameId: nameId,
+            hospital_id: globalHospital
+        }
+    });
+    return promise;
+}

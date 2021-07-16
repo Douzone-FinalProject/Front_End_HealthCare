@@ -7,6 +7,7 @@ import { MDBTable, MDBTableBody } from 'mdbreact';
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import React, { useState } from "react"
+import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined';
 const cx = classnames.bind(style);
 
 function SymptomAndOpinion(props) {
@@ -35,14 +36,15 @@ function SymptomAndOpinion(props) {
                 <MDBTable scrollY className={cx("table", "diagnosis-tbh")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr> 
-                    <th style={{width:"23%"}}>접수번호</th>
-                    <th>차트번호</th>
-                    <th>소견내용</th>
-                    <th style={{width:"15.3%"}}>검사상태</th>
-                    <th style={{width:"22%"}}>날짜</th>
+                    <th style={{width:"24%"}}>접수번호</th>
+                    <th style={{width:"20%"}}>차트번호</th>
+                    <th style={{width:"23%"}}>소견내용</th>
+                    <th style={{width:"15.7%"}}>검사상태</th>
+                    <th style={{width:"23%"}}>날짜</th>
                     </tr>
                 </thead>
                 </MDBTable>
+                {props.fatientOpinion.length > 0 ?
                     <MDBTable scrollY className={cx("diagnosis-table", "diagnosis-opinionAndSearch-tableInterval", "table-hover")}>
                         <MDBTableBody> 
                         {props.fatientOpinion.map((opinion) => {
@@ -52,7 +54,11 @@ function SymptomAndOpinion(props) {
                             })}
                         </MDBTableBody>
                     </MDBTable>
+                :
+                    <AssignmentIndOutlinedIcon style={{width: "100%", height: "6em", color:"#ced4da", marginTop:"5%"}} />
+                }
                 </div>
+                
                 
                 {/* && props.selectedPatient.receipt_state === '진료중' */}
                 

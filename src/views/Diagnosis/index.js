@@ -34,10 +34,42 @@ function Diagnosis (props) {
         setpatients(response.data.receiptList);
         }
         catch(error){
-            
             console.log(error);
         }
     };
+
+    // const [changeSort, setChangeSort] = useState(1);
+
+    // const receiptingLists = async (sort) => {
+    //     // setChangeSort(sort)
+    //     // // console.log(sort)
+    //     // if(changeSort == 1){
+         
+    //     //     console.log("1들어옴")   
+    //     //     const response = await getReceiptList();
+    //     //     setpatients(response.data.receiptList)
+    //     // }else if(changeSort == 2){
+        
+    //     //     // console.log(h)
+    //     //     console.log("2들어옴")
+    //     //     // const zz = patients.filter(receiptList => receiptList.receipt_state === '진료중');
+    //     //     const response = await getReceiptList();
+    //     //     setpatients(response.data.receiptList)
+    //     //     // setpatients(zz)
+    //     // }else if(changeSort == 3){
+
+    //     //     // console.log(h)
+    //     //     console.log("3들어옴")
+    //     //     // const zz = patients.filter(receiptList => receiptList.receipt_state === '검사중');
+    //     //     // setpatients(zz)
+    //     //     const response = await getReceiptList();
+    //     //     setpatients(response.data.receiptList)
+    //     // }
+        
+        
+    // };
+  
+
     useEffect(() => {
         receiptPatients();
     }, [])
@@ -52,6 +84,7 @@ function Diagnosis (props) {
 
     const [fatientOpinion, setFatientOpinion] = useState([]);
     const [reportOp, setReportOp] = useState();
+    // const [reportOpList, setReportOpList] = useState();
 
     const selectPatient = async (child_patient_id, child_patient_name, child_receipt_state, child_receipt_id) => {
         if(child_receipt_state !== "진료중"){
@@ -348,76 +381,84 @@ function Diagnosis (props) {
     }
 
     const reportSuccess = async () => {
+        if(reportOp.diagnostic_test_state !== '검사완료'){ // 즉 검사 완료 후 바로 또 접수를 해서 진료를 받을 경우(한 진료id로 또 올 경우 and 검사완료 상태 일 경우) 신규 소견 작성이 안됨
+            if(medicines.length !== 0) {
 
-        if(medicines.length !== 0) {
-
-            try{
-                let cmlist=[];
-                let tempMedicines = medicines;
-                for (let temp of tempMedicines) {
-                    for (let qt in quantity) {
-                      if(temp.medicine_id === qt) {
-                          temp.quantity = quantity[qt]
-                      }
+                try{
+                    let cmlist=[];
+                    let tempMedicines = medicines;
+                    for (let temp of tempMedicines) {
+                        for (let qt in quantity) {
+                        if(temp.medicine_id === qt) {
+                            temp.quantity = quantity[qt]
+                        }
+                        }
                     }
-                }
-                setMedicines(tempMedicines); 
+                    setMedicines(tempMedicines); 
 
-                for(let i of medicines){
-                    cmlist.push({medicine_id: i.medicine_id, quantity: i.quantity, receipt_id: selectedPatient.receipt_id})
-                }
-                await createMedicines(cmlist);
-                const newOpinion = {...reportOp};
-                await createOpinion(newOpinion);
+                    for(let i of medicines){
+                        cmlist.push({medicine_id: i.medicine_id, quantity: i.quantity, receipt_id: selectedPatient.receipt_id})
+                    }
+                    await createMedicines(cmlist);
+                    const newOpinion = {...reportOp};
+                    await createOpinion(newOpinion);
 
-                await sendRedisMessage(pubMessage);
-                const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);
-                setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
-                
-                deleteMedicineAll();
-                closeModal()
-                Swal.fire({
-                    icon: 'success',
-                    title: '진료 작성이 완료되었습니다.',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+                    await sendRedisMessage(pubMessage);
+                    const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);
+                    setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
+                    
+                    deleteMedicineAll();
+                    closeModal()
+                    Swal.fire({
+                        icon: 'success',
+                        title: '진료 작성이 완료되었습니다.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
 
-            }
-            catch(error){
-                props.history.push("/page403");
-                console.log(error);
-            }
-        }
-            
-        else{
-
-            try{
-                const newOpinion = {...reportOp};
-                await createOpinion(newOpinion);
-                await sendRedisMessage(pubMessage);
-                const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);
-                setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
-                
-                setSelectP({
-                    patient_id: ""
-                })
-                closeModal()
-                Swal.fire({
-                    icon: 'success',
-                    title: '진료 작성이 완료되었습니다.',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-        
                 }
                 catch(error){
                     props.history.push("/page403");
                     console.log(error);
                 }
-        }
+            }
+                
+            else{
 
-        
+                try{
+                    const newOpinion = {...reportOp};
+                    await createOpinion(newOpinion);
+                    await sendRedisMessage(pubMessage);
+                    const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);
+                    setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
+                    
+                    setSelectP({
+                        patient_id: ""
+                    })
+                    closeModal()
+                    Swal.fire({
+                        icon: 'success',
+                        title: '진료 작성이 완료되었습니다.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+            
+                    }
+                    catch(error){
+                        props.history.push("/page403");
+                        console.log(error);
+                    }
+            }
+
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: '최근 검사 완료인 항목에 처방해주세요.',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
                 
     }
 
@@ -604,11 +645,11 @@ function Diagnosis (props) {
     return(
         <>
         <Header realTimeReceiptList={realTimeReceiptList}/>
-        <div className="d-flex flex-column ">
+        <div className="d-flex flex-column">
             <div>
                 <div className="d-flex flex-row ml-3 mr-2 mt-2 mb-2">
                     <div className={cx("diagnosis-component-background", "diagnosis-patient-widthAndHeight", "mr-3")}>
-                      <PatientList selectedPatient={selectedPatient} patients={patients} selectPatient={selectPatient}/>
+                      <PatientList  selectedPatient={selectedPatient} patients={patients} setpatients={setpatients} selectPatient={selectPatient} />
                     </div>
                     <div className={cx("diagnosis-component-background", "diagnosis-symptom-widthAndHeight", "mr-3")}>
                       <SymptomSearch symptomEnter={symptomEnter} deleteBeforePrescript={deleteBeforePrescript} selectedPatient={selectedPatient} symptomsCopy={symptomsCopy} search={search} handleChange={handleChange} searchSymptom={searchSymptom} selectSymptom={selectSymptom}/>

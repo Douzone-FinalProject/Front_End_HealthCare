@@ -32,13 +32,11 @@ function UpdateEmployee(props) {
     };
 
     const [values, setValues] = useState({
-
         password: '',
         showPassword: false,
       });
 
     const [values2, setValues2] = useState({
-
         password: '',
         showPassword: false,
       });
@@ -68,18 +66,18 @@ function UpdateEmployee(props) {
     const handleMouseDownPassword2 = (event) => {
         event.preventDefault();
     };
-    const [state, setState] = useState({
-        checkedA: false
-      });
+    // const [state, setState] = useState({
+    //     checkedA: false
+    // });
     
-      const handleCheck = (event) => {
+    const handleCheck = (event) => {
         console.log(event.target.checked)
-        setState({ ...state, [event.target.name]: event.target.checked });
-      };
+        props.setState({ ...props.state, [event.target.name]: event.target.checked });
+    };
 
     const saveEmployeeInfo = async (pw1, pw2) => {
 
-        if(state.checkedA === false){   //새 비밀번호를 안 할 경우
+        if(props.state.checkedA === false){   //새 비밀번호를 안 할 경우
             await updateStaffNoPw(props.nowStaff);
             props.getStaffList();
             props.setNowStaff({})
@@ -115,7 +113,11 @@ function UpdateEmployee(props) {
                 await updateStaff(props.nowStaff);
                 props.getStaffList();
                 props.setNowStaff({})
+                props.setState({...props.state, checkedA:false});
+                setValues({ ...values, password: ''});
+                setValues2({ ...values2, password: ''});
                 props.closeUpdateModal();
+                
                 Swal.fire({
                     icon: 'success',
                     title: '수정이 완료되었습니다.',
@@ -155,10 +157,10 @@ function UpdateEmployee(props) {
                         
                         </div> 
                     ID<TextField style={{width:"390px", marginBottom:"10px"}} name="staff_login_id" value={props.nowStaff.staff_login_id} onChange={props.updateNameAndIdChange} variant="outlined" />
-                    <div><Switch name="checkedA" color="primary" inputProps={{ 'aria-label': 'checkbox' }} checked={state.checkedA} onChange={handleCheck} /></div>
-                    {state.checkedA === true ?
+                    <div><Switch name="checkedA" color="primary" inputProps={{ 'aria-label': 'checkbox' }} checked={props.state.checkedA} onChange={handleCheck} /></div>
+                    {props.state.checkedA === true ?
                     <>
-                    new PW
+                    New PW
                     <OutlinedInput 
                     style={{width:"390px"}}
                         type={values.showPassword ? 'text' : 'password'}
@@ -179,7 +181,7 @@ function UpdateEmployee(props) {
                         </InputAdornment>
                         }
                     />
-                    new PW 확인
+                    New PW 확인
                     <OutlinedInput 
                     style={{width:"390px"}}
                         type={values2.showPassword ? 'text' : 'password'}
@@ -201,7 +203,7 @@ function UpdateEmployee(props) {
                     </>
                     :
                     <>
-                     <span style={{color:"#ced4da"}}>new PW</span>
+                     <span style={{color:"#ced4da"}}>New PW</span>
                     <OutlinedInput disabled
                     style={{width:"390px"}} name="staff_login_pwd"
                         endAdornment={
@@ -213,7 +215,7 @@ function UpdateEmployee(props) {
                         </InputAdornment>
                         }
                     />
-                    <span style={{color:"#ced4da"}}>new PW 확인</span>
+                    <span style={{color:"#ced4da"}}>New PW 확인</span>
                     <OutlinedInput disabled
                     style={{width:"390px"}} name="staff_login_pwd"
                         endAdornment={

@@ -20,7 +20,7 @@ let staff = props.staffCounts;
 let disableStaff = props.disableStaffCounts;
 
 const data = {
-  labels: ['직원', '휴먼'],
+  labels: ['활성화', '비활성화'],
   datasets: [
     {
       label: '# of Votes',

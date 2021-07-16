@@ -1,26 +1,5 @@
-import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { useState } from 'react';
-
-const useStyles = makeStyles((theme) => ({
-    margin: {
-      margin: theme.spacing(-1),
-      marginLeft: "20px"
-    },
-    
-  }));
-
 function StaffListItem(props) {
 
-
-  // const [phone, setPhone] = useState({
-  //   phone1: props.staff.staff_phone.slice(0,3),
-  //   phone2: props.staff.staff_phone.slice(3,7),
-  //   phone3: props.staff.staff_phone.slice(7,11)
-  // })
-    const classes = useStyles();
-    
     return(
             
                 <tr onDoubleClick={() => props.openStaffInfo(props.staff.staff_id)} key={props.staff.staff_id} >
