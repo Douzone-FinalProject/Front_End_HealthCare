@@ -35,11 +35,9 @@ function BmiDisplay(props){
 
 // BMI 맥박 혈압 알려주는 모달 
 Modal.setAppElement('body');
-const patientModal = (props) => {
-    // state
-    const [patient, setPatient] = useState(props.patient); 
+const PatientModal = (props) => {
+    const patient = props.patient;
 
-  
     // #-------BMI-------#
     const calculateBMI = () => {
       if (patient.patient_weight && patient.patient_height){
@@ -159,4 +157,4 @@ const patientModal = (props) => {
   );
 };
 
-export default patientModal;
+export default PatientModal;
