@@ -29,4 +29,4 @@ function SymptomSearchItem(props) {
     );
 }
 
-export default SymptomSearchItem;
+export default React.memo(SymptomSearchItem);

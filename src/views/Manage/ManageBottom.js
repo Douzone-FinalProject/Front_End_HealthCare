@@ -192,7 +192,7 @@ function ManageBottom(props) {
         <>
         <CreateEmployee isModal={isModal} closeModal={closeModal} getStaffList={getStaffList} staffs={staffs} />
         <UpdateEmployee state={state} setState={setState} getStaffList={getStaffList} updateNameAndIdChange={updateNameAndIdChange} updatePhoneChange={updatePhoneChange} phone={phone} updateIsOpen={updateIsOpen} closeUpdateModal={closeUpdateModal} nowStaff={nowStaff} setNowStaff={setNowStaff} deleteStaff={deleteStaff} />
-        <div style={{marginBottom:"1%"}}>
+        <div style={{marginBottom:"2.8%"}}>
         <div className="d-flex flex-row">
             
             <Button className={cx("ssip2", "mb-1 mt-5")} onClick={openCreateEmployee} ><PersonAddIcon /> 직원 생성 </Button>
@@ -240,8 +240,8 @@ function ManageBottom(props) {
             :
             <>
             <div className="d-flex flex-column">
-                <div style={{width: "100%", textAlign:"center", marginBottom:"1.5%"}}><h4>존재하지 않는 직원입니다. 다시 검색해 주세요.</h4></div>
-                <div><SentimentVeryDissatisfiedIcon  style={{width: "100%", height: "6em", color:"#ced4da"}}/></div>
+                <div style={{width: "100%", textAlign:"center", marginBottom:"2%",marginTop:"0.75%"}}><h4>존재하지 않는 직원입니다. 다시 검색해 주세요.</h4></div>
+                <div><SentimentVeryDissatisfiedIcon  style={{width: "100%", height: "5em", color:"#ced4da"}}/></div>
             </div>
             </>
             }

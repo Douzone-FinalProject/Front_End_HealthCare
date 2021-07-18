@@ -4,14 +4,15 @@ import Clock from 'react-live-clock';
 import PieChart from "./PieChart";
 import PieChart2 from "./PieChart2";
 import PieChart3 from "./PieChart3";
-import {receiptCount, testCount, medicinePresCount, bloodCount, staffCount, disableStaffCount } from "apis/manage";
+import {readyCount, treatmentCount, inspectionCount, paymentCount ,bloodCount, staffCount, disableStaffCount } from "apis/manage";
 import { useEffect, useState } from "react";
 const cx = classnames.bind(style);
 
 function ManageTop(props) {
-    const [receiptCount2, setReceiptCount2] = useState();
-    const [testCount2, setTestCount2] = useState();
-    const [medicinePres2, setMedicinePres2] = useState();
+    const [ready, setReady] = useState();
+    const [treatment, setTreatment] = useState();
+    const [inspection, setInspection] = useState();
+    const [payment, setPayment] = useState();
     const [aTypeBlood, setATypeBlood] = useState();
     const [bTypeBlood, setBTypeBlood] = useState();
     const [abTypeBlood, setABTypeBlood] = useState();
@@ -24,12 +25,14 @@ function ManageTop(props) {
     const [disableStaffCounts, setDisableStaffCounts] = useState();
     const getInfoCount =  async () => {
         try{
-            const response = await receiptCount();
-            const response2 = await testCount();
-            const response3 = await medicinePresCount();
-            setReceiptCount2(response.data.receiptCounts);
-            setTestCount2(response2.data.testCounts);
-            setMedicinePres2(response3.data.medicinePresCounts);
+            const response = await readyCount();
+            const response2 = await treatmentCount();
+            const response3 = await inspectionCount();
+            const response4 = await paymentCount();
+            setReady(response.data.readyCounts);
+            setTreatment(response2.data.treatmentCounts);
+            setInspection(response3.data.inspectionCounts);
+            setPayment(response4.data.paymentCounts);
 
         }
         catch(error){
@@ -78,13 +81,13 @@ function ManageTop(props) {
     }, [])
     return(
         <>
-         <div className="mb-2 mt-3"><Clock className={cx("timeInterval")} format={'MM월 DD일  HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/></div>
+         <div className="mb-2 mt-2"><Clock className={cx("timeInterval")} format={'MM월 DD일  HH:mm:ss'} ticking={true} timezone={'Asia/Seoul'}/></div>
              <div>
              <h2 className="mb-4 ml-5" >관리 페이지</h2>
              </div>    
             
-            <div className={cx("d-flex flex-row", "ssip", "mb-5")}>
-            <div><PieChart receiptCount2={receiptCount2} testCount2={testCount2} medicinePres2={medicinePres2} /></div>
+            <div className={cx("d-flex flex-row", "ssip", "mb-4")}>
+            <div><PieChart ready={ready} treatment={treatment} inspection={inspection} payment={payment} /></div>
             <div className={cx("ssip")}><PieChart3 aTypeBlood={aTypeBlood} bTypeBlood={bTypeBlood} abTypeBlood={abTypeBlood} oTypeBlood={oTypeBlood} rh_aTypeBlood={rh_aTypeBlood} rh_bTypeBlood={rh_bTypeBlood} rh_abTypeBlood={rh_abTypeBlood} rh_oTypeBlood={rh_oTypeBlood} /></div>
             <div className={cx("ssip")}><PieChart2 staffCounts={staffCounts} disableStaffCounts={disableStaffCounts}  /></div>
             </div>

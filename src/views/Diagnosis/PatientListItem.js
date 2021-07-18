@@ -1,3 +1,4 @@
+import React from "react";
 function PatientListItem(props) {
 
     return(
@@ -34,4 +35,4 @@ function PatientListItem(props) {
     );
 }
 
-export default PatientListItem;
+export default React.memo(PatientListItem);

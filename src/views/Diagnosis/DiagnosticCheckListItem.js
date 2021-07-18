@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import React from "react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,4 +37,4 @@ function DiagnosticCheckListItem(props) {
     );
 }
 
-export default DiagnosticCheckListItem;
+export default React.memo(DiagnosticCheckListItem);

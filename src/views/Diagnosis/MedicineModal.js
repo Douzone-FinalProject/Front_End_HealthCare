@@ -2,7 +2,6 @@ import { Card, Table } from 'antd';
 import style from "./MedicineModal.module.css";
 import classnames from "classnames/bind";
 import Button from "views/common/Button";
-import { search } from "./db";
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { searchMedicine } from "apis/diagnosis";

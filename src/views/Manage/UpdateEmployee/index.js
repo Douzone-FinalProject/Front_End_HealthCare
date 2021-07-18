@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import Swal from "sweetalert2";
 import { updateStaffNoPw, updateStaff } from 'apis/manage';
+import React from 'react';
 
 const cx = classnames.bind(style);
 const staffInfoStyles = {
@@ -66,10 +67,6 @@ function UpdateEmployee(props) {
     const handleMouseDownPassword2 = (event) => {
         event.preventDefault();
     };
-    // const [state, setState] = useState({
-    //     checkedA: false
-    // });
-    
     const handleCheck = (event) => {
         console.log(event.target.checked)
         props.setState({ ...props.state, [event.target.name]: event.target.checked });
@@ -243,4 +240,4 @@ function UpdateEmployee(props) {
     );
 }
 
-export default UpdateEmployee;
+export default React.memo(UpdateEmployee);

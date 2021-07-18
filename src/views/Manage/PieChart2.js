@@ -26,12 +26,12 @@ const data = {
       label: '# of Votes',
       data: [staff, disableStaff],
       backgroundColor: [
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
+        '#e9ecef',
+        '#343a40',
       ],
       borderColor: [
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
+        '#e9ecef',
+        '#343a40',
       ],
       borderWidth: 1
       

@@ -23,18 +23,23 @@ export function deleteStaf(staff_id) {
     return axios.delete("/manage/staff/"+staff_id);
 }
 
-export function receiptCount() { 
-    const promise = axios.get("/manage/receiptCount");
+export function readyCount() { 
+    const promise = axios.get("/manage/readyCount");
     return promise;
 }
 
-export function testCount() { 
-    const promise = axios.get("/manage/testCount");
+export function treatmentCount() { 
+    const promise = axios.get("/manage/treatmentCount");
     return promise;
 }
 
-export function medicinePresCount() { 
-    const promise = axios.get("/manage/medicinePresCount");
+export function inspectionCount() { 
+    const promise = axios.get("/manage/inspectionCount");
+    return promise;
+}
+
+export function paymentCount() { 
+    const promise = axios.get("/manage/paymentCount");
     return promise;
 }
 

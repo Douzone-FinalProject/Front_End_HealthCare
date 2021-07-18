@@ -38,41 +38,9 @@ function Diagnosis (props) {
         }
     };
 
-    // const [changeSort, setChangeSort] = useState(1);
-
-    // const receiptingLists = async (sort) => {
-    //     // setChangeSort(sort)
-    //     // // console.log(sort)
-    //     // if(changeSort == 1){
-         
-    //     //     console.log("1들어옴")   
-    //     //     const response = await getReceiptList();
-    //     //     setpatients(response.data.receiptList)
-    //     // }else if(changeSort == 2){
-        
-    //     //     // console.log(h)
-    //     //     console.log("2들어옴")
-    //     //     // const zz = patients.filter(receiptList => receiptList.receipt_state === '진료중');
-    //     //     const response = await getReceiptList();
-    //     //     setpatients(response.data.receiptList)
-    //     //     // setpatients(zz)
-    //     // }else if(changeSort == 3){
-
-    //     //     // console.log(h)
-    //     //     console.log("3들어옴")
-    //     //     // const zz = patients.filter(receiptList => receiptList.receipt_state === '검사중');
-    //     //     // setpatients(zz)
-    //     //     const response = await getReceiptList();
-    //     //     setpatients(response.data.receiptList)
-    //     // }
-        
-        
-    // };
-  
-
     useEffect(() => {
         receiptPatients();
-    }, [])
+    }, [patients])
 
 
     const [selectedPatient, setSelectP] = useState({
@@ -84,8 +52,7 @@ function Diagnosis (props) {
 
     const [fatientOpinion, setFatientOpinion] = useState([]);
     const [reportOp, setReportOp] = useState();
-    // const [reportOpList, setReportOpList] = useState();
-
+  
     const selectPatient = async (child_patient_id, child_patient_name, child_receipt_state, child_receipt_id) => {
         if(child_receipt_state !== "진료중"){
             Swal.fire({
@@ -105,9 +72,6 @@ function Diagnosis (props) {
             });
             const response = await fatientOpinions(child_patient_id);
             setReportOp(response.data.fatientOpinionsList[0]);
-
-            // console.log(reportOp);
-
             const selectPatientChart = response.data.fatientOpinionsList;
             const chartOfNotNull = selectPatientChart.filter(opinion => opinion.receipt_opinion !== null) // 일단 테스트라 null로 바꿔야 함 후에
            
@@ -119,6 +83,12 @@ function Diagnosis (props) {
         
         
     };
+
+
+    useEffect(() => {
+        receiptPatients();
+    }, [selectedPatient], [fatientOpinion], [reportOp])
+
     /* 증상 리스트  */
     
     const [symptomsCopy, setSympTomCopys] = useState([]);
@@ -158,12 +128,9 @@ function Diagnosis (props) {
     }
    
     const selectSymptom = (symptom_name) => { //선택
-       
+      
         for(let i of symptomsCopy){
-           
-            if(i.search_id !== selectSymptoms.map(x => x.search_id)){
-                // console.log("같은게 없을시 추가 ")
-                
+            if(i.search_id !== selectSymptoms.map(x => x.search_id)){    //같은게 없을 시 추가
                 setSelectSymptoms(selectSymptoms.concat([
                     ...symptomsCopy
                 ]));  
@@ -172,41 +139,23 @@ function Diagnosis (props) {
                     ...selectAfterDelete
                 ])
             }
-            
+        }
 
         for(let z of selectSymptoms){
-                
-            if(i.search_id === z.search_id){
-
-                
-                setSelectSymptoms(selectSymptoms.concat([
-                        
-                ]));  
-                Swal.fire({
-                    icon: 'error',
-                    title: '중복된 요청이 존재합니다.',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            }
-
-            else if(z.search_id !== z.search_id){
-                // console.log("같은게 없을시2")
-                    setSelectSymptoms(selectSymptoms.concat([
-                        ...symptomsCopy
-                    ]));  
-                    const selectAfterDelete = symptomsCopy.filter(symptom => symptom.search_id !== symptom.search_id);
-                    setSympTomCopys([
-                        ...selectAfterDelete
-                    ])
-                    
+            for(let i of symptomsCopy){
+                if(i.search_id === z.search_id){ //같은게 존재 할 경우 빈 배열 추가 및 중복 경고 
+                    setSelectSymptoms(selectSymptoms.concat([]));  
+                    Swal.fire({
+                        icon: 'error',
+                        title: '중복된 증상이 존재합니다.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             }
         }
-        
-     
     };
-    
+
     const deletePrescript = (search_id) => {  // 삭제
         const symptomSelect = selectSymptoms.filter(symptom => symptom.search_id !== search_id);
         setSelectSymptoms([
@@ -229,6 +178,11 @@ function Diagnosis (props) {
         ]);  
     };
 
+    useEffect(() => {
+        receiptPatients();
+    }, [symptomsCopy], [selectSymptoms])
+
+
     /*검사 요청시 증상 및 소견에 해당 환자의 진료 추가되는 부분*/ 
 
 
@@ -246,8 +200,6 @@ function Diagnosis (props) {
 
                         const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);
                         setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
-                        // const reReceiptList = await getReceiptList();
-                        // setpatients(reReceiptList.data.receiptList);
                         await sendRedisMessage(pubMessage);
                         deleteAll();
                         setSelectP({
@@ -286,22 +238,19 @@ function Diagnosis (props) {
                     ...data
                 ]));  
             }
+        }
+
         for(let z of medicines){
-            if(i.medicine_id === z.medicine_id){
-                setMedicines(medicines.concat([       
-                ]));  
-                Swal.fire({
-                    icon: 'error',
-                    title: '중복된 약이 존재합니다.',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            }
-            else if(z.medicine_id !== z.medicine_id){
-                // console.log("같은게 없을시2")
-                    setMedicines(medicines.concat([
-                        ...data
-                    ]));    
+            for(let i of data){
+                if(i.medicine_id === z.medicine_id){
+                    setMedicines(medicines.concat([       
+                    ]));  
+                    Swal.fire({
+                        icon: 'error',
+                        title: '중복된 약이 존재합니다.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             }
         }
@@ -346,6 +295,9 @@ function Diagnosis (props) {
         setMedicines(deleteAll); 
     };
 
+    useEffect(() => {
+        receiptPatients();
+    }, [medicines], [quantity])
     
     //소견 작성시 
    
@@ -640,7 +592,7 @@ function Diagnosis (props) {
 
     useEffect(() => {
         console.log("증상 선택 및 소견 추가시 재실행")
-    }, [opinionsCopy])
+    }, [opinionsCopy], [opp], [opmedic])
     
     return(
         <>

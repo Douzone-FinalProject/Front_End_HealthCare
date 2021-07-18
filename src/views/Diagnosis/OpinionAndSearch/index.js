@@ -26,11 +26,7 @@ function OpinionAndSearch(props) {
         })
         
     };
-    //수정 모달 작성
-
     
-
-
     return(
         <>    
          <UpdateOpinion opmedic={props.opmedic} updateIsOpen={props.updateIsOpen} closeUpdateModal={props.closeUpdateModal} medicines={props.medicines} medicineCount={props.medicineCount} handleCount={props.handleCount} quantity={props.quantity} reportOpinion={props.reportOpinion} reportSuccess={props.reportSuccess} opp={props.opp} updatOpinion={props.updatOpinion} saveOpinion={props.saveOpinion} opinions={props.opinions} medicopp={props.medicopp} saveMedicine={props.saveMedicine} />

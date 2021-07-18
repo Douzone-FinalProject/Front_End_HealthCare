@@ -57,4 +57,4 @@ function OpinionListItem(props) {
     )    
 }
 
-export default OpinionListItem;
+export default React.memo(OpinionListItem);

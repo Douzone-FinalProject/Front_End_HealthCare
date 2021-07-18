@@ -1,5 +1,6 @@
 import style from "../../Diagnosis.module.css"
 import classnames from "classnames/bind";
+import React from 'react';
 
 const cx = classnames.bind(style);
 
@@ -27,4 +28,4 @@ function MedicinePrescriptionListItem(props) {
     );
 }
 
-export default MedicinePrescriptionListItem;
+export default React.memo(MedicinePrescriptionListItem);

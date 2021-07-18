@@ -52,4 +52,4 @@ function SearchListItem(props) {
     );
 }
 
-export default SearchListItem;
+export default React.memo(SearchListItem);

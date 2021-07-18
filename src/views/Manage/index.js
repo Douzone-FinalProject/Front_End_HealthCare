@@ -18,10 +18,10 @@ function Manage(props) {
         <Header realTimeReceiptList={realTimeReceiptList}/>
       
         <div className="mt-2 d-flex flex-column">
-            <div className={cx("diagnosis-component-background", "ml-2", "mr-2","mb-2")}>
+            <div className={cx("diagnosis-component-background", "ml-2", "mr-2")}>
             <ManageTop/>
             </div> 
-            <div className={cx("diagnosis-component-background", "ml-2", "mr-2","mb-2")}>
+            <div className={cx("diagnosis-component-background", "ml-2", "mr-2", "mt-2")}>
             <ManageBottom/>
             </div>
         </div>
