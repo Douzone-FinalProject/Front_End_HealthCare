@@ -94,14 +94,14 @@ function TestState(props) {
       <div className={cx("whole-frame")}>
         <Header realTimeReceiptList={realTimeReceiptList}/>
         <Row>
-          <Col span={7} className={cx("teststate-frame", "flex-width")}>
+          <Col flex="1 1 540px" className={cx("teststate-frame", "flex-width")}>
             <ChartAndList waitingData={waitingData} setWaitingData={setWaitingData} 
                           setReceiptId={setReceiptId} labTable={labTable} 
                           waitType={waitType} state={state} setWaitType={setWaitType} setState={setState} 
                           stateChart={stateChart} setStateChart={setStateChart}
                           labChart={labChart} setLabChart={setLabChart}/>
           </Col>
-          <Col span={17} className={cx("flex-width")}>
+          <Col flex="1 1 1370px" className={cx("flex-width")}>
             <TestStateDetail receiptId={receiptId} 
                             detailData={detailData} setDetailData={setDetailData} 
                             waitingData={waitingData} setWaitingData={setWaitingData}
