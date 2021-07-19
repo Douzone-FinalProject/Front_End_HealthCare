@@ -7,7 +7,7 @@ import classNames from 'classnames/bind';
 import Header from 'views/common/Header';
 import DialMenu from 'views/common/DialMenu';
 import { sendRedisMessage } from 'apis/message';
-import { getPatientListByName, updateReceipt, getReceiptList, deleteReceiptById, deletePatientById, getPatientList, insertReceipt, updatePatient, addNewPatient } from 'apis/receipt';
+import { getPatientListByName, updateReceipt, getReceiptList, deleteReceiptById, deletePatientById, insertReceipt, updatePatient, addNewPatient } from 'apis/receipt';
 import PatientReadOnly from './PatientReadOnly';
 import { useSelector } from 'react-redux';
 
@@ -101,7 +101,7 @@ const Receipt = (props) => {
   const handleDelete = async (patient_id) => {
     try{
       await deletePatientById(patient_id);
-      const response = await getPatientList();
+      const response = await getPatientListByName('-');
       setPatients(response.data.patientList);
     }catch(error){
       console.log(error);
@@ -112,7 +112,7 @@ const Receipt = (props) => {
   const handleUpdate = async (patient) => {
     try{
       await updatePatient(patient);
-      const response = await getPatientList();
+      const response = await getPatientListByName(patient.patient_name);
       setPatients(response.data.patientList);
     }catch(e){
       console.log(e);
@@ -142,16 +142,13 @@ const Receipt = (props) => {
   // DB 접수 
   const addReceipt = async (db_patient) => { 
     try{
-      const response = await insertReceipt(db_patient); // receipt_id를 반환하기 
+      const response = await insertReceipt(db_patient); 
        /* 접수버튼을 누르면 changeMode update -> readonly form... */
        const receipt_id = response.data.receipt_id;
-       console.log('########여기에 진짜로 나와야대: ', receipt_id);
        setPatientId(db_patient.patient_id);
        setMode('readonly');
        setReceiptId(receipt_id);
-
       await sendRedisMessage(pubMessage); // 실시간 pubMessage 
-
     }catch(error){
       console.log(error);
     }

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { MDBTable, MDBTableBody } from 'mdbreact';
 import { Link } from "react-router-dom";
 import { searchPatientIdOpinion, searchDateOpinion, searchPatientNameOpinion, searchPatientIdAndDate, searchPatientIdAndName, searchPatientNameAndDate, searchAll } from "apis/diagnostic";
+import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined';
 
 const cx = classnames.bind(style);
 
@@ -131,14 +132,15 @@ function SearchPatients(props) {
             <MDBTable scrollY className={cx("table", "diagnosis-tbh")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr> 
-                    <th>접수번호</th>
-                    <th>차트번호</th>
-                    <th>소견내용</th>
-                    <th>검사상태</th>
-                    <th>날짜</th>
+                    <th style={{width:"24%"}}>접수번호</th>
+                    <th style={{width:"20%"}}>차트번호</th>
+                    <th style={{width:"23%"}}>소견내용</th>
+                    <th style={{width:"15.7%"}}>검사상태</th>
+                    <th style={{width:"23%"}}>날짜</th>
                     </tr>
                 </thead>
                 </MDBTable>
+            {props.opinionsCopy.length > 0 ?
                 <MDBTable scrollY className={cx("diagnosis-table", "diagnosis-opinionAndSearch-tableInterval","table-hover")}>
                     <MDBTableBody>
                     {props.opinionsCopy.map((opinion) => {
@@ -148,11 +150,15 @@ function SearchPatients(props) {
                         })}
                     </MDBTableBody>
                 </MDBTable>
+            :
+                <AssignmentIndOutlinedIcon style={{width: "100%", height: "6em", color:"#ced4da", marginTop:"5%"}} />
+            }
             </div>
             {props.opinionsCopy.receipt_id || props.selectReceipt_id2.diagnostic_test_state === "검사완료" || props.selectReceipt_id2.diagnostic_test_state === "처방완료"  ?
                 <>
                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mt-3")} onClick={()=>{search(searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name)}} >검색</Button>
-                   <Link className={cx("noneLink","diagnosis-opinionAndSearch-button")} to={"/result?receipt_id=" + selectReceipt}><Button className={cx("mt-3")}>결과 조회</Button></Link>
+                   <Link className={cx("noneLink")} to={{pathname:"/result", state: {receiptId2: selectReceipt}}}><Button className={cx("mt-3")}>결과 조회</Button></Link>
+
                 </>    
             :
                 <>

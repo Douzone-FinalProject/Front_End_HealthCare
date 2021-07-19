@@ -3,24 +3,21 @@ import classnames from "classnames/bind";
 import PatientListItem from "./PatientListItem";
 import { MDBTable, MDBTableBody} from 'mdbreact';
 import Clock from 'react-live-clock';
-import { useState } from "react";
-import { colors } from "@material-ui/core";
+import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
+
 const cx = classnames.bind(style);
 
+
 function PatientList(props) {
-    
-    // const [selectedPatient, setselectedPatient] = useState();
-    const selectPatient = (event1, event2, event3, receipt_id) => {
-        // setselectedPatient(event1)
-        props.selectPatient(event1, event2, event3, receipt_id);
-        
-    };
 
     return(
         <>
         <div className="mt-4">
-            <h4 className="mb-4 ml-3">환자 리스트</h4>
-            <Clock className={cx("timeInterval")} format={'MM 월 DD 일  HH시 mm분 ss초'} ticking={true} timezone={'Asia/Seoul'}/> 
+            <h4 className="ml-3" style={{marginBottom:"7%"}}>환자 리스트</h4>
+
+            <div className="d-flex flex-row">
+                <div style={{marginLeft:"33%", marginBottom:"1%"}}><Clock className={cx("timeInterval")} format={'MM 월 DD 일  HH시 mm분 ss초'} ticking={true} timezone={'Asia/Seoul'}/> </div>
+            </div>
             <MDBTable scrollY className={cx("table", "diagnosis-tbh")}>
                 <thead className={cx("diagnosis-table-header")}>
                     <tr> 
@@ -31,20 +28,20 @@ function PatientList(props) {
                     </tr>
                 </thead>
             </MDBTable>
-            <MDBTable scrollY className={cx("table-hover ", "diagnosis-tbb")}>
-                <MDBTableBody>
-                {/* {props.opinion.diagnostic_test_state === "" && */}
-               
-                {props.patients.map((patient) => {
-                    // {patient.patient_id === selectedPatient &&  }
-                        return (
-                            
-                            <PatientListItem key={patient.patient_id} patient={patient} selectPatient={selectPatient} selectedPatient={props.selectedPatient} />
-                        );
-                    })}
-                </MDBTableBody>    
-            </MDBTable>
-            
+            {props.patients.length > 0 ? 
+                <MDBTable scrollY className={cx("table-hover ", "diagnosis-tbb")}>
+                    <MDBTableBody>
+                    {props.patients.map((patient) => {
+                            return (
+                                
+                                <PatientListItem key={patient.patient_id} patient={patient} selectPatient={props.selectPatient} selectedPatient={props.selectedPatient} />
+                            );
+                        })}
+                    </MDBTableBody>    
+                </MDBTable>
+            :
+            <FaceOutlinedIcon style={{width: "100%", height: "6em", color:"#ced4da", marginTop:"10%"}} />
+            }
         </div>
         </>
     );

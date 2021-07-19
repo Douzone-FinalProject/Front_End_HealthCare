@@ -7,6 +7,7 @@ import Button from "../Button";
 import { useRef, useState } from "react";
 import { useEffect } from 'react';
 import { getTestStateDetailList, updateStateDetail, updateReceiptState, getPatientName, getReceiptState } from "apis/teststate"; 
+import { paymentBefore } from "apis/diagnostic"; 
 import CameraModal from "./CameraModal";
 import { getCheckPreviousResult, insertResultData, insertResultDataByNew } from "apis/result";
 import { sendRedisMessage } from 'apis/message';
@@ -262,8 +263,8 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
       topic:'/'+ sessionStorage.getItem("hospital_id") +'/#',
       content:'ChangeReceiptState',
     });
-
     if (event.target.value === "수납전") {
+      await paymentBefore(receiptId)
       Swal.fire('수납전')
     } else if (event.target.value === "대기") {
       Swal.fire('대기')

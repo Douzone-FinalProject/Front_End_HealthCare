@@ -265,7 +265,7 @@
 }
 
 .timeInterval{
-    margin-left: 50%;
-    color: #74c0fc;
-    font-size: 1.1rem;
+    /* margin-left: 1%; */
+    color: #212529;
+    font-size: 1.5rem;
 }
