@@ -33,4 +33,4 @@ function MedicinePrescriptionListItem(props) {
     );
 }
 
-export default React.memo(MedicinePrescriptionListItem);
+export default MedicinePrescriptionListItem;

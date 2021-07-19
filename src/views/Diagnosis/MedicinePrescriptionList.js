@@ -9,11 +9,6 @@ import LocalPharmacyOutlinedIcon from '@material-ui/icons/LocalPharmacyOutlined'
 const cx = classnames.bind(style);
 
 function MedicinePrescriptionList(props) {
-
-    const handleModal = () => { 
-        props.handleModal();        
-    }
-
     const deleteMedicineAll = () => {
         props.deleteMedicineAll();
     };
@@ -25,7 +20,7 @@ function MedicinePrescriptionList(props) {
             {
                 props.isModalVisible && (<MedicineModal handleModal={props.handleModal} addMedicines={props.addMedicines} medicines={props.medicines}/>)
             }
-            <Button className={cx("diagnosis-medicine-button", "mb-2 mr-2")} onClick={handleModal}>검색</Button>
+            <Button className={cx("diagnosis-medicine-button", "mb-2 mr-2")} onClick={props.handleModal}>검색</Button>
             <Button deleteButton={true} className="mb-2" onClick={deleteMedicineAll}>전체 삭제</Button>
             <MDBTable  className={cx("table-hover", "diagnosis-tbh")}>
                 <thead className={cx("diagnosis-table-header")}>
