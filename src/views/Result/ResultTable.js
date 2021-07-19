@@ -19,7 +19,8 @@ function ResultTable(props) {
                    dataSource={searchData}
                    pagination={false}
                    scroll={{ y: '35vh' }}
-                   onRow={props.handleSpecimen} />
+                   onRow={props.handleSpecimen}
+                   rowClassName={(record, index) => (index === props.resultIndex ? cx("result-color") : '')} />
         </div>
     );
 }

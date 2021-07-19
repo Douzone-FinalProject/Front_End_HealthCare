@@ -128,12 +128,14 @@ function ResultSearchContainer(props) {
     return (
         <div className={cx("result-container")}>
             <div className={cx("result-smallcontainer")}>
-                <ResultNameBox>검사분야</ResultNameBox>
-                <div className={cx("result-whitebox")}>진단검사</div>
+                <ResultNameBox>검사상태</ResultNameBox>
+                <div name="diastate" className={cx("result-whitebox")}>
+                    전체
+                </div>
             </div>
             <div className={cx("result-smallcontainer")}>
-                <ResultNameBox>환자이름</ResultNameBox>
-                <input type="text" className={cx("result-whitebox")} value={patient_name} onChange={handleNameChange} placeholder="이름을 검색하세요."/>
+                <ResultNameBox>검사분야</ResultNameBox>
+                <div className={cx("result-whitebox")}>진단검사</div>
             </div>
             <div className={cx("result-smallcontainer")}>
                 <input type="checkbox" onChange={handleTodayChange} checked={today} /> <small className="ml-1">Today</small>
@@ -143,13 +145,8 @@ function ResultSearchContainer(props) {
                 <input type="date" className={cx("result-inputbox")} value={receipt_datetime} onChange={handleDateChange}/>
             </div>
             <div className={cx("result-smallcontainer")}>
-                <ResultNameBox>검사상태</ResultNameBox>
-                <select name="diastate" className={cx("result-whitebox")}>
-                    <option value="all">전체</option>
-                    <option value="diaready">검사대기</option>
-                    <option value="diareceipt">검사접수</option>
-                    <option value="diafinish">검사완료</option>
-                </select>
+                <ResultNameBox>환자이름</ResultNameBox>
+                <input type="text" className={cx("result-whitebox")} value={patient_name} onChange={handleNameChange} placeholder="이름을 검색하세요."/>
             </div>
             <div className={cx("result-smallcontainer")}>
                 <Button className={cx("result-button")} onClick={()=>handleSearch(patient_name, receipt_datetime)} ><FontAwesomeIcon icon={faSearch} className="mr-1"/>조회</Button>

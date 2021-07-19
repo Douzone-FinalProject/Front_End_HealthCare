@@ -3,7 +3,7 @@ import ResultContainer from "./ResultContainer";
 import { useState, useCallback } from "react";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
-import { getResultDataByReceipt, getResultDataBySpecimen, getPatientData, getPatientDataBySpecimen, getImagePath } from "apis/result";
+import { getResultDataByReceipt, getResultDataBySpecimen, getPatientDataBySpecimen } from "apis/result";
 
 function Result(props) {
     //진료 페이지에서 넘겨준 receipt_id가 있다면 저장
@@ -15,6 +15,7 @@ function Result(props) {
     const [result, setResult] = useState([]);
     const [ReceiptIndex, setReciptIndex] = useState();
     const [SpecimenIndex, setSpecimenIndex] = useState();
+    const [resultIndex, setResultIndex] = useState();
     const [patient, setPatient] = useState({});
     const [resultState, setResultState] = useState();
     const [imgArray, setImgArray] = useState([]);
@@ -31,7 +32,7 @@ function Result(props) {
     const handleResult = useCallback((data, rowIndex) => {
         return {
           onClick: async (event) => {
-            console.log(data.receipt_id);
+            setResultIndex();
             if(data.diagnostic_result_state) {
                 setResultState(data.diagnostic_result_state);
                 setFlag({
@@ -53,13 +54,16 @@ function Result(props) {
                 const patientData = responseByPatient.data.patientData;
                 console.log(patientData);
                 setPatient(patientData);
+                setImgArray([]);
             } else {
                 const response = await getResultDataByReceipt(data.receipt_id);
                 resultData = response.data.resultData;
-                const responseByPatient = await getPatientData(data.receipt_id);
-                const patientData = responseByPatient.data.patientData;
-                console.log(patientData);
+                //const responseByPatient = await getPatientData(data.receipt_id);
+                //const patientData = responseByPatient.data.patientData;
+                const patientData = response.data.patientData;
                 setPatient(patientData);
+                const ImgArrayData = response.data.pathData;
+                setImgArray(ImgArrayData);
             }
             setResult(resultData);
             setSpecimenIndex();
@@ -69,10 +73,10 @@ function Result(props) {
             } else {
                 setReciptIndex(rowIndex);
             }
-            const res = await getImagePath(data.receipt_id);
-            const ImgArrayData = res.data.pathData;
-            console.log(ImgArrayData);
-            setImgArray(ImgArrayData);
+            // const res = await getImagePath(data.receipt_id);
+            // const ImgArrayData = res.data.pathData;
+            // console.log(ImgArrayData);
+            // setImgArray(ImgArrayData);
           }
         }
     }, [props.location.pathname]);
@@ -85,7 +89,7 @@ function Result(props) {
             <Header realTimeReceiptList={realTimeReceiptList}/>
             <div className="d-flex">
                 <ResultSearchContainer props={props} handleResult={handleResult} ReceiptIndex={ReceiptIndex} SpecimenIndex={SpecimenIndex} saveResult={saveResult} />
-                <ResultContainer props={props} result={result} patientData={patient} resultState={resultState} setResultState={setResultState} flag={flag} saveResult={saveResult} setSaveResult={setSaveResult} imgArray={imgArray}/>
+                <ResultContainer props={props} result={result} patientData={patient} resultState={resultState} setResultState={setResultState} flag={flag} saveResult={saveResult} setSaveResult={setSaveResult} imgArray={imgArray} resultIndex={resultIndex} setResultIndex={setResultIndex}/>
             </div>
             <DialMenu />
         </>
