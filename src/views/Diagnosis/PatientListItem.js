@@ -15,7 +15,6 @@ function PatientListItem(props) {
     const closeModal = () => {
         setModalIsOpen(false);
     }
-
     const selectPatient = (patient_id, patient_name, receipt_state, receipt_id) => {
         props.selectPatient(patient_id, patient_name, receipt_state, receipt_id);
     };
