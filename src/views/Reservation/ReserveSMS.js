@@ -82,7 +82,8 @@ const ReserveSMS = (props) => {
     setFormat(event.target.value);
     if(event.target.value === 'confirm'){
       if(updateForm.reservation_name !== undefined){
-        setMessage('[더조은병원]\n'+updateForm.reservation_name+'님 '+updateForm.reservation_datetime+'예약 완료되었습니다.');
+        setMessage('[더조은병원]\n'+(updateForm.reservation_name || '00')+'님 '+
+        (updateForm.reservation_datetime || '0000-00-00 00시 00분')+'예약 완료되었습니다.');
       }else{
         setMessage('[더조은병원]\n 000 환자 000 예약 완료되었습니다.');
       }
@@ -99,8 +100,6 @@ const ReserveSMS = (props) => {
       setUpdateForm(props.updateForm);
       setMessage('');
       setFormat('');
-    }else{
-      console.log('updateForm undefined');
     }
   }, [props.updateForm]);
 
@@ -135,7 +134,9 @@ const ReserveSMS = (props) => {
         {/* form data : 이름 , 핸드폰번호, 보낼내용 */}
         <Form id="smsForm" name="smsForm" onSubmit={handleSubmit}>
           {/* <div className="d-flex-col"> */}
-            {/* <div> */}
+            {/* <div> 
+              SMS 전송 예약 , 검색했을 때 모달창 없어지도록 
+            */}
               <div>
                 <TextField required label="이름" className="mr-5" onChange={handleChange} name="reservation_name" value={updateForm.reservation_name || ''}/> <br/>
                 <TextField required label="휴대전화" onChange={handleChange} name="reservation_phone" value={updateForm.reservation_phone || ''}/> <br/>

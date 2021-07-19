@@ -128,7 +128,11 @@ const ReserveUpdateForm = (props) => {
             </div>
                 <Button type="button" 
                   variant="outlined" size="small" color="primary" className={classes.margin}
-                  onClick={() => {props.handleSMS(updateForm)}}>SMS 발송</Button>
+                  onClick={() => {
+                    setUpdateForm({});
+                    setStartDate(new Date());
+                    props.handleMode();
+                    props.handleSMS(updateForm)}}>SMS 발송</Button>
                 <Button
                   variant="outlined" size="small" color="primary" className={classes.margin}
                   type="button" 

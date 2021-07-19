@@ -9,7 +9,8 @@ const PatientRow = (props) => {
   return (
       <div style={{height:'100%'}}
           className={cx("table-body","d-flex align-items-center border-bottom")} 
-          onClick={() => props.handleClick(props.patient.reservation_id)}
+          onClick={() => {props.handleClick(props.patient.reservation_id); }}
+          onDoubleClick={()=>{ props.closeModal();}}
       >
         <span style={{width:"200px"}}>{props.patient.reservation_name}</span>
         <span style={{width:"220px"}}>{props.patient.reservation_phone}</span>

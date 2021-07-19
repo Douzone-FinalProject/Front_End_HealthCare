@@ -104,7 +104,7 @@ const Reservation = (props) => {
 
   /* 예약 수정 컴포넌트 -> 문자 발송 컴포넌트로 예약 정보 넘겨주기 */
   const handleSMS = (updateForm) => {
-    console.log('updateFOrm: ', updateForm);
+    console.log('초기화를 어디서해주지');
     setUpdateForm(updateForm);
   }
 
