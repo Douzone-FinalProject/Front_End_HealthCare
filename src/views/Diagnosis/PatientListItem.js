@@ -1,18 +1,11 @@
+import React from "react";
 function PatientListItem(props) {
-
-    const selectPatient = (patient_id, patient_name, receipt_state, receipt_id) => {
-        props.selectPatient(patient_id, patient_name, receipt_state, receipt_id);
-    };
-    
-
-    // {/* {props.selectedPatient.patient_id === props.patient.patient_id ? <td style={{color:"gold"}} >{props.patient.patient_id}</td> : <td>{props.patient.patient_id}</td>}
-                    // {props.selectedPatient.patient_id === props.patient.patient_id ? <td style={{color:"gold"}} >{props.patient.patient_name}</td> : <td>{props.patient.patient_name}</td>} */}
 
     return(
         <>
                 {props.selectedPatient.patient_id === props.patient.patient_id ? 
 
-                <tr key={props.patient.patient_id} onClick={() => {selectPatient(props.patient.patient_id, props.patient.patient_name, props.patient.receipt_state, props.patient.receipt_id)}} style={{backgroundColor:"#c5f6fa"}}>
+                <tr key={props.patient.patient_id} onClick={(e) => {props.selectPatient(props.patient.patient_id, props.patient.patient_name, props.patient.receipt_state, props.patient.receipt_id)}} style={{backgroundColor:"#c5f6fa"}}>
                     <td>{props.patient.patient_id}</td>
                     <td>{props.patient.patient_name}</td>
                     {props.patient.receipt_state === "진료중" && <td style={{color:"red"}}>{props.patient.receipt_state}</td>}
@@ -24,7 +17,7 @@ function PatientListItem(props) {
                 </tr>
                 :
                 
-                <tr key={props.patient.patient_id} onClick={() => {selectPatient(props.patient.patient_id, props.patient.patient_name, props.patient.receipt_state, props.patient.receipt_id)}} >
+                <tr key={props.patient.patient_id} onClick={(e) => {props.selectPatient(props.patient.patient_id, props.patient.patient_name, props.patient.receipt_state, props.patient.receipt_id)}} >
                     <td>{props.patient.patient_id}</td>
                     <td>{props.patient.patient_name}</td>
                     {props.patient.receipt_state === "진료중" && <td style={{color:"red"}}>{props.patient.receipt_state}</td>}
@@ -42,4 +35,4 @@ function PatientListItem(props) {
     );
 }
 
-export default PatientListItem;
+export default React.memo(PatientListItem);

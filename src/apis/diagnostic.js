@@ -121,3 +121,8 @@ export function updateTestAndReceiptState(receipt_id) { // 검사 소견 수정 
     const promise = axios.put("/diagnostic/updateTestAndReceiptState/"+ receipt_id);
     return promise;
 }
+
+export function paymentBefore(receipt_id) { //소견 수정
+    const promise = axios.put("/diagnostic/paymentBefore/"+ receipt_id);
+    return promise;
+}
