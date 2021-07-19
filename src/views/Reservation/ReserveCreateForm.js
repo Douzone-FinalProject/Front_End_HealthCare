@@ -10,15 +10,10 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from './ReserveCalendar/src/moment-range';
 import Swal from 'sweetalert2';
-import {
-  Form,
-} from 'react-form-elements';
+import {Form} from 'react-form-elements';
 import { checkPatientExist } from 'apis/reservation';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import setHours from 'date-fns/setHours'
-import setMinutes from 'date-fns/setMinutes'
-import { TrainRounded } from '@material-ui/icons';
 
 const cx = classNames.bind(style);
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +51,6 @@ const ReserveCreateForm = (props) => {
 
   const handleSubmit = (e) => {
     const week = moment(startDate).format('ddd');
-    // const time = moment(startDate).format('HH:mm');
     let available = true;
     if(week === 'Sun'){
       available = false;

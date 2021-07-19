@@ -142,16 +142,13 @@ const Receipt = (props) => {
   // DB 접수 
   const addReceipt = async (db_patient) => { 
     try{
-      const response = await insertReceipt(db_patient); // receipt_id를 반환하기 
+      const response = await insertReceipt(db_patient); 
        /* 접수버튼을 누르면 changeMode update -> readonly form... */
        const receipt_id = response.data.receipt_id;
-       console.log('########여기에 진짜로 나와야대: ', receipt_id);
        setPatientId(db_patient.patient_id);
        setMode('readonly');
        setReceiptId(receipt_id);
-
       await sendRedisMessage(pubMessage); // 실시간 pubMessage 
-
     }catch(error){
       console.log(error);
     }

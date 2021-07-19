@@ -8,7 +8,6 @@ import style from '../style.module.css';
 import classNames from 'classnames/bind';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PersonIcon from '@material-ui/icons/Person';
-import Modal from "react-modal";
 import SearchReservation from './SearchReservation';
 
 require('./demo.scss');
@@ -23,7 +22,6 @@ const custom_style = {
     borderRadius: '7px',
 };
 
-Modal.setAppElement('body');
 class ReserveCalendar extends React.Component {
     constructor(props) {
         super(props);

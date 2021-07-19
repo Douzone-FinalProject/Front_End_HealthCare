@@ -7,9 +7,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from './ReserveCalendar/src/moment-range';
 import Swal from 'sweetalert2';
-import {
-  Form,
-} from 'react-form-elements';
+import {Form} from 'react-form-elements';
 import { getReservationById } from 'apis/reservation';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -57,11 +55,10 @@ const ReserveUpdateForm = (props) => {
   };
 
   useEffect(() => {
-    console.log("rid가 마운트 또는 업데이트 후 실행");
     if(rid !== undefined) {
       handleReservationLById(rid);
     }else{
-      console.log('rid가 undefined');
+      console.log('rid undefined');
     }
   },[props.reservation_id]);
 
@@ -136,7 +133,6 @@ const ReserveUpdateForm = (props) => {
                   variant="outlined" size="small" color="primary" className={classes.margin}
                   type="button" 
                     onClick={() => {
-
                       Swal.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to revert this!",

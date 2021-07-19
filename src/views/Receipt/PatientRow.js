@@ -6,7 +6,6 @@ const cx = classNames.bind(style);
 
 // 환자 리스트 테이블 한 행 
 const PatientRow = (props) => {
-  // console.log('PatientRow render: ', props.patient.patient_id);
 
   return (
       <div style={{height:'100%'}}
