@@ -24,7 +24,7 @@ function BmiDisplay(props){
     <div className={"bmi-result alert " + props.alertClass}>
       <div>{ props.bmi || '--.-' } { props.label }</div>
     </div>
-  )
+  ) 
 }
 
 // BMI 맥박 혈압 알려주는 모달 
