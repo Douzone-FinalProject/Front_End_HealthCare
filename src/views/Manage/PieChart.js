@@ -13,27 +13,30 @@ function PieChart(props) {
     }
   }
 
-  let receipt = props.receiptCount2;
-  let test = props.testCount2;
-  let medicinePres = props.medicinePres2;
+  let ready = props.ready;
+  let treatment = props.treatment;
+  let inspection = props.inspection;
+  let payment = props.payment;
   
   const data = {
     
   
-    labels: ['진료', '검사', '약 처방'],
+    labels: ['대기', '진료중', '검사중', '수납전'],
     datasets: [
       {
         label: '# of Votes',
-        data: [receipt , test, medicinePres],
+        data: [ready , treatment, inspection, payment],
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
+          '#c5f6fa',
+          '#96f2d7',
+          '#ffec99',
+          '#eebefa',
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
+          '#c5f6fa',
+          '#96f2d7',
+          '#ffec99',
+          '#eebefa',
         ],
         borderWidth: 1
         

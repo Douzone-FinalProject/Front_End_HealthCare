@@ -220,4 +220,4 @@ function CreateEmployee(props) {
     );
 }
 
-export default CreateEmployee;
+export default React.memo(CreateEmployee);

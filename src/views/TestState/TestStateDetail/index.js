@@ -7,9 +7,11 @@ import Button from "../Button";
 import { useRef, useState } from "react";
 import { useEffect } from 'react';
 import { getTestStateDetailList, updateStateDetail, updateReceiptState, getPatientName, getReceiptState } from "apis/teststate"; 
+import { paymentBefore } from "apis/diagnostic"; 
 import CameraModal from "./CameraModal";
 import { getCheckPreviousResult, insertResultData, insertResultDataByNew } from "apis/result";
 import { sendRedisMessage } from 'apis/message';
+import row from 'react-form-elements/lib/row';
 
 const cx = classNames.bind(style);
 
@@ -88,16 +90,17 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   const [complete, setComplete] = useState('false');
 
   const [bundleLab, setBundleLab] = useState();
-  const rowSelection = {  
+  const [hide, setHide] = useState(true);
+  const rowSelection = {
+    hideSelectAll: waitType === "전체" ? hide : false,
     onChange: (selectedRowKeys, selectedRows) => {
-    // console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);
+    // console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);    
     setRows([...selectedRows])
     setRowKeys([...selectedRowKeys])
     setBundleSpeciemens(selectedRows.map(row => row.bundle_specimen))
   },   
   getCheckboxProps: (record) => {
     if (waitType === "전체") {
-      console.log("2", record)
       return ({
         disabled: (bundleLab && record.bundle_lab !== bundleLab) || receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전"
       })
@@ -110,11 +113,30 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   },
   onSelect: (record, selected, selectedRows, nativeEvent) => {
     if (selected) {
+      if (waitType === "전체") {
+        rowSelection.hideSelectAll = setHide(false);
+      }
       setBundleLab(selectedRows[0].bundle_lab);
       rowSelection.getCheckboxProps(record)
     } else {
-      setBundleLab("");
-      rowSelection.getCheckboxProps(record)
+      if (selectedRows.length === 0) {
+        setBundleLab("");
+        rowSelection.getCheckboxProps(record)
+        if (waitType === "전체") {
+          rowSelection.hideSelectAll = setHide(true);
+        }
+      }
+    } 
+  },
+  onSelectAll: (selected, selectedRows, changeRows) => {
+    if (selected) {
+      if (waitType === "전체") {
+      }
+    } else {
+      if (waitType === "전체") {
+        rowSelection.hideSelectAll = setHide(true);
+        setBundleLab("");
+      }
     }
   }
 }
@@ -241,8 +263,8 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
       topic:'/'+ sessionStorage.getItem("hospital_id") +'/#',
       content:'ChangeReceiptState',
     });
-
     if (event.target.value === "수납전") {
+      await paymentBefore(receiptId)
       Swal.fire('수납전')
     } else if (event.target.value === "대기") {
       Swal.fire('대기')

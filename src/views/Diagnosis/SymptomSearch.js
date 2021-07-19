@@ -4,6 +4,7 @@ import  Button  from "../common/Button";
 import SymptomSearchItem from "./SymptomSearchItem"
 import { MDBTable, MDBTableBody } from 'mdbreact';
 import Swal from "sweetalert2";
+import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 const cx = classnames.bind(style);
 
 function SymptomSearch(props) {
@@ -63,17 +64,20 @@ function SymptomSearch(props) {
                     <th>묶음명</th>
                     </tr>
                 </thead>
-            </MDBTable>     
-            <MDBTable scrollY className={cx("table-hover ", "diagnosis-tbb")}>
-                <MDBTableBody>
-                    {props.symptomsCopy && props.symptomsCopy.map((symptom) => {
-                        return (
-                            <SymptomSearchItem key={symptom.search_id} symptom={symptom} deleteBeforePrescript={props.deleteBeforePrescript} />
-                        );
-                    })}
-                </MDBTableBody>
-            </MDBTable>
-
+            </MDBTable>    
+            {props.symptomsCopy.length > 0 ? 
+                <MDBTable scrollY className={cx("table-hover ", "diagnosis-tbb")}>
+                    <MDBTableBody>
+                        {props.symptomsCopy && props.symptomsCopy.map((symptom) => {
+                            return (
+                                <SymptomSearchItem key={symptom.search_id} symptom={symptom} deleteBeforePrescript={props.deleteBeforePrescript} />
+                            );
+                        })}
+                    </MDBTableBody>
+                </MDBTable>
+            :
+                <SearchOutlinedIcon style={{width: "100%", height: "6em", color:"#ced4da", marginTop:"5%"}} />
+            }
         </div>
         </>
     );

@@ -1,3 +1,4 @@
+import React from 'react';
 function OpinionMedicineListItem(props) {
     
     return(
@@ -22,4 +23,4 @@ function OpinionMedicineListItem(props) {
     );
 }
 
-export default OpinionMedicineListItem;
+export default React.memo(OpinionMedicineListItem);

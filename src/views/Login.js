@@ -10,6 +10,7 @@ import { addAuthHeader } from "apis/axiosConfig";
 import { useDispatch } from "react-redux";
 import { createSetAuthTokenAction, createSetUidAction, createSetNameAction, createSetRoleAction, createSetHospitalAction } from "redux/auth-reducer";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const CustomRadio = withStyles({
   root: {
@@ -87,11 +88,26 @@ function Login(props) {
             props.history.push('/teststate')
           }
         } else if(response.data.login_status === "hospitalIdFailure") {
-          alert("병원코드가 맞지 않습니다.");
+            Swal.fire({
+            icon: 'error',
+            title: '병원코드가 맞지 않습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          })
         } else if(response.data.login_status === "roleFailure"){
-          alert("권한이 다릅니다.");
+            Swal.fire({
+            icon: 'error',
+            title: '권한이 일치하지 않습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          })
         } else {
-          alert("로그인 실패");
+           Swal.fire({
+            icon: 'error',
+            title: 'ID 및 PW가 맞지 않습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          })
         }
       } catch(error) {
         alert("로그인에 실패하였습니다.")

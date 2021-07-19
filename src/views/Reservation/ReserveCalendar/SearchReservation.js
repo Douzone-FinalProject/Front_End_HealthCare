@@ -1,6 +1,5 @@
 import React,{ useState, useCallback, useEffect} from 'react';
 import Modal from "react-modal";
-import Swal from 'sweetalert2';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
@@ -35,20 +34,29 @@ const customStyles = {
 
 Modal.setAppElement('body');
 const SearchReservation = (props) => {
-  const [isModal, setModal] = useState(false);
   const [name, setName] = useState(''); // 검색 조건 - 이름 
   const [patients, setPatients] = useState([]); // 검색 결과 
 
+  useEffect(() => {
+    setName('');
+    setPatients([]);
+  }, [props.modalIsOpen]);
+
   const handleChange = useCallback((event) => {
-    console.log(event.target.value);
     setName(event.target.value);
   }, []);
 
   //회원 검색
+  /* 이름 입력안하고 검색할때 에러 처리하기  */
   const handleSearch = async (patient_name) => {
     try{
-      const response = await getReservationsByName(patient_name);
-      setPatients(response.data.reservations);
+      if(patient_name === ''){
+        console.log('입력하세요');
+        setPatients([]);
+      }else{
+        const response = await getReservationsByName(patient_name);
+        setPatients(response.data.reservations);
+      }
     }catch(error){
       console.log(error);
     }
@@ -63,13 +71,6 @@ const SearchReservation = (props) => {
       console.log(error);
     }
   };
-
-  // const openAdModal = useCallback(() => {
-  //     setModal(true);
-  // }, []);
-  // const closeAdModal = useCallback(() => {
-  //     setModal(false);
-  // }, []);
 
   const classes = makeStyles((theme) => ({
     root: {
@@ -111,7 +112,7 @@ const SearchReservation = (props) => {
           <Paper component="form" className={cx("classes.root", "d-flex")}>
                 <InputBase
                   className={cx("classes.input", "ml-3")} name="patient_name" 
-                  value={name} 
+                  value={name} required
                   onChange={handleChange}
                   placeholder="이름을 검색하세요" id="patient_name"
                 />
@@ -156,7 +157,6 @@ const SearchReservation = (props) => {
           </div>
             }
       </div>
-       
     </div>
     </Modal>
     </>
