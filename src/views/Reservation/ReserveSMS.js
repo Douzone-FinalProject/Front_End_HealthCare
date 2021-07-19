@@ -4,9 +4,7 @@ import classNames from 'classnames/bind';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-import {
-  Form,
-} from 'react-form-elements';
+import {Form} from 'react-form-elements';
 import { TextareaAutosize } from '@material-ui/core';
 import { sendMessage } from './CoolSMSAPI';
 import Button from '@material-ui/core/Button';
@@ -38,6 +36,41 @@ const ReserveSMS = (props) => {
       console.log(e);
     }
   };
+
+  const handleSubmit = (e) => {
+    console.log('여기 들어오냐');
+    // e.preventDefault();
+    if(updateForm.reservation_phone === undefined){
+      console.log('넘어가면 안된다잉 ');
+    }else{
+      Swal.fire({
+        title: '해당 번호로 문자를 보냅니다.',
+        text: updateForm.reservation_phone,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, send it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            '문자를 발송하였습니다!',
+            'Your Message has been sended.',
+            'success'
+          )
+          const params = {
+            name: updateForm.reservation_name,
+            phone: updateForm.reservation_phone,
+            content: updateForm.message,
+          };
+          handleSMS(params);
+
+          // 예약 폼 초기화 
+          setUpdateForm({});
+          setMessage('');
+          setFormat('');
+        }
+      })}};
 
   // 데이터 양방향 바인딩 
   const handleChange = (event) => {
@@ -100,11 +133,13 @@ const ReserveSMS = (props) => {
       </div>
       <div className={cx("reserve-form-bottom")}>
         {/* form data : 이름 , 핸드폰번호, 보낼내용 */}
-        <Form id="smsForm" name="smsForm" onSubmit={(e) => {console.log('형식상 필요한 함수')}}>
-          <div className="d-flex-col">
-            <div>
-              <TextField required label="이름" className="mr-5" onChange={handleChange} name="reservation_name" value={updateForm.reservation_name || ''}/> <br/>
-              <TextField required label="휴대전화" onChange={handleChange} name="reservation_phone" value={updateForm.reservation_phone || ''}/> <br/>
+        <Form id="smsForm" name="smsForm" onSubmit={handleSubmit}>
+          {/* <div className="d-flex-col"> */}
+            {/* <div> */}
+              <div>
+                <TextField required label="이름" className="mr-5" onChange={handleChange} name="reservation_name" value={updateForm.reservation_name || ''}/> <br/>
+                <TextField required label="휴대전화" onChange={handleChange} name="reservation_phone" value={updateForm.reservation_phone || ''}/> <br/>
+              </div>
               <div className="mt-2 mb-2">
                 {/* 이 부분은 예약 수정 컴포넌트에서 SMS 발송 버튼 눌렀을 때만 보여져야함. */}
                 <div style={{color: 'gray'}}>
@@ -117,6 +152,7 @@ const ReserveSMS = (props) => {
                   className="d-flex"
                   id="standard-select-currency"
                   select
+                  required
                   label="내용 형식"
                   value={format}
                   onChange={handleChange}
@@ -130,44 +166,14 @@ const ReserveSMS = (props) => {
                 </TextField> 
                 <TextareaAutosize className="d-flex mt-3" required onChange={handleChange} name="message" value={message} rowsMin={5} placeholder="보낼 내용 입력" />
               </div>
-            </div>
+              <div>
+                <Button type="submit" form="smsForm" 
+                variant="outlined" size="small" color="primary" className={classes.margin}
+                >전송</Button>
+              </div>
+            {/* </div> */}
+          {/* </div> */}
             
-          </div>
-            <Button type="submit" form="smsForm" 
-            variant="outlined" size="small" color="primary" className={classes.margin}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      
-                      Swal.fire({
-                        title: '해당 번호로 문자를 보냅니다.',
-                        text: updateForm.reservatㅌion_phone,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, send it!'
-                      }).then((result) => {
-                        if (result.isConfirmed) {
-                          Swal.fire(
-                            '문자를 발송하였습니다!',
-                            'Your Message has been sended.',
-                            'success'
-                          )
-                          const params = {
-                            name: updateForm.reservation_name,
-                            phone: updateForm.reservation_phone,
-                            content: updateForm.message,
-                          };
-                          handleSMS(params);
-    
-                          // 예약 폼 초기화 
-                          setUpdateForm({});
-                          setMessage('');
-                          setFormat('');
-                        }
-                      })
-                    }}
-            >전송</Button>
         </Form>
       </div>
     </div>

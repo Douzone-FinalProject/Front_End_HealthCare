@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Modal from "react-modal";
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import style from './style.module.css';
-import classNames from 'classnames/bind';
-
-const cx = classNames.bind(style);
 
 const customStyles = {
   content: {
-      width: '60vh',
-      height: '27em',
+      width: '50vh',
+      height: '24em',
       top: '50%',
       left: '44%',
       right: 'auto',
@@ -20,8 +16,6 @@ const customStyles = {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       padding: '0px',
-      // backgroundColor: 'yellow'
-
   },
 };
 
@@ -44,7 +38,6 @@ const PatientModal = (props) => {
         var height = patient.patient_height;
         let weight = patient.patient_weight;
         var bmi = weight / (height * height) * 10000;
-        console.log(height + '-' + weight + '-' + bmi);
         return bmi;
       }
     }
@@ -91,6 +84,7 @@ const PatientModal = (props) => {
       contentLabel="Patient Info Modal"
       style={customStyles}      
     >
+    <div className="p-4">
      <div className="mt-4">
             <TextField disabled label="혈액형"  name="patient_blood_type" value={patient.patient_blood_type ||''}/>
             <TextField disabled label="맥박" name="patient_pulse" value={patient.patient_pulse ||''}/>    
@@ -151,7 +145,7 @@ const PatientModal = (props) => {
                       )
                 )))}
           </div>
-
+    </div>
     </Modal>
     </>
   );
