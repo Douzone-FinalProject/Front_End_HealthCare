@@ -7,7 +7,7 @@ import Button from "views/common/Button";
 import { Link } from "react-router-dom";
 import ImgModal from "./ImgModal";
 import ResultTable from "./ResultTable";
-import { getSpecimenData, updateResultDataBySpecimen, updateResultDataByReceipt } from "apis/result";
+import { getSpecimenData, getSpecimenDataByNull, updateResultDataBySpecimen, updateResultDataByReceipt } from "apis/result";
 import Swal from 'sweetalert2';
 import xlsx from 'xlsx';
 
@@ -29,10 +29,18 @@ function ResultContainer(props) {
         return {
           onClick: async (event) => {
             console.log(data.diagnostic_specimen_number);
-            const response = await getSpecimenData(data.diagnostic_specimen_number);
-            const specimenData = response.data.specimenData;
-            console.log(specimenData);
-            setSpecimen(specimenData||0);
+            if(data.diagnostic_specimen_number !== "") {
+                const response = await getSpecimenData(data.diagnostic_specimen_number);
+                const specimenData = response.data.specimenData;
+                console.log(specimenData);
+                setSpecimen(specimenData||0);
+            } else {
+                const response = await getSpecimenDataByNull(data.diagnostic_list_id);
+                const specimenData = response.data.specimenData;
+                console.log(specimenData);
+                setSpecimen(specimenData||0);
+            }
+            props.setResultIndex(rowIndex);
           }
         }
     }, []);
@@ -262,9 +270,9 @@ function ResultContainer(props) {
                 </div>
                 <div className={cx("d-flex justify-content-center", "result-scroll")}>
                     {props.resultState === 'ⓧ'? 
-                        <ResultInputTable result={props.result} handleSpecimen={handleSpecimen} columns={columns}/>
+                        <ResultInputTable result={props.result} handleSpecimen={handleSpecimen} columns={columns} resultIndex={props.resultIndex}/>
                         :
-                        <ResultTable result={props.result} handleSpecimen={handleSpecimen} columns={columns2}/>
+                        <ResultTable result={props.result} handleSpecimen={handleSpecimen} columns={columns2} resultIndex={props.resultIndex}/>
                     }
                 </div>
             </div>

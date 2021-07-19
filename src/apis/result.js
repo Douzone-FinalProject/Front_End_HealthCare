@@ -35,6 +35,11 @@ export function getSpecimenData(diagnostic_specimen_number) {
   return promise;
 }
 
+export function getSpecimenDataByNull(diagnostic_list_id) {
+  const promise = axios.get("/result/getSpecimenDataByNull", {params:{diagnostic_list_id}});
+  return promise;
+}
+
 export function insertResultData(receipt_id) {
   const promise = axios.post("/result/insertResultData", receipt_id);
   return promise;

@@ -1,3 +1,4 @@
+import "views/common/main.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faDesktop, faHeadset } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
@@ -29,10 +30,10 @@ function Main(props) {
                         <hr/>
                         <div className="row">
                             <div className="col-10">
-                                <div className="d-flex align-items-center" onClick={()=>openModal(1)}><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>이용 관련 불편사항을 들려주세요</h5></div>
-                                <div className="d-flex align-items-center mt-2" onClick={()=>openModal(2)}><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>새로운 사이트를 오픈하였습니다.</h5></div>
-                                <div className="d-flex align-items-center mt-2" onClick={()=>openModal(3)}><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>수정 사항이 있어 알려드립니다.</h5></div>
-                                <div className="d-flex align-items-center mt-2" onClick={()=>openModal(4)}><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>뉴스 & 공지사항</h5></div>
+                                <div className="d-flex align-items-center noticeBox" onClick={()=>openModal(1)}><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>이용 관련 불편사항을 들려주세요</h5></div>
+                                <div className="d-flex align-items-center mt-2 noticeBox" onClick={()=>openModal(2)}><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>새로운 사이트를 오픈하였습니다.</h5></div>
+                                <div className="d-flex align-items-center mt-2 noticeBox" onClick={()=>openModal(3)}><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>수정 사항이 있어 알려드립니다.</h5></div>
+                                <div className="d-flex align-items-center mt-2 noticeBox" onClick={()=>openModal(4)}><FontAwesomeIcon icon={faChevronRight} className="mr-2"/><h5>뉴스 & 공지사항</h5></div>
                             </div>
                             <div className="col-2">
                                 <div className="d-flex align-items-center"><h6>06-25</h6></div>
@@ -48,10 +49,10 @@ function Main(props) {
                         <hr/>
                         <div className="row">
                             <div className="col-10">
-                            <Link to="/guideline?id=1"><div className="d-flex align-items-center"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>환자가 자주 묻는 질문 및 답변</h5></div></Link>
-                            <Link to="/guideline?id=2"><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈용기 채혈순서</h5></div></Link>
-                            <Link to="/guideline?id=3"><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>혈액배양 검체 채취</h5></div></Link>
-                            <Link to="/guideline?id=4"><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈시 부작용</h5></div></Link>
+                            <Link to="/guideline?id=1" style={{textDecoration: 'none'}}><div className="d-flex align-items-center"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>환자가 자주 묻는 질문 및 답변</h5></div></Link>
+                            <Link to="/guideline?id=2" style={{textDecoration: 'none'}}><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈용기 채혈순서</h5></div></Link>
+                            <Link to="/guideline?id=3" style={{textDecoration: 'none'}}><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>혈액배양 검체 채취</h5></div></Link>
+                            <Link to="/guideline?id=4" style={{textDecoration: 'none'}}><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈시 부작용</h5></div></Link>
                             </div>
                             <div className="col-2">
                                 <div className="d-flex align-items-center"><h6>06-25</h6></div>

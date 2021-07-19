@@ -35,7 +35,7 @@ function CameraModal(props) {
           width={960}
         />
           <div className={cx("d-flex", "justify-content-end")}>
-            <Button onClick={capture}>스마일~</Button>
+            <Button onClick={capture}>촬영</Button>
             <Button className={cx("medicine-btn")} onClick={props.handleModal}>닫기</Button>
           </div>
         </Card>

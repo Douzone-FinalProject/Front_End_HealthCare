@@ -10,6 +10,7 @@ function SpecimenNum(props) {
         {
             title: '검체번호',
             dataIndex: "diagnostic_specimen_number",
+            width: '40%'
         },
         {
             title: '성명',
