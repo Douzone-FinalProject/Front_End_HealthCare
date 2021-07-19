@@ -4,8 +4,8 @@ import Button from "../common/Button";
 import { MDBTable, MDBTableBody } from 'mdbreact';
 import MedicineModal from "./MedicineModal";
 import MedicinePrescriptionListItem from "./MedicinePrescriptionListItem";
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
+import LocalPharmacyOutlinedIcon from '@material-ui/icons/LocalPharmacyOutlined';
+
 const cx = classnames.bind(style);
 
 function MedicinePrescriptionList(props) {
@@ -37,16 +37,22 @@ function MedicinePrescriptionList(props) {
                     <th>수량</th>
                     </tr>
                 </thead>
-            </MDBTable>    
-            <MDBTable scrollY className={cx("table-hover ", "diagnosis-tbb")}>
-                <MDBTableBody>
-                {props.medicines && props.medicines.map((medicine) => {
-                                return (
-                                    <MedicinePrescriptionListItem key={medicine.medicine_id} medicine={medicine} deleteMedicine={props.deleteMedicine} handleCount={props.handleCount}/>
-                                )
-                            })}
-                </MDBTableBody>
+                
             </MDBTable>
+
+            {props.medicines.length > 0 ?
+                <MDBTable scrollY className={cx("table-hover ", "diagnosis-tbb")}>
+                    <MDBTableBody>
+                    {props.medicines && props.medicines.map((medicine) => {
+                                    return (
+                                        <MedicinePrescriptionListItem key={medicine.medicine_id} medicine={medicine} deleteMedicine={props.deleteMedicine} handleCount={props.handleCount}/>
+                                    )
+                                })}
+                    </MDBTableBody>
+                </MDBTable>
+            :
+                <LocalPharmacyOutlinedIcon  style={{width: "100%", height: "6em", color:"#ced4da", marginTop:"5%"}} />
+            }
         </div>
         </>
     );

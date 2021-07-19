@@ -1,3 +1,4 @@
+import React from 'react';
 function TestAfterMedicineListItem(props) {
     
     return(
@@ -22,4 +23,4 @@ function TestAfterMedicineListItem(props) {
     );
 }
 
-export default TestAfterMedicineListItem;
+export default React.memo(TestAfterMedicineListItem);

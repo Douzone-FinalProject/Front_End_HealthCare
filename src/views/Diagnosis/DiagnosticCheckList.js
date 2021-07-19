@@ -3,6 +3,7 @@ import classnames from "classnames/bind";
 import Button from "../common/Button";
 import DiagnosticCheckListItem from "./DiagnosticCheckListItem"
 import { MDBTable, MDBTableBody } from 'mdbreact';
+import LocalHospitalOutlinedIcon from '@material-ui/icons/LocalHospitalOutlined';
 
 const cx = classnames.bind(style);
 
@@ -33,16 +34,19 @@ function DiagnosticCheckList(props) {
                     </tr>
                 </thead>
             </MDBTable>
-            <MDBTable scrollY className={cx("table-hover ", "diagnosis-tbb")}>     
-                <MDBTableBody>
-                     {props.selectSymptoms && props.selectSymptoms.map((item) => {
-                                return (
-                                    <DiagnosticCheckListItem key={item.search_id} item={item} deletePrescript={props.deletePrescript}/>
-                                )
-                            })}
-                </MDBTableBody>
-            </MDBTable>
-            
+            {props.selectSymptoms.length > 0 ?
+                <MDBTable scrollY className={cx("table-hover ", "diagnosis-tbb")}>     
+                    <MDBTableBody>
+                        {props.selectSymptoms && props.selectSymptoms.map((item) => {
+                                    return (
+                                        <DiagnosticCheckListItem key={item.search_id} item={item} deletePrescript={props.deletePrescript}/>
+                                    )
+                                })}
+                    </MDBTableBody>
+                </MDBTable>
+            :
+                <LocalHospitalOutlinedIcon style={{width: "100%", height: "6em", color:"#ced4da", marginTop:"3.5%"}} />
+            }
             {props.selectSymptoms.length !== 0?
             <div className="d-flex justify-content-end mr-3">
             <Button className={cx("diagnosis-checkList-button2","mt-2")} onClick={() => props.testRequest(props.selectedPatient)}>검사 요청</Button>

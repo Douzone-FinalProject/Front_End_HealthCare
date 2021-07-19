@@ -1,5 +1,5 @@
 import PatientModal from '../Receipt/PatientModal';
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { getPatientById } from 'apis/receipt';
 
 function PatientListItem(props) {
@@ -62,4 +62,4 @@ function PatientListItem(props) {
     );
 }
 
-export default PatientListItem;
+export default React.memo(PatientListItem);
