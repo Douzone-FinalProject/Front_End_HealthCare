@@ -31,17 +31,19 @@ const ReserveSMS = (props) => {
 
   const handleSMS = async (params) => {
     try{
-      await sendMessage(params); // Server API 호출 
+      console.log("params");
+      console.log(params);
+      // 여기에 content가 없음 
+
+      //await sendMessage(params); // Server API 호출 
     }catch(e){
       console.log(e);
     }
   };
 
   const handleSubmit = (e) => {
-    console.log('여기 들어오냐');
-    // e.preventDefault();
-    if(updateForm.reservation_phone === undefined){
-      console.log('넘어가면 안된다잉 ');
+    if(updateForm.reservation_phone === undefined || updateForm.reservation_phone === ''){
+      console.log('핸드폰이 없으면 문자 발송 못합니다.');
     }else{
       Swal.fire({
         title: '해당 번호로 문자를 보냅니다.',
@@ -63,7 +65,7 @@ const ReserveSMS = (props) => {
             phone: updateForm.reservation_phone,
             content: updateForm.message,
           };
-          handleSMS(params);
+          handleSMS(params); // 여기서 content가 안들어가고 있음 
 
           // 예약 폼 초기화 
           setUpdateForm({});
@@ -135,7 +137,7 @@ const ReserveSMS = (props) => {
         <Form id="smsForm" name="smsForm" onSubmit={handleSubmit}>
           {/* <div className="d-flex-col"> */}
             {/* <div> 
-              SMS 전송 예약 , 검색했을 때 모달창 없어지도록 
+
             */}
               <div>
                 <TextField required label="이름" className="mr-5" onChange={handleChange} name="reservation_name" value={updateForm.reservation_name || ''}/> <br/>
@@ -168,8 +170,8 @@ const ReserveSMS = (props) => {
                 <TextareaAutosize className="d-flex mt-3" required onChange={handleChange} name="message" value={message} rowsMin={5} placeholder="보낼 내용 입력" />
               </div>
               <div>
-                <Button type="submit" form="smsForm" 
-                variant="outlined" size="small" color="primary" className={classes.margin}
+                <Button type="submit" onClick={handleSubmit}
+                form="smsForm" variant="outlined" size="small" color="primary" className={classes.margin}
                 >전송</Button>
               </div>
             {/* </div> */}

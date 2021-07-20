@@ -46,7 +46,7 @@ export default class Event extends React.Component {
             <div
                 ref="element"
                 onMouseDown={this.onDragStart}
-                style={this.props.duration.inlineStyles()}
+                style={{...this.props.duration.inlineStyles(), backgroundColor:this.props.backColor}}
                 className={this.props.duration.classNames()}
             >
                 <div className="evbody" onClick={this.onClick}>

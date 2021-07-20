@@ -5,6 +5,8 @@ import Day       from './day';
 import XLabels   from './x-labels';
 import YLabels   from './y-labels';
 import EventsCollection from './api/events-collection';
+import { now } from 'moment';
+import moment from './moment-range';
 
 export default class Dayz extends React.Component {
 
@@ -75,6 +77,19 @@ export default class Dayz extends React.Component {
         // Day는 하루 의미 (month에서 한칸)
         return this.days.map((day, index) => {
             let result = undefined;
+
+            let backgroundColor = "#3b5bdb";
+            const customDay = day.format('yyyyMMDD');
+            const today = moment().format('yyyyMMDD');
+
+            if(customDay < today){
+                backgroundColor = "#868e96" 
+            }else if(customDay === today){
+                backgroundColor = "#9775fa" // now를 시간은 잘라서 비교해야함 
+            }else{
+                backgroundColor = "#fd7e14" 
+            }
+
             if(day.format('ddd') === 'Sun' || day.format('ddd') === 'Sat'){
                 result = <Day
                     key={day.format('YYYYMMDD')}
@@ -83,6 +98,7 @@ export default class Dayz extends React.Component {
                     layout={this.layout}
                     handlers={this.props.dayEventHandlers}
                     onEventClick={this.props.onEventClick}
+                    backColor={backgroundColor}
                     />;
             }else{
                 result = <Day
@@ -92,6 +108,7 @@ export default class Dayz extends React.Component {
                     layout={this.layout}
                     handlers={this.props.dayEventHandlers}
                     onEventClick={this.props.onEventClick}
+                    backColor={backgroundColor}
                     />;
             }
             return result;

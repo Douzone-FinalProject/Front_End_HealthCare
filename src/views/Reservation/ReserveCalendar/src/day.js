@@ -76,6 +76,7 @@ export default class Day extends React.Component {
                     key={duration.key()}
                     day={this.props.day}
                     parent={this}
+                    backColor={this.props.backColor}
                     // 부모에게 props로 받은 이벤트함수에 파라미터로 이벤트 아이디를 넘겨줌 
                     onClick={(rid) => {this.props.onEventClick(rid);}}
                 />

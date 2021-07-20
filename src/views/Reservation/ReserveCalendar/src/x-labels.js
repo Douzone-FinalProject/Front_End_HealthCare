@@ -43,14 +43,13 @@ export default class XLabels extends React.Component {
     }
 
     render() {
-        const today = moment(new Date()).format('YYYYMMDD')
+        const today = moment(new Date()).format('YYYYMMDD');
         return (
             <div className="x-labels">
                 {
                     this.days.map(day => 
-                        // 달력의 날짜 부분 #####
+                        /* 오늘, 오늘이전, 내일이후 색깔 다르게 하기  */
                         <div key={day.format('YYYYMMDD')} className="day-label">
-
                             {
                             day.format('YYYYMMDD') === today?
                                 <div key={day.format('YYYYMMDD')} className="day-label day-label-today">

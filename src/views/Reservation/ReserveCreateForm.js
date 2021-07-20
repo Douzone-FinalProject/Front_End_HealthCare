@@ -67,12 +67,6 @@ const ReserveCreateForm = (props) => {
           timer: 1500
         })
       }else{
-        Swal.fire({
-          icon: 'success',
-          title: createForm.reservation_name + '님 예약이 정상적으로 등록되었습니다.',
-          showConfirmButton: false,
-          timer: 1500
-        })
         props.addEvent({
           ...createForm,
           reservation_datetime: moment(startDate).format('YYYY-MM-DD HH:mm'),
@@ -184,13 +178,6 @@ const ReserveCreateForm = (props) => {
                   showTimeSelect
                   timeIntervals={30}
                   name="reservation_datetime" 
-                  // 이미 예약이 잡혀있는 시간대는 제외해야함 
-                  // excludeTimes={[
-                  //   setHours(setMinutes('2021-07-14', 0), 17),
-                  //   setHours(setMinutes(new Date(), 30), 18),
-                  //   setHours(setMinutes(new Date(), 30), 19),
-                  //   setHours(setMinutes(new Date(), 30), 17),
-                  // ]}
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   timeClassName={handleColor}

@@ -82,19 +82,6 @@ class ReserveCalendar extends React.Component {
     }
 
     render() {
-        const customStyles = {
-            content: {
-                width: '750px',
-                height: '430px',
-                top: '50%',
-                left: '44%',
-                right: 'auto',
-                bottom: 'auto',
-                marginRight: '-50%',
-                transform: 'translate(-50%, -50%)',
-            },
-        };
-
         return (
             <div className="dayz-test-wrapper" style={custom_style}>
                 <div className="d-flex justify-content-between">
