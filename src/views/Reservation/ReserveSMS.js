@@ -166,7 +166,7 @@ const ReserveSMS = (props) => {
                     </MenuItem>
                   ))}
                 </TextField> 
-                <TextareaAutosize className="d-flex mt-3" required onChange={handleChange} name="message" value={message} rowsMin={5} placeholder="보낼 내용 입력" />
+                <TextareaAutosize className="d-flex mt-2 mb-1" required onChange={handleChange} name="message" value={message} rowsMin={5} placeholder="보낼 내용 입력" />
               </div>
               <div>
                 <Button type="submit" onClick={handleSubmit}
