@@ -87,7 +87,8 @@ export default class Dayz extends React.Component {
             }else if(customDay === today){
                 backgroundColor = "#9775fa" // now를 시간은 잘라서 비교해야함 
             }else{
-                backgroundColor = "#fd7e14" 
+                backgroundColor = "#f783ac"
+                // backgroundColor = "#fd7e14"
             }
 
             if(day.format('ddd') === 'Sun' || day.format('ddd') === 'Sat'){
