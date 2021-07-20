@@ -91,7 +91,7 @@ class ReserveCalendar extends React.Component {
                                 <ArrowBackIcon/> 접수
                             </Button>
                         </Link>
-                        <Button className={cx("ml-3", "custom-btn")} color="#f59f00" 
+                        <Button className={cx("ml-3", "custom-btn")} color="#748ffc" 
                             onClick={this.openModal}>
                             <PersonIcon/> 검색
                         </Button>
