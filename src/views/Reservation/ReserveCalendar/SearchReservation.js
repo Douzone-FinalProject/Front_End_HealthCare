@@ -62,6 +62,11 @@ const SearchReservation = (props) => {
     }
   }; 
 
+  const handleClick = (rid) => {
+    props.handleClick(rid);
+    // props.closeModal();
+  };
+
   // 검색 초기화 
   const handleAllSearch = async() => {
     try{
@@ -88,11 +93,12 @@ const SearchReservation = (props) => {
     },
   }));
 
+
   // 하나의 행 UI 만들기 
   const rowRenderer = ({index, key, style}) => {
     return (
       <div key={key} style={style}>
-        <PatientRow patient={patients[index]} handleClick={props.handleClick} ></PatientRow>
+        <PatientRow patient={patients[index]} closeModal={props.closeModal} handleClick={handleClick} ></PatientRow>
       </div>
     );
   };

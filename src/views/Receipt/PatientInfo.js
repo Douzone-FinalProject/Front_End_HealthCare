@@ -13,6 +13,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Swal from 'sweetalert2';
 import { getPatientById } from 'apis/receipt';
 import { getNextReservation } from 'apis/reservation';
+// import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -248,21 +249,30 @@ const PatientInfo = (props) => {
     <div className={cx("patient-detail")}>
       <div className={cx("patient-detail-top", "d-flex justify-content-between")}>
           <span><i>{patient.patient_name}</i>&nbsp;&nbsp;님 차트</span>
-
-          {
-           props.patient_id !== undefined
-           &&
-           (isReceipt()?
-              ( // 대기 상태이어야함 - patient.patient_id 인 환자가 대기 상태여야 함 
-                isWaitState() &&
-                (<Button type="submit" className={cx("mr-4", "custom-btn")}
-                      color="#FF6384" onClick={cancelReceipt}>접수 취소</Button>)
+          <div>
+            {/* { 리덕스로 줘야할듯 
+              props.patient_id !== undefined
+              &&
+              <Link to="/reserve">
+                <Button type="submit" className={cx("mr-4", "custom-btn")}
+                  color="#fcc419" onClick={()=>{console.log("12ㅋ")}}>예약</Button> 
+              </Link>
+            } */}
+            {
+            props.patient_id !== undefined
+            &&
+            (isReceipt()?
+                ( // 대기 상태이어야함 - patient.patient_id 인 환자가 대기 상태여야 함 
+                  isWaitState() &&
+                  (<Button type="submit" className={cx("mr-4", "custom-btn")}
+                        color="#FF6384" onClick={cancelReceipt}>접수 취소</Button>)
+                )
+                :
+              <Button type="submit" className={cx("mr-4", "custom-btn")}
+                  color="#FF6384" onClick={handleReceipt}>접수</Button>
               )
-              :
-            <Button type="submit" className={cx("mr-4", "custom-btn")}
-                color="#FF6384" onClick={handleReceipt}>접수</Button>
-            )
-          }
+            }
+          </div>
       </div>
       {/* form - 환자 정보 읽기, 수정 또는 삭제 기능 */}
       <div className={cx("patient-detail-bottom")}>

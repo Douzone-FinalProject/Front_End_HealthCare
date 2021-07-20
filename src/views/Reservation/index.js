@@ -9,6 +9,7 @@ import moment from './ReserveCalendar/src/moment-range';
 import { deleteReservationById, getReservations, insertReservation, updateReservation } from 'apis/reservation';
 import ReserveSMS from './ReserveSMS';
 import ReserveUpdateForm from './ReserveUpdateForm';
+import Swal from 'sweetalert2';
 
 const cx = classNames.bind(style);
 
@@ -43,16 +44,33 @@ const Reservation = (props) => {
   // DB Insert
   const addEvent = async (ev) => {
     try {
-      await insertReservation(ev);
-      const response = await getReservations();
-      const dbList = response.data.reservations;
-      for(var reserve of dbList){
-        reserveList.push({...reserve, resizable: true, 
-        content: reserve.reservation_name + ' ' + reserve.reservation_phone.substring(7, 11),
-        range: moment.range(moment(reserve.reservation_datetime), 
-              moment(reserve.reservation_datetime).add(30, 'minutes'))})
+      const preResponse = await insertReservation(ev);
+      if(preResponse.data.errorMessage !== undefined){
+        Swal.fire({
+          icon: 'warning',
+          title: preResponse.data.errorMessage,
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }else{
+        const response = await getReservations();
+        const dbList = response.data.reservations;
+        for(var reserve of dbList){
+          reserveList.push({...reserve, resizable: true, 
+          content: reserve.reservation_name + ' ' + reserve.reservation_phone.substring(7, 11),
+          range: moment.range(moment(reserve.reservation_datetime), 
+                moment(reserve.reservation_datetime).add(30, 'minutes'))})
+        }
+        setEvents(reserveList);
+
+        Swal.fire({
+          icon: 'success',
+          title: '예약이 정상적으로 등록되었습니다.',
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
-      setEvents(reserveList);
+
     } catch (error) {
       console.log(error);
     }
@@ -67,16 +85,33 @@ const Reservation = (props) => {
   // DB Update
   const handleUpdate = async (updateForm) => {
     try{
-      await updateReservation(updateForm);
-      const response = await getReservations();
-      const dbList = response.data.reservations;
-      for(var reserve of dbList){
-        reserveList.push({...reserve, resizable: true, 
-        content: reserve.reservation_name + ' ' + reserve.reservation_phone.substring(7, 11),
-        range: moment.range(moment(reserve.reservation_datetime), 
-              moment(reserve.reservation_datetime).add(30, 'minutes'))})
+      const preResponse = await updateReservation(updateForm);
+      if(preResponse.data.errorMessage !== undefined){
+        Swal.fire({
+          icon: 'warning',
+          title: preResponse.data.errorMessage,
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }else{
+        const response = await getReservations();
+        const dbList = response.data.reservations;
+        for(var reserve of dbList){
+          reserveList.push({...reserve, resizable: true, 
+          content: reserve.reservation_name + ' ' + reserve.reservation_phone.substring(7, 11),
+          range: moment.range(moment(reserve.reservation_datetime), 
+                moment(reserve.reservation_datetime).add(30, 'minutes'))})
+        }
+        setEvents(reserveList);
+
+        Swal.fire({
+          icon: 'success',
+          title: updateForm.reservation_name + '님 예약이 수정되었습니다.',
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
-      setEvents(reserveList);
+      
     }catch(e){
       console.log(e);
     }
@@ -104,7 +139,6 @@ const Reservation = (props) => {
 
   /* 예약 수정 컴포넌트 -> 문자 발송 컴포넌트로 예약 정보 넘겨주기 */
   const handleSMS = (updateForm) => {
-    console.log('updateFOrm: ', updateForm);
     setUpdateForm(updateForm);
   }
 

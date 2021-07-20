@@ -96,6 +96,20 @@ $dayz-event-text-colors: (
         .day-label-today{
             font-size: large;
             font-weight: bold;
+            color:rgb(107, 78, 213);
+            margin-left: -14px;
+        }
+        // before today
+        .day-label-before{
+            font-size: large;
+            font-weight: bold;
+            color:rgb(214, 193, 223);
+            margin-left: -14px;
+        }
+        // after today
+        .day-label-after{
+            font-size: large;
+            font-weight: bold;
             color:rgb(165, 15, 235);
             margin-left: -14px;
         }

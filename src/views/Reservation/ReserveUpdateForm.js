@@ -6,11 +6,11 @@ import TextField from '@material-ui/core/TextField';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from './ReserveCalendar/src/moment-range';
-import Swal from 'sweetalert2';
 import {Form} from 'react-form-elements';
 import { getReservationById } from 'apis/reservation';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import Swal from 'sweetalert2';
 
 const cx = classNames.bind(style);
 
@@ -30,7 +30,7 @@ const ReserveUpdateForm = (props) => {
   const [startDate, setStartDate] = useState(new Date());
 
   let handleColor = (time) => {
-    return time.getHours() > 8 && time.getHours() < 19? "text-success" : "text-error";
+    return (time.getHours()>7 && time.getHours() < 19 && time.getHours() !== 12)? "text-success" : "text-error";
   };
 
   // props 
@@ -70,12 +70,6 @@ const ReserveUpdateForm = (props) => {
   };
 
   const handleUpdate = (e) => {
-    Swal.fire({
-      icon: 'success',
-      title: updateForm.reservation_name + '님 예약이 수정되었습니다.',
-      showConfirmButton: false,
-      timer: 1500
-    })
 
     // DB 수정 -> 부모로 전달  
     updateForm.reservation_datetime = moment(startDate).format('YYYY-MM-DD HH:mm');
@@ -118,17 +112,18 @@ const ReserveUpdateForm = (props) => {
                   showTimeSelect
                   name="reservation_datetime"
                   selected={startDate}
-                  onChange={(date) => {
-                    console.log('date: ', date);
-                    setStartDate(date);
-                  }}
+                  onChange={(date) => {setStartDate(date);}}
                   timeClassName={handleColor}
                 />
                </div> 
             </div>
                 <Button type="button" 
                   variant="outlined" size="small" color="primary" className={classes.margin}
-                  onClick={() => {props.handleSMS(updateForm)}}>SMS 발송</Button>
+                  onClick={() => {
+                    setUpdateForm({});
+                    setStartDate(new Date());
+                    props.handleMode();
+                    props.handleSMS(updateForm)}}>SMS 발송</Button>
                 <Button
                   variant="outlined" size="small" color="primary" className={classes.margin}
                   type="button" 
