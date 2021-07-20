@@ -21,8 +21,9 @@ export async function updateStateDetail(rowKeys, state, staff_login_id, bundleSp
     staff_login_id,
     bundleSpecimens,
     receiptId,
-    staffName: sessionStorage.getItem("staff_name")
+    staffName: state !== "검사대기" ? sessionStorage.getItem("staff_name") : ""
   }
+  console.log(updateData.staffName);
   await axios.put("/teststate", updateData);
 }
 
