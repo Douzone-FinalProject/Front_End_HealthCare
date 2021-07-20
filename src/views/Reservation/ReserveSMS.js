@@ -31,20 +31,23 @@ const ReserveSMS = (props) => {
 
   const handleSMS = async (params) => {
     try{
-      console.log("params");
-      console.log(params);
-      // 여기에 content가 없음 
-
-      //await sendMessage(params); // Server API 호출 
+      await sendMessage(params); // Server API 호출 
     }catch(e){
       console.log(e);
     }
   };
 
   const handleSubmit = (e) => {
-    if(updateForm.reservation_phone === undefined || updateForm.reservation_phone === ''){
-      console.log('핸드폰이 없으면 문자 발송 못합니다.');
-    }else{
+    if(!(updateForm.reservation_phone && updateForm.reservation_phone && message)){
+      console.log('문자 발송 금지 ');
+      Swal.fire({
+        title: '문자를 발송할 수 없습니다',
+        text: '이름, 휴대전화, 메세지를 모두 입력하세요.',
+        icon: 'warning',
+        confirmButtonColor: '#3085d6',
+      })
+    }
+    else{
       Swal.fire({
         title: '해당 번호로 문자를 보냅니다.',
         text: updateForm.reservation_phone,
@@ -63,7 +66,7 @@ const ReserveSMS = (props) => {
           const params = {
             name: updateForm.reservation_name,
             phone: updateForm.reservation_phone,
-            content: updateForm.message,
+            content: message,
           };
           handleSMS(params); // 여기서 content가 안들어가고 있음 
 
@@ -135,10 +138,6 @@ const ReserveSMS = (props) => {
       <div className={cx("reserve-form-bottom")}>
         {/* form data : 이름 , 핸드폰번호, 보낼내용 */}
         <Form id="smsForm" name="smsForm" onSubmit={handleSubmit}>
-          {/* <div className="d-flex-col"> */}
-            {/* <div> 
-
-            */}
               <div>
                 <TextField required label="이름" className="mr-5" onChange={handleChange} name="reservation_name" value={updateForm.reservation_name || ''}/> <br/>
                 <TextField required label="휴대전화" onChange={handleChange} name="reservation_phone" value={updateForm.reservation_phone || ''}/> <br/>
@@ -174,9 +173,6 @@ const ReserveSMS = (props) => {
                 form="smsForm" variant="outlined" size="small" color="primary" className={classes.margin}
                 >전송</Button>
               </div>
-            {/* </div> */}
-          {/* </div> */}
-            
         </Form>
       </div>
     </div>
