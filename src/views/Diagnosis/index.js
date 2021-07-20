@@ -40,7 +40,7 @@ function Diagnosis (props) {
 
     useEffect(() => {
         receiptPatients();
-    }, [patients])
+    }, [])
 
 
     const [selectedPatient, setSelectP] = useState({
@@ -83,11 +83,6 @@ function Diagnosis (props) {
         
         
     };
-
-
-    useEffect(() => {
-        receiptPatients();
-    }, [selectedPatient], [fatientOpinion], [reportOp])
 
     /* 증상 리스트  */
     
@@ -180,7 +175,7 @@ function Diagnosis (props) {
 
     useEffect(() => {
         receiptPatients();
-    }, [symptomsCopy], [selectSymptoms])
+    }, [])
 
 
     /*검사 요청시 증상 및 소견에 해당 환자의 진료 추가되는 부분*/ 
@@ -255,7 +250,7 @@ function Diagnosis (props) {
             }
         }
     };
-   
+
     
     
     const [quantity, setQuantity] = useState({});
@@ -295,10 +290,6 @@ function Diagnosis (props) {
         setMedicines(deleteAll); 
     };
 
-    useEffect(() => {
-        receiptPatients();
-    }, [medicines], [quantity])
-    
     //소견 작성시 
    
 
@@ -421,11 +412,13 @@ function Diagnosis (props) {
     const [updateIsOpen, setUpdateIsOpen] = useState(false);
     const [selectReceipt_id, setSelectReceipt_id] = useState({
             receipt_id: "",
-            diagnostic_test_state: ""
+            diagnostic_test_state: "",
+            receipt_result_state: ""
     });
     const [selectReceipt_id2, setSelectReceipt_id2] = useState({
             receipt_id: "",
-            diagnostic_test_state: ""
+            diagnostic_test_state: "",
+            receipt_result_state: ""
     });
 
 
@@ -437,6 +430,7 @@ function Diagnosis (props) {
     }
 
     function closeUpdateModal() {
+        setOpp({});
         setUpdateIsOpen(false);
     }
     
@@ -568,18 +562,20 @@ function Diagnosis (props) {
 
     
     
-    const selectOpinion = (event1, event2) => {
+    const selectOpinion = (event1, event2, event3) => {
         setSelectReceipt_id({
             receipt_id: event1,
-            diagnostic_test_state: event2
+            diagnostic_test_state: event2,
+            receipt_result_state: event3
         });
         
     }
 
-    const selectOpinion2 = (event1, event2) => {
+    const selectOpinion2 = (event1, event2, event3) => {
         setSelectReceipt_id2({
             receipt_id: event1,
-            diagnostic_test_state: event2
+            diagnostic_test_state: event2,
+            receipt_result_state: event3
         });
     }
 
@@ -592,7 +588,7 @@ function Diagnosis (props) {
 
     useEffect(() => {
         console.log("증상 선택 및 소견 추가시 재실행")
-    }, [opinionsCopy], [opp], [opmedic])
+    }, [opinionsCopy])
     
     return(
         <>

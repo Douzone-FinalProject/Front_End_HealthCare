@@ -11,7 +11,6 @@ import { paymentBefore } from "apis/diagnostic";
 import CameraModal from "./CameraModal";
 import { getCheckPreviousResult, insertResultData, insertResultDataByNew } from "apis/result";
 import { sendRedisMessage } from 'apis/message';
-import row from 'react-form-elements/lib/row';
 
 const cx = classNames.bind(style);
 
@@ -180,7 +179,6 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
       if (rows[0].bundle_name === "MRI" || rows[0].bundle_name === "CT") {
         setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
       }
-      Swal.fire('검사 접수를 하였습니다.')
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -194,7 +192,6 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     if (rowKeys.length !== 0) {
       await updateStateDetail(rowKeys, "검사대기", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
       await sendRedisMessage(pubMessage);
-      Swal.fire('검사 취소를 하였습니다.')
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -208,7 +205,6 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     if (rowKeys.length !== 0) {
     await updateStateDetail(rowKeys, "검사완료", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
     await sendRedisMessage(pubMessage);
-    Swal.fire('검사 완료를 하였습니다.')
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -275,6 +271,12 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
   }
 
+  useEffect(() => {
+    // return (() => {
+    //   rowSelection.
+    // })
+  }, [waitType])
+
   return (
     <div className={cx("flex-width")}>
       <Card className={cx("card")}>
@@ -300,7 +302,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
         <div className={cx("teststate-table")}>
           <Table className={cx("ant-th", "ant-tbody", "test-state-detail")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}} scroll={{y: 720}}/>
         </div>
-        {
+        { 
           isModalVisible && (<CameraModal handleModal={handleModal} receiptId={receiptId} patientName={patientName}/>)
         }
       </Card>

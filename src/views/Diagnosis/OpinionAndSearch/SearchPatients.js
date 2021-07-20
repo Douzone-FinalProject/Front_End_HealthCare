@@ -32,9 +32,9 @@ function SearchPatients(props) {
         
     };
 
-    const selectOpinion2 = (event1, event2) => {
+    const selectOpinion2 = (event1, event2, event3) => {
         setSelectReceipt(event1)
-        props.selectOpinion2(event1, event2);
+        props.selectOpinion2(event1, event2, event3);
     }
     
    
@@ -154,7 +154,7 @@ function SearchPatients(props) {
                 <AssignmentIndOutlinedIcon style={{width: "100%", height: "6em", color:"#ced4da", marginTop:"5%"}} />
             }
             </div>
-            {props.opinionsCopy.receipt_id || props.selectReceipt_id2.diagnostic_test_state === "검사완료" || props.selectReceipt_id2.diagnostic_test_state === "처방완료"  ?
+            {props.opinionsCopy.receipt_id || props.selectReceipt_id2.diagnostic_test_state === "검사완료" && props.selectReceipt_id2.receipt_result_state !== null  || props.selectReceipt_id2.diagnostic_test_state === "처방완료" && props.selectReceipt_id2.receipt_result_state !== null  ?
                 <>
                    <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button", "mt-3")} onClick={()=>{search(searchChart.patient_id, searchChart.receipt_datetime, searchChart.patient_name)}} >검색</Button>
                    <Link className={cx("noneLink")} to={{pathname:"/result", state: {receiptId2: selectReceipt}}}><Button className={cx("mt-3")}>결과 조회</Button></Link>
