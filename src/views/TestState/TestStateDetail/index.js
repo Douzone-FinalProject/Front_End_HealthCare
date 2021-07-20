@@ -272,9 +272,9 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   }
 
   useEffect(() => {
-    return (() => {
-      rowSelection.
-    })
+    // return (() => {
+    //   rowSelection.
+    // })
   }, [waitType])
 
   return (

@@ -18,9 +18,9 @@ function SymptomAndOpinion(props) {
         props.changeToSearch(event);
     };
 
-    const selectOpinion = (event1, event2) => {
+    const selectOpinion = (event1, event2, event3) => {
         setSelectReceipt(event1);
-        props.selectOpinion(event1, event2);
+        props.selectOpinion(event1, event2, event3);
     }
     
     return(
@@ -58,11 +58,7 @@ function SymptomAndOpinion(props) {
                     <AssignmentIndOutlinedIcon style={{width: "100%", height: "6em", color:"#ced4da", marginTop:"5%"}} />
                 }
                 </div>
-                
-                
-                {/* && props.selectedPatient.receipt_state === '진료중' */}
-                
-                   
+                       
                     {props.selectedPatient.patient_id  ? 
                         <Button className={cx("diagnosis-button","diagnosis-opinionAndSearch-button")} onClick={props.openModal}>소견 작성</Button>
                         :
@@ -76,7 +72,7 @@ function SymptomAndOpinion(props) {
                     }
                     
                    
-                    {props.selectReceipt_id.patient_id || props.selectReceipt_id.diagnostic_test_state === "검사완료" || props.selectReceipt_id.diagnostic_test_state === "처방완료" ?
+                    {props.selectReceipt_id.patient_id || props.selectReceipt_id.diagnostic_test_state === "검사완료" && props.selectReceipt_id.receipt_result_state !== null  || props.selectReceipt_id.diagnostic_test_state === "처방완료" && props.selectReceipt_id.receipt_result_state !== null ?
                         <Link className={cx("noneLink", "diagnosis-button")} to={{pathname:"/result", state: {receiptId2: selectReceipt}}}><Button>결과 조회</Button></Link>
                         :
                         <>
