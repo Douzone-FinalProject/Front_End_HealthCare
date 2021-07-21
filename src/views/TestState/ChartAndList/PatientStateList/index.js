@@ -98,7 +98,7 @@ function PatientStateList({waitingData, setWaitingData, setReceiptId, waitType, 
         </div>
       </div>
       <div className={cx("teststate-table")}>
-        <Table className={cx("ant-th", "ant-tbody")} columns={waitingDataColums} dataSource={waitingData} pagination={false} rowKey={record => record.receipt_id} onRow={handlePatient} scroll={{y: 300}}/>
+        <Table className={cx("ant-th", "ant-tbody")} columns={waitingDataColums} dataSource={waitingData} pagination={false} rowKey={record => record.receipt_id} onRow={handlePatient} scroll={{x: 0, y: 300}}/>
       </div>
     </>
   );

@@ -44,8 +44,8 @@ function TestState(props) {
   let ws = useRef(null);
   const connectWebSocket = () => {
 
-    ws.current = new WebSocket("ws://kosa3.iptime.org:50003/websocket/redis");
-    // ws.current = new WebSocket("ws://localhost:8080/websocket/redis");
+    // ws.current = new WebSocket("ws://kosa3.iptime.org:50003/websocket/redis");
+    ws.current = new WebSocket("ws://localhost:8080/websocket/redis");
 
     ws.current.onopen = () => {
       console.log("teststatedetail 접속 성공");
@@ -79,10 +79,6 @@ function TestState(props) {
     ws.current.close();
   }
 
-  const publishTopic = async () => {
-
-  }
-
   useEffect(() => {
     connectWebSocket();
     console.log("1 메시지 마운트");
@@ -97,14 +93,14 @@ function TestState(props) {
       <div className={cx("whole-frame")}>
         <Header realTimeReceiptList={realTimeReceiptList}/>
         <Row>
-          <Col flex="1 1 540px" className={cx("teststate-frame", "flex-width")}>
+          <Col xxl={7} className={cx("teststate-frame", "flex-width")}>
             <ChartAndList waitingData={waitingData} setWaitingData={setWaitingData} 
                           setReceiptId={setReceiptId} labTable={labTable} 
                           waitType={waitType} state={state} setWaitType={setWaitType} setState={setState} 
                           stateChart={stateChart} setStateChart={setStateChart}
                           labChart={labChart} setLabChart={setLabChart}/>
           </Col>
-          <Col flex="1 1 1370px" className={cx("flex-width")}>
+          <Col xxl={17} className={cx("flex-width")}>
             <TestStateDetail receiptId={receiptId} 
                             detailData={detailData} setDetailData={setDetailData} 
                             waitingData={waitingData} setWaitingData={setWaitingData}
