@@ -91,6 +91,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   const [bundleLab, setBundleLab] = useState();
   const [hide, setHide] = useState(true);
   const rowSelection = {
+    preserveSelectedRowKeys: false,
     hideSelectAll: waitType === "전체" ? hide : false,
     onChange: (selectedRowKeys, selectedRows) => {
     // console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);    
@@ -104,6 +105,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
         disabled: (bundleLab && record.bundle_lab !== bundleLab) || receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전"
       })
     } else {
+      
       return ({
         disabled: record.bundle_lab !== waitType || receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전",
         bundle_lab: record.bundle_lab
@@ -191,7 +193,13 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   const handleCancel = async () => {
     if (rowKeys.length !== 0) {
       await updateStateDetail(rowKeys, "검사대기", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
-      await sendRedisMessage(pubMessage);
+      await sendRedisMessage({
+        ...pubMessage,
+        content: {
+          lab: rows[0].bundle_lab,
+          patientName: ""
+        }
+      });
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -271,12 +279,6 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
   }
 
-  useEffect(() => {
-    // return (() => {
-    //   rowSelection.
-    // })
-  }, [waitType])
-
   return (
     <div className={cx("flex-width")}>
       <Card className={cx("card")}>
@@ -300,7 +302,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
           </div>
         </div>
         <div className={cx("teststate-table")}>
-          <Table className={cx("ant-th", "ant-tbody", "test-state-detail")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}} scroll={{y: 720}}/>
+          <Table className={cx("ant-th", "ant-tbody", "test-state-detail")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}} scroll={{x: false, y: 720}}/>
         </div>
         { 
           isModalVisible && (<CameraModal handleModal={handleModal} receiptId={receiptId} patientName={patientName}/>)
