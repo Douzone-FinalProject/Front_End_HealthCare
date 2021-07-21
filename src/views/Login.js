@@ -120,7 +120,7 @@ function Login(props) {
         <div className={style.loginbackGround}>
           <form className={style.loginForm}>
           
-          <Link to="/"><img src="http://localhost:3000/douzone_mark.PNG" width="240px" height="45px" style={{marginTop:"7%", marginBottom:"7%"}} alt=""/></Link>
+          <Link to="/"><img src="/douzone_mark.PNG" width="240px" height="45px" style={{marginTop:"7%", marginBottom:"7%"}} alt=""/></Link>
           
             <h3>의료정보시스템</h3>
               <div className={style.idForm}>

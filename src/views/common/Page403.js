@@ -12,7 +12,7 @@ function Page403(props) {
     return(
         <>
          <div style={{width:"100%", height:"100%", backgroundColor:"white",  marginTop:"4%"}} >
-            <img src="http://localhost:3000/douzone_mark.PNG" width="250px" height="50px" style={{marginLeft:"10%", marginTop:"5.5%"}} alt=""/>
+            <img src="/douzone_mark.PNG" width="250px" height="50px" style={{marginLeft:"10%", marginTop:"5.5%"}} alt=""/>
         </div>
         <div className="d-flex flex-row" style={{width:"100%", height:"100%", backgroundColor:"white"}} >
             <div style={{marginLeft:"10%", marginTop:"4%"}}>
@@ -23,7 +23,7 @@ function Page403(props) {
                 <Button onClick={toMain} style={{width:"200px", marginRight:"2%", marginBottom:"5%"}}>메인으로</Button>
                 <Button onClick={toBefore} style={{width:"200px"}}>이전으로</Button>
             </div>
-            <div><img src="http://localhost:3000/douzone_background.PNG" width="800px" height="400px" style={{marginLeft:"15%", marginTop:"1%",  marginBottom:"14%"}} alt=""/></div>
+            <div><img src="/douzone_background.PNG" width="800px" height="400px" style={{marginLeft:"15%", marginTop:"1%",  marginBottom:"14%"}} alt=""/></div>
         </div>
         <Footer />
 
