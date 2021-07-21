@@ -23,7 +23,7 @@ function Diagnosis (props) {
     const [patients, setpatients] = useState([]);
 
     const globalHospital = useSelector((state) => state.authReducer.hospital_id);
-    const pubMessage = {
+    const pubMessage = {                                                        //실시간 접수리스트 반영 , 정해진 토픽에 해당 컨텐트를 공유하는 내용끼리 실시간 반영시킴
         topic:'/'+globalHospital+'/#',
         content:'ChangeReceiptState',
     };
