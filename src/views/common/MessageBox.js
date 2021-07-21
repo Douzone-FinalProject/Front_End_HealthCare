@@ -278,7 +278,7 @@ function MessageBox(props) {
     return (
         <div className={`sidebar-menu${props.isMenuOpen === true ? ' open' : ''}`}>
             <button type="button" className="btn btn-sm btn-secondary small float-right" onClick={props.onMenuToggle}>Close</button>
-            <div className="row menu">이름: 신용권</div>
+            <div className="row menu">이름: {globalName}</div>
             <hr className="bg-white mt-0 mb-3"/>
             <div className="mb-2">
                 <div className="text-white ml-3">메시지 작성</div>

@@ -145,15 +145,19 @@ const ReserveCreateForm = (props) => {
                       <div className="">
                         <TextField disabled label="이름" className="mr-5" name="reservation_name" value={createForm.reservation_name}/> 
                         <TextField disabled label="휴대전화" name="reservation_phone" value={createForm.reservation_phone}/> 
-                        <CheckBoxIcon className="mt-3 ml-3" style={{fontSize: '2em'}}/>
-                        <span style={{fontSize:"15px",color:"blue"}}>기존환자</span> 
+                        <div className="d-inline-block mt-3">
+                        <CheckBoxIcon className="ml-3" style={{fontSize: '2em'}}/>
+                        <span style={{fontSize:"15px",color:"blue"}}>기존</span> 
+                        </div>
                       </div>
                     :
                       <div className="">
                         <TextField disabled label="이름" className="mr-5" name="reservation_name" value={createForm.reservation_name}/> 
                         <TextField disabled label="휴대전화" name="reservation_phone" value={createForm.reservation_phone}/> 
-                        <CheckBoxIcon className="mt-3 ml-3" style={{fontSize: '2em'}}/>
-                        <span style={{fontSize:"15px",color:"red"}}>신규환자</span> 
+                        <div className="d-inline-block mt-3">
+                        <CheckBoxIcon className="ml-3" style={{fontSize: '2em'}}/>
+                        <span style={{fontSize:"15px",color:"red"}}>신규</span> 
+                        </div>
                       </div>
                   )
                 :
@@ -163,9 +167,11 @@ const ReserveCreateForm = (props) => {
                     {/* 1. 체크박스 눌렀을때 이미 이름, 휴대전화 미리 입력해야 함 
                         2. 등록 버튼 눌렀을 때 필수로 체크 해놔야함 
                     */}
-                    <CheckBoxOutlineBlankIcon className="mt-3 ml-3" style={{fontSize: '2em'}}
+                    <div className="d-inline-block mt-3">
+                    <CheckBoxOutlineBlankIcon className=" ml-3" style={{fontSize: '2em'}}
                       onClick={() => {handleExistPatient();}}/> 
-                    <span style={{fontSize:"15px",color:"gray"}}>신규환자</span> 
+                    <span style={{fontSize:"15px",color:"gray"}}>신규</span> 
+                    </div>
                   </div>
               }
               <div className="">
