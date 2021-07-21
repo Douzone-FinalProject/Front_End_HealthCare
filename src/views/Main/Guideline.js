@@ -66,7 +66,7 @@ A : 오전 7부터 소변을 모으고자 한다면, 오전 7시에 소변을 �
         return (
             <div>
             <Header />
-            <img src="http://localhost:3000/bloodbottle.PNG" alt="" width="" height="" className="w-100"/>
+            <img src="/bloodbottle.PNG" alt="" width="" height="" className="w-100"/>
             <Footer />
             </div>
         );
@@ -75,7 +75,7 @@ A : 오전 7부터 소변을 모으고자 한다면, 오전 7시에 소변을 �
             <div>
             <Header />
             <div className="d-flex justify-content-center">
-            <img src="http://localhost:3000/specimen.PNG" alt="" width="" height="" className="w-75"/>
+            <img src="/specimen.PNG" alt="" width="" height="" className="w-75"/>
             </div>
             <Footer />
             </div>
