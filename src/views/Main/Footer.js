@@ -26,7 +26,7 @@ function Footer(props) {
                     </div>
                 </div>
                 <div className="col-2">
-                    <img src="http://localhost:3000/footerimg.png" alt="" width="" height="100"/>
+                    <img src="/footerimg.png" alt="" width="" height="100"/>
                 </div>
                 <div className="col-1"></div>
             </div>

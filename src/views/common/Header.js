@@ -54,7 +54,7 @@ function Header(props) {
         <div>
             <nav className="navbar bg-dark navbar-dark justify-content-between">
                 <div className="d-flex align-items-center">
-                <Link to="/"><img src="http://localhost:3000/douzonelogo.png" alt="" height="20"/></Link>
+                <Link to="/"><img src="/douzonelogo.png" alt="" height="20"/></Link>
                     <h4 className="text-white font-weight-bold ml-3 mb-1">{sessionStorage.getItem("hospital_name") || ''}</h4>
                 </div>
                 <div>
