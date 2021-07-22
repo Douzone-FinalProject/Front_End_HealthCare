@@ -44,7 +44,7 @@ function TestState(props) {
   let ws = useRef(null);
   const connectWebSocket = () => {
 
-    ws.current = new WebSocket("ws://kosa3.iptime.org:50003/websocket/redis");
+    ws.current = new WebSocket("ws://localhost:8080/websocket/redis");
     // ws.current = new WebSocket("ws://localhost:8080/websocket/redis");
 
     ws.current.onopen = () => {

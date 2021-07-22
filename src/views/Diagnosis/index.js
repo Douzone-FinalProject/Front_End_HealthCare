@@ -23,7 +23,7 @@ function Diagnosis (props) {
     const [patients, setpatients] = useState([]);
 
     const globalHospital = useSelector((state) => state.authReducer.hospital_id);
-    const pubMessage = {
+    const pubMessage = {                                                        //실시간 접수리스트 반영 , 정해진 토픽에 해당 컨텐트를 공유하는 내용끼리 실시간 반영시킴
         topic:'/'+globalHospital+'/#',
         content:'ChangeReceiptState',
     };
@@ -468,7 +468,7 @@ function Diagnosis (props) {
                 setOpp(getOpinion)
             }
     }
-    
+    console.log(opmedic);
 
 
     const updatOpinion = (event) => {
@@ -585,6 +585,8 @@ function Diagnosis (props) {
     };
 
     const [opinionsCopy, setOpinionCopys] = useState([]);
+
+    
 
     useEffect(() => {
         console.log("증상 선택 및 소견 추가시 재실행")
