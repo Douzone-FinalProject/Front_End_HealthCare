@@ -8,19 +8,23 @@ import DialMenu from "views/common/DialMenu";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import NoticeModal from "./NoticeModal";
+import GuidelineModal from "./GuidelineModal";
 
 function Main(props) {
     const globalUid = useSelector((state) => state.authReducer.staff_login_id);
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalIsOpen2, setIsOpen2] = useState(false);
     const [notice, setNotice] = useState(0);
     function openModal(ntc) { setIsOpen(true); setNotice(ntc); }
     function closeModal() { setIsOpen(false); }
+    function openModal2(ntc) { setIsOpen2(true); setNotice(ntc); }
+    function closeModal2() { setIsOpen2(false); }
 
     return (
         <div className="bg-white">
             <Header />
             <div>
-                <img src="/mainimg.jpg" alt="" width="" height="500" className="w-100"/>
+                <img src="/mainimg4.png" alt="" width="" height="500" className="w-100"/>
             </div>
             <div>
                 <div className="row w-100 mt-5">
@@ -49,10 +53,10 @@ function Main(props) {
                         <hr/>
                         <div className="row">
                             <div className="col-10">
-                            <Link to="/guideline?id=1" style={{textDecoration: 'none'}}><div className="d-flex align-items-center"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>환자가 자주 묻는 질문 및 답변</h5></div></Link>
-                            <Link to="/guideline?id=2" style={{textDecoration: 'none'}}><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈용기 채혈순서</h5></div></Link>
-                            <Link to="/guideline?id=3" style={{textDecoration: 'none'}}><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>혈액배양 검체 채취</h5></div></Link>
-                            <Link to="/guideline?id=4" style={{textDecoration: 'none'}}><div className="d-flex align-items-center mt-2"><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈시 부작용</h5></div></Link>
+                            <div className="d-flex align-items-center noticeBox" onClick={()=>openModal2(1)}><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>환자가 자주 묻는 질문 및 답변</h5></div>
+                            <div className="d-flex align-items-center mt-2 noticeBox" onClick={()=>openModal2(2)}><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈용기 채혈순서</h5></div>
+                            <div className="d-flex align-items-center mt-2 noticeBox" onClick={()=>openModal2(3)}><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>혈액배양 검체 채취</h5></div>
+                            <div className="d-flex align-items-center mt-2 noticeBox" onClick={()=>openModal2(4)}><FontAwesomeIcon icon={faChevronRight} className="mr-2 text-dark"/><h5>채혈시 부작용</h5></div>
                             </div>
                             <div className="col-2">
                                 <div className="d-flex align-items-center"><h6>06-25</h6></div>
@@ -62,6 +66,7 @@ function Main(props) {
                             </div>
                         </div>
                     </div>
+                    <GuidelineModal modalIsOpen={modalIsOpen2} closeModal={closeModal2} notice={notice}/>
                     <div className="col-2">
                         <a href="http://www.douzone.com/company/about/about01_idea_01">
                             <button className="btn btn-primary w-100 h-50 d-flex align-items-center justify-content-center">

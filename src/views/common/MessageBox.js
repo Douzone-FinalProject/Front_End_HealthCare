@@ -112,12 +112,6 @@ function MessageBox(props) {
                 ...pubMessage,
                 content: ''
             });
-            Swal.fire({
-                icon: 'success',
-                title: '메시지가 전송되었습니다.',
-                showConfirmButton: false,
-                timer: 500
-            });
             if(Object.keys(content).length !== 0) {
                 getChattingList(content);
             }
@@ -139,12 +133,6 @@ function MessageBox(props) {
             setPubMessage2({
                 ...pubMessage2,
                 content: ''
-            });
-            Swal.fire({
-                icon: 'success',
-                title: '메시지가 전송되었습니다.',
-                showConfirmButton: false,
-                timer: 500
             });
             if(Object.keys(content).length !== 0) {
                 getChattingList(content);
@@ -209,11 +197,6 @@ function MessageBox(props) {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     await deleteMessage(cont.message_id);
-                    Swal.fire({
-                        title: '삭제되었습니다.',
-                        icon: 'success',
-                        confirmButtonText: '확인'
-                    });
                     const resp = await getStaffLoginId(content.staff_id)
                     getChattingList(content);
                     await sendRedisMessage({
