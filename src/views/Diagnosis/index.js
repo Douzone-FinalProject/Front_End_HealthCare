@@ -468,7 +468,7 @@ function Diagnosis (props) {
                 setOpp(getOpinion)
             }
     }
-    
+    console.log(opmedic);
 
 
     const updatOpinion = (event) => {
@@ -585,6 +585,8 @@ function Diagnosis (props) {
     };
 
     const [opinionsCopy, setOpinionCopys] = useState([]);
+
+    
 
     useEffect(() => {
         console.log("증상 선택 및 소견 추가시 재실행")
