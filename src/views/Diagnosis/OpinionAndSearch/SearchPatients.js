@@ -89,6 +89,7 @@ function SearchPatients(props) {
                     ...patientChart
                 ])
             }
+            // props.setOpinionCopys([])
     
     };
 

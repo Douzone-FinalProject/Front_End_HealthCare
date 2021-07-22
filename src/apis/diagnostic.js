@@ -126,3 +126,7 @@ export function paymentBefore(receipt_id) { //소견 수정
     const promise = axios.put("/diagnostic/paymentBefore/"+ receipt_id);
     return promise;
 }
+
+export function deleteReceiptMedic(receipt_id) { //진료에 저장되있는 약품 삭제
+    return axios.delete("/diagnostic/deleteReceiptMedic/"+receipt_id);
+}
