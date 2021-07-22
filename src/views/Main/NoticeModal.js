@@ -4,12 +4,13 @@ import Modal from "react-modal";
 const customStyles = {
     content: {
         width: '750px',
-        height: '430px',
+        height: '410px',
         top: '50%',
         left: '50%',
         right: 'auto',
         bottom: 'auto',
         marginRight: '-50%',
+        padding:"0px",
         transform: 'translate(-50%, -50%)',
     },
 };
@@ -25,10 +26,10 @@ function NoticeModal(props) {
             contentLabel="Notice Modal"
             style={customStyles}
         >
-            <div><h3>공지사항</h3></div>
+            <div className="bg-primary p-2"><h4 className="text-white">공지사항</h4></div>
             <div className="d-flex mt-2">
                 <div>
-                    제목 :
+                    
                 </div>
                 <div className="ml-2 mb-2">
                     {props.notice === 1 ?
@@ -40,7 +41,7 @@ function NoticeModal(props) {
                     <div>뉴스 & 공지사항</div>}
                 </div>
             </div>
-            <div style={{border:"1px solid black", height:"270px"}}>
+            <div style={{borderRadius:"16px", border:"1px solid black", height:"270px", padding:"10px", marginLeft:"10px", marginRight:"10px"}}>
                 {props.notice === 1 ?
                 <div>저희 홈페이지는 조그만 불만사항도 크게 귀 기울여 듣고 최선을 다해
                 <br/> 해결해 드리기 위해 항상 노력하고 있습니다.
@@ -60,7 +61,7 @@ function NoticeModal(props) {
                 <br/>항상 고객님들꼐 감사하는 마음으로 최선을 다하는 중입니다.
                 <br/>뉴스와 공지사항의 자세한 내용은 더존 홈페이지에서 확인바랍니다.</div>}
             </div>
-            <div className="d-flex justify-content-end mt-2">
+            <div className="d-flex justify-content-end mt-2 mr-3">
                 <button className="btn btn-sm btn-primary" onClick={props.closeModal}>닫기</button>
             </div>
         </Modal>
