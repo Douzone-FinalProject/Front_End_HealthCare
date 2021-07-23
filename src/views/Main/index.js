@@ -1,7 +1,6 @@
 import "views/common/main.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faDesktop, faHeadset } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
@@ -9,6 +8,8 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import NoticeModal from "./NoticeModal";
 import GuidelineModal from "./GuidelineModal";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from 'react-responsive-carousel';
 
 function Main(props) {
     const globalUid = useSelector((state) => state.authReducer.staff_login_id);
@@ -24,7 +25,17 @@ function Main(props) {
         <div className="bg-white">
             <Header />
             <div>
-                <img src="/mainimg4.png" alt="" width="" height="500" className="w-100"/>
+                <Carousel infiniteLoop={true} autoPlay={true} showThumbs={false}>
+                    <div>
+                        <img src="/mainimg5.png" alt="" width="" height="500" className="w-100"/>
+                    </div>
+                    <div>
+                        <img src="/mainimg4.png" alt="" width="" height="500" className="w-100"/>
+                    </div>
+                    <div>
+                        <img src="/mainimg.jpg" alt="" width="" height="500" className="w-100"/>
+                    </div>
+                </Carousel>
             </div>
             <div>
                 <div className="row w-100 mt-5">
@@ -68,13 +79,13 @@ function Main(props) {
                     </div>
                     <GuidelineModal modalIsOpen={modalIsOpen2} closeModal={closeModal2} notice={notice}/>
                     <div className="col-2">
-                        <a href="http://www.douzone.com/company/about/about01_idea_01">
-                            <button className="btn btn-primary w-100 h-50 d-flex align-items-center justify-content-center">
+                        <a href="http://www.douzone.com/company/about/about01_idea_01" style={{textDecoration:"none"}}>
+                            <button className="btn w-100 h-50 d-flex align-items-center justify-content-center" style={{backgroundColor: "#74c0fc"}}>
                                 <h1 className="text-white"><FontAwesomeIcon icon={faDesktop} className="mr-3"/></h1><h3 className="text-white">더존 홈페이지</h3>
                             </button>
                         </a>
-                        <a href="https://help.douzone.com/main/index.jsp">
-                            <button className="btn btn-primary w-100 h-50 d-flex align-items-center justify-content-center mt-2">
+                        <a href="https://help.douzone.com/main/index.jsp" style={{textDecoration:"none"}}>
+                            <button className="btn w-100 h-50 d-flex align-items-center justify-content-center mt-2" style={{backgroundColor: "#91a7ff"}}>
                                 <h1 className="text-white"><FontAwesomeIcon icon={faHeadset} className="mr-3"/></h1><h3 className="text-white">고객센터 문의</h3>
                             </button>
                         </a>
