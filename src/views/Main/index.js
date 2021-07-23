@@ -27,10 +27,10 @@ function Main(props) {
             <div>
                 <Carousel infiniteLoop={true} autoPlay={true} showThumbs={false} showIndicators={false}>
                     <div>
-                        <img src="/mainimg5.png" alt="" width="" height="500" className="w-100"/>
+                        <img src="/mainimg4.png" alt="" width="" height="500" className="w-100"/>
                     </div>
                     <div>
-                        <img src="/mainimg4.png" alt="" width="" height="500" className="w-100"/>
+                        <img src="/mainimg5.png" alt="" width="" height="500" className="w-100"/>
                     </div>
                     <div>
                         <img src="/mainimg.jpg" alt="" width="" height="500" className="w-100"/>
