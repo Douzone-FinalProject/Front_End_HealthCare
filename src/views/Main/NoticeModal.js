@@ -1,3 +1,4 @@
+import { PlayCircleFilledWhite } from "@material-ui/icons";
 import Modal from "react-modal";
 
 //신규 환자 생성 modal 스타일 설정
@@ -15,6 +16,11 @@ const customStyles = {
     },
 };
 
+const customBackStyles = {
+    content: {
+    },
+}
+
 Modal.setAppElement('body');
 function NoticeModal(props) {
     
@@ -25,8 +31,9 @@ function NoticeModal(props) {
             onRequestClose={props.closeModal}
             contentLabel="Notice Modal"
             style={customStyles}
+            overlayClassName={customBackStyles}
         >
-            <div className="bg-primary p-2"><h4 className="text-white">공지사항</h4></div>
+            <div className="p-2" style={{backgroundColor:"#91a7ff"}}><h4 className="text-white">공지사항</h4></div>
             <div className="d-flex mt-2">
                 <div>
                     
@@ -62,7 +69,7 @@ function NoticeModal(props) {
                 <br/>뉴스와 공지사항의 자세한 내용은 더존 홈페이지에서 확인바랍니다.</div>}
             </div>
             <div className="d-flex justify-content-end mt-2 mr-3">
-                <button className="btn btn-sm btn-primary" onClick={props.closeModal}>닫기</button>
+                <button className="btn btn-sm text-white" style={{backgroundColor:"#74c0fc"}} onClick={props.closeModal}>닫기</button>
             </div>
         </Modal>
     );

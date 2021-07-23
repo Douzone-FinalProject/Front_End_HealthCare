@@ -25,7 +25,7 @@ function Main(props) {
         <div className="bg-white">
             <Header />
             <div>
-                <Carousel infiniteLoop={true} autoPlay={true} showThumbs={false}>
+                <Carousel infiniteLoop={true} autoPlay={true} showThumbs={false} showIndicators={false}>
                     <div>
                         <img src="/mainimg5.png" alt="" width="" height="500" className="w-100"/>
                     </div>
