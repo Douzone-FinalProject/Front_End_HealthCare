@@ -28,7 +28,9 @@ function Login(props) {
         staff_role: ""
     });
     const [role, setRole] = useState('')
-    
+    //스피너를 위한 상태
+    const [loading, setLoading] = useState(false);
+
     const dispatch = useDispatch();
 
     const handleChange = (event) => {
@@ -54,6 +56,7 @@ function Login(props) {
     };
 
     const handleLogin = async () => {
+      setLoading(true);
       try {
         console.log(user);
         //로그인 요청
@@ -112,7 +115,9 @@ function Login(props) {
       } catch(error) {
         alert("로그인에 실패하였습니다.")
         console.log(error);
-      } 
+      } finally {
+        setLoading(false);
+      }
     };
 
     return (
@@ -177,7 +182,7 @@ function Login(props) {
             </div>
 
               <button onClick={handleLogin} type="button" className={style.btn}>
-                LOG IN 
+                {loading ? <div className="spinner-border text-white" role="status"></div> : 'LOG IN'} 
               </button>
              
               
