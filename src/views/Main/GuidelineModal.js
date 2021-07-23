@@ -15,6 +15,11 @@ const customStyles = {
     },
 };
 
+const customBackStyles = {
+    content: {
+    },
+}
+
 Modal.setAppElement('body');
 function GuidelineModal(props) {
     
@@ -24,8 +29,9 @@ function GuidelineModal(props) {
             onRequestClose={props.closeModal}
             contentLabel="Notice Modal"
             style={customStyles}
+            overlayClassName={customBackStyles}
         >
-            <div className="bg-primary p-2"><h4 className="text-white">검사의뢰지침</h4></div>
+            <div className="p-2" style={{backgroundColor:"#91a7ff"}}><h4 className="text-white">검사의뢰지침</h4></div>
             <div className="d-flex mt-2">
                 <div>
                     
@@ -109,7 +115,7 @@ IV Fluid오염(IV 사이트 위에서 채혈하지 않는다)<br/>
             </pre>}
             </div>
             <div className="d-flex justify-content-end mt-2 mr-3">
-                <button className="btn btn-sm btn-primary" onClick={props.closeModal}>닫기</button>
+                <button className="btn btn-sm text-white" style={{backgroundColor:"#74c0fc"}} onClick={props.closeModal}>닫기</button>
             </div>
         </Modal>
     );
