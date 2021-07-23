@@ -33,7 +33,7 @@ function Main(props) {
                         <img src="/mainimg5.png" alt="" width="" height="500" className="w-100"/>
                     </div>
                     <div>
-                        <img src="/mainimg.jpg" alt="" width="" height="500" className="w-100"/>
+                        <img src="/mainimg6.jpg" alt="" width="" height="500" className="w-100"/>
                     </div>
                 </Carousel>
             </div>
