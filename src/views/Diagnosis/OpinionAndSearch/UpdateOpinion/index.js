@@ -3,8 +3,10 @@ import style from "../../Diagnosis.module.css"
 import classnames from "classnames/bind";
 import OpinionMedicineListItem from "../UpdateOpinion/OpinionMedicineListItem";
 import TestAfterMedicineListItem from "../UpdateOpinion/TestAfterMedicineListItem";
+import {deleteReceiptMedic} from "apis/diagnostic";
 import Button from "../../../common/Button";
 import { MDBTable, MDBTableBody } from 'mdbreact';
+import Swal from "sweetalert2";
 
 const cx = classnames.bind(style);
 const opinionStyles = {
@@ -22,6 +24,49 @@ const opinionStyles = {
 
 Modal.setAppElement('body');
 function UpdateOpinion(props) {
+
+    const DeleteSuccess = async (receipt_id) => {
+        try{
+            await deleteReceiptMedic(receipt_id);
+        }catch(error){
+          console.log(error);
+        }
+    };
+
+
+
+    const deleteReceiptMedicines = async (receipt_id, medic) => {
+        if(!medic[0]){
+            Swal.fire({
+                icon: 'error',
+                title: '처방된 약이 없습니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
+           
+        }else{
+             Swal.fire({
+                title: '처방된 약을 삭제하시겠습니까?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Delete'
+              }).then((result)  => {
+                if (result.isConfirmed) {
+                  Swal.fire(
+                    '삭제되었습니다.',
+                    'Your file has been deleted.',
+                    'success'
+                  )
+                  DeleteSuccess(receipt_id);
+                  props.closeUpdateModal();
+                }
+              })
+            
+        }
+    }
+
     
     return(
         
@@ -43,7 +88,7 @@ function UpdateOpinion(props) {
                 </thead>
             </MDBTable>   
 
-            {props.medicines[0] ? //백 할 때는 '검사 완료'로 수정해야 함.
+            {props.medicines[0] ? //약품 목록에서 검색 했을 경우 검색한 약 띄우기
               <MDBTable scrollY className={cx("table-hover", "modal-medic-width")}>
                 <MDBTableBody>
                     {props.medicines && props.medicines.map((hoho2) => {
@@ -53,8 +98,8 @@ function UpdateOpinion(props) {
                                     })}
                 </MDBTableBody>
                 </MDBTable> 
-              : 
-            <MDBTable scrollY className={cx("table-hover", "modal-medic-width")}>
+              : //약품 목록에서 띄운게 없으면 해당 진료에 처방됫던 약 나타내기(없으면 안 뜸)
+            <MDBTable scrollY className={cx("table-hover", "modal-medic-width")}> 
                 <MDBTableBody>
                     {props.opmedic && props.opmedic.map((hoho) => {
                                         return (
@@ -71,7 +116,7 @@ function UpdateOpinion(props) {
             
                 
                 
-                    {props.medicines[0] ? //백 할 때는 '검사 완료'로 수정해야 함. props.opp.diagnostic_test_state === "검사 중" props.opp.medicines === null
+                    {props.medicines[0] ? 
                     <div className="d-flex justify-content-lg-end mr-3 mt-2">
                         <Button onClick={()=>{props.saveMedicine(props.opp.receipt_id)}}>약 처방</Button>
                         <Button className="ml-2" onClick={()=>{props.saveOpinion(props.opp.diagnostic_test_state)}}>수정 완료</Button>
@@ -79,6 +124,7 @@ function UpdateOpinion(props) {
                     </div>
                     :
                     <div className="d-flex justify-content-lg-end mr-3 mt-2">
+                        <Button className="ml-2" onClick={()=>{deleteReceiptMedicines(props.opp.receipt_id, props.opmedic)}}>약 삭제</Button>
                         <Button className="ml-2" onClick={()=>{props.saveOpinion(props.opp.diagnostic_test_state)}}>수정 완료</Button>
                         <Button className="ml-2" onClick={props.closeUpdateModal}>닫기</Button>
                     </div>
