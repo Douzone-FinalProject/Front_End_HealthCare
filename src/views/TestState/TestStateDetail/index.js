@@ -11,6 +11,7 @@ import { paymentBefore } from "apis/diagnostic";
 import CameraModal from "./CameraModal";
 import { getCheckPreviousResult, insertResultData, insertResultDataByNew } from "apis/result";
 import { sendRedisMessage } from 'apis/message';
+import ImgUploadModal from './ImgUploadModal';
 
 const cx = classNames.bind(style);
 
@@ -94,7 +95,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     preserveSelectedRowKeys: false,
     hideSelectAll: waitType === "전체" ? hide : false,
     onChange: (selectedRowKeys, selectedRows) => {
-    // console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);    
+    console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);    
     setRows([...selectedRows])
     setRowKeys([...selectedRowKeys])
     setBundleSpeciemens(selectedRows.map(row => row.bundle_specimen))
@@ -250,7 +251,6 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
         'question'
       )
     }
-
   }
 
   
@@ -279,6 +279,20 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
   }
 
+  useEffect(() => {
+    // if (detailData.length !== 0) {
+    //   setDetailData(...detailData)
+    // }
+    // console.log(rowSelection.onChange([], []))
+    // if (receiptId) {
+    //   async function fetchAndSetDetailData() {
+    //     setDetailData(await getTestStateDetailList(receiptId));
+    //   }
+    //   fetchAndSetDetailData();
+    // }
+    console.log("waitType 바뀜")
+  }, [waitType])
+
   return (
     <div className={cx("flex-width")}>
       <Card className={cx("card")}>
@@ -304,8 +318,11 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
         <div className={cx("teststate-table")}>
           <Table className={cx("ant-th", "ant-tbody", "test-state-detail")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}} scroll={{x: false, y: 720}}/>
         </div>
-        { 
+        {/* { 
           isModalVisible && (<CameraModal handleModal={handleModal} receiptId={receiptId} patientName={patientName}/>)
+        } */}
+        {
+          isModalVisible && (<ImgUploadModal handleModal={handleModal} receiptId={receiptId} patientName={patientName}/>)
         }
       </Card>
     </div>
