@@ -6,7 +6,7 @@ import TestStateDetail from "./TestStateDetail";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
 import { useEffect, useRef, useState } from "react";
-import { getPatientList, getStateChart, getTestStateDetailList } from "apis/teststate";
+import { getPatientList, getStateChart, getTestStateDetailList, getLabChart } from "apis/teststate";
 
 const cx = classNames.bind(style);
 
@@ -44,8 +44,8 @@ function TestState(props) {
   let ws = useRef(null);
   const connectWebSocket = () => {
 
-    ws.current = new WebSocket("ws://kosa3.iptime.org:50003/websocket/redis");
-    // ws.current = new WebSocket("ws://localhost:8080/websocket/redis");
+    // ws.current = new WebSocket("ws://kosa3.iptime.org:50003/websocket/redis");
+    ws.current = new WebSocket("ws://localhost:8080/websocket/redis");
 
     ws.current.onopen = () => {
       console.log("teststatedetail 접속 성공");
@@ -70,7 +70,8 @@ function TestState(props) {
       if (receiptId && message.content !== 'ChangeReceiptState') {
         setDetailData(await getTestStateDetailList(receiptId));
       }
-      setStateChart(await getStateChart()); 
+      setStateChart(await getStateChart());
+      setLabChart(await getLabChart()); 
       setWaitingData(await getPatientList(waitType, state));
     }
   }
