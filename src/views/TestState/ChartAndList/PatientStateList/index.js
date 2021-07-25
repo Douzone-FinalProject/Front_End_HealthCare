@@ -9,8 +9,6 @@ const cx = classNames.bind(style);
 
 function PatientStateList({waitingData, setWaitingData, setReceiptId, waitType, state, setWaitType, setState}, props) {
 
-
-
   const waitingDataColums = [
     {
       title: '순서',
@@ -57,6 +55,8 @@ function PatientStateList({waitingData, setWaitingData, setReceiptId, waitType, 
     
   ]
 
+  const [loading, setLoading] = useState(true);
+
   const handlePatient = (data, rowIndex) => {
     return {
       onClick: (event) => { 
@@ -81,6 +81,18 @@ function PatientStateList({waitingData, setWaitingData, setReceiptId, waitType, 
     }
     fetchAndSetWatitingData();
   }, [waitType, state, setWaitingData])
+
+  useEffect(() => {
+    if (waitingData.length !== 0) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000)
+    }
+  }, [waitingData])
+  
   return (
     <>
       <div className={cx("d-flex", "justify-content-between", "mt-2", "flex-2")}>
@@ -98,7 +110,9 @@ function PatientStateList({waitingData, setWaitingData, setReceiptId, waitType, 
         </div>
       </div>
       <div className={cx("teststate-table")}>
-        <Table className={cx("ant-th", "ant-tbody")} columns={waitingDataColums} dataSource={waitingData} pagination={false} rowKey={record => record.receipt_id} onRow={handlePatient} scroll={{x: 0, y: 300}}/>
+        <Table className={cx("ant-th", "ant-tbody")} columns={waitingDataColums} dataSource={waitingData} 
+               pagination={false} rowKey={record => record.receipt_id} onRow={handlePatient} 
+               scroll={{x: 0, y: 300}} loading={loading} />
       </div>
     </>
   );

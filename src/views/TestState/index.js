@@ -29,7 +29,6 @@ function TestState(props) {
   
   const [stateChart, setStateChart] = useState([]);
   const [labChart, setLabChart] = useState([]);
-
   const realTimeReceiptList = async () => {
     console.log("realTimeReceiptList");
   }
@@ -99,12 +98,13 @@ function TestState(props) {
                           setReceiptId={setReceiptId} labTable={labTable} 
                           waitType={waitType} state={state} setWaitType={setWaitType} setState={setState} 
                           stateChart={stateChart} setStateChart={setStateChart}
-                          labChart={labChart} setLabChart={setLabChart}/>
+                          labChart={labChart} setLabChart={setLabChart}
+                           />
           </Col>
           <Col xxl={17} className={cx("flex-width")}>
             <TestStateDetail receiptId={receiptId} 
                             detailData={detailData} setDetailData={setDetailData} 
-                            waitingData={waitingData} setWaitingData={setWaitingData}
+                            setWaitingData={setWaitingData}
                             pubMessage={pubMessage} waitType={waitType} state={state}
                             />
           </Col>
