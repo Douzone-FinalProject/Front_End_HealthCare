@@ -19,7 +19,11 @@ function ChartAndList({waitingData, setWaitingData, setReceiptId, labTable, wait
         <div className={cx("teststate-lab")}>
           <LabTable labTable={labTable}/>
         </div>
-        <PatientStateList waitingData={waitingData} setWaitingData={setWaitingData} setReceiptId={setReceiptId} waitType={waitType} state={state} setWaitType={setWaitType} setState={setState}/>
+        <PatientStateList waitingData={waitingData} setWaitingData={setWaitingData} 
+                          setReceiptId={setReceiptId} 
+                          waitType={waitType} state={state} setWaitType={setWaitType} 
+                          setState={setState}
+                          />
       </Card>
     </div>
   );

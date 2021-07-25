@@ -20,7 +20,8 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   const [patientName, setPatientName] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [receiptState, setReceiptState] = useState();
-    const resultItem = [
+
+  const resultItem = [
     {
       title: "증상코드",
       dataIndex: "symptom_id",
@@ -85,19 +86,21 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   ]
   
   const [rows, setRows] = useState([]);
-  const [rowKeys, setRowKeys] = useState([]);
   const [bundleSpecimens, setBundleSpeciemens] = useState([]);
   const [complete, setComplete] = useState('false');
 
   const [bundleLab, setBundleLab] = useState();
   const [hide, setHide] = useState(true);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
   const rowSelection = {
-    preserveSelectedRowKeys: false,
-    hideSelectAll: waitType === "전체" ? hide : false,
-    onChange: (selectedRowKeys, selectedRows) => {
-    console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);    
+  selectedRowKeys,
+  preserveSelectedRowKeys: false,
+  hideSelectAll: waitType === "전체" ? hide : false,
+  onChange: (selectedRowKeys, selectedRows) => {
+    // console.log('selectedRowKeys:', selectedRowKeys, 'selectedRows: ', selectedRows);    
     setRows([...selectedRows])
-    setRowKeys([...selectedRowKeys])
+    setSelectedRowKeys([...selectedRowKeys])
     setBundleSpeciemens(selectedRows.map(row => row.bundle_specimen))
   },   
   getCheckboxProps: (record) => {
@@ -142,7 +145,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     }
   }
 }
-
+  
   useEffect(() => {
     if (receiptId) {
       async function fetchAndSetDetailData() {
@@ -161,6 +164,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
         completeCount++;
       }
     }
+    // 집으로, 의사로 버튼 활성화 위해(모든 검사 상태가 검사완료 될 때)
     if (detailData.length !== 0 && detailData.length === completeCount) {
       setComplete('true');
     } else {
@@ -170,8 +174,8 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   
   
   const handleBarcode = async () => {
-    if (rowKeys.length !== 0) {
-      await updateStateDetail(rowKeys, "검사접수", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
+    if (selectedRowKeys.length !== 0) {
+      await updateStateDetail(selectedRowKeys, "검사접수", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
       await sendRedisMessage({
         ...pubMessage,
         content: {
@@ -192,8 +196,8 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   }
 
   const handleCancel = async () => {
-    if (rowKeys.length !== 0) {
-      await updateStateDetail(rowKeys, "검사대기", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
+    if (selectedRowKeys.length !== 0) {
+      await updateStateDetail(selectedRowKeys, "검사대기", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
       await sendRedisMessage({
         ...pubMessage,
         content: {
@@ -211,9 +215,15 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   }
 
   const handleComplete = async () => {
-    if (rowKeys.length !== 0) {
-    await updateStateDetail(rowKeys, "검사완료", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
-    await sendRedisMessage(pubMessage);
+    if (selectedRowKeys.length !== 0) {
+    await updateStateDetail(selectedRowKeys, "검사완료", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
+    await sendRedisMessage({
+      ...pubMessage,
+      content: {
+        lab: rows[0].bundle_lab,
+        patientName: ""
+      }
+    });
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -280,17 +290,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   }
 
   useEffect(() => {
-    // if (detailData.length !== 0) {
-    //   setDetailData(...detailData)
-    // }
-    // console.log(rowSelection.onChange([], []))
-    // if (receiptId) {
-    //   async function fetchAndSetDetailData() {
-    //     setDetailData(await getTestStateDetailList(receiptId));
-    //   }
-    //   fetchAndSetDetailData();
-    // }
-    console.log("waitType 바뀜")
+    setSelectedRowKeys([]);
   }, [waitType])
 
   return (
@@ -316,7 +316,9 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
           </div>
         </div>
         <div className={cx("teststate-table")}>
-          <Table className={cx("ant-th", "ant-tbody", "test-state-detail")} columns={resultItem} dataSource={detailData} pagination={false} rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}} scroll={{x: false, y: 720}}/>
+          <Table className={cx("ant-th", "ant-tbody", "test-state-detail")} columns={resultItem} dataSource={detailData} pagination={false} 
+                 rowKey={record => record.diagnostic_list_id} rowSelection={{...rowSelection}} scroll={{x: false, y: 720}}
+                 />
         </div>
         {/* { 
           isModalVisible && (<CameraModal handleModal={handleModal} receiptId={receiptId} patientName={patientName}/>)
