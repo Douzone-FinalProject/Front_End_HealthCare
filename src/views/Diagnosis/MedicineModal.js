@@ -4,7 +4,7 @@ import classnames from "classnames/bind";
 import Button from "views/common/Button";
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { searchMedicine } from "apis/diagnosis";
+import { searchMedicine } from "apis/diagnostic";
 
 const cx = classnames.bind(style);
 

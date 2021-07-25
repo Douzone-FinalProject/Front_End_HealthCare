@@ -127,6 +127,12 @@ export function paymentBefore(receipt_id) { //소견 수정
     return promise;
 }
 
+// 약품검색 
+export async function searchMedicine(keyword) {
+    const medicines = await axios.get(`/diagnostic/medicine?keyword=${keyword}`);
+    console.log(medicines.data)
+    return medicines.data
+  }
 export function deleteReceiptMedic(receipt_id) { //진료에 저장되있는 약품 삭제
     return axios.delete("/diagnostic/deleteReceiptMedic/"+receipt_id);
 }

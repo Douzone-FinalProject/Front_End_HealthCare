@@ -48,7 +48,7 @@ function GuidelineModal(props) {
             </div>
             <div style={{borderRadius:"4px", border:"1px solid black", height:"550px", padding:"10px", marginLeft:"10px", marginRight:"10px", overflowY:"auto"}}>
                 {props.notice === 1 ?
-                <pre>
+                <pre style={{fontFamily:"sans-serif"}}>
                 1) Q : 같은 피검사인데 왜 여러 용기에 뽑나요?<br/>
                 &nbsp;&nbsp; A : 검사항목에 따라 용기에 들어가는 첨가제가 달라집니다.<br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;적절한 첨가제가 포함된 용기에 충분한 양만큼 채혈해야 검사가 이루어집니다.<br/>
             <br/>
@@ -84,33 +84,33 @@ function GuidelineModal(props) {
                 <img src="/bloodbottle.PNG" alt="" width="" height="" className="w-100"/>:
                 props.notice === 3 ?
                 <img src="/specimen2.jpg" alt="" width="" height="" className="w-100"/>:
-                <pre>
+                <pre style={{fontFamily:"sans-serif"}}>
             1) 잘못된 채혈로 인한 검사결과 영향<br/>
 <br/>
 (1) 혈소판 파괴<br/>
- 장시간 tourniquet을 묶고 있을 경우 혈액정체로 세포의 수분균형에 영향을 미쳐<br/> 적혈구와 혈소판이 파괴 된다(1분 이상 tourniquet으로 압박하지 않는다)<br/>
+&nbsp;&nbsp;&nbsp;장시간 tourniquet을 묶고 있을 경우 혈액정체로 세포의 수분균형에 영향을 미쳐<br/> &nbsp;&nbsp;적혈구와 혈소판이 파괴 된다(1분 이상 tourniquet으로 압박하지 않는다)<br/>
 <br/>
 (2) 혈액량<br/>
-혈액량이 적정량보다 적거나 많을 경우 Dilution, Clot이 될 수 있다.<br/>
+&nbsp;&nbsp;&nbsp;혈액량이 적정량보다 적거나 많을 경우 Dilution, Clot이 될 수 있다.<br/>
 <br/>
 (3) 항응고제 혼입<br/>
-SST tube 보다 항응고제 tube를 먼저 채혈한 경우 항응고제 혼입으로 혈청검사에 영향을 미칠 수 있다.<br/>
+&nbsp;&nbsp;&nbsp;SST tube 보다 항응고제 tube를 먼저 채혈한 경우 항응고제 혼입으로 혈청검사에 영향을 미칠 수 있다.<br/>
 <br/>
 (4) IV Fluid오염<br/>
-IV Fluid오염(IV 사이트 위에서 채혈하지 않는다)<br/>
+&nbsp;&nbsp;&nbsp;IV Fluid오염(IV 사이트 위에서 채혈하지 않는다)<br/>
 <br/>
 (5) 너무 세게 Mixing<br/>
-너무 세게 Mixing(적혈구 파괴로 용혈이 일어날 수 있다)<br/>
+&nbsp;&nbsp;&nbsp;너무 세게 Mixing(적혈구 파괴로 용혈이 일어날 수 있다)<br/>
 <br/>
 (6) 환자가 바뀌어 채혈이 이루어진 경우<br/>
 <br/><br/>
 2) 환자의 채혈 거부<br/>
 <br/>
 (1) 환자의 인지능력 부족으로 인한 거부<br/>
-환자의 나이가 너무 어리거나 많은 경우, 채혈과정을 이해하지 못하므로 채혈을 거부하거나<br/> 버둥 거리게 되어 채혈이 용이하지 않을 수가 있다.<br/> 이런 경우 동료 채혈원 또는 부모, 친척, 간병인등 의 도움을 청한다. <br/>정신적 이상자 이거나 약물중독자인 경우, 환자들이 저항할 수<br/> 있으므로 환자 를 안심시키고 확실한 협조를 구한다.<br/>
+&nbsp;&nbsp;&nbsp;환자의 나이가 너무 어리거나 많은 경우, 채혈과정을 이해하지 못하므로 채혈을 거부하거나<br/> &nbsp;&nbsp;버둥 거리게 되어 채혈이 용이하지 않을 수가 있다.<br/> &nbsp;&nbsp;이런 경우 동료 채혈원 또는 부모, 친척, 간병인등 의 도움을 청한다. <br/>&nbsp;&nbsp;&nbsp;정신적 이상자 이거나 약물중독자인 경우, 환자들이 저항할 수<br/> &nbsp;&nbsp;있으므로 환자 를 안심시키고 확실한 협조를 구한다.<br/>
 <br/>
 (2) 정상인데 채혈을 거부하는 경우<br/>
-환자에게 채혈이 안전함을 설득한다. 특히 주치의가 환자 자신의 질병을 정확하게 진단하고 <br/>처방을 내리기 위해 혈액검사가 꼭 필요하다는 사실을 주지시킨다.<br/> 절대 물리적인 힘이나 협박을 해서는 안 된다. 그래도 환자가 거절한다면 진료과에 연락 후<br/> 메모를 남기고, 반드시 담당 간호사에게 이 사실을 알린다.<br/>
+&nbsp;&nbsp;&nbsp;환자에게 채혈이 안전함을 설득한다. 특히 주치의가 환자 자신의 질병을 정확하게 진단하고 <br/>&nbsp;&nbsp;&nbsp;처방을 내리기 위해 혈액검사가 꼭 필요하다는 사실을 주지시킨다.<br/> &nbsp;&nbsp;절대 물리적인 힘이나 협박을 해서는 안 된다. 그래도 환자가 거절한다면 진료과에 연락 후<br/>&nbsp;&nbsp; 메모를 남기고, 반드시 담당 간호사에게 이 사실을 알린다.<br/>
 <br/>
             </pre>}
             </div>
