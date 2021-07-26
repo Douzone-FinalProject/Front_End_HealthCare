@@ -222,7 +222,7 @@ function Diagnosis (props) {
                             if (result.isConfirmed) {
                               Swal.fire({
                                 icon: 'success',
-                                title: '신규 환자가 등록되었습니다.',
+                                title: '요청되었습니다.',
                                 showConfirmButton: false,
                                 timer: 1500
                               })
