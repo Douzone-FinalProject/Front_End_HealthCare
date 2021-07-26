@@ -28,7 +28,6 @@ export function updatePatient(patient) {
 
 // 접수 추가 
 export function insertReceipt(receipt) {
-  console.log('7787 receipt: ', receipt);
   return axios.post("/receipt", receipt);
 }
 
