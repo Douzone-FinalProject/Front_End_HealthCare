@@ -216,14 +216,16 @@ function Diagnosis (props) {
                             showCancelButton: true,
                             confirmButtonColor: '#3085d6',
                             cancelButtonColor: '#d33',
-                            confirmButtonText: 'Yes'
+                            confirmButtonText: '요청',
+                            cancelButtonText: '취소'
                           }).then((result)  => {
                             if (result.isConfirmed) {
-                              Swal.fire(
-                                '요청되었습니다.',
-                                'Your file has been deleted.',
-                                'success'
-                              )
+                              Swal.fire({
+                                icon: 'success',
+                                title: '신규 환자가 등록되었습니다.',
+                                showConfirmButton: false,
+                                timer: 1500
+                              })
                             testSuccess(selectedPatient);
                             setSelectP({
                                 patient_id: ""
