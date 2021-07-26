@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function login(user) {
-    const promise = await axios.post("/auth/login", user);
+    const promise = await axios.post("/api/auth/login", user);
     return promise;
 }
 
