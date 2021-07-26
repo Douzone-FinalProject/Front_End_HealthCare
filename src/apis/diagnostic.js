@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export function searchSymptomB(symptom_name) {  //증상 검색
-    const promise = axios.get("/diagnostic/searchSymptom", {
+    const promise = axios.get("/api/diagnostic/searchSymptom", {
         params: {
             symptom_name:symptom_name
         }
@@ -10,7 +10,7 @@ export function searchSymptomB(symptom_name) {  //증상 검색
 }
 
 export function searchPatientIdOpinion(patient_id) { //환자 id로 소견 검색
-    const promise = axios.get("/diagnostic/searchPatientIdOpinion", {
+    const promise = axios.get("/api/diagnostic/searchPatientIdOpinion", {
         params: {
             patient_id:patient_id
         }
@@ -19,7 +19,7 @@ export function searchPatientIdOpinion(patient_id) { //환자 id로 소견 검�
 }
 
 export function searchDateOpinion(receipt_datetime) { //날짜로 소견 검색
-    const promise = axios.get("/diagnostic/searchDateOpinion", {
+    const promise = axios.get("/api/diagnostic/searchDateOpinion", {
         params: {
             receipt_datetime:receipt_datetime
         }
@@ -28,7 +28,7 @@ export function searchDateOpinion(receipt_datetime) { //날짜로 소견 검색
 }
 
 export function searchPatientNameOpinion(patient_name) { //이름으로 소견 검색
-    const promise = axios.get("/diagnostic/searchPatientNameOpinion",{
+    const promise = axios.get("/api/diagnostic/searchPatientNameOpinion",{
         params: {
             patient_name:patient_name
         }
@@ -37,7 +37,7 @@ export function searchPatientNameOpinion(patient_name) { //이름으로 소견 �
 }
 
 export function searchPatientIdAndDate(patient_id, receipt_datetime) { //환자id and 날짜로 검색
-    const promise = axios.get("/diagnostic/searchPatientIdAndDate",{
+    const promise = axios.get("/api/diagnostic/searchPatientIdAndDate",{
         params: {
             patient_id:patient_id,
             receipt_datetime:receipt_datetime
@@ -47,7 +47,7 @@ export function searchPatientIdAndDate(patient_id, receipt_datetime) { //환자i
 }
 
 export function searchPatientIdAndName(patient_name, patient_id) { //환자id and 이름으로 검색
-    const promise = axios.get("/diagnostic/searchPatientIdAndName",{
+    const promise = axios.get("/api/diagnostic/searchPatientIdAndName",{
         params: {
             patient_id:patient_id,
             patient_name:patient_name
@@ -57,7 +57,7 @@ export function searchPatientIdAndName(patient_name, patient_id) { //환자id an
 }
 
 export function searchPatientNameAndDate(patient_name, receipt_datetime) { //이름 and 날짜로 검색
-    const promise = axios.get("/diagnostic/searchPatientNameAndDate",{
+    const promise = axios.get("/api/diagnostic/searchPatientNameAndDate",{
         params: {
             patient_name:patient_name,
             receipt_datetime:receipt_datetime
@@ -67,7 +67,7 @@ export function searchPatientNameAndDate(patient_name, receipt_datetime) { //이
 }
 
 export function searchAll(patient_id, patient_name, receipt_datetime) { //이름 and 날짜로 검색
-    const promise = axios.get("/diagnostic/searchAll",{
+    const promise = axios.get("/api/diagnostic/searchAll",{
         params: {
             patient_id: patient_id,
             patient_name:patient_name,
@@ -78,61 +78,61 @@ export function searchAll(patient_id, patient_name, receipt_datetime) { //이름
 }
 
 export function createRequestTest(rtList) { //검사 요청시 검사 리스트에 추가
-    const promise = axios.post("/diagnostic/createRequestTest", rtList);
+    const promise = axios.post("/api/diagnostic/createRequestTest", rtList);
     return promise;
 }
 
 export function fatientOpinions(patient_id) { //환자 선택시 진료들을 나타냄.
-    const promise = axios.get("/diagnostic/fatientOpinions", {params: { patient_id:patient_id }});
+    const promise = axios.get("/api/diagnostic/fatientOpinions", {params: { patient_id:patient_id }});
     return promise;
 }
 
 export function createOpinion(newOpinion) { //소견 작성시
-    const promise = axios.post("/diagnostic/createOpinion", newOpinion);
+    const promise = axios.post("/api/diagnostic/createOpinion", newOpinion);
     return promise;
 }
 
 export function createMedicines(cmlist) { //소견 작성 + 약 처방
-    const promise = axios.post("/diagnostic/createMedicines", cmlist);
+    const promise = axios.post("/api/diagnostic/createMedicines", cmlist);
     return promise;
 }
 
 export function readOpinion(receipt_id) { //소견 읽기
-    const promise = axios.get("/diagnostic/readOpinion", {params: { receipt_id:receipt_id }});
+    const promise = axios.get("/api/diagnostic/readOpinion", {params: { receipt_id:receipt_id }});
     return promise;
 }
 
 export function receiptMedicines(receipt_id) { //진료 약품 읽기
-    const promise = axios.get("/diagnostic/receiptMedicines", {params: { receipt_id:receipt_id }});
+    const promise = axios.get("/api/diagnostic/receiptMedicines", {params: { receipt_id:receipt_id }});
     return promise;
 }
 
 export function updateOpinion(handleOpinion) { //소견 수정
-    const promise = axios.put("/diagnostic/updateOpinion", handleOpinion);
+    const promise = axios.put("/api/diagnostic/updateOpinion", handleOpinion);
     return promise;
 }
 
 export function updateOpinionOfMedicines(handleMedicines, receipt_id) { //약품 수정
-    const promise = axios.post("/diagnostic/updateOpinionOfMedicines", handleMedicines, {params: {receipt_id:receipt_id}});
+    const promise = axios.post("/api/diagnostic/updateOpinionOfMedicines", handleMedicines, {params: {receipt_id:receipt_id}});
     return promise;
 }
 
 export function updateTestAndReceiptState(receipt_id) { // 검사 소견 수정 완료 후 검사상태 및 진료 상태 변경
-    const promise = axios.put("/diagnostic/updateTestAndReceiptState/"+ receipt_id);
+    const promise = axios.put("/api/diagnostic/updateTestAndReceiptState/"+ receipt_id);
     return promise;
 }
 
 export function paymentBefore(receipt_id) { //소견 수정
-    const promise = axios.put("/diagnostic/paymentBefore/"+ receipt_id);
+    const promise = axios.put("/api/diagnostic/paymentBefore/"+ receipt_id);
     return promise;
 }
 
 // 약품검색 
 export async function searchMedicine(keyword) {
-    const medicines = await axios.get(`/diagnostic/medicine?keyword=${keyword}`);
+    const medicines = await axios.get(`/api/diagnostic/medicine?keyword=${keyword}`);
     console.log(medicines.data)
     return medicines.data
   }
 export function deleteReceiptMedic(receipt_id) { //진료에 저장되있는 약품 삭제
-    return axios.delete("/diagnostic/deleteReceiptMedic/"+receipt_id);
+    return axios.delete("/api/diagnostic/deleteReceiptMedic/"+receipt_id);
 }
