@@ -510,7 +510,8 @@ function Diagnosis (props) {
                     await updateOpinion(handleOpinion);
                     await updateTestAndReceiptState(opp.receipt_id);
                     const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);  //-검사 요청 후 검사 소견에 검사 후 진료 작성 후 실행 시키기(새로 고침 역할)
-                    setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
+                    const selectPatientChart = reFatientOpinions.filter(opinion => opinion.receipt_opinion !== null)
+                    setFatientOpinion(selectPatientChart)
                     //검사완료-> 처방완료 and 진료 상태를 '수납전'으로 바꾸기
                     await sendRedisMessage(pubMessage);
                     Swal.fire({
@@ -529,7 +530,8 @@ function Diagnosis (props) {
                     const handleOpinion = {...opp};
                     await updateOpinion(handleOpinion);
                     const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id); 
-                    setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
+                    const selectPatientChart = reFatientOpinions.filter(opinion => opinion.receipt_opinion !== null)
+                    setFatientOpinion(selectPatientChart)
                     
                     Swal.fire({
                         icon: 'success',
