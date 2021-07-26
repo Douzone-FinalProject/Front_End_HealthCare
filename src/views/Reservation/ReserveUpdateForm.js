@@ -129,20 +129,21 @@ const ReserveUpdateForm = (props) => {
                   type="button" 
                     onClick={() => {
                       Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
+                        title: '삭제하시겠습니까?',
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!'
+                        confirmButtonText: '삭제',
+                        cancelButtonText: '취소'
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          Swal.fire(
-                            'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
-                          )
+                          Swal.fire({
+                            icon: 'success',
+                            title: '삭제되었습니다.',
+                            showConfirmButton: false,
+                            timer: 1500
+                          })
                           const rid = updateForm.reservation_id;
                           props.handleDelete(rid);
                           setUpdateForm({});
