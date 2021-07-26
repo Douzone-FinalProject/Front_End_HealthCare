@@ -6,7 +6,7 @@ import TestStateDetail from "./TestStateDetail";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
 import { useEffect, useRef, useState } from "react";
-import { getPatientList, getStateChart, getTestStateDetailList } from "apis/teststate";
+import { getPatientList, getStateChart, getTestStateDetailList, getLabChart } from "apis/teststate";
 
 const cx = classNames.bind(style);
 
@@ -29,7 +29,6 @@ function TestState(props) {
   
   const [stateChart, setStateChart] = useState([]);
   const [labChart, setLabChart] = useState([]);
-
   const realTimeReceiptList = async () => {
     console.log("realTimeReceiptList");
   }
@@ -70,7 +69,8 @@ function TestState(props) {
       if (receiptId && message.content !== 'ChangeReceiptState') {
         setDetailData(await getTestStateDetailList(receiptId));
       }
-      setStateChart(await getStateChart()); 
+      setStateChart(await getStateChart());
+      setLabChart(await getLabChart()); 
       setWaitingData(await getPatientList(waitType, state));
     }
   }
@@ -98,12 +98,13 @@ function TestState(props) {
                           setReceiptId={setReceiptId} labTable={labTable} 
                           waitType={waitType} state={state} setWaitType={setWaitType} setState={setState} 
                           stateChart={stateChart} setStateChart={setStateChart}
-                          labChart={labChart} setLabChart={setLabChart}/>
+                          labChart={labChart} setLabChart={setLabChart}
+                           />
           </Col>
           <Col xxl={17} className={cx("flex-width")}>
             <TestStateDetail receiptId={receiptId} 
                             detailData={detailData} setDetailData={setDetailData} 
-                            waitingData={waitingData} setWaitingData={setWaitingData}
+                            setWaitingData={setWaitingData}
                             pubMessage={pubMessage} waitType={waitType} state={state}
                             />
           </Col>
