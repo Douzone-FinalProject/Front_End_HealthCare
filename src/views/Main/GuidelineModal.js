@@ -83,7 +83,7 @@ function GuidelineModal(props) {
                 props.notice === 2 ?
                 <img src="/bloodbottle.PNG" alt="" width="" height="" className="w-100"/>:
                 props.notice === 3 ?
-                <img src="/specimen2.jpg" alt="" width="" height="" className="w-100"/>:
+                <img src="/specimen2.JPG" alt="" width="" height="" className="w-100"/>:
                 <pre style={{fontFamily:"sans-serif"}}>
             1) 잘못된 채혈로 인한 검사결과 영향<br/>
 <br/>
