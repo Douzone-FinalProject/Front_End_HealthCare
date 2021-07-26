@@ -205,20 +205,21 @@ const PatientInfo = (props) => {
   const handleDelete = (e) => {
     e.preventDefault();
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      title: '삭제하시겠습니까?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: '요청',
+      cancelButtonText: '취소'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
+        Swal.fire({
+          icon: 'success',
+          title: '삭제되었습니다.',
+          showConfirmButton: false,
+          timer: 1500
+        })
         props.handleDelete(patient.patient_id); 
         setPatient({});
       }
