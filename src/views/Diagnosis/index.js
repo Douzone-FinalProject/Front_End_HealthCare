@@ -184,7 +184,7 @@ function Diagnosis (props) {
     const globalName = useSelector((state) => state.authReducer.staff_name);
 
 
-    const testSuccess = async () => {
+    const testSuccess = async (selectedPatient) => {
         try{
 
             if(selectedPatient.patient_id && selectSymptoms.length !== 0) {
@@ -199,17 +199,18 @@ function Diagnosis (props) {
             setFatientOpinion(reFatientOpinions.data.fatientOpinionsList)
             await sendRedisMessage(pubMessage);
             }
+            deleteAll();
 
         }catch(error){
             console.log(error);
           }
     }
  
-    const testRequest = async (event) => { //검사 요청                          **'검사완료'상태인거는 소견 및 약 처방 후 진료 상태를'수납전'으로 바꾸게 하고 검사 상태를 '처방완료'로 나타내게 하기**
-                try{
-                    
-                        event.preventDefault();
-                        Swal.fire({
+    const testRequest = (event, selectedPatient) => { //검사 요청                          **'검사완료'상태인거는 소견 및 약 처방 후 진료 상태를'수납전'으로 바꾸게 하고 검사 상태를 '처방완료'로 나타내게 하기**
+               
+    
+                event.preventDefault();
+                    Swal.fire({
                             title: '정말 요청하시겠습니까?',
                             icon: 'warning',
                             showCancelButton: true,
@@ -223,20 +224,12 @@ function Diagnosis (props) {
                                 'Your file has been deleted.',
                                 'success'
                               )
-                            testSuccess();
-                            deleteAll();
+                            testSuccess(selectedPatient);
                             setSelectP({
                                 patient_id: ""
                             })
                             }
-                          })
-                    
-                }
-                catch(error){
-                    props.history.push("/page403");
-                }
-
-               
+                         })
     }; 
      
     /*약품 관련 */
@@ -510,8 +503,11 @@ function Diagnosis (props) {
                     await updateOpinion(handleOpinion);
                     await updateTestAndReceiptState(opp.receipt_id);
                     const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id);  //-검사 요청 후 검사 소견에 검사 후 진료 작성 후 실행 시키기(새로 고침 역할)
-                    const selectPatientChart = reFatientOpinions.filter(opinion => opinion.receipt_opinion !== null)
-                    setFatientOpinion(selectPatientChart)
+
+                    const reOpinions = reFatientOpinions.data.fatientOpinionsList
+                    const chartOfNotNull = reOpinions.filter(opinion => opinion.receipt_opinion !== null) 
+                    setFatientOpinion(chartOfNotNull)
+
                     //검사완료-> 처방완료 and 진료 상태를 '수납전'으로 바꾸기
                     await sendRedisMessage(pubMessage);
                     Swal.fire({
@@ -530,8 +526,9 @@ function Diagnosis (props) {
                     const handleOpinion = {...opp};
                     await updateOpinion(handleOpinion);
                     const reFatientOpinions = await fatientOpinions(selectedPatient.patient_id); 
-                    const selectPatientChart = reFatientOpinions.filter(opinion => opinion.receipt_opinion !== null)
-                    setFatientOpinion(selectPatientChart)
+                    const reOpinions = reFatientOpinions.data.fatientOpinionsList
+                    const chartOfNotNull = reOpinions.filter(opinion => opinion.receipt_opinion !== null) 
+                    setFatientOpinion(chartOfNotNull)
                     
                     Swal.fire({
                         icon: 'success',
