@@ -102,7 +102,7 @@ export async function getLabChart() {
   return lab; 
 }
 
-export async function getReceiptState(receiptId) {
-  const receiptState = await axios.get(`/teststate/receiptstate/${receiptId}`);
-  return receiptState.data;
+export async function getPatientStates(receiptId) {
+  const patientStates = await axios.get(`/teststate/patientstates/${receiptId}`);
+  return patientStates.data;
 }

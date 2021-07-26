@@ -1,4 +1,4 @@
- import xlsx from 'xlsx';
+import xlsx from 'xlsx';
 import style from "views/TestState/teststate.module.css";
 import classNames from "classnames/bind"
 import Swal from 'sweetalert2';
@@ -6,7 +6,7 @@ import { Card, Table } from 'antd';
 import Button from "../Button";
 import { useRef, useState } from "react";
 import { useEffect } from 'react';
-import { getTestStateDetailList, updateStateDetail, updateReceiptState, getPatientName, getReceiptState } from "apis/teststate"; 
+import { getTestStateDetailList, updateStateDetail, updateReceiptState, getPatientName } from "apis/teststate"; 
 import { paymentBefore } from "apis/diagnostic"; 
 import CameraModal from "./CameraModal";
 import { getCheckPreviousResult, insertResultData, insertResultDataByNew } from "apis/result";
@@ -15,11 +15,10 @@ import ImgUploadModal from './ImgUploadModal';
 
 const cx = classNames.bind(style);
 
-function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, waitType, state}, props) {
+function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, waitType, state, receiptState, diagnosticTestState}, props) {
 
   const [patientName, setPatientName] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [receiptState, setReceiptState] = useState();
 
   const resultItem = [
     {
@@ -104,12 +103,16 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     setBundleSpeciemens(selectedRows.map(row => row.bundle_specimen))
   },   
   getCheckboxProps: (record) => {
+    if (diagnosticTestState === "검사완료" || diagnosticTestState === "처방완료") {
+      return ({
+        disabled: record
+      })
+    }
     if (waitType === "전체") {
       return ({
         disabled: (bundleLab && record.bundle_lab !== bundleLab) || receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전"
       })
     } else {
-      
       return ({
         disabled: record.bundle_lab !== waitType || receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전",
         bundle_lab: record.bundle_lab
@@ -150,8 +153,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     if (receiptId) {
       async function fetchAndSetDetailData() {
         setPatientName(await getPatientName(receiptId));
-        setDetailData(await getTestStateDetailList(receiptId));
-        setReceiptState(await getReceiptState(receiptId));
+        setDetailData(await getTestStateDetailList(receiptId));      
       }
       fetchAndSetDetailData();
     }
@@ -216,14 +218,14 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
 
   const handleComplete = async () => {
     if (selectedRowKeys.length !== 0) {
-    await updateStateDetail(selectedRowKeys, "검사완료", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
-    await sendRedisMessage({
-      ...pubMessage,
-      content: {
-        lab: rows[0].bundle_lab,
-        patientName: ""
-      }
-    });
+      await updateStateDetail(selectedRowKeys, "검사완료", sessionStorage.getItem("staff_login_id"), bundleSpecimens, receiptId);
+      await sendRedisMessage({
+        ...pubMessage,
+        content: {
+          lab: rows[0].bundle_lab,
+          patientName: ""
+        }
+      });
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -266,7 +268,6 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   
   const handleReceiptState = async (event) => {
     await updateReceiptState(event.target.value, receiptId);
-    setReceiptState(await getReceiptState(receiptId));
     const response = await getCheckPreviousResult(receiptId);
     if(response.data.PrevResultData.length === 0 ) {
       await insertResultDataByNew({receipt_id: receiptId});
@@ -290,14 +291,16 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   }
 
   useEffect(() => {
-    setSelectedRowKeys([]);
+    if (rows.length !== 0 && waitType !== rows[0].bundle_lab) {
+      setSelectedRowKeys([]);
+    }
   }, [waitType])
 
   return (
     <div className={cx("flex-width")}>
       <Card className={cx("card")}>
         <div className={cx("d-flex", "justify-content-between")}>
-          <div className={cx("teststate-patient")}><span><strong>{patientName}</strong></span>님: 진단 검사 상세<strong className={cx("text-primary")}>({receiptState})</strong></div>
+          <div className={cx("teststate-patient")}><span><strong>{patientName}</strong></span>님: 진단 검사 상세{receiptState !== "검사중" ? <strong className={cx("text-primary")}>({receiptState})</strong> : ""}</div>
           <div className="d-flex">
             {complete === 'true' ?
             (
@@ -309,9 +312,9 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
             :
             <></>
             }
-            <Button color={'rgb(255, 99, 132)'}  className={cx(receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전" ? 'd-none' : "")} onClick={handleBarcode} >바코드 출력</Button>
-            <Button color={'rgb(255, 159, 64)'} className={cx(receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전" ? 'd-none' : "")} onClick={handleCancel}>접수 취소</Button>
-            <Button color={'rgb(54, 162, 235)'} className={cx(receiptState === "검사완료" || receiptState === "대기" || receiptState === "수납전" ? 'd-none' : "")} onClick={handleComplete}>검사 완료</Button>
+            <Button color={'rgb(255, 99, 132)'} className={cx(diagnosticTestState === "검사완료" || diagnosticTestState === "처방완료" ? 'd-none' : "")} onClick={handleBarcode} >바코드 출력</Button>
+            <Button color={'rgb(255, 159, 64)'} className={cx(diagnosticTestState === "검사완료" || diagnosticTestState === "처방완료" ? 'd-none' : "")} onClick={handleCancel}>접수 취소</Button>
+            <Button color={'rgb(54, 162, 235)'} className={cx(diagnosticTestState === "검사완료" || diagnosticTestState === "처방완료" ? 'd-none' : "")} onClick={handleComplete}>검사 완료</Button>
             <Button color={'rgb(153, 102, 255)'} onClick={saveExcel}>엑셀 저장</Button>
           </div>
         </div>
