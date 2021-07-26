@@ -55,14 +55,16 @@ const ReserveSMS = (props) => {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, send it!'
+        confirmButtonText: '전송',
+        cancelButtonText: '취소'
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            '문자를 발송하였습니다!',
-            'Your Message has been sended.',
-            'success'
-          )
+          Swal.fire({
+            icon: 'success',
+            title: '문자를 발송하였습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          })
           const params = {
             name: updateForm.reservation_name,
             phone: updateForm.reservation_phone,
