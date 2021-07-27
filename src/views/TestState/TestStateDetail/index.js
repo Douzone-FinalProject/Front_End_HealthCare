@@ -6,7 +6,7 @@ import { Card, Table } from 'antd';
 import Button from "../Button";
 import { useRef, useState } from "react";
 import { useEffect } from 'react';
-import { getTestStateDetailList, updateStateDetail, updateReceiptState, getPatientName } from "apis/teststate"; 
+import { getTestStateDetailList, updateStateDetail, updateReceiptState, getPatientName, updateLabTable } from "apis/teststate"; 
 import { paymentBefore } from "apis/diagnostic"; 
 import CameraModal from "./CameraModal";
 import { getCheckPreviousResult, insertResultData, insertResultDataByNew } from "apis/result";
@@ -151,12 +151,15 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   
   useEffect(() => {
     if (receiptId) {
+      setSelectedRowKeys([]);
       async function fetchAndSetDetailData() {
         setPatientName(await getPatientName(receiptId));
         setDetailData(await getTestStateDetailList(receiptId));      
       }
       fetchAndSetDetailData();
     }
+
+
   }, [receiptId])
 
   useEffect(() => {
@@ -182,8 +185,12 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
         ...pubMessage,
         content: {
           lab: rows[0].bundle_lab,
-          patientName
+          patientName,
         }
+      });
+      await updateLabTable({
+        lab: rows[0].bundle_lab,
+        patientName
       });
       if (rows[0].bundle_name === "MRI" || rows[0].bundle_name === "CT") {
         setIsModalVisible(!isModalVisible); // 모달 창 열기/닫기
@@ -207,6 +214,10 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
           patientName: ""
         }
       });
+      await updateLabTable({
+        lab: rows[0].bundle_lab,
+        patientName: ""
+      });
     } else {
       Swal.fire(
         "환자 선택 후 검사를 선택해주세요!!!",
@@ -225,6 +236,10 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
           lab: rows[0].bundle_lab,
           patientName: ""
         }
+      });
+      await updateLabTable({
+        lab: rows[0].bundle_lab,
+        patientName: ""
       });
     } else {
       Swal.fire(
