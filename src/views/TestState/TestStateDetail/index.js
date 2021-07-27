@@ -312,7 +312,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
             :
             <></>
             }
-            <Button color={'rgb(255, 99, 132)'} className={cx(diagnosticTestState === "검사완료" || diagnosticTestState === "처방완료" ? 'd-none' : "")} onClick={handleBarcode} >바코드 출력</Button>
+            <Button color={'rgb(255, 99, 132)'} className={cx(diagnosticTestState === "검사완료" || diagnosticTestState === "처방완료" ? 'd-none' : "")} onClick={handleBarcode} >검사 접수</Button>
             <Button color={'rgb(255, 159, 64)'} className={cx(diagnosticTestState === "검사완료" || diagnosticTestState === "처방완료" ? 'd-none' : "")} onClick={handleCancel}>접수 취소</Button>
             <Button color={'rgb(54, 162, 235)'} className={cx(diagnosticTestState === "검사완료" || diagnosticTestState === "처방완료" ? 'd-none' : "")} onClick={handleComplete}>검사 완료</Button>
             <Button color={'rgb(153, 102, 255)'} onClick={saveExcel}>엑셀 저장</Button>

@@ -93,7 +93,9 @@ function TestState(props) {
       setReceiptState(patientStates.receipt_state);
       setDiagnosticTestState(patientStates.diagnostic_test_state);
     }
-    fetchAndPatientStates();
+    if (receiptId) {
+      fetchAndPatientStates();
+    }
     return (() => {
         setConnected(false);
         disconnectWebSocket();
