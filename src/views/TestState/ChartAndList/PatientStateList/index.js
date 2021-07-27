@@ -56,15 +56,19 @@ function PatientStateList({waitingData, setWaitingData, setReceiptId, waitType, 
   ]
 
   const [loading, setLoading] = useState(true);
+  const [rowId, setRowId] = useState();
 
   const handlePatient = (data, rowIndex) => {
     return {
       onClick: (event) => { 
         setReceiptId(data.receipt_id);
+        setRowId(rowIndex);
+      },
+      onMouseEnter: (event) => {
+        
       }
     }
   }
-
 
   const handleState = (event) => {
     const value = event.target.getAttribute('value');
@@ -74,7 +78,7 @@ function PatientStateList({waitingData, setWaitingData, setReceiptId, waitType, 
       setState(value)
     }
   }
-
+ 
   useEffect(() => {
     async function fetchAndSetWatitingData() {
       setWaitingData(await getPatientList(waitType, state));
@@ -112,7 +116,9 @@ function PatientStateList({waitingData, setWaitingData, setReceiptId, waitType, 
       <div className={cx("teststate-table")}>
         <Table className={cx("ant-th", "ant-tbody")} columns={waitingDataColums} dataSource={waitingData} 
                pagination={false} rowKey={record => record.receipt_id} onRow={handlePatient} 
-               scroll={{x: 0, y: 300}} loading={loading} />
+               scroll={{x: 0, y: 300}} loading={loading}
+               rowClassName={(record, index) => index === rowId ? cx("click-color") : ""}
+               />
       </div>
     </>
   );
