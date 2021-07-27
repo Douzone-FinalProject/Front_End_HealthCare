@@ -106,3 +106,13 @@ export async function getPatientStates(receiptId) {
   const patientStates = await axios.get(`/teststate/patientstates/${receiptId}`);
   return patientStates.data;
 }
+
+export async function getLabTable() {
+  const labTable = await axios.get(`/teststate/labtable`)
+  console.log(labTable);
+  return labTable.data;
+}
+
+export async function updateLabTable(updateData) {
+  await axios.put(`/teststate/labtable`, updateData)
+}

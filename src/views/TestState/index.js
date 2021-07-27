@@ -6,7 +6,7 @@ import TestStateDetail from "./TestStateDetail";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
 import { useEffect, useRef, useState } from "react";
-import { getPatientList, getStateChart, getTestStateDetailList, getLabChart, getPatientStates } from "apis/teststate";
+import { getPatientList, getStateChart, getTestStateDetailList, getLabChart, getPatientStates, getLabTable } from "apis/teststate";
 
 const cx = classNames.bind(style);
 
@@ -45,8 +45,8 @@ function TestState(props) {
   let ws = useRef(null);
   const connectWebSocket = () => {
 
-    ws.current = new WebSocket("ws://kosa3.iptime.org:50003/websocket/redis");
-    // ws.current = new WebSocket("ws://localhost:8080/websocket/redis");
+    // ws.current = new WebSocket("ws://kosa3.iptime.org:50003/websocket/redis");
+    ws.current = new WebSocket("ws://localhost:8080/websocket/redis");
 
     ws.current.onopen = () => {
       console.log("teststatedetail 접속 성공");
@@ -103,6 +103,8 @@ function TestState(props) {
     });
     
   }, [receiptId]);
+
+
   return (
     <>
       <div className={cx("whole-frame")}>
@@ -110,7 +112,7 @@ function TestState(props) {
         <Row>
           <Col xxl={7} className={cx("teststate-frame", "flex-width")}>
             <ChartAndList waitingData={waitingData} setWaitingData={setWaitingData} 
-                          setReceiptId={setReceiptId} labTable={labTable} 
+                          setReceiptId={setReceiptId} labTable={labTable}
                           waitType={waitType} state={state} setWaitType={setWaitType} setState={setState} 
                           stateChart={stateChart} setStateChart={setStateChart}
                           labChart={labChart} setLabChart={setLabChart}
