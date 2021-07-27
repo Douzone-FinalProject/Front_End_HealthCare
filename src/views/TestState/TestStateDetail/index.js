@@ -104,6 +104,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   },   
   getCheckboxProps: (record) => {
     if (diagnosticTestState === "검사완료" || diagnosticTestState === "처방완료") {
+      
       return ({
         disabled: record
       })
@@ -152,14 +153,13 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   useEffect(() => {
     if (receiptId) {
       setSelectedRowKeys([]);
+      setBundleLab();
       async function fetchAndSetDetailData() {
         setPatientName(await getPatientName(receiptId));
         setDetailData(await getTestStateDetailList(receiptId));      
       }
       fetchAndSetDetailData();
     }
-
-
   }, [receiptId])
 
   useEffect(() => {
@@ -171,6 +171,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
     }
     // 집으로, 의사로 버튼 활성화 위해(모든 검사 상태가 검사완료 될 때)
     if (detailData.length !== 0 && detailData.length === completeCount) {
+      setSelectedRowKeys([]);
       setComplete('true');
     } else {
       setComplete('false');
@@ -308,6 +309,7 @@ function TestStateDetail({receiptId, detailData, setDetailData, pubMessage, wait
   useEffect(() => {
     if (rows.length !== 0 && waitType !== rows[0].bundle_lab) {
       setSelectedRowKeys([]);
+      setBundleLab();
     }
   }, [waitType])
 
