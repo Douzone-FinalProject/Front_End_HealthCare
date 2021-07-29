@@ -379,12 +379,12 @@ const PatientInfo = (props) => {
           </div>
 {/* -----------------------모달로 만들어줄 부분 end------------------------*/}
 
-          <div className="mt-5">
+          {/* <div className="mt-5">
             <TextField disabled label="최초진료" value={patient.firstReceiptDate ||'진료 기록 없음'}/> 
             <TextField disabled label="최근진료" value={patient.lastReceiptDate ||'진료 기록 없음'}/> 
-          </div>
+          </div> */}
           {/* 다음 예약이 있으면 뜨고 없으면 안보이기 */}
-          {nextReservation !== '' && <TextField disabled label="다음예약" value={nextReservation}/> }
+          {nextReservation !== '' && <TextField disabled label="다음예약" style={{color:"blue"}} value={nextReservation}/> }
 
           {/* 진료자 리스트에 있는 환자는 버튼 안보이게 또는 비활성화  */}
           <div className={cx("form-btn")}>
