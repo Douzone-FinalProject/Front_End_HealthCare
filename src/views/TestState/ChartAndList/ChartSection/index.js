@@ -28,10 +28,10 @@ function ChartSection({stateChart, setStateChart, labChart, setLabChart}, props)
     <>
       <Row>
         <Col flex={1} className={cx("chart")}>
-          <PieChart category={"검사대기"} chartData={stateChart} />
+          <PieChart category={"검사현황"} chartData={stateChart} />
         </Col>
         <Col flex={1} className={cx("chart")}>
-          <PieChart category={"검사실인원"} chartData={labChart} />
+          <PieChart category={"검사실 검사개수"} chartData={labChart} />
         </Col>
       </Row>
     </>

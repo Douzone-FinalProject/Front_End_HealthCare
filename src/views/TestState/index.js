@@ -6,7 +6,7 @@ import TestStateDetail from "./TestStateDetail";
 import Header from "views/common/Header";
 import DialMenu from "views/common/DialMenu";
 import { useEffect, useRef, useState } from "react";
-import { getPatientList, getStateChart, getTestStateDetailList, getLabChart } from "apis/teststate";
+import { getPatientList, getStateChart, getTestStateDetailList, getLabChart, getPatientStates, getLabTable } from "apis/teststate";
 
 const cx = classNames.bind(style);
 
@@ -29,6 +29,8 @@ function TestState(props) {
   
   const [stateChart, setStateChart] = useState([]);
   const [labChart, setLabChart] = useState([]);
+  const [receiptState, setReceiptState] = useState();
+  const [diagnosticTestState, setDiagnosticTestState] = useState();
   const realTimeReceiptList = async () => {
     console.log("realTimeReceiptList");
   }
@@ -64,6 +66,7 @@ function TestState(props) {
       let json = event.data;
       let message = JSON.parse(json);
       if (message.content !== "testStateDetail change" && message.content !== 'ChangeReceiptState') {
+        console.log("message-content",message.content);
         setLabTable(JSON.parse(message.content));
       }
       if (receiptId && message.content !== 'ChangeReceiptState') {
@@ -72,6 +75,9 @@ function TestState(props) {
       setStateChart(await getStateChart());
       setLabChart(await getLabChart()); 
       setWaitingData(await getPatientList(waitType, state));
+      const patientStates = await getPatientStates(receiptId);
+      setReceiptState(patientStates.receipt_state);
+      setDiagnosticTestState(patientStates.diagnostic_test_state);
     }
   }
 
@@ -82,12 +88,23 @@ function TestState(props) {
   useEffect(() => {
     connectWebSocket();
     console.log("1 메시지 마운트");
+    async function fetchAndPatientStates () {
+      const patientStates = await getPatientStates(receiptId);
+      setReceiptState(patientStates.receipt_state);
+      setDiagnosticTestState(patientStates.diagnostic_test_state);
+    }
+    if (receiptId) {
+      fetchAndPatientStates();
+    }
     return (() => {
         setConnected(false);
         disconnectWebSocket();
         console.log("메시지 언마운트");
     });
+    
   }, [receiptId]);
+
+
   return (
     <>
       <div className={cx("whole-frame")}>
@@ -95,7 +112,7 @@ function TestState(props) {
         <Row>
           <Col xxl={7} className={cx("teststate-frame", "flex-width")}>
             <ChartAndList waitingData={waitingData} setWaitingData={setWaitingData} 
-                          setReceiptId={setReceiptId} labTable={labTable} 
+                          setReceiptId={setReceiptId} labTable={labTable}
                           waitType={waitType} state={state} setWaitType={setWaitType} setState={setState} 
                           stateChart={stateChart} setStateChart={setStateChart}
                           labChart={labChart} setLabChart={setLabChart}
@@ -106,7 +123,7 @@ function TestState(props) {
                             detailData={detailData} setDetailData={setDetailData} 
                             setWaitingData={setWaitingData}
                             pubMessage={pubMessage} waitType={waitType} state={state}
-                            />
+                            receiptState={receiptState} diagnosticTestState={diagnosticTestState} />
           </Col>
         </Row>
         <DialMenu />

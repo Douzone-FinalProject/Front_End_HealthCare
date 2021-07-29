@@ -41,6 +41,7 @@ function ImgUploadModal(props) {
       filename: props.patientName,
       receiptId: props.receiptId 
     }
+    console.log(imgData)
     await uploadImg(imgData);
   }
 
