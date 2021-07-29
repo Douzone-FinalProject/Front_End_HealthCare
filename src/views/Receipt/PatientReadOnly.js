@@ -234,12 +234,7 @@ const PatientReadOnly = (props) => {
                       )
                 )))}
           </div>
-
-          <div className="mt-5">
-            <TextField disabled label="최초진료" value={patient.firstReceiptDate ||'진료 기록 없음'}/> 
-            <TextField disabled label="최근진료" value={patient.lastReceiptDate ||'진료 기록 없음'}/> 
-          </div>
-          {nextReservation !== '' && <TextField disabled label="다음예약" value={nextReservation}/> }
+          {nextReservation !== '' && <TextField disabled style={{color:"blue"}} label="다음예약" value={nextReservation}/> }
         </div>
       </form>
       </div>
