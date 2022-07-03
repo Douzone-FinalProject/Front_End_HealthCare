@@ -29,7 +29,6 @@ function UpdateEmployee(props) {
     const handleEnable = (event) => {
         console.log(event.target.value)
         props.setNowStaff({...props.nowStaff, staff_enabled: event.target.value});
-        
     };
 
     const [values, setValues] = useState({
