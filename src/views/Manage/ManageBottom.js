@@ -21,25 +21,8 @@ import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissa
 const cx = classnames.bind(style);
 
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      width: 280,
-      display: 'flex',
-      alignItems: 'center',
-    },
-    input: {
-      padding: 7,
-      flex: 2,
-    },
-    iconButton: {
-      padding: 10,
-    },
-    
-  }));
-
-
 function ManageBottom(props) {
-    const classes = useStyles();
+
     const globalHospital = useSelector((state) => state.authReducer.hospital_id);
     const [staffs, setStaffs] = useState([]);
     const getStaffList =  async () => {
