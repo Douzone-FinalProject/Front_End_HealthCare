@@ -67,15 +67,15 @@ function CreateEmployee(props) {
         }
     };
     
-    const handleChange = useCallback((event) => {
-        setEmployee(prevEmployee => ({
+    const handleChange = (event) => {
+        setEmployee({
             ...prevEmployee,
             [event.target.name]: event.target.value
-        }))
-    }, []);
+        })
+    };
     
     
-    const handleSave = useCallback((argEmployee, argProps) => {
+    const handleSave = (argEmployee, argProps) => {
         if(argEmployee.staff_name && argEmployee.staff_login_id && argEmployee.staff_login_pwd && phone.phone2 && phone.phone3 ) {
             if(props.staffs.some(staff => staff.staff_login_id === argEmployee.staff_login_id)){
                 Swal.fire({
@@ -129,7 +129,7 @@ function CreateEmployee(props) {
                 timer: 1500
             })
         }
-    }, [phone], [props]);
+    };
 
     const addEmployee = async (employee) => {
         
