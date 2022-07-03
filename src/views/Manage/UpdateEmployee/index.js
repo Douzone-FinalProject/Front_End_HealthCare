@@ -41,15 +41,12 @@ function UpdateEmployee(props) {
         showPassword: false,
       });
 
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-        props.setNowStaff({
-            ...props.nowStaff,
-            staff_login_pwd: event.target.value
-        })
-      };
-    const handleChange3 = (prop) => (event) => {
-        setValues2({ ...values2, [prop]: event.target.value });
+    const handleChange = (event) => {
+        setValues({ ...values, password: event.target.value });
+    };
+    
+    const handleChange3 =  (event) => {
+        setValues2({ ...values2, password: event.target.value });
     };  
     
     const handleClickShowPassword = () => {
