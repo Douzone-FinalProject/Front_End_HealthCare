@@ -158,7 +158,7 @@ function UpdateEmployee(props) {
                     style={{width:"390px"}}
                         type={values.showPassword ? 'text' : 'password'}
                         value={values.password}
-                        onChange={handleChange('password')}
+                        onChange={handleChange}
                         name="staff_login_pwd"
                         endAdornment={
                         <InputAdornment position="end">
@@ -179,7 +179,7 @@ function UpdateEmployee(props) {
                     style={{width:"390px"}}
                         type={values2.showPassword ? 'text' : 'password'}
                         value={values2.password}
-                        onChange={handleChange3('password')}
+                        onChange={handleChange3}
                         endAdornment={
                         <InputAdornment position="end">
                             <IconButton
