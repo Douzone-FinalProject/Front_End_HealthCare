@@ -92,9 +92,7 @@ function CreateEmployee(props) {
                     showConfirmButton: false,
                     timer: 1500
                 })
-            }
-            else{
-
+            } else {
                 addEmployee(argEmployee);
                 console.log(argEmployee)
                 setValues({...values, password: ''})
@@ -132,7 +130,6 @@ function CreateEmployee(props) {
     };
 
     const addEmployee = async (employee) => {
-        
         try{
                 console.log("생성")
                 await addNewEmployee(employee);
@@ -145,7 +142,6 @@ function CreateEmployee(props) {
     } 
 
     const [values, setValues] = React.useState({
-
         password: '',
         showPassword: false,
       });
