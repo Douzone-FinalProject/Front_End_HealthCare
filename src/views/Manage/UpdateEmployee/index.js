@@ -227,4 +227,4 @@ function UpdateEmployee(props) {
     );
 }
 
-export default React.memo(UpdateEmployee);
+export default UpdateEmployee;
