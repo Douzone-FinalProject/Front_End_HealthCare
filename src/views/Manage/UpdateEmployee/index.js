@@ -34,12 +34,12 @@ function UpdateEmployee(props) {
     const [values, setValues] = useState({
         password: '',
         showPassword: false,
-      });
+    });
 
     const [values2, setValues2] = useState({
         password: '',
         showPassword: false,
-      });
+    });
 
     const handleChange = (event) => {
         setValues({ ...values, password: event.target.value });
@@ -60,11 +60,12 @@ function UpdateEmployee(props) {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+    
     const handleMouseDownPassword2 = (event) => {
         event.preventDefault();
     };
+    
     const handleCheck = (event) => {
-        console.log(event.target.checked)
         props.setState({ ...props.state, [event.target.name]: event.target.checked });
     };
 
@@ -81,12 +82,7 @@ function UpdateEmployee(props) {
                 showConfirmButton: false,
                 timer: 1500
             })
-        }
-
-
-
-
-        else{ //새 비밀번호를 설정 할 경우
+        }else{ //새 비밀번호를 설정 할 경우
             if(pw1 === '' || pw2 === ''){
                 Swal.fire({
                     icon: 'error',
@@ -119,14 +115,9 @@ function UpdateEmployee(props) {
                 })
             }
         }
-
-
-
-        
     };
     
     return(
-        
     <>
      <Modal
             isOpen={props.updateIsOpen}
