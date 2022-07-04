@@ -50,7 +50,7 @@ function ManageBottom(props) {
       })
     //비밀번호 재발급시 체크 상태
     const [state, setState] = useState({
-        checkedA: false
+        passCheckState: false
     });
 
     //직원 생성 팝업 open 함수
@@ -70,7 +70,7 @@ function ManageBottom(props) {
     function closeUpdateModal() {
         setPhone({});
         setNowStaff({});
-        setState({...props.state, checkedA:false});
+        setState({...props.state, passCheckState: false});
         setUpdateIsOpen(false);
     }
     
