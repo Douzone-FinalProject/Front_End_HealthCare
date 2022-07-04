@@ -162,23 +162,27 @@ function ManageBottom(props) {
     }
     //직원 검색을 위한 이름 및 id 상태
     const [nameId, setNameId] = useState();
-   
+    
+    //검색바에 입력시 nameId상태에 바인딩
     const handleNameAndId = (event) => {
         console.log(event.target.value)
         setNameId(event.target.value);
     }
+    
     //직원 검색(이름 or ID)
     const searchStaff = async (nameId, globalHospital) => {
         const response = await getSearchStaffList(nameId, globalHospital);
         console.log(response.data.searchStaffList);
         setStaffs(response.data.searchStaffList)
     }
-   //enter키를 이용한 직원 검색
+    
+    //enter키를 이용한 직원 검색
     const searchStaffEnter = (e, nameId, globalHospital) => {
         if(e.key === 'Enter'){
             searchStaff(nameId, globalHospital);
         }
     }
+    
     //검색바 옆에 초기화 겸 버튼(해당 병원코드에 대한 직원 리스트 가져오기)
     const allStaff = () => {
         getStaffList()
