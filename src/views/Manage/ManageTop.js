@@ -9,10 +9,12 @@ import { useEffect, useState } from "react";
 const cx = classnames.bind(style);
 
 function ManageTop(props) {
+    //대기, 진료중, 검사중, 수납전
     const [ready, setReady] = useState();
     const [treatment, setTreatment] = useState();
     const [inspection, setInspection] = useState();
     const [payment, setPayment] = useState();
+    //혈액형
     const [aTypeBlood, setATypeBlood] = useState();
     const [bTypeBlood, setBTypeBlood] = useState();
     const [abTypeBlood, setABTypeBlood] = useState();
@@ -21,8 +23,10 @@ function ManageTop(props) {
     const [rh_bTypeBlood, setRH_BTypeBlood] = useState();
     const [rh_abTypeBlood, setRH_ABTypeBlood] = useState();
     const [rh_oTypeBlood, setRH_OTypeBlood] = useState();
+    //활성화, 비활성화
     const [staffCounts, setStaffCounts] = useState();
     const [disableStaffCounts, setDisableStaffCounts] = useState();
+    
     const getInfoCount =  async () => {
         try{
             const response = await readyCount();
