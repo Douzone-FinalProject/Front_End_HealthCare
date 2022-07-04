@@ -40,7 +40,8 @@ function UpdateEmployee(props) {
         password: '',
         showPassword: false,
     });
-
+    
+    //비밀번호 입력 시 상태 바인딩
     const handleChangePw = (event) => {
         setValues({ ...values, password: event.target.value });
         props.setNowStaff({...props.nowStaff, staff_login_pwd: event.target.value});
@@ -50,6 +51,7 @@ function UpdateEmployee(props) {
         setValues2({ ...values2, password: event.target.value });
     };  
     
+    //비밀번호 visible(*) 여부
     const handleClickShowPassword = () => {
         setValues({ ...values, showPassword: !values.showPassword });
     };
@@ -58,6 +60,7 @@ function UpdateEmployee(props) {
         setValues2({ ...values2, showPassword: !values2.showPassword });
     };
     
+    //아이콘 클릭시 초기화 방지
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
@@ -66,13 +69,14 @@ function UpdateEmployee(props) {
         event.preventDefault();
     };
     
+    //새 비밀번호 변경 체크여부
     const handleCheck = (event) => {
         props.setState({ ...props.state, [event.target.name]: event.target.checked });
     };
-
+    
+    //직원 수정 저장시
     const saveEmployeeInfo = async (pw1, pw2) => {
-
-        if(props.state.checkedA === false){   //새 비밀번호를 안 할 경우
+        if(props.state.passCheckState === false){   //새 비밀번호를 안 할 경우
             await updateStaffNoPw(props.nowStaff);
             props.getStaffList();
             props.setNowStaff({})
@@ -103,7 +107,7 @@ function UpdateEmployee(props) {
                 await updateStaff(props.nowStaff);
                 props.getStaffList();
                 props.setNowStaff({})
-                props.setState({...props.state, checkedA:false});
+                props.setState({...props.state, passCheckState:false});
                 setValues({ ...values, password: ''});
                 setValues2({ ...values2, password: ''});
                 props.closeUpdateModal();
