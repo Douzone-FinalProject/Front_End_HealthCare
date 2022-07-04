@@ -28,7 +28,7 @@ function ManageBottom(props) {
     const [staffs, setStaffs] = useState([]);
     const getStaffList =  async () => {
         try{
-           
+            //현재 병원코드에 해당하는 직원들 불러옴
             const response = await staffList(globalHospital);
             setStaffs(response.data.staffList2);
 
@@ -38,36 +38,43 @@ function ManageBottom(props) {
             console.log(error)
         }
     };
-   
+    //직원 생성 팝업 open 상태
     const [isModal, setModal] = useState(false);
+    //선택한 직원 정보
     const [nowStaff, setNowStaff] = useState({});
+    //핸든폰 번호 상태(3개로 나뉘기 때문에 따로 관리)
     const [phone, setPhone] = useState({
         phone1: '',
         phone2: '',
         phone3: ''
       })
+    //비밀번호 재발급시 체크 상태
     const [state, setState] = useState({
         checkedA: false
     });
 
-
+    //직원 생성 팝업 open 함수
     function openCreateEmployee() {
         setModal(true);
     }
-
+    //직원 생성 팝업 close 함수
     function closeModal() {
         setModal(false);
     }
-
+    
+    //직원 수정 팝업 open 상태
     const [updateIsOpen, setUpdateIsOpen] = useState(false);
-
+    
+    //직원 수정 팝업 close 함수
+    //핸드폰, 현재 환자, 비밀번호 재발급 체크상태 초기화
     function closeUpdateModal() {
         setPhone({});
         setNowStaff({});
         setState({...props.state, checkedA:false});
         setUpdateIsOpen(false);
     }
-
+    
+    //환자 선택 시 api로 환자 정보 가져오기
     const openStaffInfo = async (staff_id) => {
         setUpdateIsOpen(true);
         const response = await readStaff(staff_id);
@@ -79,6 +86,7 @@ function ManageBottom(props) {
             phone3: response.data.staffInfo.staff_phone.slice(7,11)
         })
     }
+    
     const updateNameAndIdChange = (event) => {
         setNowStaff({
             ...nowStaff,
