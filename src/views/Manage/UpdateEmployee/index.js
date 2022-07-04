@@ -25,17 +25,17 @@ const staffInfoStyles = {
 
 Modal.setAppElement('body');
 function UpdateEmployee(props) {
-
+    //직원 활성화, 비활성화 함수
     const handleEnable = (event) => {
         console.log(event.target.value)
         props.setNowStaff({...props.nowStaff, staff_enabled: event.target.value});
     };
-
+    //비밀번호 수정 시 상태
     const [values, setValues] = useState({
         password: '',
         showPassword: false,
     });
-
+    //비밀번호 수정 확인용 상태
     const [values2, setValues2] = useState({
         password: '',
         showPassword: false,
