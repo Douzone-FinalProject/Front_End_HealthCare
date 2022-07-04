@@ -25,7 +25,7 @@ function ManageBottom(props) {
 
     //Redux로 병원코드 가져옴
     const globalHospital = useSelector((state) => state.authReducer.hospital_id);
-    //병원 직원들을 담는 상태
+    //병원 직원 리스트 담는 상태
     const [staffs, setStaffs] = useState([]);
     //현재 병원코드에 해당하는 직원들 불러옴
     const getStaffList =  async () => {
@@ -88,12 +88,15 @@ function ManageBottom(props) {
         })
     }
     
+    //환자 이름 및 ID 수정 시
     const updateNameAndIdChange = (event) => {
         setNowStaff({
             ...nowStaff,
             [event.target.name]: event.target.value,
         })
     }
+    
+    //핸드폰 번호 수정 시
     const updatePhoneChange = (event) => {
         setPhone({
             ...phone,
@@ -116,7 +119,8 @@ function ManageBottom(props) {
             })
         }
     };
-
+    
+    //삭제시 해당 환자 삭제 후 직원 리스트 다시 
     const deleteSuccess = async () => {
         try{
             await deleteStaf(nowStaff.staff_id);
@@ -128,7 +132,7 @@ function ManageBottom(props) {
         }
     };
 
-
+    //삭제 버튼 누를 시 컨펌으로 한 번더 확인 후 deleteSuccess함수 실행
     const deleteStaff = async (event) => {
         try{
             event.preventDefault();
@@ -156,19 +160,20 @@ function ManageBottom(props) {
             console.log(error);
         }
     }
+    //직원 검색을 위한 이름 및 id 상태
     const [nameId, setNameId] = useState();
    
     const handleNameAndId = (event) => {
         console.log(event.target.value)
         setNameId(event.target.value);
     }
-
+    //직원 검색(이름 or ID)
     const searchStaff = async (nameId, globalHospital) => {
         const response = await getSearchStaffList(nameId, globalHospital);
         console.log(response.data.searchStaffList);
         setStaffs(response.data.searchStaffList)
     }
-
+   //enter키를 이용한 직원 검색
     const searchStaffEnter = (e, nameId, globalHospital) => {
         if(e.key === 'Enter'){
             searchStaff(nameId, globalHospital);
@@ -177,6 +182,7 @@ function ManageBottom(props) {
     const allStaff = () => {
         getStaffList()
     }
+    //첫 마운트시 getStaffList
     useEffect(() => {
         getStaffList()
     }, [])
