@@ -37,7 +37,6 @@ function ManageTop(props) {
             setTreatment(response2.data.treatmentCounts);
             setInspection(response3.data.inspectionCounts);
             setPayment(response4.data.paymentCounts);
-
         }
         catch(error){
             console.log(error)
@@ -48,7 +47,6 @@ function ManageTop(props) {
     const getBloodCount =  async () => {
         try{
             const response = await bloodCount();
-            
             setATypeBlood(response.data.acount);
             setBTypeBlood(response.data.bcount);
             setABTypeBlood(response.data.abcount);
@@ -68,11 +66,9 @@ function ManageTop(props) {
         try{
             const response = await staffCount();
             const response2 = await disableStaffCount();
-            
             setStaffCounts(response.data.staffcount);
             setDisableStaffCounts(response2.data.disablestaffcount);
             
-
         }
         catch(error){
             console.log(error)
