@@ -116,7 +116,7 @@ function ManageBottom(props) {
         }
     };
 
-    const DeleteSuccess = async () => {
+    const deleteSuccess = async () => {
         try{
             await deleteStaf(nowStaff.staff_id);
             const response = await staffList(globalHospital);
@@ -145,7 +145,7 @@ function ManageBottom(props) {
                     'Your file has been deleted.',
                     'success'
                   )
-                  DeleteSuccess(nowStaff.staff_id); 
+                  deleteSuccess(nowStaff.staff_id); 
                   setNowStaff({});
                   closeUpdateModal();
                 }
