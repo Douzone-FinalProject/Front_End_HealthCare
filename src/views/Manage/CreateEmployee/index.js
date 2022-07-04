@@ -27,10 +27,11 @@ const customStyles = {
 
 Modal.setAppElement('body');
 function CreateEmployee(props) {
-    const globalHospital = useSelector((state) => state.authReducer.hospital_id);
-
     
-
+    //Redux를 이용한 병원코드 가져오기
+    const globalHospital = useSelector((state) => state.authReducer.hospital_id);
+    
+    //직원 정보 입력 상태
     const [employee, setEmployee] = useState({
         staff_name: '',
         staff_phone: '',
@@ -39,11 +40,14 @@ function CreateEmployee(props) {
         hospital_id: globalHospital
     });
     
+    //핸드폰 상태
     const [phone, setPhone] = useState({
         phone1: '010',
         phone2: '',
         phone3: ''
     });
+    
+    //핸드폰 번호 입력 함수
     const handlePhoneChange = (event) => {
         setPhone({
             ...phone,
@@ -67,14 +71,15 @@ function CreateEmployee(props) {
         }
     };
     
+    //이름, ID 입력 함수
     const handleChange = (event) => {
         setEmployee({
-            ...prevEmployee,
+            ...employee,
             [event.target.name]: event.target.value
         })
     };
     
-    
+    // 생성시 함수
     const handleSave = (argEmployee, argProps) => {
         if(argEmployee.staff_name && argEmployee.staff_login_id && argEmployee.staff_login_pwd && phone.phone2 && phone.phone3 ) {
             if(props.staffs.some(staff => staff.staff_login_id === argEmployee.staff_login_id)){
@@ -111,7 +116,7 @@ function CreateEmployee(props) {
                 });
                 Swal.fire({
                     icon: 'success',
-                    title: '신규 환자가 등록되었습니다.',
+                    title: '신규 직원이 등록되었습니다.',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -128,14 +133,13 @@ function CreateEmployee(props) {
             })
         }
     };
-
+    
+    //직원 생성 함수
     const addEmployee = async (employee) => {
         try{
                 console.log("생성")
                 await addNewEmployee(employee);
                 props.getStaffList();
-            
-            
         }catch(error){
             console.log(error)
         }
@@ -146,7 +150,7 @@ function CreateEmployee(props) {
         showPassword: false,
       });
     
-      const handleChange2 = (prop) => (event) => {
+      const handleChange2 = (event) => {
         setValues({ ...values, [prop]: event.target.value });
         setEmployee({
             ...employee,
@@ -176,7 +180,7 @@ function CreateEmployee(props) {
                     <div className="d-flex flex-column">
                         <TextField style={{width:"200px", marginBottom:"10px"}} name="staff_name" label="NAME" variant="outlined" onChange={handleChange} />
                         <div className="d-flex flex-row">
-                            <TextField style={{width:"100px", marginBottom:"10px"}} name="phone1" value={phone.phone1} label="Phone" variant="outlined" onChange={handlePhoneChange} />
+                            <TextField style={{width:"100px", marginBottom:"10px"}} name="phone1" value={phone.phone1} label="Phone" variant="outlined" />
                             <TextField style={{width:"100px", marginBottom:"10px"}} name="phone2" value={phone.phone2} variant="outlined" onChange={handlePhoneChange} />
                             <TextField style={{width:"100px", marginBottom:"10px"}} name="phone3" value={phone.phone3} variant="outlined" onChange={handlePhoneChange} />
                         </div>
