@@ -31,13 +31,13 @@ function ManageBottom(props) {
             //현재 병원코드에 해당하는 직원들 불러옴
             const response = await staffList(globalHospital);
             setStaffs(response.data.staffList2);
-
         }
         catch(error){
             props.history.push("/page403");
             console.log(error)
         }
     };
+    
     //직원 생성 팝업 open 상태
     const [isModal, setModal] = useState(false);
     //선택한 직원 정보
