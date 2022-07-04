@@ -179,9 +179,11 @@ function ManageBottom(props) {
             searchStaff(nameId, globalHospital);
         }
     }
+    //검색바 옆에 초기화 겸 버튼(해당 병원코드에 대한 직원 리스트 가져오기)
     const allStaff = () => {
         getStaffList()
     }
+    
     //첫 마운트시 getStaffList
     useEffect(() => {
         getStaffList()
