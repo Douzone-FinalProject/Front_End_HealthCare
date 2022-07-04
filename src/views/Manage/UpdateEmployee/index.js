@@ -41,11 +41,11 @@ function UpdateEmployee(props) {
         showPassword: false,
     });
 
-    const handleChange = (event) => {
+    const handleChangePw = (event) => {
         setValues({ ...values, password: event.target.value });
     };
     
-    const handleChange3 =  (event) => {
+    const handleChangePw2 =  (event) => {
         setValues2({ ...values2, password: event.target.value });
     };  
     
@@ -149,7 +149,7 @@ function UpdateEmployee(props) {
                     style={{width:"390px"}}
                         type={values.showPassword ? 'text' : 'password'}
                         value={values.password}
-                        onChange={handleChange}
+                        onChange={handleChangePw}
                         name="staff_login_pwd"
                         endAdornment={
                         <InputAdornment position="end">
@@ -170,7 +170,7 @@ function UpdateEmployee(props) {
                     style={{width:"390px"}}
                         type={values2.showPassword ? 'text' : 'password'}
                         value={values2.password}
-                        onChange={handleChange3}
+                        onChange={handleChangePw2}
                         endAdornment={
                         <InputAdornment position="end">
                             <IconButton
