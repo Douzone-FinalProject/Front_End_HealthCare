@@ -8,24 +8,20 @@ const cx = classnames.bind(style);
 
 function Manage(props) {
 
-    const realTimeReceiptList = async () => {
-        console.log("realTimeReceiptList");
-    }
+   
 
     return (
         <>
-        
-        <Header realTimeReceiptList={realTimeReceiptList}/>
-      
-        <div className="mt-2 d-flex flex-column">
-            <div className={cx("diagnosis-component-background", "ml-2", "mr-2")}>
-            <ManageTop/>
-            </div> 
-            <div className={cx("diagnosis-component-background", "ml-2", "mr-2", "mt-2")}>
-            <ManageBottom/>
+            <Header />
+            <div className="mt-2 d-flex flex-column">
+                <div className={cx("diagnosis-component-background", "ml-2", "mr-2")}>
+                <ManageTop/>
+                </div> 
+                <div className={cx("diagnosis-component-background", "ml-2", "mr-2", "mt-2")}>
+                <ManageBottom/>
+                </div>
             </div>
-        </div>
-        <DialMenu/>
+            <DialMenu/>
         </>
     );
 }
