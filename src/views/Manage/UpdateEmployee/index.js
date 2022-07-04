@@ -43,6 +43,7 @@ function UpdateEmployee(props) {
 
     const handleChangePw = (event) => {
         setValues({ ...values, password: event.target.value });
+        props.setNowStaff({...props.nowStaff, staff_enabled: event.target.value});
     };
     
     const handleChangePw2 =  (event) => {
