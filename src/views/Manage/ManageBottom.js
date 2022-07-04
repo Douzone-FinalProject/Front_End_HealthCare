@@ -25,10 +25,11 @@ function ManageBottom(props) {
 
     //Redux로 병원코드 가져옴
     const globalHospital = useSelector((state) => state.authReducer.hospital_id);
+    //병원 직원들을 담는 상태
     const [staffs, setStaffs] = useState([]);
+    //현재 병원코드에 해당하는 직원들 불러옴
     const getStaffList =  async () => {
         try{
-            //현재 병원코드에 해당하는 직원들 불러옴
             const response = await staffList(globalHospital);
             setStaffs(response.data.staffList2);
         }
