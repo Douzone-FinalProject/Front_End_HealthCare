@@ -23,6 +23,7 @@ const cx = classnames.bind(style);
 
 function ManageBottom(props) {
 
+    //Redux로 병원코드 가져옴
     const globalHospital = useSelector((state) => state.authReducer.hospital_id);
     const [staffs, setStaffs] = useState([]);
     const getStaffList =  async () => {
