@@ -144,27 +144,29 @@ function CreateEmployee(props) {
             console.log(error)
         }
     } 
-
+    //비밀번호 입력 상태, 비밀번호 visible(*) 여부
     const [values, setValues] = React.useState({
         password: '',
         showPassword: false,
-      });
+     });
     
-      const handleChange2 = (event) => {
-        setValues({ ...values, [prop]: event.target.value });
+    //비밀번호 입력시 직원 비밀번호에 바인딩
+    const handleChangePw = (event) => {
         setEmployee({
             ...employee,
             staff_login_pwd: event.target.value
         })
-      };
+     };
     
-      const handleClickShowPassword = () => {
+    //비밀번호 visible(*) 함수
+    const handleClickShowPassword = () => {
         setValues({ ...values, showPassword: !values.showPassword });
-      };
+    };
     
-      const handleMouseDownPassword = (event) => {
+    //아이콘 클릭시 초기화 
+    const handleMouseDownPassword = (event) => {
         event.preventDefault();
-      };
+    };
 
 
     return (
@@ -191,7 +193,7 @@ function CreateEmployee(props) {
                     style={{width:"390px"}}
                         type={values.showPassword ? 'text' : 'password'}
                         value={values.password}
-                        onChange={handleChange2('password')}
+                        onChange={handleChangePw}
                         name="staff_login_pwd"
                         endAdornment={
                         <InputAdornment position="end">
